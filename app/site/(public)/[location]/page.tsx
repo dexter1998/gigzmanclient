@@ -66,7 +66,7 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
 
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <Link href={p("/")} className="hover:text-navy">
+          <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </Link>
           <span className="mx-1.5">/</span>
@@ -99,11 +99,11 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
       </Section>
 
       <Section tone="white" size="md">
-        <div className="grid gap-10 lg:grid-cols-[1fr_320px] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div className="space-y-10">
             <div>
               <h2 className="display-md">Services supported in {location.city}</h2>
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {categories.map((category) => {
                   const items = services.filter((s) => s.category === category);
                   return (
@@ -172,7 +172,7 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
               {settings.phone ? (
                 <a
                   href={`tel:${settings.phone.replace(/\s/g, "")}`}
-                  className="mt-3 inline-block text-[13px] font-medium text-navy hover:underline"
+                  className="mt-3 inline-block py-1 text-[13px] font-medium text-navy hover:underline"
                 >
                   {settings.phone}
                 </a>
@@ -186,7 +186,7 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
                   <li key={other.slug}>
                     <Link
                       href={p(`/${other.slug}`)}
-                      className="text-[13px] text-ink-muted hover:text-navy"
+                      className="inline-block py-1 text-[13px] text-ink-muted hover:text-navy"
                     >
                       {other.city}
                     </Link>

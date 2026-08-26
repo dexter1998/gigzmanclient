@@ -98,11 +98,11 @@ export default async function QueryDetailPage(props: PageProps<"/site/dashboard/
         </div>
       </div>
 
-      <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_320px]">
+      <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-[1fr_320px]">
         <div className="space-y-5">
           <section className="rounded-[10px] border border-line bg-surface p-5">
             <p className="text-[14px] font-semibold text-ink">Enquiry</p>
-            <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+            <dl className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <Field label="Phone" value={query.phone} />
               <Field label="Email" value={query.email} />
               <Field

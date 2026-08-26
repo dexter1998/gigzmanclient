@@ -44,7 +44,7 @@ export default function AnnouncementBar({
           </span>
           <Link
             href={href}
-            className="inline-flex items-center gap-1 text-[13px] font-medium underline underline-offset-2 hover:opacity-80"
+            className="inline-flex min-h-[32px] items-center gap-1 py-1 text-[13px] font-medium underline underline-offset-2 hover:opacity-80"
           >
             View details
             <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />

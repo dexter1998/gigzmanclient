@@ -120,7 +120,7 @@ export default async function DashboardOverview() {
         </Link>
       ) : null}
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
           <div key={stat.label} className="rounded-[10px] border border-line bg-surface p-4">
             <p className="text-[12px] text-ink-subtle">{stat.label}</p>
@@ -131,13 +131,13 @@ export default async function DashboardOverview() {
         ))}
       </div>
 
-      <div className="mt-6 grid gap-5 lg:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
         <section className="rounded-[10px] border border-line bg-surface">
           <div className="flex items-center justify-between border-b border-line px-4 py-3">
             <p className="text-[14px] font-semibold text-ink">Recent enquiries</p>
             <Link
               href={p("/dashboard/queries")}
-              className="text-[12px] font-medium text-navy hover:underline"
+              className="inline-block py-1 text-[12px] font-medium text-navy hover:underline"
             >
               View all
             </Link>
@@ -206,7 +206,7 @@ export default async function DashboardOverview() {
               <p className="text-[14px] font-semibold text-ink">Upcoming statutory dates</p>
               <Link
                 href={p("/dashboard/compliance")}
-                className="text-[12px] font-medium text-navy hover:underline"
+                className="inline-block py-1 text-[12px] font-medium text-navy hover:underline"
               >
                 Manage
               </Link>
@@ -233,7 +233,7 @@ export default async function DashboardOverview() {
               <p className="text-[14px] font-semibold text-ink">Professional updates</p>
               <Link
                 href={p("/dashboard/updates")}
-                className="text-[12px] font-medium text-navy hover:underline"
+                className="inline-block py-1 text-[12px] font-medium text-navy hover:underline"
               >
                 Manage
               </Link>

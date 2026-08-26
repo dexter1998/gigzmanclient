@@ -58,7 +58,7 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <Section tone="cream" size="lg">
-        <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
+        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
           <div>
             <p className="eyebrow">{settings.businessCategory ?? "Chartered Accountants"}</p>
             <h1 className="display-xl mt-4">
@@ -108,7 +108,7 @@ export default async function HomePage() {
           description="Engagements are accepted after reviewing the requirement and confirming that the firm can support it."
         />
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {categories.map((category) => {
             const items = services.filter((s) => s.category === category);
             return (
@@ -152,7 +152,7 @@ export default async function HomePage() {
             </Button>
           </div>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {compliance.slice(0, 3).map((event) => (
               <Card key={event.id}>
                 <div className="flex items-start justify-between gap-3">
@@ -186,7 +186,7 @@ export default async function HomePage() {
             description="Indicative estimates only. Results are not a substitute for professional advice."
           />
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {calculators.map((calc) => (
               <Card key={calc.id} href={p(`/calculators/${calc.key}`)}>
                 <div className="flex items-start justify-between gap-3">
@@ -212,7 +212,7 @@ export default async function HomePage() {
           eyebrow="How engagements work"
           title="A defined process, agreed before work begins."
         />
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {ENGAGEMENT_STEPS.map((item, i) => (
             <Card key={item.step}>
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-navy text-[12px] font-semibold text-white">
@@ -235,7 +235,7 @@ export default async function HomePage() {
             </Button>
           </div>
 
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {updates.slice(0, 3).map((update) => (
               <Card key={update.id} href={p(`/updates/${update.slug}`)}>
                 <div className="flex items-center gap-2">

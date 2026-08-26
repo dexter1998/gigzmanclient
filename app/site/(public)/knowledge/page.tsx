@@ -64,7 +64,7 @@ export default async function KnowledgePage() {
     <>
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <Link href={p("/")} className="hover:text-navy">
+          <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </Link>
           <span className="mx-1.5">/</span>
@@ -85,7 +85,7 @@ export default async function KnowledgePage() {
           {TAX_YEAR} · awaiting professional verification against the provisions in force.
         </p>
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
           <Card padded={false} className="overflow-hidden">
             <div className="border-b border-line px-5 py-3.5">
               <p className="text-[14px] font-semibold text-ink">Income tax slabs — new regime</p>
@@ -182,13 +182,13 @@ export default async function KnowledgePage() {
 
       {/* Statutory dates + updates */}
       <Section tone="cream" size="md">
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div>
             <div className="flex items-baseline justify-between gap-4">
               <h2 className="display-md">Upcoming statutory dates</h2>
               <Link
                 href={p("/compliance-calendar")}
-                className="shrink-0 text-[13px] font-medium text-navy hover:underline"
+                className="inline-block shrink-0 py-1 text-[13px] font-medium text-navy hover:underline"
               >
                 Full calendar
               </Link>
@@ -213,7 +213,7 @@ export default async function KnowledgePage() {
               <h2 className="display-md">Recent updates</h2>
               <Link
                 href={p("/updates")}
-                className="shrink-0 text-[13px] font-medium text-navy hover:underline"
+                className="inline-block shrink-0 py-1 text-[13px] font-medium text-navy hover:underline"
               >
                 All updates
               </Link>
@@ -247,7 +247,7 @@ export default async function KnowledgePage() {
           Direct links to the official portals used for filings and verification.
         </p>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {PORTALS.map((portal) => (
             <a
               key={portal.url}

@@ -74,7 +74,7 @@ export default async function CareersPage() {
     <>
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <Link href={p("/")} className="hover:text-navy">
+          <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </Link>
           <span className="mx-1.5">/</span>
@@ -89,7 +89,7 @@ export default async function CareersPage() {
       </Section>
 
       <Section tone="white" size="md">
-        <div className="grid gap-10 lg:grid-cols-[1fr_320px] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div className="space-y-4">
             {OPENINGS.map((opening) => (
               <Card key={opening.title}>
@@ -171,7 +171,7 @@ export default async function CareersPage() {
               </address>
               <Link
                 href={p("/contact")}
-                className="mt-3 inline-block text-[13px] font-medium text-navy hover:underline"
+                className="mt-3 inline-block py-1 text-[13px] font-medium text-navy hover:underline"
               >
                 Contact details
               </Link>

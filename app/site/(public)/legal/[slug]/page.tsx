@@ -34,7 +34,7 @@ export default async function LegalPage(props: PageProps<"/site/legal/[slug]">) 
     <Section tone="white" size="md">
       <div className="mx-auto max-w-3xl">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <a href={p("/")} className="hover:text-navy">
+          <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </a>
           <span className="mx-1.5">/</span>

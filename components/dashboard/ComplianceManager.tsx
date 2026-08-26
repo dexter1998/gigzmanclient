@@ -110,7 +110,7 @@ export default function ComplianceManager({ events }: { events: EventRow[] }) {
           <input type="hidden" name="id" value={editing.id} />
 
           <div className="mt-4 space-y-3">
-            <div className="grid gap-3 sm:grid-cols-[2fr_1fr]">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-[2fr_1fr]">
               <div>
                 <label htmlFor="title" className="mb-1.5 block text-[12px] text-ink-muted">
                   Title <span className="text-accent">*</span>
@@ -131,7 +131,7 @@ export default function ComplianceManager({ events }: { events: EventRow[] }) {
               </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
               <div>
                 <label htmlFor="dueDate" className="mb-1.5 block text-[12px] text-ink-muted">
                   Original due date <span className="text-accent">*</span>
@@ -185,7 +185,7 @@ export default function ComplianceManager({ events }: { events: EventRow[] }) {
               />
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
                 <label htmlFor="applicableTo" className="mb-1.5 block text-[12px] text-ink-muted">
                   Applies to
@@ -210,7 +210,7 @@ export default function ComplianceManager({ events }: { events: EventRow[] }) {
               </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-[1fr_2fr]">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_2fr]">
               <div>
                 <label htmlFor="sourceLabel" className="mb-1.5 block text-[12px] text-ink-muted">
                   Source name

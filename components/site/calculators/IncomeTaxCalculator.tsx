@@ -94,7 +94,7 @@ export default function IncomeTaxCalculator({
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-8">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_400px] lg:gap-8">
       <div className="space-y-7">
         <fieldset>
           <legend className="text-[14px] font-semibold text-ink">Taxpayer</legend>
@@ -120,7 +120,7 @@ export default function IncomeTaxCalculator({
 
         <fieldset>
           <legend className="text-[14px] font-semibold text-ink">Income</legend>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {INCOME_FIELDS.map((field) => (
               <div key={field.name}>
                 <label htmlFor={field.name} className="mb-1.5 block text-[13px] text-ink-muted">
@@ -145,7 +145,7 @@ export default function IncomeTaxCalculator({
           <p className="mt-1 text-[12px] text-ink-subtle">
             These apply under the old regime only and are ignored in the new regime computation.
           </p>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+          <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {DEDUCTION_FIELDS.map((field) => (
               <div key={field.name}>
                 <label htmlFor={field.name} className="mb-1.5 block text-[13px] text-ink-muted">

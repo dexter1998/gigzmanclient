@@ -90,7 +90,7 @@ export default function QueryWorkspace({
         <form onSubmit={(e) => submit(e, updateQueryStatus)} className="mt-4 space-y-3">
           <input type="hidden" name="id" value={queryId} />
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label htmlFor="status" className="mb-1.5 block text-[12px] text-ink-muted">
                 Status
@@ -153,7 +153,7 @@ export default function QueryWorkspace({
         <p className="text-[14px] font-semibold text-ink">Assignment and follow-up</p>
         <form onSubmit={(e) => submit(e, updateQueryDetails)} className="mt-4 space-y-3">
           <input type="hidden" name="id" value={queryId} />
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <div>
               <label htmlFor="assignedTo" className="mb-1.5 block text-[12px] text-ink-muted">
                 Assigned to

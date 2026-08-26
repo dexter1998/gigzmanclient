@@ -47,7 +47,7 @@ export default async function ContactPage(props: PageProps<"/site/contact">) {
     <>
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <a href={p("/")} className="hover:text-navy">
+          <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </a>
           <span className="mx-1.5">/</span>
@@ -60,7 +60,7 @@ export default async function ContactPage(props: PageProps<"/site/contact">) {
       </Section>
 
       <Section tone="white" size="md">
-        <div className="grid gap-10 lg:grid-cols-[340px_1fr] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[340px_1fr] lg:gap-14">
           <aside className="space-y-4">
             <Card>
               <p className="text-[14px] font-semibold text-ink">Contact details</p>
@@ -83,7 +83,7 @@ export default async function ContactPage(props: PageProps<"/site/contact">) {
                       <p className="text-[12px] text-ink-subtle">Phone</p>
                       <a
                         href={`tel:${settings.phone.replace(/\s/g, "")}`}
-                        className="mt-0.5 block text-[13px] text-ink-muted hover:text-navy"
+                        className="mt-0.5 block py-1 text-[13px] text-ink-muted hover:text-navy"
                       >
                         {settings.phone}
                       </a>
@@ -97,7 +97,7 @@ export default async function ContactPage(props: PageProps<"/site/contact">) {
                       <p className="text-[12px] text-ink-subtle">Email</p>
                       <a
                         href={`mailto:${settings.email}`}
-                        className="mt-0.5 block text-[13px] text-ink-muted hover:text-navy"
+                        className="mt-0.5 block py-1 text-[13px] text-ink-muted hover:text-navy"
                       >
                         {settings.email}
                       </a>

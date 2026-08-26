@@ -10,7 +10,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "seed:client": "tsx --env-file=.env.local scripts/seed-client.ts",
-    "check:content": "tsx scripts/check-content.ts"
+    "check:content": "tsx scripts/check-content.ts",
+    "dry-run": "tsx --env-file=.env.local scripts/dry-run.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -33,6 +34,7 @@
     "@types/react-dom": "^19",
     "dotenv": "^17.4.2",
     "drizzle-kit": "^0.31.10",
+    "playwright": "^1.62.1",
     "tailwindcss": "^4",
     "tsx": "^4.23.12",
     "typescript": "^5"

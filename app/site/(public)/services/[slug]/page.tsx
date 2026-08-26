@@ -63,11 +63,11 @@ export default async function ServiceDetailPage(props: PageProps<"/site/services
 
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <Link href={p("/")} className="hover:text-navy">
+          <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </Link>
           <span className="mx-1.5">/</span>
-          <Link href={p("/services")} className="hover:text-navy">
+          <Link href={p("/services")} className="inline-block py-1 hover:text-navy">
             Services
           </Link>
           <span className="mx-1.5">/</span>
@@ -95,7 +95,7 @@ export default async function ServiceDetailPage(props: PageProps<"/site/services
       </Section>
 
       <Section tone="white" size="md">
-        <div className="grid gap-10 lg:grid-cols-[1fr_320px] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div className="space-y-10">
             {service.whoNeedsThis && service.whoNeedsThis.length > 0 ? (
               <div>
@@ -231,7 +231,7 @@ export default async function ServiceDetailPage(props: PageProps<"/site/services
                     <li key={item.id}>
                       <Link
                         href={p(`/services/${item.slug}`)}
-                        className="text-[13px] leading-snug text-ink-muted hover:text-navy"
+                        className="inline-block py-1 text-[13px] leading-snug text-ink-muted hover:text-navy"
                       >
                         {item.title}
                       </Link>

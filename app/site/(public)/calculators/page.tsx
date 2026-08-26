@@ -33,7 +33,7 @@ export default async function CalculatorsPage() {
     <>
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <a href={p("/")} className="hover:text-navy">
+          <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </a>
           <span className="mx-1.5">/</span>
@@ -58,7 +58,7 @@ export default async function CalculatorsPage() {
       </Section>
 
       <Section tone="white" size="md">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {calculators.map((calc) => (
             <Card key={calc.id} href={p(`/calculators/${calc.key}`)}>
               <div className="flex items-start justify-between gap-3">

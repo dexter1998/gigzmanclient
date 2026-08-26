@@ -42,7 +42,7 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
   return (
     <footer className="mt-auto bg-navy text-white">
       <div className="mx-auto w-full max-w-6xl px-5 py-12 sm:px-6 sm:py-14 lg:px-8">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div>
             <p className="text-[15px] font-semibold">{settings.firmName}</p>
             {settings.businessCategory ? (
@@ -65,14 +65,14 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
                 <li key={category}>
                   <Link
                     href={p(`/services#${category}`)}
-                    className="text-[13px] text-white/70 hover:text-white"
+                    className="inline-block py-1 text-[13px] text-white/70 hover:text-white"
                   >
                     {SERVICE_CATEGORY_LABELS[category] ?? category}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link href={p("/services")} className="text-[13px] text-white/70 hover:text-white">
+                <Link href={p("/services")} className="inline-block py-1 text-[13px] text-white/70 hover:text-white">
                   All services
                 </Link>
               </li>
@@ -85,35 +85,35 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
             </p>
             <ul className="mt-4 space-y-2.5">
               <li>
-                <Link href={p("/calculators")} className="text-[13px] text-white/70 hover:text-white">
+                <Link href={p("/calculators")} className="inline-block py-1 text-[13px] text-white/70 hover:text-white">
                   Calculators
                 </Link>
               </li>
               <li>
-                <Link href={p("/updates")} className="text-[13px] text-white/70 hover:text-white">
+                <Link href={p("/updates")} className="inline-block py-1 text-[13px] text-white/70 hover:text-white">
                   Professional Updates
                 </Link>
               </li>
               <li>
                 <Link
                   href={p("/compliance-calendar")}
-                  className="text-[13px] text-white/70 hover:text-white"
+                  className="inline-block py-1 text-[13px] text-white/70 hover:text-white"
                 >
                   Compliance Calendar
                 </Link>
               </li>
               <li>
-                <Link href={p("/knowledge")} className="text-[13px] text-white/70 hover:text-white">
+                <Link href={p("/knowledge")} className="inline-block py-1 text-[13px] text-white/70 hover:text-white">
                   Knowledge Centre
                 </Link>
               </li>
               <li>
-                <Link href={p("/faq")} className="text-[13px] text-white/70 hover:text-white">
+                <Link href={p("/faq")} className="inline-block py-1 text-[13px] text-white/70 hover:text-white">
                   FAQs
                 </Link>
               </li>
               <li>
-                <Link href={p("/careers")} className="text-[13px] text-white/70 hover:text-white">
+                <Link href={p("/careers")} className="inline-block py-1 text-[13px] text-white/70 hover:text-white">
                   Careers
                 </Link>
               </li>
@@ -131,7 +131,7 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[13px] text-white/70 hover:text-white"
+                    className="inline-block py-1 text-[13px] text-white/70 hover:text-white"
                   >
                     {link.label}
                   </a>
@@ -158,7 +158,7 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
                   <Phone className="mt-0.5 h-3.5 w-3.5 shrink-0 text-white/40" aria-hidden="true" />
                   <a
                     href={`tel:${settings.phone.replace(/\s/g, "")}`}
-                    className="text-[13px] text-white/70 hover:text-white"
+                    className="inline-block py-1 text-[13px] text-white/70 hover:text-white"
                   >
                     {settings.phone}
                   </a>
@@ -169,7 +169,7 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
                   <Mail className="mt-0.5 h-3.5 w-3.5 shrink-0 text-white/40" aria-hidden="true" />
                   <a
                     href={`mailto:${settings.email}`}
-                    className="text-[13px] text-white/70 hover:text-white"
+                    className="inline-block py-1 text-[13px] text-white/70 hover:text-white"
                   >
                     {settings.email}
                   </a>
@@ -212,7 +212,7 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
                 <li key={link.slug}>
                   <Link
                     href={p(`/legal/${link.slug}`)}
-                    className="text-[12px] text-white/45 hover:text-white/80"
+                    className="inline-block py-1 text-[12px] text-white/45 hover:text-white/80"
                   >
                     {link.label}
                   </Link>

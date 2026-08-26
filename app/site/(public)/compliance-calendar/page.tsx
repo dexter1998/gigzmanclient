@@ -43,7 +43,7 @@ export default async function ComplianceCalendarPage() {
     <>
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <a href={p("/")} className="hover:text-navy">
+          <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </a>
           <span className="mx-1.5">/</span>
@@ -122,7 +122,7 @@ export default async function ComplianceCalendarPage() {
                             href={event.sourceUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-navy hover:underline"
+                            className="inline-flex min-h-[26px] items-center gap-1 py-1 text-navy hover:underline"
                           >
                             {event.sourceLabel ?? "Source"}
                             <ExternalLink className="h-3 w-3" aria-hidden="true" />

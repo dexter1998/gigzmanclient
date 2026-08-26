@@ -73,11 +73,11 @@ export default async function UpdateDetailPage(props: PageProps<"/site/updates/[
 
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <Link href={p("/")} className="hover:text-navy">
+          <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </Link>
           <span className="mx-1.5">/</span>
-          <Link href={p("/updates")} className="hover:text-navy">
+          <Link href={p("/updates")} className="inline-block py-1 hover:text-navy">
             Updates
           </Link>
           <span className="mx-1.5">/</span>
@@ -101,7 +101,7 @@ export default async function UpdateDetailPage(props: PageProps<"/site/updates/[
       </Section>
 
       <Section tone="white" size="md">
-        <div className="grid gap-10 lg:grid-cols-[1fr_300px] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_300px] lg:gap-14">
           <article>
             {update.status === "outdated" ? (
               <div className="mb-7 flex items-start gap-3 rounded-[10px] border border-status-danger/20 bg-status-danger-soft px-4 py-3.5">
@@ -131,7 +131,7 @@ export default async function UpdateDetailPage(props: PageProps<"/site/updates/[
                         href={source.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-[13px] text-navy hover:underline"
+                        className="inline-flex min-h-[26px] items-center gap-1 py-1 text-[13px] text-navy hover:underline"
                       >
                         {source.label}
                         <ExternalLink className="h-3 w-3" aria-hidden="true" />
@@ -168,7 +168,7 @@ export default async function UpdateDetailPage(props: PageProps<"/site/updates/[
                     <li key={item.id}>
                       <Link
                         href={p(`/updates/${item.slug}`)}
-                        className="text-[13px] leading-snug text-ink-muted hover:text-navy"
+                        className="inline-block py-1 text-[13px] leading-snug text-ink-muted hover:text-navy"
                       >
                         {item.title}
                       </Link>

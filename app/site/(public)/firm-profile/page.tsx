@@ -54,7 +54,7 @@ export default async function FirmProfilePage() {
     <>
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <a href={p("/")} className="hover:text-navy">
+          <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </a>
           <span className="mx-1.5">/</span>
@@ -69,7 +69,7 @@ export default async function FirmProfilePage() {
       </Section>
 
       <Section tone="white" size="md">
-        <div className="grid gap-10 lg:grid-cols-[1fr_340px] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_340px] lg:gap-14">
           <div className="space-y-10">
             <div>
               <h2 className="display-md">Understand the requirement before proceeding</h2>
@@ -92,7 +92,7 @@ export default async function FirmProfilePage() {
 
             <div>
               <h2 className="display-md">Areas supported by the firm</h2>
-              <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {categories.map((category) => {
                   const items = services.filter((s) => s.category === category);
                   return (
@@ -123,7 +123,7 @@ export default async function FirmProfilePage() {
             {showTeam ? (
               <div>
                 <h2 className="display-md">Professionals</h2>
-                <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {team.map((member) => (
                     <Card key={member.id}>
                       <div className="flex items-start gap-3.5">

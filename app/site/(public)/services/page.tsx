@@ -43,7 +43,7 @@ export default async function ServicesPage() {
 
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <a href={p("/")} className="hover:text-navy">
+          <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </a>
           <span className="mx-1.5">/</span>
@@ -72,7 +72,7 @@ export default async function ServicesPage() {
                   </span>
                 </div>
 
-                <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {items.map((service) => (
                     <Card key={service.id} href={p(`/services/${service.slug}`)}>
                       <div className="flex items-start justify-between gap-3">

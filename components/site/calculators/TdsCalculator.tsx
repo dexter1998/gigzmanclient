@@ -47,7 +47,7 @@ export default function TdsCalculator({ calculatorKey, version, taxYear }: TdsCa
   const hasPayment = toNumber(paymentAmount) > 0;
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-8">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_400px] lg:gap-8">
       <div className="space-y-5">
         <div>
           <label htmlFor="section" className="mb-1.5 block text-[13px] text-ink-muted">
@@ -70,7 +70,7 @@ export default function TdsCalculator({ calculatorKey, version, taxYear }: TdsCa
           </select>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
             <label htmlFor="paymentAmount" className="mb-1.5 block text-[13px] text-ink-muted">
               Payment amount
@@ -111,7 +111,7 @@ export default function TdsCalculator({ calculatorKey, version, taxYear }: TdsCa
         </div>
 
         <div className="space-y-3 rounded-[10px] border border-line p-4">
-          <label htmlFor="panAvailable" className="flex items-start gap-2.5">
+          <label htmlFor="panAvailable" className="flex items-start gap-2.5 py-1">
             <input
               id="panAvailable"
               type="checkbox"
@@ -127,7 +127,7 @@ export default function TdsCalculator({ calculatorKey, version, taxYear }: TdsCa
             </span>
           </label>
 
-          <label htmlFor="payeeType" className="flex items-start gap-2.5">
+          <label htmlFor="payeeType" className="flex items-start gap-2.5 py-1">
             <input
               id="payeeType"
               type="checkbox"

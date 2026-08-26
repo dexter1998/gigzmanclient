@@ -38,7 +38,7 @@ export default function GstCalculator({ calculatorKey, version, taxYear }: GstCa
   const isIntraState = supplyType === "intra_state";
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-8">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_400px] lg:gap-8">
       <div className="space-y-5">
         <div>
           <label htmlFor="amount" className="mb-1.5 block text-[13px] text-ink-muted">

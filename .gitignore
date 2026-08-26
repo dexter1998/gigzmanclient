@@ -42,3 +42,6 @@ next-env.d.ts
 
 # Committed template — real secrets live in .env.local (ignored above)
 !.env.example
+
+# Dry-run screenshot output
+/screenshots/

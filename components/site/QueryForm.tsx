@@ -82,7 +82,7 @@ export default function QueryForm({
         {err("name") ? <p className="mt-1 text-[12px] text-status-danger">{err("name")}</p> : null}
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="phone" className="mb-1.5 block text-[13px] font-medium text-ink">
             Phone
@@ -120,7 +120,7 @@ export default function QueryForm({
         Provide at least one of phone or email so the firm can respond.
       </p>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <label htmlFor="clientType" className="mb-1.5 block text-[13px] font-medium text-ink">
             You are

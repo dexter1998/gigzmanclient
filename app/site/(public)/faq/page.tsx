@@ -124,7 +124,7 @@ export default async function FaqPage() {
 
       <Section tone="cream" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
-          <Link href={p("/")} className="hover:text-navy">
+          <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
           </Link>
           <span className="mx-1.5">/</span>
@@ -139,7 +139,7 @@ export default async function FaqPage() {
       </Section>
 
       <Section tone="white" size="md">
-        <div className="grid gap-10 lg:grid-cols-[1fr_300px] lg:gap-14">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_300px] lg:gap-14">
           <div className="space-y-10">
             {FAQ_GROUPS.map((group) => (
               <div key={group.heading}>

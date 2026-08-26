@@ -3,6 +3,9 @@ import { headers } from "next/headers";
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { clients } from "@/lib/db/schema";
+import { joinPath } from "@/lib/paths";
+
+export { joinPath };
 
 export type Tenant = typeof clients.$inferSelect;
 
@@ -43,12 +46,6 @@ export const getBasePath = cache(async (): Promise<string> => {
   const h = await headers();
   return h.get("x-tenant-base") ?? "";
 });
-
-export function joinPath(basePath: string, path: string): string {
-  if (!path.startsWith("/")) path = `/${path}`;
-  const joined = `${basePath}${path}`;
-  return joined.length > 1 && joined.endsWith("/") ? joined.slice(0, -1) : joined;
-}
 
 /** Convenience for server components: `await tenantPath("/services")`. */
 export async function tenantPath(path: string): Promise<string> {

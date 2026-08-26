@@ -237,7 +237,7 @@ export const queries = pgTable("queries", {
   /** Set when the query originated from a calculator CTA — never carries financial values. */
   calculatorId: varchar("calculator_id", { length: 60 }),
   calculatorVersion: varchar("calculator_version", { length: 30 }),
-  taxYear: varchar("tax_year", { length: 20 }),
+  taxYear: varchar("tax_year", { length: 60 }),
 
   status: queryStatus("status").notNull().default("new"),
   priority: varchar("priority", { length: 20 }).default("normal"),
@@ -290,7 +290,7 @@ export const professionalUpdates = pgTable(
     body: text("body"),
 
     /** Applicable period is mandatory for anything tax-year sensitive. */
-    applicableYear: varchar("applicable_year", { length: 20 }),
+    applicableYear: varchar("applicable_year", { length: 60 }),
     sources: jsonb("sources").$type<Source[]>().default([]),
 
     status: updateStatus("status").notNull().default("draft"),
@@ -350,7 +350,7 @@ export const calculators = pgTable(
 
     /** Formula version — rate tables live in code and are not editable from the dashboard. */
     version: varchar("version", { length: 30 }).notNull(),
-    taxYear: varchar("tax_year", { length: 20 }).notNull(),
+    taxYear: varchar("tax_year", { length: 60 }).notNull(),
     status: calculatorStatus("status").notNull().default("ca_review_required"),
 
     reviewerName: text("reviewer_name"),

@@ -1,0 +1,310 @@
+import { readFileSync, existsSync } from "node:fs";
+import { join } from "node:path";
+import { randomBytes } from "node:crypto";
+import { parse } from "yaml";
+import { eq, and } from "drizzle-orm";
+import bcrypt from "bcryptjs";
+import { db } from "../lib/db";
+import {
+  clients,
+  firmSettings,
+  teamMembers,
+  services,
+  complianceEvents,
+  professionalUpdates,
+  legalPages,
+  calculators,
+  users,
+} from "../lib/db/schema";
+import { CALCULATOR_DEFINITIONS, RATES_VERSION, TAX_YEAR } from "../lib/calculators/registry";
+
+/**
+ * Loads a client folder into the database.
+ *
+ * Existing rows are updated in place, so re-running is safe. Content the firm has
+ * since edited through the dashboard is overwritten only when --force is passed.
+ */
+
+const slug = process.argv[2];
+const force = process.argv.includes("--force");
+
+if (!slug) {
+  console.error("Usage: pnpm seed:client <client-slug> [--force]");
+  process.exit(1);
+}
+
+const clientDir = join(process.cwd(), "clients", slug);
+if (!existsSync(clientDir)) {
+  console.error(`No client folder at clients/${slug}`);
+  process.exit(1);
+}
+
+function readYaml<T>(name: string): T | null {
+  const path = join(clientDir, name);
+  if (!existsSync(path)) return null;
+  return parse(readFileSync(path, "utf-8")) as T;
+}
+
+async function main() {
+  const profile = readYaml<any>("profile.yaml");
+  if (!profile) throw new Error("profile.yaml is required");
+
+  // ---------------------------------------------------------------- client
+  const [client] = await db
+    .insert(clients)
+    .values({
+      slug: profile.slug,
+      vertical: profile.vertical ?? "cafirm",
+      displayName: profile.display_name,
+    })
+    .onConflictDoUpdate({
+      target: clients.slug,
+      set: { displayName: profile.display_name, vertical: profile.vertical ?? "cafirm" },
+    })
+    .returning();
+
+  const clientId = client.id;
+  console.log(`client   ${profile.slug} (${clientId})`);
+
+  // --------------------------------------------------------- firm settings
+  const contact = profile.contact ?? {};
+  const firm = profile.firm ?? {};
+  const features = profile.features ?? {};
+
+  const settingsValues = {
+    clientId,
+    firmName: firm.name ?? profile.display_name,
+    tagline: firm.tagline ?? null,
+    overview: firm.overview ?? null,
+    establishedYear: firm.established_year || null,
+    firmRegistrationNumber: firm.firm_registration_number || null,
+    businessCategory: firm.business_category ?? null,
+    phone: contact.phone || null,
+    whatsapp: contact.whatsapp || null,
+    email: contact.email || null,
+    addressLine: contact.address_line || null,
+    locality: contact.locality || null,
+    region: contact.region || null,
+    postalCode: contact.postal_code || null,
+    country: contact.country || "India",
+    latitude: contact.latitude || null,
+    longitude: contact.longitude || null,
+    googleMapsUrl: contact.google_maps_url || null,
+    openingHours: profile.opening_hours ?? [],
+    socialLinks: profile.social_links ?? {},
+    ga4MeasurementId: profile.analytics?.ga4_measurement_id || null,
+    searchConsoleVerification: profile.analytics?.search_console_verification || null,
+    seoTitle: profile.seo?.title ?? null,
+    seoDescription: profile.seo?.description ?? null,
+    reviewsEnabled: features.reviews ?? false,
+    pricingEnabled: features.pricing ?? true,
+    awardsEnabled: features.awards ?? true,
+    clientLogosEnabled: features.client_logos ?? true,
+    teamEnabled: features.team ?? true,
+    notificationEmail: profile.notification_email || null,
+    updatedAt: new Date(),
+  };
+
+  await db
+    .insert(firmSettings)
+    .values(settingsValues)
+    .onConflictDoUpdate({ target: firmSettings.clientId, set: settingsValues });
+  console.log("settings ok");
+
+  // ------------------------------------------------------------------ team
+  if (Array.isArray(profile.team) && profile.team.length > 0) {
+    const existing = await db.select().from(teamMembers).where(eq(teamMembers.clientId, clientId));
+    if (existing.length === 0 || force) {
+      if (force) await db.delete(teamMembers).where(eq(teamMembers.clientId, clientId));
+      await db.insert(teamMembers).values(
+        profile.team.map((m: any, i: number) => ({
+          clientId,
+          name: m.name,
+          designation: m.designation ?? null,
+          qualifications: m.qualifications ?? null,
+          membershipNumber: m.membership_number || null,
+          bio: m.bio ?? null,
+          sortOrder: i,
+        })),
+      );
+      console.log(`team     ${profile.team.length}`);
+    } else {
+      console.log("team     skipped (already present; use --force to replace)");
+    }
+  }
+
+  // -------------------------------------------------------------- services
+  const serviceDoc = readYaml<any>("content/services.yaml");
+  if (serviceDoc?.services) {
+    for (const [i, s] of serviceDoc.services.entries()) {
+      const values = {
+        clientId,
+        slug: s.slug,
+        title: s.title,
+        category: s.category,
+        summary: s.summary ?? null,
+        overview: s.overview ?? null,
+        whoNeedsThis: s.who_needs_this ?? [],
+        scopeOfAssistance: s.scope_of_assistance ?? [],
+        documentsRequired: s.documents_required ?? [],
+        engagementProcess: s.engagement_process ?? [],
+        timelines: s.timelines ?? null,
+        considerations: s.considerations ?? null,
+        faqs: s.faqs ?? [],
+        isCaExclusive: s.ca_exclusive ?? false,
+        sortOrder: i,
+        updatedAt: new Date(),
+      };
+      await db
+        .insert(services)
+        .values(values)
+        .onConflictDoUpdate({
+          target: [services.clientId, services.slug],
+          set: force ? values : { updatedAt: new Date() },
+        });
+    }
+    console.log(`services ${serviceDoc.services.length}`);
+  }
+
+  // ------------------------------------------------------------ compliance
+  const complianceDoc = readYaml<any>("content/compliance.yaml");
+  if (complianceDoc?.events) {
+    const existing = await db
+      .select()
+      .from(complianceEvents)
+      .where(eq(complianceEvents.clientId, clientId));
+
+    if (existing.length === 0 || force) {
+      if (force) await db.delete(complianceEvents).where(eq(complianceEvents.clientId, clientId));
+      await db.insert(complianceEvents).values(
+        complianceDoc.events.map((e: any) => ({
+          clientId,
+          title: e.title,
+          category: e.category,
+          description: e.description ?? null,
+          applicableTo: e.applicable_to ?? null,
+          dueDate: e.due_date,
+          extendedDueDate: e.extended_due_date ?? null,
+          sourceLabel: e.source_label ?? null,
+          sourceUrl: e.source_url ?? null,
+          lastVerifiedAt: e.last_verified_at ?? null,
+          isRecurring: e.recurring ?? false,
+        })),
+      );
+      console.log(`calendar ${complianceDoc.events.length}`);
+    } else {
+      console.log("calendar skipped (already present; use --force to replace)");
+    }
+  }
+
+  // --------------------------------------------------------------- updates
+  const updatesDoc = readYaml<any>("content/updates.yaml");
+  if (updatesDoc?.updates) {
+    for (const u of updatesDoc.updates) {
+      const values = {
+        clientId,
+        slug: u.slug,
+        title: u.title,
+        category: u.category,
+        excerpt: u.excerpt ?? null,
+        body: u.body ?? null,
+        applicableYear: u.applicable_year ?? null,
+        sources: u.sources ?? [],
+        status: u.status ?? "draft",
+        authorName: u.author_name ?? null,
+        reviewerName: u.reviewer_name ?? null,
+        publishedAt: u.published_at ? new Date(u.published_at) : null,
+        updatedAt: new Date(),
+      };
+      await db
+        .insert(professionalUpdates)
+        .values(values)
+        .onConflictDoUpdate({
+          target: [professionalUpdates.clientId, professionalUpdates.slug],
+          set: force ? values : { updatedAt: new Date() },
+        });
+    }
+    console.log(`updates  ${updatesDoc.updates.length}`);
+  }
+
+  // ----------------------------------------------------------------- legal
+  const legalDoc = readYaml<any>("content/legal.yaml");
+  if (legalDoc?.pages) {
+    for (const p of legalDoc.pages) {
+      const values = {
+        clientId,
+        slug: p.slug,
+        title: p.title,
+        body: p.body ?? null,
+        updatedAt: new Date(),
+      };
+      await db
+        .insert(legalPages)
+        .values(values)
+        .onConflictDoUpdate({
+          target: [legalPages.clientId, legalPages.slug],
+          set: force ? values : { updatedAt: new Date() },
+        });
+    }
+    console.log(`legal    ${legalDoc.pages.length}`);
+  }
+
+  // ----------------------------------------------------------- calculators
+  for (const def of CALCULATOR_DEFINITIONS) {
+    const values = {
+      clientId,
+      key: def.key,
+      title: def.title,
+      description: def.description,
+      version: RATES_VERSION,
+      taxYear: TAX_YEAR,
+      disclaimer: def.disclaimer,
+      sourceNote: def.sourceNote,
+      sortOrder: def.sortOrder,
+      updatedAt: new Date(),
+    };
+    // Status is intentionally excluded from the update set: once a CA promotes a
+    // calculator to active, re-seeding must not silently revert that decision.
+    await db
+      .insert(calculators)
+      .values(values)
+      .onConflictDoUpdate({
+        target: [calculators.clientId, calculators.key],
+        set: { ...values, status: undefined },
+      });
+  }
+  console.log(`calc     ${CALCULATOR_DEFINITIONS.length}`);
+
+  // ------------------------------------------------------------ admin user
+  const adminEmail = process.env.SEED_ADMIN_EMAIL ?? `admin@${slug}.local`;
+  const existingUser = await db
+    .select()
+    .from(users)
+    .where(and(eq(users.clientId, clientId), eq(users.email, adminEmail)))
+    .limit(1);
+
+  if (existingUser.length === 0) {
+    const password = process.env.SEED_ADMIN_PASSWORD ?? randomBytes(9).toString("base64url");
+    await db.insert(users).values({
+      clientId,
+      email: adminEmail,
+      passwordHash: await bcrypt.hash(password, 12),
+      name: "Administrator",
+      role: "admin",
+    });
+    console.log("\n  Dashboard sign-in created");
+    console.log(`  email     ${adminEmail}`);
+    console.log(`  password  ${password}`);
+    console.log("  Shown once — store it now, then change it after first sign-in.\n");
+  } else {
+    console.log("user     already exists");
+  }
+
+  console.log(`\nSeeded ${slug}.`);
+  process.exit(0);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

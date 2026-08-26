@@ -1,0 +1,116 @@
+# Client seed data — Arora K & Associates
+#
+# Loaded into the database by `pnpm seed:client arora-k-associates`.
+# After seeding, the dashboard becomes the source of truth; re-running the seed
+# only fills gaps unless --force is passed.
+#
+# Every field is classified in the `_status` block at the bottom:
+#   verified    — confirmed from the Google Business Profile listing
+#   placeholder — example content for the demo, must be confirmed before delivery
+#   pending     — unknown; renders nothing
+# Run `pnpm check:content arora-k-associates` for the delivery checklist.
+
+slug: arora-k-associates
+vertical: cafirm
+display_name: Arora K & Associates
+
+firm:
+  name: Arora K & Associates
+  tagline: Chartered accountancy, taxation and compliance support
+  overview: >-
+    Arora K & Associates is a chartered accountancy practice based in Gurugram,
+    supporting individuals and businesses across taxation, GST, audit, accounting
+    and regulatory compliance. Engagements are accepted after reviewing the
+    requirement and confirming applicability.
+  established_year: ""
+  firm_registration_number: ""
+  business_category: Chartered Accountants
+
+contact:
+  phone: "093520 04556"
+  whatsapp: "093520 04556"
+  email: ""
+  address_line: UGF, Sushant Shopping Arcade, near Pehle Chai, Block A, Sushant Lok Phase I
+  locality: Sector 43, Gurugram
+  region: Haryana
+  postal_code: "122009"
+  country: India
+  latitude: ""
+  longitude: ""
+  google_maps_url: https://share.google/9ybzuMgclfVyI7J5h
+
+# Only the opening time is stated on the listing ("Opens 9 am"); closing times and
+# the weekly pattern are assumed and need confirming with the firm.
+opening_hours:
+  - { day: Monday, opens: "09:00", closes: "19:00", closed: false }
+  - { day: Tuesday, opens: "09:00", closes: "19:00", closed: false }
+  - { day: Wednesday, opens: "09:00", closes: "19:00", closed: false }
+  - { day: Thursday, opens: "09:00", closes: "19:00", closed: false }
+  - { day: Friday, opens: "09:00", closes: "19:00", closed: false }
+  - { day: Saturday, opens: "09:00", closes: "17:00", closed: false }
+  - { day: Sunday, opens: null, closes: null, closed: true }
+
+social_links: {}
+
+seo:
+  title: Arora K & Associates — Chartered Accountants in Gurugram
+  description: >-
+    Chartered accountancy practice in Sector 43, Gurugram offering income tax, GST,
+    audit, accounting and corporate compliance support.
+
+analytics:
+  ga4_measurement_id: ""
+  search_console_verification: ""
+
+# Section visibility.
+#
+# `reviews` stays false deliberately: ICAI's Code of Ethics prohibits testimonials,
+# star ratings and endorsements on a chartered accountant's own website, even when
+# genuine. The firm's 5.0 rating and 36 reviews continue to work on the Google
+# Business Profile itself. Flip this only if the firm's CA decides otherwise.
+features:
+  reviews: false
+  pricing: true
+  awards: true
+  client_logos: true
+  team: true
+
+team:
+  - name: CA Kapil Arora
+    designation: Proprietor
+    qualifications: Chartered Accountant
+    membership_number: ""
+    bio: >-
+      Handles taxation, audit and business compliance engagements for individual
+      and corporate clients.
+
+notification_email: ""
+
+_status:
+  slug: verified
+  display_name: verified
+  firm.name: verified
+  firm.business_category: verified
+  firm.tagline: placeholder
+  firm.overview: placeholder
+  firm.established_year: pending
+  firm.firm_registration_number: pending
+  contact.phone: verified
+  contact.whatsapp: placeholder
+  contact.email: pending
+  contact.address_line: verified
+  contact.locality: verified
+  contact.region: verified
+  contact.postal_code: verified
+  contact.country: verified
+  contact.google_maps_url: verified
+  contact.latitude: pending
+  contact.longitude: pending
+  opening_hours: placeholder
+  social_links: pending
+  seo.title: placeholder
+  seo.description: placeholder
+  analytics.ga4_measurement_id: pending
+  analytics.search_console_verification: pending
+  team: placeholder
+  notification_email: pending

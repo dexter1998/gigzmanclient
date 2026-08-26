@@ -1,0 +1,147 @@
+# Compliance calendar.
+#
+# These follow the standard recurring statutory pattern. Dates are NOT verified
+# against departmental notifications for this period and no extension has been
+# checked for — `last_verified_at` is deliberately blank on every entry.
+#
+# Before delivery: verify each date against the CBDT/CBIC source and set
+# `last_verified_at`. The site surfaces "last verified" on the calendar page, so
+# an unverified entry is visible to the firm rather than hidden.
+#
+# An extension is recorded in `extended_due_date`; `due_date` always keeps the
+# original statutory date so the history stays auditable.
+
+_status: placeholder
+
+events:
+  - title: TDS / TCS deposit for August
+    category: TDS
+    due_date: "2026-09-07"
+    applicable_to: Deductors and collectors other than government offices
+    description: Deposit of tax deducted or collected during August.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true
+
+  - title: GSTR-1 for August
+    category: GST
+    due_date: "2026-09-11"
+    applicable_to: Registered persons filing monthly returns
+    description: Statement of outward supplies for August.
+    source_label: CBIC
+    source_url: https://www.cbic.gov.in
+    recurring: true
+
+  - title: Advance Tax — second instalment
+    category: Income Tax
+    due_date: "2026-09-15"
+    applicable_to: Taxpayers liable to pay advance tax
+    description: >-
+      Payment of the second instalment of advance tax for the financial year.
+      Applicability depends on estimated liability after available credits.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true
+
+  - title: Provident fund and state insurance contribution for August
+    category: Payroll
+    due_date: "2026-09-15"
+    applicable_to: Employers covered by the applicable provisions
+    description: Deposit of employer and employee contributions for August.
+    source_label: EPFO
+    source_url: https://www.epfindia.gov.in
+    recurring: true
+
+  - title: GSTR-3B for August
+    category: GST
+    due_date: "2026-09-20"
+    applicable_to: Registered persons filing monthly returns
+    description: Summary return and payment of tax for August.
+    source_label: CBIC
+    source_url: https://www.cbic.gov.in
+    recurring: true
+
+  - title: Tax audit report filing
+    category: Audit
+    due_date: "2026-09-30"
+    applicable_to: Taxpayers to whom audit provisions apply
+    description: >-
+      Filing of the audit report in the prescribed form for the relevant previous
+      year, where audit provisions are applicable.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true
+
+  - title: TDS / TCS deposit for September
+    category: TDS
+    due_date: "2026-10-07"
+    applicable_to: Deductors and collectors other than government offices
+    description: Deposit of tax deducted or collected during September.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true
+
+  - title: GSTR-1 for September
+    category: GST
+    due_date: "2026-10-11"
+    applicable_to: Registered persons filing monthly returns
+    description: Statement of outward supplies for September.
+    source_label: CBIC
+    source_url: https://www.cbic.gov.in
+    recurring: true
+
+  - title: GSTR-3B for September
+    category: GST
+    due_date: "2026-10-20"
+    applicable_to: Registered persons filing monthly returns
+    description: Summary return and payment of tax for September.
+    source_label: CBIC
+    source_url: https://www.cbic.gov.in
+    recurring: true
+
+  - title: TDS quarterly statement — second quarter
+    category: TDS
+    due_date: "2026-10-31"
+    applicable_to: Deductors filing quarterly statements
+    description: Quarterly statement of tax deducted for the July to September quarter.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true
+
+  - title: Income tax return — audit cases
+    category: Income Tax
+    due_date: "2026-10-31"
+    applicable_to: Taxpayers to whom audit provisions apply
+    description: Filing of the return of income where accounts are required to be audited.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true
+
+  - title: Advance Tax — third instalment
+    category: Income Tax
+    due_date: "2026-12-15"
+    applicable_to: Taxpayers liable to pay advance tax
+    description: Payment of the third instalment of advance tax for the financial year.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true
+
+  - title: Belated or revised return
+    category: Income Tax
+    due_date: "2026-12-31"
+    applicable_to: Taxpayers filing a belated or revised return
+    description: >-
+      Last date for filing a belated or revised return for the relevant assessment
+      year, subject to the conditions in force.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true
+
+  - title: Advance Tax — fourth instalment
+    category: Income Tax
+    due_date: "2027-03-15"
+    applicable_to: Taxpayers liable to pay advance tax
+    description: Payment of the final instalment of advance tax for the financial year.
+    source_label: Income Tax Department
+    source_url: https://www.incometax.gov.in
+    recurring: true

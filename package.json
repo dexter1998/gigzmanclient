@@ -5,7 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio",
+    "seed:client": "tsx --env-file=.env.local scripts/seed-client.ts",
+    "check:content": "tsx scripts/check-content.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

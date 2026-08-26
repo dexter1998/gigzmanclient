@@ -1,0 +1,171 @@
+# Legal and disclaimer pages.
+#
+# Baseline text only. These are NOT legal advice and have not been reviewed by a
+# lawyer — the firm must review and adapt them before the site goes live,
+# particularly the privacy policy, which must describe what the firm actually
+# does with enquiry data.
+
+_status: placeholder
+
+pages:
+  - slug: privacy-policy
+    title: Privacy Policy
+    body: |
+      This policy describes how information submitted through this website is handled.
+
+      ## Information collected
+
+      When an enquiry is submitted, the details entered in the form are collected —
+      typically name, contact details, the category of taxpayer or entity, the service
+      the enquiry relates to, and any message provided.
+
+      The website does not ask for PAN, Aadhaar, passwords, one-time passwords, bank
+      details or financial documents, and these should not be submitted through it.
+
+      ## How the information is used
+
+      Enquiry details are used to respond to the enquiry and to discuss the requirement.
+      Information is not sold or rented. Where consent to receive updates has been given
+      separately, that consent may be withdrawn at any time.
+
+      ## Calculator inputs
+
+      Values entered into the calculators on this website are processed in the browser
+      to produce an estimate. They are not transmitted to the firm, are not stored, and
+      are not included in any enquiry submitted after a calculation.
+
+      ## Analytics
+
+      Aggregate usage measurement may be used to understand how the website is used.
+      This measurement is configured to exclude names, contact details, message content
+      and financial values.
+
+      ## Retention
+
+      Enquiry records are retained for as long as necessary to respond to the enquiry
+      and to meet any applicable record-keeping requirement.
+
+      ## Contact
+
+      Questions about this policy may be directed to the firm using the contact details
+      published on this website.
+
+  - slug: terms-of-use
+    title: Terms of Use
+    body: |
+      These terms apply to use of this website.
+
+      ## Purpose of this website
+
+      This website provides general information about the firm and the areas in which it
+      accepts engagements. It is informational and does not constitute an offer to
+      provide services or an invitation to engage the firm.
+
+      ## No professional relationship
+
+      Using this website, submitting an enquiry or using a calculator does not create a
+      professional relationship between the visitor and the firm. A relationship arises
+      only after the requirement has been reviewed, the engagement accepted, and terms
+      agreed in writing.
+
+      ## Accuracy of content
+
+      Content is prepared with reasonable care and reviewed periodically. Statutory
+      provisions change, and content may not reflect the position as at the date of
+      reading. Content should not be acted on without professional advice specific to
+      the circumstances.
+
+      ## External links
+
+      Links to external sources are provided for reference. The firm is not responsible
+      for content on external websites.
+
+      ## Limitation
+
+      The firm does not accept liability for any action taken on the basis of content on
+      this website without obtaining professional advice.
+
+  - slug: disclaimer
+    title: General Disclaimer
+    body: |
+      Content on this website is general in nature and is published for information
+      only. It does not constitute professional advice and does not address the
+      circumstances of any particular person or entity.
+
+      Applicability of any provision referred to depends on the specific facts, the
+      taxpayer or entity category, and the law in force at the relevant time. Provisions
+      referred to may have been amended, superseded or withdrawn after publication.
+
+      No outcome — including registration, approval, refund, assessment result or
+      processing time — is assured. Outcomes depend on the facts, the documentation
+      available and the view taken by the relevant authority.
+
+      Professional advice should be obtained before acting on any content published
+      here. The firm does not accept liability for action taken without such advice.
+
+      This website is maintained in accordance with the guidelines applicable to
+      chartered accountants in practice.
+
+  - slug: calculator-disclaimer
+    title: Calculator Disclaimer
+    body: |
+      The calculators on this website produce indicative estimates only.
+
+      ## What the estimates are
+
+      Each calculator applies a specified rate set to the values entered. The applicable
+      period and formula version are displayed alongside each calculator. An estimate is
+      not a computation of liability and is not professional advice.
+
+      ## Assumptions
+
+      Calculators apply general assumptions and cannot account for every provision that
+      may be relevant. Matters including residential status, regime selection, specific
+      exemptions, set-off of losses, surcharge applicability and relief provisions may
+      alter the result materially.
+
+      No calculator on this website recommends a course of action, and none identifies a
+      preferred tax regime. Where results are shown side by side, they are presented for
+      comparison only.
+
+      ## Rate verification
+
+      A calculator displays its review status. Where rates are shown as awaiting
+      professional verification, the estimate should be treated as provisional and
+      confirmed before being relied on.
+
+      ## Your inputs
+
+      Values entered are processed in the browser and are not transmitted to or stored
+      by the firm.
+
+      ## Before relying on a result
+
+      An estimate should be confirmed against the provisions applicable to the specific
+      circumstances before it is used for any purpose, including payment of tax.
+
+  - slug: cookie-notice
+    title: Cookie and Analytics Notice
+    body: |
+      This notice describes the use of cookies and similar technologies on this website.
+
+      ## Necessary storage
+
+      Limited browser storage is used to remember whether a compliance notification has
+      been dismissed, so the same notification is not shown repeatedly. This is stored in
+      the browser and is not transmitted to the firm.
+
+      ## Analytics
+
+      Where analytics measurement is enabled, cookies may be used to understand how
+      visitors use the website in aggregate — pages viewed, general navigation patterns
+      and whether an enquiry was submitted.
+
+      Analytics measurement on this website is configured to exclude names, contact
+      details, enquiry message content, and any financial values entered into
+      calculators.
+
+      ## Managing cookies
+
+      Browsers can be configured to block or delete cookies. Blocking cookies does not
+      prevent use of this website, although dismissed notifications may reappear.

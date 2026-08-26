@@ -1,0 +1,743 @@
+# Service catalogue.
+#
+# All entries are _status: placeholder — the copy is professionally neutral and
+# ICAI-appropriate, but service availability must be confirmed with the firm
+# before delivery. Deactivate anything the firm does not offer rather than
+# deleting it, so it can be switched back on later.
+#
+# Copy rules applied throughout: no guaranteed outcomes, no turnaround promises
+# without qualification, no fees, no comparative or superlative claims.
+
+_status: placeholder
+
+services:
+  # ---------------------------------------------------------------- Taxation
+  - slug: income-tax-return
+    title: Income Tax Return Filing
+    category: taxation
+    ca_exclusive: false
+    summary: Preparation and filing of income tax returns for individuals, businesses and entities.
+    overview: >-
+      Assistance with preparing and filing income tax returns based on the income
+      earned during the relevant previous year. The applicable return form, regime
+      and disclosures depend on the taxpayer category and the nature of income.
+    who_needs_this:
+      - Salaried individuals with one or more employers during the year
+      - Individuals with income from house property, capital gains or other sources
+      - Proprietors and professionals maintaining books of account
+      - Partnership firms, LLPs and companies
+    scope_of_assistance:
+      - Review of income details and available documentation
+      - Determination of the applicable return form
+      - Computation of total income and tax liability
+      - Comparison of tax under the old and new regimes
+      - Filing of the return and assistance with e-verification
+    documents_required:
+      - PAN and Aadhaar details
+      - Form 16 or salary statements, where applicable
+      - Annual Information Statement and Form 26AS
+      - Bank interest certificates and investment proofs
+      - Details of any capital gains transactions
+    engagement_process:
+      - { step: Requirement review, detail: Understanding the income profile and applicable provisions. }
+      - { step: Information collection, detail: Sharing a checklist based on the taxpayer category. }
+      - { step: Computation, detail: Preparing the computation and confirming it with you. }
+      - { step: Filing, detail: Filing the return and providing the acknowledgement. }
+    timelines: >-
+      Timelines depend on the completeness of information provided and the statutory
+      due date applicable to the taxpayer category.
+    considerations: >-
+      Selection of tax regime, applicability of audit provisions and disclosure of
+      foreign assets are assessed on the facts of each case.
+    faqs:
+      - question: Which return form applies to me?
+        answer: >-
+          The form depends on your sources of income, residential status and taxpayer
+          category. This is determined after reviewing your details.
+      - question: Can a return be revised after filing?
+        answer: >-
+          A return may be revised within the timelines specified under the Income-tax
+          Act, subject to the conditions applicable at the time.
+
+  - slug: tax-planning-advisory
+    title: Tax Planning and Advisory
+    category: taxation
+    ca_exclusive: false
+    summary: Advisory on the tax implications of income, investments and business decisions.
+    overview: >-
+      Review of the tax position and advice on the implications of proposed
+      transactions, investment choices and business structuring, within the framework
+      of applicable law.
+    who_needs_this:
+      - Individuals evaluating regime selection and eligible deductions
+      - Businesses considering a change in structure or operations
+      - Taxpayers planning significant asset transactions
+    scope_of_assistance:
+      - Review of the existing tax position
+      - Analysis of applicable provisions and available options
+      - Written advice on implications and compliance requirements
+      - Assistance with implementation and related filings
+    documents_required:
+      - Prior year returns and computations
+      - Details of the proposed transaction or decision
+      - Relevant agreements or supporting documents
+    engagement_process:
+      - { step: Discussion, detail: Understanding the objective and the facts involved. }
+      - { step: Analysis, detail: Examining applicable provisions and available positions. }
+      - { step: Advice, detail: Communicating implications and compliance requirements. }
+    timelines: Varies with the complexity of the matter and the documentation available.
+    considerations: >-
+      Advice is specific to the facts presented and the law in force. Changes in
+      facts or law may alter the position.
+    faqs:
+      - question: Is advice provided in writing?
+        answer: Written advice is provided where the matter warrants a documented position.
+
+  - slug: tds-compliance
+    title: TDS Compliance
+    category: taxation
+    ca_exclusive: false
+    summary: Assistance with tax deduction at source, quarterly statements and certificates.
+    overview: >-
+      Support with determining deduction requirements on specified payments, depositing
+      the tax deducted, filing quarterly statements and issuing certificates.
+    who_needs_this:
+      - Businesses making payments covered by TDS provisions
+      - Employers deducting tax on salary payments
+      - Entities responsible for deduction on contractual or professional payments
+    scope_of_assistance:
+      - Determination of the applicable section and rate
+      - Review of thresholds and PAN availability
+      - Preparation and filing of quarterly statements
+      - Generation of deduction certificates
+      - Assistance with correction statements and default notices
+    documents_required:
+      - Details of payments made and payee particulars
+      - PAN details of deductees
+      - Challan details for tax deposited
+      - Previous quarterly statements, where applicable
+    engagement_process:
+      - { step: Payment review, detail: Identifying payments attracting deduction. }
+      - { step: Determination, detail: Confirming section, rate and threshold applicability. }
+      - { step: Filing, detail: Preparing and filing the quarterly statement. }
+      - { step: Certificates, detail: Issuing certificates to deductees. }
+    timelines: Aligned to the quarterly statement due dates applicable to the deductor category.
+    considerations: >-
+      Section applicability depends on the nature of the payment and the status of the
+      payee. Non-availability of PAN affects the applicable rate.
+    faqs:
+      - question: What happens if a statement is filed late?
+        answer: >-
+          Late filing attracts fees and may attract interest under the applicable
+          provisions. The position is assessed on the facts.
+
+  - slug: tax-audit
+    title: Tax Audit
+    category: taxation
+    ca_exclusive: true
+    summary: Audit under the applicable provisions of the Income-tax Act where thresholds are met.
+    overview: >-
+      Conduct of tax audit where the prescribed turnover or receipts thresholds are met,
+      including preparation of the audit report in the specified form.
+    who_needs_this:
+      - Businesses whose turnover exceeds the prescribed threshold
+      - Professionals whose gross receipts exceed the prescribed threshold
+      - Taxpayers covered by presumptive taxation provisions in specified circumstances
+    scope_of_assistance:
+      - Assessment of audit applicability
+      - Examination of books of account and supporting records
+      - Preparation of the audit report and annexures
+      - Filing of the report and related coordination
+    documents_required:
+      - Books of account for the relevant year
+      - Financial statements
+      - Supporting records for reported particulars
+      - Prior year audit report, where applicable
+    engagement_process:
+      - { step: Applicability, detail: Confirming whether audit provisions apply. }
+      - { step: Examination, detail: Reviewing books and supporting records. }
+      - { step: Reporting, detail: Preparing and filing the report in the prescribed form. }
+    timelines: Aligned to the statutory due date applicable for the assessment year.
+    considerations: >-
+      Applicability depends on turnover, receipts and the provisions under which income
+      is offered to tax.
+    faqs:
+      - question: How is audit applicability determined?
+        answer: >-
+          Applicability is assessed against the thresholds and conditions prescribed for
+          the relevant previous year.
+
+  - slug: income-tax-notice-assistance
+    title: Income Tax Notice Assistance
+    category: taxation
+    ca_exclusive: false
+    summary: Support with reviewing and responding to notices issued under the Income-tax Act.
+    overview: >-
+      Review of notices and intimations received, assessment of the requirement, and
+      assistance with preparing and submitting a response within the specified period.
+    who_needs_this:
+      - Taxpayers who have received an intimation or notice
+      - Taxpayers with mismatches reported against their filed return
+      - Taxpayers subject to assessment or verification proceedings
+    scope_of_assistance:
+      - Review of the notice and the provision under which it is issued
+      - Assessment of the information or documentation required
+      - Preparation and submission of the response
+      - Follow-up on the proceeding as required
+    documents_required:
+      - Copy of the notice or intimation received
+      - Return and computation for the relevant year
+      - Supporting documents relevant to the matter raised
+    engagement_process:
+      - { step: Review, detail: Examining the notice and the applicable provision. }
+      - { step: Assessment, detail: Identifying the response required and information needed. }
+      - { step: Response, detail: Preparing and submitting the reply within the period allowed. }
+    timelines: Governed by the response period stated in the notice.
+    considerations: >-
+      Outcomes depend on the facts, the documentation available and the view taken by
+      the authority. No particular outcome is assured.
+    faqs:
+      - question: What should be done on receiving a notice?
+        answer: >-
+          The notice should be reviewed promptly to identify the provision involved and
+          the period available for response.
+
+  # -------------------------------------------------------------------- GST
+  - slug: gst-registration
+    title: GST Registration
+    category: gst
+    ca_exclusive: false
+    summary: Assistance with registration under GST, including assessment of applicability.
+    overview: >-
+      Assessment of whether registration is required and assistance with the application,
+      including determination of the appropriate registration category.
+    who_needs_this:
+      - Businesses crossing the applicable turnover threshold
+      - Persons making inter-state taxable supplies
+      - Entities required to register irrespective of turnover
+      - Businesses opting for voluntary registration
+    scope_of_assistance:
+      - Assessment of registration applicability and category
+      - Preparation and submission of the application
+      - Response to queries raised on the application
+      - Guidance on post-registration compliance requirements
+    documents_required:
+      - PAN and constitution documents of the entity
+      - Proof of principal place of business
+      - Bank account details
+      - Authorised signatory details and photographs
+    engagement_process:
+      - { step: Applicability, detail: Determining whether and under which category registration applies. }
+      - { step: Documentation, detail: Collecting and verifying the required documents. }
+      - { step: Application, detail: Filing the application and responding to queries. }
+    timelines: >-
+      Dependent on processing by the authority and the resolution of any queries raised.
+      Registration is not assured.
+    considerations: >-
+      Registration category, place of business and nature of supply affect the
+      application and subsequent compliance obligations.
+    faqs:
+      - question: Is registration required in every state of operation?
+        answer: >-
+          Registration is generally required in each state from which taxable supplies
+          are made. Applicability is assessed on the facts.
+
+  - slug: gst-return-filing
+    title: GST Return Filing
+    category: gst
+    ca_exclusive: false
+    summary: Preparation and filing of periodic GST returns and annual statements.
+    overview: >-
+      Preparation and filing of the returns applicable to the registration category,
+      based on the outward and inward supply data for the period.
+    who_needs_this:
+      - Registered persons filing monthly or quarterly returns
+      - Composition taxpayers filing periodic statements
+      - Registered persons required to file annual returns
+    scope_of_assistance:
+      - Compilation and review of supply data
+      - Reconciliation of input tax credit
+      - Preparation and filing of periodic returns
+      - Assistance with annual return and reconciliation statement
+    documents_required:
+      - Sales and purchase registers for the period
+      - Purchase invoices and credit or debit notes
+      - Details of tax paid and credit availed
+    engagement_process:
+      - { step: Data collection, detail: Obtaining supply data for the period. }
+      - { step: Reconciliation, detail: Matching credit and identifying differences. }
+      - { step: Filing, detail: Filing the return and confirming the acknowledgement. }
+    timelines: Aligned to the due dates applicable to the registration and filing frequency.
+    considerations: >-
+      Credit availability depends on supplier compliance and the conditions specified
+      under the applicable provisions.
+    faqs:
+      - question: What if a supplier has not reported an invoice?
+        answer: >-
+          Credit availability is subject to the conditions in force. Unreported invoices
+          are identified during reconciliation and followed up with the supplier.
+
+  - slug: gst-advisory
+    title: GST Advisory
+    category: gst
+    ca_exclusive: false
+    summary: Advisory on classification, place of supply, credit eligibility and procedure.
+    overview: >-
+      Advice on GST implications of transactions, including classification, rate
+      applicability, place of supply and input tax credit eligibility.
+    who_needs_this:
+      - Businesses evaluating the treatment of a specific transaction
+      - Entities operating across multiple states
+      - Businesses reviewing credit eligibility positions
+    scope_of_assistance:
+      - Analysis of the transaction and applicable provisions
+      - Advice on classification and place of supply
+      - Review of credit eligibility and documentation requirements
+      - Guidance on procedural compliance
+    documents_required:
+      - Details and documentation of the transaction
+      - Relevant agreements
+      - Existing positions adopted, where applicable
+    engagement_process:
+      - { step: Discussion, detail: Understanding the transaction and the question raised. }
+      - { step: Analysis, detail: Reviewing applicable provisions and available positions. }
+      - { step: Advice, detail: Communicating the position and its basis. }
+    timelines: Varies with the complexity of the transaction.
+    considerations: >-
+      Classification and rate determination depend on the specific facts. Advice does
+      not substitute a ruling from the competent authority.
+    faqs:
+      - question: Is classification confirmed conclusively?
+        answer: >-
+          A considered position is provided based on the facts and law. Binding
+          confirmation requires an advance ruling.
+
+  - slug: gst-reconciliation
+    title: GST Reconciliation
+    category: gst
+    ca_exclusive: false
+    summary: Reconciliation of returns, books of account and available input tax credit.
+    overview: >-
+      Reconciliation between returns filed, books of account and credit reflected in
+      the auto-populated statements, with identification of differences.
+    who_needs_this:
+      - Registered persons preparing annual returns
+      - Businesses with differences between books and returns
+      - Entities reviewing credit positions before finalising accounts
+    scope_of_assistance:
+      - Reconciliation of outward supplies with books
+      - Reconciliation of credit with auto-populated statements
+      - Identification and analysis of differences
+      - Recommendations for corrective action
+    documents_required:
+      - Books of account for the period
+      - Returns filed for the period
+      - Auto-populated credit statements
+    engagement_process:
+      - { step: Collection, detail: Obtaining books, returns and statements. }
+      - { step: Reconciliation, detail: Matching records and isolating differences. }
+      - { step: Reporting, detail: Reporting differences with recommended action. }
+    timelines: Dependent on the volume of transactions and the state of records.
+    considerations: >-
+      Corrective action may be subject to time limits specified under the applicable
+      provisions.
+    faqs:
+      - question: When should reconciliation be carried out?
+        answer: >-
+          Periodic reconciliation reduces differences accumulating to the annual return
+          stage, though the appropriate frequency depends on transaction volume.
+
+  - slug: gst-notice-assistance
+    title: GST Notice Assistance
+    category: gst
+    ca_exclusive: false
+    summary: Support with reviewing and responding to notices issued under GST law.
+    overview: >-
+      Review of notices received under GST provisions and assistance with preparing and
+      submitting a response within the period allowed.
+    who_needs_this:
+      - Registered persons who have received a notice
+      - Businesses with differences flagged in returns
+      - Entities subject to departmental verification
+    scope_of_assistance:
+      - Review of the notice and provision involved
+      - Assessment of information and documentation required
+      - Preparation and submission of the response
+      - Follow-up on the proceeding as required
+    documents_required:
+      - Copy of the notice received
+      - Returns and reconciliations for the period
+      - Supporting documentation for the matter raised
+    engagement_process:
+      - { step: Review, detail: Examining the notice and applicable provision. }
+      - { step: Assessment, detail: Identifying the response and documents required. }
+      - { step: Response, detail: Preparing and submitting the reply within the period allowed. }
+    timelines: Governed by the response period stated in the notice.
+    considerations: >-
+      Outcomes depend on the facts and the view taken by the authority. No particular
+      outcome is assured.
+    faqs:
+      - question: Can a response period be extended?
+        answer: >-
+          Extension depends on the provision under which the notice is issued and the
+          discretion of the authority.
+
+  # ----------------------------------------------------- Audit and Assurance
+  - slug: statutory-audit
+    title: Statutory Audit
+    category: audit_assurance
+    ca_exclusive: true
+    summary: Audit of financial statements as required under applicable law.
+    overview: >-
+      Audit of financial statements in accordance with applicable auditing standards,
+      leading to an opinion on whether the statements give a true and fair view.
+    who_needs_this:
+      - Companies required to have their accounts audited
+      - Entities subject to audit under their governing statute
+      - Organisations requiring audited statements for regulatory purposes
+    scope_of_assistance:
+      - Planning based on an understanding of the entity
+      - Assessment of internal controls relevant to the audit
+      - Examination of records and audit procedures
+      - Reporting in accordance with applicable requirements
+    documents_required:
+      - Books of account and financial statements
+      - Supporting records and reconciliations
+      - Statutory registers and prior year audit report
+    engagement_process:
+      - { step: Planning, detail: Understanding the entity and assessing risk areas. }
+      - { step: Examination, detail: Performing audit procedures on selected areas. }
+      - { step: Reporting, detail: Communicating findings and issuing the report. }
+    timelines: Aligned to the reporting requirements applicable to the entity.
+    considerations: >-
+      An audit is conducted in accordance with applicable standards and is not designed
+      to detect every irregularity.
+    faqs:
+      - question: What does the audit opinion cover?
+        answer: >-
+          The opinion addresses whether the financial statements give a true and fair
+          view in accordance with the applicable framework.
+
+  - slug: internal-audit
+    title: Internal Audit
+    category: audit_assurance
+    ca_exclusive: false
+    summary: Review of internal controls, processes and compliance with defined procedures.
+    overview: >-
+      Examination of internal processes and controls against defined procedures, with
+      reporting on observations and recommendations to management.
+    who_needs_this:
+      - Entities required to conduct internal audit under applicable provisions
+      - Organisations seeking independent review of internal processes
+      - Businesses strengthening control over specific functions
+    scope_of_assistance:
+      - Agreement of scope and coverage with management
+      - Review of processes and control effectiveness
+      - Testing of transactions within the agreed scope
+      - Reporting of observations and recommendations
+    documents_required:
+      - Process documentation and standard operating procedures
+      - Transaction records for the review period
+      - Prior internal audit reports, where available
+    engagement_process:
+      - { step: Scoping, detail: Agreeing coverage, periodicity and reporting format. }
+      - { step: Review, detail: Examining processes and testing transactions. }
+      - { step: Reporting, detail: Reporting observations with recommended action. }
+    timelines: Determined by the agreed scope and reporting periodicity.
+    considerations: >-
+      Coverage is limited to the scope agreed with management and does not constitute
+      an opinion on financial statements.
+    faqs:
+      - question: How is scope determined?
+        answer: >-
+          Scope is agreed with management based on the areas identified for review and
+          any applicable statutory requirement.
+
+  - slug: compliance-review
+    title: Compliance Review
+    category: audit_assurance
+    ca_exclusive: false
+    summary: Review of adherence to applicable statutory and regulatory requirements.
+    overview: >-
+      Assessment of whether applicable filing, registration and record-keeping
+      requirements have been complied with, and identification of open items.
+    who_needs_this:
+      - Businesses reviewing their compliance position
+      - Entities preparing for a transaction or regulatory review
+      - Organisations consolidating compliance across functions
+    scope_of_assistance:
+      - Identification of applicable requirements
+      - Review of filings made during the period
+      - Identification of pending or delayed compliance
+      - Reporting with recommended corrective action
+    documents_required:
+      - Registration certificates and statutory records
+      - Filings made during the review period
+      - Correspondence with authorities, where relevant
+    engagement_process:
+      - { step: Mapping, detail: Identifying requirements applicable to the entity. }
+      - { step: Review, detail: Examining filings and records against those requirements. }
+      - { step: Reporting, detail: Reporting open items with recommended action. }
+    timelines: Dependent on the scope and the number of applicable requirements.
+    considerations: >-
+      Review covers the requirements identified within the agreed scope for the period
+      under review.
+    faqs:
+      - question: Does the review cover all laws applicable to the entity?
+        answer: >-
+          Coverage is limited to the requirements identified and agreed within scope at
+          the outset.
+
+  - slug: financial-statement-review
+    title: Financial Statement Review
+    category: audit_assurance
+    ca_exclusive: true
+    summary: Review of financial statements and their presentation under the applicable framework.
+    overview: >-
+      Review of financial statements for consistency with books of account and
+      conformity with presentation and disclosure requirements.
+    who_needs_this:
+      - Entities preparing statements for submission to lenders or regulators
+      - Organisations seeking review prior to finalisation
+      - Businesses reviewing presentation and disclosure adequacy
+    scope_of_assistance:
+      - Review of statements against books of account
+      - Assessment of presentation and disclosure requirements
+      - Identification of inconsistencies
+      - Communication of observations
+    documents_required:
+      - Draft financial statements
+      - Trial balance and supporting schedules
+      - Prior period statements
+    engagement_process:
+      - { step: Review, detail: Comparing statements with underlying records. }
+      - { step: Assessment, detail: Checking presentation and disclosure requirements. }
+      - { step: Reporting, detail: Communicating observations for correction. }
+    timelines: Dependent on the state of records and the complexity of the entity.
+    considerations: >-
+      A review provides a lower level of assurance than an audit and does not result in
+      an audit opinion.
+    faqs:
+      - question: Is this the same as an audit?
+        answer: >-
+          No. A review involves more limited procedures and provides a lower level of
+          assurance than an audit.
+
+  # ----------------------------------------------------- Business and Corporate
+  - slug: company-incorporation
+    title: Company Incorporation
+    category: business_corporate
+    ca_exclusive: false
+    summary: Assistance with incorporating a company, from name reservation to registration.
+    overview: >-
+      Support through the incorporation process, including name reservation, preparation
+      of constitutional documents and filing of the incorporation application.
+    who_needs_this:
+      - Founders establishing a private or public limited company
+      - Businesses converting from another structure
+      - Promoters establishing a subsidiary
+    scope_of_assistance:
+      - Guidance on structure and requirements
+      - Name reservation application
+      - Preparation of constitutional documents
+      - Filing of the incorporation application and follow-up
+      - Guidance on post-incorporation compliance
+    documents_required:
+      - Identity and address proof of proposed directors and subscribers
+      - Digital signature certificates
+      - Proof of registered office address
+      - Proposed name options and business objects
+    engagement_process:
+      - { step: Structure, detail: Confirming the appropriate structure and requirements. }
+      - { step: Name reservation, detail: Applying for reservation of the proposed name. }
+      - { step: Filing, detail: Filing the incorporation application with documents. }
+      - { step: Post-incorporation, detail: Guidance on immediate compliance requirements. }
+    timelines: >-
+      Dependent on processing by the authority and resolution of any queries.
+      Name availability and approval are not assured.
+    considerations: >-
+      Name approval is at the discretion of the authority. Proposed objects and
+      structure affect the documentation required.
+    faqs:
+      - question: Is the proposed name guaranteed?
+        answer: >-
+          No. Name approval is subject to availability and the discretion of the
+          authority. Alternative options are usually submitted.
+
+  - slug: llp-registration
+    title: LLP Registration
+    category: business_corporate
+    ca_exclusive: false
+    summary: Assistance with incorporating a limited liability partnership.
+    overview: >-
+      Support with LLP incorporation, including name reservation, preparation of the
+      LLP agreement and filing of the incorporation application.
+    who_needs_this:
+      - Professionals and businesses establishing an LLP
+      - Partnership firms converting to LLP
+      - Ventures seeking a partnership structure with limited liability
+    scope_of_assistance:
+      - Guidance on structure and requirements
+      - Name reservation application
+      - Preparation of the LLP agreement
+      - Filing of the incorporation application
+      - Guidance on post-incorporation filings
+    documents_required:
+      - Identity and address proof of designated partners
+      - Digital signature certificates
+      - Proof of registered office address
+      - Proposed name options and business activities
+    engagement_process:
+      - { step: Structure, detail: Confirming suitability and requirements. }
+      - { step: Name reservation, detail: Applying for reservation of the proposed name. }
+      - { step: Filing, detail: Filing incorporation documents and the LLP agreement. }
+    timelines: Dependent on processing by the authority and resolution of any queries.
+    considerations: >-
+      Contribution structure and partner rights are recorded in the LLP agreement and
+      should be settled before filing.
+    faqs:
+      - question: When must the LLP agreement be filed?
+        answer: >-
+          The agreement is required to be filed within the period specified under the
+          applicable provisions following incorporation.
+
+  - slug: roc-compliance
+    title: ROC Compliance
+    category: business_corporate
+    ca_exclusive: false
+    summary: Periodic filings and statutory record maintenance for companies and LLPs.
+    overview: >-
+      Assistance with annual and event-based filings with the Registrar of Companies,
+      and with maintaining the statutory records required under the applicable law.
+    who_needs_this:
+      - Companies required to make annual filings
+      - LLPs required to file annual statements
+      - Entities reporting changes in structure, officers or capital
+    scope_of_assistance:
+      - Identification of applicable filings
+      - Preparation and filing of annual forms
+      - Event-based filings for changes reported
+      - Guidance on statutory register maintenance
+    documents_required:
+      - Financial statements for the year
+      - Board and general meeting records
+      - Details of changes during the year
+      - Prior year filings
+    engagement_process:
+      - { step: Mapping, detail: Identifying filings applicable for the period. }
+      - { step: Preparation, detail: Preparing forms and supporting documents. }
+      - { step: Filing, detail: Filing within the applicable due dates. }
+    timelines: Aligned to the due dates applicable to the entity and the event reported.
+    considerations: >-
+      Delayed filings attract additional fees under the applicable provisions.
+    faqs:
+      - question: What happens if a filing is delayed?
+        answer: >-
+          Delayed filing generally attracts additional fees, which increase with the
+          period of delay.
+
+  - slug: accounting-bookkeeping
+    title: Accounting and Bookkeeping
+    category: business_corporate
+    ca_exclusive: false
+    summary: Maintenance of books of account and preparation of periodic financial reports.
+    overview: >-
+      Recording of transactions, maintenance of books of account and preparation of
+      periodic financial information for management and compliance purposes.
+    who_needs_this:
+      - Businesses without an internal accounting function
+      - Entities requiring periodic management reporting
+      - Organisations preparing for audit or statutory filings
+    scope_of_assistance:
+      - Recording of transactions in the books of account
+      - Bank and ledger reconciliation
+      - Preparation of periodic financial statements
+      - Coordination with statutory compliance requirements
+    documents_required:
+      - Bank statements for the period
+      - Sales and purchase records
+      - Expense documentation
+      - Existing books, where a handover is involved
+    engagement_process:
+      - { step: Setup, detail: Agreeing the chart of accounts and reporting format. }
+      - { step: Recording, detail: Recording transactions on an agreed frequency. }
+      - { step: Reporting, detail: Providing periodic financial information. }
+    timelines: Reporting frequency is agreed at the outset, commonly monthly or quarterly.
+    considerations: >-
+      Accuracy depends on the completeness and timeliness of the documentation provided.
+    faqs:
+      - question: Can existing books be taken over mid-year?
+        answer: >-
+          Yes, subject to a review of the existing records and agreement on the opening
+          position.
+
+  - slug: payroll-compliance
+    title: Payroll Compliance
+    category: business_corporate
+    ca_exclusive: false
+    summary: Payroll processing along with related statutory deductions and filings.
+    overview: >-
+      Processing of payroll and assistance with the statutory deductions, contributions
+      and periodic filings connected with employment.
+    who_needs_this:
+      - Employers processing monthly payroll
+      - Entities covered by provident fund or state insurance provisions
+      - Businesses managing salary tax deduction obligations
+    scope_of_assistance:
+      - Payroll computation for the period
+      - Determination of applicable deductions and contributions
+      - Preparation of periodic returns and challans
+      - Assistance with employee tax declarations and certificates
+    documents_required:
+      - Employee master data and salary structures
+      - Attendance and leave records
+      - Investment declarations from employees
+      - Registration details under applicable statutes
+    engagement_process:
+      - { step: Setup, detail: Recording salary structures and applicable registrations. }
+      - { step: Processing, detail: Computing payroll and statutory deductions. }
+      - { step: Filing, detail: Preparing returns and remittance challans. }
+    timelines: Aligned to the monthly payroll cycle and applicable filing due dates.
+    considerations: >-
+      Applicability of contributions depends on headcount, wage levels and the
+      registrations held by the employer.
+    faqs:
+      - question: Are employee tax declarations handled?
+        answer: >-
+          Assistance is provided with collecting declarations and computing deduction on
+          salary accordingly.
+
+  - slug: business-advisory
+    title: Business Advisory
+    category: business_corporate
+    ca_exclusive: false
+    summary: Advisory on structure, financial reporting and regulatory considerations.
+    overview: >-
+      Advice on business structure, financial reporting requirements and the regulatory
+      considerations relevant to proposed decisions.
+    who_needs_this:
+      - Businesses evaluating a change in structure
+      - Entities preparing for external funding or lender review
+      - Organisations reviewing internal financial processes
+    scope_of_assistance:
+      - Review of the current position and objective
+      - Analysis of available options and their implications
+      - Advice on regulatory and reporting requirements
+      - Assistance with implementation, where engaged
+    documents_required:
+      - Financial statements for recent periods
+      - Details of the proposed decision or transaction
+      - Existing structure and registration documents
+    engagement_process:
+      - { step: Discussion, detail: Understanding the objective and current position. }
+      - { step: Analysis, detail: Examining options and their implications. }
+      - { step: Advice, detail: Communicating recommendations and requirements. }
+    timelines: Varies with the scope and complexity of the matter.
+    considerations: >-
+      Advice addresses financial, tax and regulatory aspects within the scope agreed and
+      does not constitute legal or investment advice.
+    faqs:
+      - question: Is implementation support available?
+        answer: >-
+          Implementation support can be provided as a separate engagement once the
+          approach is agreed.

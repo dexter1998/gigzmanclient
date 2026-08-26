@@ -1,26 +1,163 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/**
+ * Design tokens for the professional-services site template.
+ * Tailwind v4 is configured CSS-first — there is deliberately no tailwind.config.ts.
+ */
+@theme {
+  /* Navy carries structural weight: footer, dashboard sidebar, hero panel, primary buttons. */
+  --color-navy: #0f2744;
+  --color-navy-soft: #1b3a5c;
+  --color-navy-muted: #35516f;
+
+  /* Warm neutrals — the page sits on cream, cards sit on white. */
+  --color-cream: #faf7f2;
+  --color-cream-deep: #f2ede4;
+  --color-surface: #ffffff;
+  --color-line: #e6e1d8;
+  --color-line-strong: #d5cec1;
+
+  /* Accent is used sparingly: announcement bar, primary CTA, active states. */
+  --color-accent: #e07b39;
+  --color-accent-hover: #cc6b2c;
+  --color-accent-soft: #fdf0e4;
+
+  --color-ink: #14213d;
+  --color-ink-muted: #5b6577;
+  --color-ink-subtle: #8a92a1;
+
+  /* Status colours, shared between site badges and dashboard chips. */
+  --color-status-success: #2f7a55;
+  --color-status-success-soft: #e6f2eb;
+  --color-status-warn: #b7791f;
+  --color-status-warn-soft: #fdf4e3;
+  --color-status-danger: #b4453a;
+  --color-status-danger-soft: #fbeceb;
+  --color-status-info: #2d5f8a;
+  --color-status-info-soft: #e8f0f7;
+  --color-status-neutral: #5b6577;
+  --color-status-neutral-soft: #f0f1f4;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  --radius-card: 10px;
+  --radius-control: 8px;
+
+  --shadow-card: 0 1px 2px rgba(15, 39, 68, 0.04), 0 8px 24px -12px rgba(15, 39, 68, 0.12);
+  --shadow-raised: 0 2px 4px rgba(15, 39, 68, 0.06), 0 16px 40px -16px rgba(15, 39, 68, 0.2);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Display headings run tighter than body copy, matching the approved design. */
+.display-xl {
+  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+
+.display-lg {
+  font-size: clamp(1.65rem, 1.25rem + 1.7vw, 2.4rem);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+.display-md {
+  font-size: clamp(1.3rem, 1.12rem + 0.8vw, 1.7rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+
+/* Uppercase micro-label that precedes most section headings. */
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.prose-body {
+  line-height: 1.7;
+  color: var(--color-ink-muted);
+}
+
+.prose-body p + p {
+  margin-top: 1em;
+}
+
+.prose-body ul,
+.prose-body ol {
+  margin: 1em 0;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.prose-body ol {
+  list-style: decimal;
+}
+
+.prose-body li + li {
+  margin-top: 0.4em;
+}
+
+.prose-body h2 {
+  margin: 1.6em 0 0.5em;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+.prose-body h3 {
+  margin: 1.3em 0 0.4em;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.prose-body a {
+  color: var(--color-navy-soft);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.prose-body strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+/* Focus ring applied consistently rather than per-component. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,0 +1,153 @@
+# Professional updates.
+#
+# Example articles demonstrating the editorial workflow. All carry a reviewer,
+# a source and an applicable period, because the dashboard blocks publishing
+# without them.
+#
+# Before delivery: replace with the firm's own updates, or unpublish these.
+# Nothing here should go live under the firm's name without their review.
+
+_status: placeholder
+
+updates:
+  - slug: advance-tax-september-instalment
+    title: "Advance tax: what to review before the September instalment"
+    category: Income Tax
+    status: published
+    applicable_year: FY 2026-27
+    author_name: Arora K & Associates
+    reviewer_name: CA Kapil Arora
+    published_at: "2026-08-18"
+    excerpt: >-
+      A general overview of the considerations relevant to the second advance tax
+      instalment, including estimated liability and credits already available.
+    body: |
+      Advance tax requires estimated annual liability to be paid in instalments during
+      the financial year rather than after it ends. The second instalment falls due in
+      September, and the amount payable depends on the estimated liability for the full
+      year adjusted for amounts already paid and credits available.
+
+      ## Who should review applicability
+
+      Advance tax provisions apply where the estimated liability for the year exceeds
+      the threshold specified under the Income-tax Act, after accounting for tax
+      deducted at source. Senior citizens without business or professional income are
+      subject to different treatment.
+
+      Individuals with substantial income outside salary — capital gains, interest,
+      rental income or professional receipts — often find that tax deducted at source
+      does not cover the full liability. The shortfall becomes payable as advance tax.
+
+      ## Information generally reviewed
+
+      Estimating the liability involves the income earned to date, income reasonably
+      expected for the remainder of the year, deductions likely to be claimed, and
+      credits already available through deduction at source.
+
+      Capital gains present a particular difficulty because they cannot be estimated in
+      advance. The Act recognises this: where such income arises after an instalment
+      date, the related advance tax may be paid in the remaining instalments.
+
+      ## Before taking action
+
+      The estimate should be revisited if income during the year differs materially
+      from what was assumed. Shortfalls attract interest under the applicable
+      provisions, calculated from the instalment date.
+
+      Applicability, thresholds and rates depend on the taxpayer category and the
+      provisions in force for the relevant year. This overview does not address any
+      particular taxpayer's circumstances.
+    sources:
+      - { label: Income Tax Department, url: "https://www.incometax.gov.in" }
+
+  - slug: gst-monthly-compliance-checklist
+    title: "Monthly GST compliance: a checklist for businesses"
+    category: GST
+    status: published
+    applicable_year: FY 2026-27
+    author_name: Arora K & Associates
+    reviewer_name: CA Kapil Arora
+    published_at: "2026-08-05"
+    excerpt: >-
+      An overview of the recurring monthly obligations under GST and the
+      reconciliation steps that reduce differences at the annual return stage.
+    body: |
+      GST compliance follows a monthly rhythm for most registered persons, with the
+      statement of outward supplies and the summary return falling due at different
+      points in the month.
+
+      ## The recurring cycle
+
+      The statement of outward supplies reports invoices issued during the period. The
+      summary return follows, reporting the consolidated position and discharging the
+      tax payable after applying available input tax credit.
+
+      Registered persons under the quarterly scheme file returns on a quarterly basis
+      while paying tax monthly, with an optional facility to report invoices in the
+      intervening months.
+
+      ## Reconciliation during the month
+
+      Credit availability depends on suppliers reporting the corresponding invoices.
+      Reconciling purchase records against the auto-populated statement each month
+      identifies unreported invoices while there is still time to follow up with the
+      supplier.
+
+      Differences left unreconciled accumulate and become considerably harder to
+      resolve at the annual return stage, when the supplier relationship may have ended
+      and the time limit for corrective action may have passed.
+
+      ## Records worth maintaining
+
+      Invoice-level records of outward and inward supplies, documentation supporting
+      credit claimed, and records of any credit or debit notes issued during the period
+      form the basis of both the periodic returns and the annual reconciliation.
+
+      Requirements vary with registration category and turnover. This overview does not
+      address any specific business's obligations.
+    sources:
+      - { label: CBIC, url: "https://www.cbic.gov.in" }
+
+  - slug: tds-common-deduction-errors
+    title: "TDS: common issues observed in quarterly statements"
+    category: TDS
+    status: published
+    applicable_year: FY 2026-27
+    author_name: Arora K & Associates
+    reviewer_name: CA Kapil Arora
+    published_at: "2026-07-22"
+    excerpt: >-
+      Observations on issues that commonly lead to defaults or correction statements,
+      including section selection, PAN availability and threshold treatment.
+    body: |
+      Quarterly statements of tax deducted often require correction for reasons that
+      could have been addressed at the point of deduction.
+
+      ## Section selection
+
+      The section under which deduction is made depends on the nature of the payment
+      rather than how it is described in the invoice. Payments that appear similar
+      commercially may fall under different sections, each with its own rate and
+      threshold.
+
+      Where a payment could fall under more than one section, the position depends on
+      the substance of the arrangement and should be settled before the first payment
+      rather than at the statement stage.
+
+      ## PAN availability
+
+      Where the deductee's PAN is not available, a higher rate applies under the
+      applicable provisions. Collecting and validating PAN before the first payment
+      avoids both the higher deduction and the subsequent correction.
+
+      ## Threshold treatment
+
+      Thresholds generally apply to aggregate payments during the year rather than to
+      each payment individually. Deduction obligations can therefore arise partway
+      through the year once cumulative payments cross the threshold, including on
+      amounts already paid.
+
+      Section applicability, rates and thresholds depend on the payment, the status of
+      the payee and the provisions in force. This overview is general.
+    sources:
+      - { label: Income Tax Department, url: "https://www.incometax.gov.in" }

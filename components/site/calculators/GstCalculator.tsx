@@ -9,18 +9,26 @@ interface GstCalculatorProps {
   calculatorKey: string;
   version: string;
   taxYear: string;
+  /** Values carried over from the picker on another page. */
+  initial?: { amount?: string; rate?: number; amountType?: AmountType };
 }
 
 const FIELD =
   "w-full min-h-[44px] rounded-[8px] border border-line-strong bg-surface px-3 text-[14px] text-ink focus:border-navy focus:outline-none";
 
-export default function GstCalculator({ calculatorKey, version, taxYear }: GstCalculatorProps) {
-  const [amount, setAmount] = useState("");
-  const [amountType, setAmountType] = useState<AmountType>("exclusive");
-  const [ratePercent, setRatePercent] = useState(18);
+export default function GstCalculator({
+  calculatorKey,
+  version,
+  taxYear,
+  initial,
+}: GstCalculatorProps) {
+  const [amount, setAmount] = useState(initial?.amount ?? "");
+  const [amountType, setAmountType] = useState<AmountType>(initial?.amountType ?? "exclusive");
+  const [ratePercent, setRatePercent] = useState(initial?.rate ?? 18);
   const [supplyType, setSupplyType] = useState<SupplyType>("intra_state");
   const [started, setStarted] = useState(false);
-  const [computed, setComputed] = useState(false);
+  // Arriving with prefilled values means the visitor already asked for a result.
+  const [computed, setComputed] = useState(Boolean(initial?.amount));
 
   const touch = () => {
     if (started) return;

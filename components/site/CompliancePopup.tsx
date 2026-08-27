@@ -128,7 +128,7 @@ export default function CompliancePopup({
             <p className="eyebrow">Compliance alert</p>
             <p className="mt-1 text-[14px] font-semibold leading-snug text-ink">{title}</p>
             <p className="mt-1 text-[12px] text-ink-muted">Due {effectiveDate}</p>
-            <div className="mt-2 inline-flex rounded-full bg-cream-deep px-2.5 py-1 text-ink">
+            <div className="mt-2 inline-flex rounded-full bg-tint-deep px-2.5 py-1 text-ink">
               <CountdownTimer targetIso={targetIso} compact />
             </div>
           </div>
@@ -137,7 +137,7 @@ export default function CompliancePopup({
             type="button"
             onClick={dismiss}
             aria-label="Dismiss"
-            className="-m-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink-subtle hover:bg-cream-deep hover:text-ink"
+            className="-m-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-ink-subtle hover:bg-tint-deep hover:text-ink"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -146,7 +146,7 @@ export default function CompliancePopup({
         <Link
           href={href}
           onClick={dismiss}
-          className="flex items-center justify-between border-t border-line bg-cream px-4 py-3 text-[13px] font-medium text-navy"
+          className="flex items-center justify-between border-t border-line bg-tint px-4 py-3 text-[13px] font-medium text-navy"
         >
           View compliance calendar
           <ArrowRight className="h-4 w-4" aria-hidden="true" />

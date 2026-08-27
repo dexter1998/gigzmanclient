@@ -12,6 +12,7 @@ interface Settings {
   establishedYear: string;
   firmRegistrationNumber: string;
   businessCategory: string;
+  logoUrl: string;
   phone: string;
   whatsapp: string;
   email: string;
@@ -130,6 +131,12 @@ export default function SettingsForm({ settings }: { settings: Settings }) {
           />
         </Row>
         <Input name="tagline" label="Tagline" defaultValue={settings.tagline} />
+        <Input
+          name="logoUrl"
+          label="Logo path"
+          placeholder="/brand/logo.png"
+          defaultValue={settings.logoUrl}
+        />
         <TextArea name="overview" label="Firm overview" defaultValue={settings.overview} rows={4} />
       </Panel>
 

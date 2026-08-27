@@ -95,7 +95,7 @@ export default async function CareersPage() {
               <Card key={opening.title}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] bg-cream-deep">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] bg-tint-deep">
                       {opening.type === "Articleship" ? (
                         <GraduationCap className="h-4 w-4 text-accent" aria-hidden="true" />
                       ) : (
@@ -155,7 +155,7 @@ export default async function CareersPage() {
                   Email your application
                 </a>
               ) : (
-                <p className="mt-5 rounded-[8px] bg-cream-deep px-3.5 py-3 text-[12px] leading-relaxed text-ink-muted">
+                <p className="mt-5 rounded-[8px] bg-tint-deep px-3.5 py-3 text-[12px] leading-relaxed text-ink-muted">
                   Applications are accepted at the firm&rsquo;s office address published on the
                   contact page.
                 </p>

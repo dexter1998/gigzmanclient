@@ -115,7 +115,7 @@ export default async function QueriesPage(props: PageProps<"/site/dashboard/quer
           <div className="mt-6 hidden overflow-hidden rounded-[10px] border border-line bg-surface lg:block">
             <table className="w-full text-[13px]">
               <thead>
-                <tr className="border-b border-line bg-cream text-left text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
+                <tr className="border-b border-line bg-tint text-left text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
                   <th className="px-4 py-3 font-medium">Reference</th>
                   <th className="px-4 py-3 font-medium">Name</th>
                   <th className="px-4 py-3 font-medium">Requirement</th>
@@ -126,7 +126,7 @@ export default async function QueriesPage(props: PageProps<"/site/dashboard/quer
               </thead>
               <tbody className="divide-y divide-line">
                 {rows.map((query) => (
-                  <tr key={query.id} className="hover:bg-cream">
+                  <tr key={query.id} className="hover:bg-tint">
                     <td className="px-4 py-3">
                       <Link
                         href={p(`/dashboard/queries/${query.id}`)}

@@ -4,6 +4,7 @@ import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import Badge, { statusTone } from "@/components/ui/Badge";
+import CalculatorPicker from "@/components/site/CalculatorPicker";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getCalculators } from "@/lib/content";
 import { CALCULATOR_STATUS_LABELS, formatDate } from "@/lib/format";
@@ -58,7 +59,20 @@ export default async function CalculatorsPage() {
       </Section>
 
       <Section tone="page" size="md">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <CalculatorPicker
+          calculators={calculators.map((c) => ({
+            key: c.key,
+            title: c.title,
+            description: c.description,
+            taxYear: c.taxYear,
+            version: c.version,
+            status: c.status,
+          }))}
+          calculatorsHref={p("/calculators")}
+        />
+
+        <h2 className="display-md mt-14">All calculators</h2>
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {calculators.map((calc) => (
             <Card key={calc.id} href={p(`/calculators/${calc.key}`)}>
               <div className="flex items-start justify-between gap-3">

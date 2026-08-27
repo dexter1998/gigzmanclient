@@ -396,6 +396,7 @@ export async function updateFirmSettings(formData: FormData): Promise<ActionResu
         firmRegistrationNumber:
           String(formData.get("firmRegistrationNumber") ?? "").trim() || null,
         businessCategory: String(formData.get("businessCategory") ?? "").trim() || null,
+        logoUrl: String(formData.get("logoUrl") ?? "").trim() || null,
         phone: String(formData.get("phone") ?? "").trim() || null,
         whatsapp: String(formData.get("whatsapp") ?? "").trim() || null,
         email: String(formData.get("email") ?? "").trim() || null,

@@ -117,6 +117,8 @@ export const firmSettings = pgTable("firm_settings", {
   longitude: varchar("longitude", { length: 32 }),
   googleMapsUrl: text("google_maps_url"),
   businessCategory: varchar("business_category", { length: 120 }),
+  /** Path or URL to the firm's logo; falls back to the built-in mark when unset. */
+  logoUrl: text("logo_url"),
 
   /** [{ day, opens, closes, closed }] — drives both the UI and openingHoursSpecification. */
   openingHours: jsonb("opening_hours").$type<OpeningHour[]>().default([]),

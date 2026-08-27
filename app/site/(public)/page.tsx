@@ -27,6 +27,7 @@ import Badge from "@/components/ui/Badge";
 import HeroVisual from "@/components/site/HeroVisual";
 import ComplianceTimeline from "@/components/site/ComplianceTimeline";
 import IndustriesGrid from "@/components/site/IndustriesGrid";
+import CalculatorPicker from "@/components/site/CalculatorPicker";
 import Testimonials from "@/components/site/Testimonials";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import {
@@ -34,6 +35,7 @@ import {
   getServices,
   getUpcomingCompliance,
   getPublishedUpdates,
+  getCalculators,
 } from "@/lib/content";
 import { SERVICE_CATEGORY_LABELS, formatDate } from "@/lib/format";
 
@@ -118,11 +120,12 @@ export default async function HomePage() {
   const basePath = await getBasePath();
   const p = (path: string) => joinPath(basePath, path);
 
-  const [settings, services, compliance, updates] = await Promise.all([
+  const [settings, services, compliance, updates, calculators] = await Promise.all([
     getFirmSettings(tenant.id),
     getServices(tenant.id),
     getUpcomingCompliance(tenant.id),
     getPublishedUpdates(tenant.id),
+    getCalculators(tenant.id),
   ]);
 
   if (!settings) notFound();
@@ -269,6 +272,41 @@ export default async function HomePage() {
             }))}
             calendarHref={p("/compliance-calendar")}
           />
+        </Section>
+      ) : null}
+
+      {/* ── Calculators ────────────────────────────────────────────────── */}
+      {calculators.length > 0 ? (
+        <Section tone="tint" size="md" wide>
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h2 className="display-lg">Estimate Before You Discuss</h2>
+              <p className="mt-2 text-[14px] text-ink-muted">
+                Pick a calculator, enter the key figures, and open the full working.
+              </p>
+            </div>
+            <Link
+              href={p("/calculators")}
+              className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
+            >
+              All Calculators
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </div>
+
+          <div className="mt-7">
+            <CalculatorPicker
+              calculators={calculators.map((c) => ({
+                key: c.key,
+                title: c.title,
+                description: c.description,
+                taxYear: c.taxYear,
+                version: c.version,
+                status: c.status,
+              }))}
+              calculatorsHref={p("/calculators")}
+            />
+          </div>
         </Section>
       ) : null}
 

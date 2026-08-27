@@ -10,19 +10,27 @@ interface TdsCalculatorProps {
   calculatorKey: string;
   version: string;
   taxYear: string;
+  /** Values carried over from the picker on another page. */
+  initial?: { section?: string; payment?: string; panAvailable?: boolean };
 }
 
 const FIELD =
   "w-full min-h-[44px] rounded-[8px] border border-line-strong bg-surface px-3 text-[14px] text-ink focus:border-navy focus:outline-none";
 
-export default function TdsCalculator({ calculatorKey, version, taxYear }: TdsCalculatorProps) {
-  const [sectionCode, setSectionCode] = useState(TDS_SECTIONS[0].code);
-  const [paymentAmount, setPaymentAmount] = useState("");
+export default function TdsCalculator({
+  calculatorKey,
+  version,
+  taxYear,
+  initial,
+}: TdsCalculatorProps) {
+  const [sectionCode, setSectionCode] = useState(initial?.section ?? TDS_SECTIONS[0].code);
+  const [paymentAmount, setPaymentAmount] = useState(initial?.payment ?? "");
   const [previousPayments, setPreviousPayments] = useState("");
-  const [panAvailable, setPanAvailable] = useState(true);
+  const [panAvailable, setPanAvailable] = useState(initial?.panAvailable ?? true);
   const [payeeIsIndividualOrHuf, setPayeeIsIndividualOrHuf] = useState(false);
   const [started, setStarted] = useState(false);
-  const [computed, setComputed] = useState(false);
+  // Arriving with prefilled values means the visitor already asked for a result.
+  const [computed, setComputed] = useState(Boolean(initial?.payment));
 
   const touch = () => {
     if (started) return;

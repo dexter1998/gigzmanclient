@@ -101,7 +101,7 @@ export default function ComplianceManager({ events }: { events: EventRow[] }) {
               type="button"
               onClick={() => setEditing(null)}
               aria-label="Close"
-              className="flex h-8 w-8 items-center justify-center rounded-[6px] text-ink-subtle hover:bg-cream"
+              className="flex h-8 w-8 items-center justify-center rounded-[6px] text-ink-subtle hover:bg-tint"
             >
               <X className="h-4 w-4" />
             </button>

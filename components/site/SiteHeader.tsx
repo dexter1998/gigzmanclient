@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
+import BrandMark from "./BrandMark";
 
 interface NavItem {
   label: string;
@@ -13,6 +14,7 @@ interface NavItem {
 interface SiteHeaderProps {
   firmName: string;
   descriptor: string | null;
+  logoUrl: string | null;
   basePath: string;
   phone: string | null;
   navItems: NavItem[];
@@ -22,6 +24,7 @@ interface SiteHeaderProps {
 export default function SiteHeader({
   firmName,
   descriptor,
+  logoUrl,
   basePath,
   phone,
   navItems,
@@ -33,21 +36,12 @@ export default function SiteHeader({
   const isActive = (href: string) =>
     href === basePath || href === `${basePath}/` ? pathname === href : pathname?.startsWith(href);
 
-  const monogram = firmName
-    .split(/\s+/)
-    .filter((w) => /^[A-Za-z]/.test(w))
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase())
-    .join("");
-
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-surface/95 backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-5 py-3 sm:px-6 lg:px-8">
         {/* Wordmark — placeholder mark, replaced with the firm's logo at delivery. */}
         <Link href={basePath || "/"} className="flex shrink-0 items-center gap-2.5">
-          <span className="flex h-10 w-10 items-center justify-center rounded-[9px] border border-line bg-tint font-display text-[15px] font-medium text-navy">
-            {monogram || "CA"}
-          </span>
+          <BrandMark className="h-10 w-[52px] shrink-0" src={logoUrl} alt={firmName} />
           <span className="leading-tight">
             <span className="block font-display text-[17px] font-medium text-navy">{firmName}</span>
             {descriptor ? (

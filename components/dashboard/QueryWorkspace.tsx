@@ -243,7 +243,7 @@ export default function QueryWorkspace({
         {notes.length > 0 ? (
           <ul className="mt-5 space-y-3 border-t border-line pt-4">
             {notes.map((note) => (
-              <li key={note.id} className="rounded-[8px] bg-cream p-3.5">
+              <li key={note.id} className="rounded-[8px] bg-tint p-3.5">
                 <p className="whitespace-pre-wrap text-[13px] leading-relaxed text-ink">
                   {note.body}
                 </p>

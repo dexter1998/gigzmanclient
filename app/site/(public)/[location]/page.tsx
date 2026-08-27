@@ -134,7 +134,7 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
                 {location.areas.map((area) => (
                   <li
                     key={area}
-                    className="rounded-full border border-line bg-cream px-3 py-1.5 text-[13px] text-ink-muted"
+                    className="rounded-full border border-line bg-tint px-3 py-1.5 text-[13px] text-ink-muted"
                   >
                     {area}
                   </li>

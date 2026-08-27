@@ -140,7 +140,7 @@ export default async function ContactPage(props: PageProps<"/site/contact">) {
                     href={settings.googleMapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block border-t border-line px-4 py-3 text-[13px] font-medium text-navy hover:bg-cream"
+                    className="block border-t border-line px-4 py-3 text-[13px] font-medium text-navy hover:bg-tint"
                   >
                     Open in Google Maps
                   </a>

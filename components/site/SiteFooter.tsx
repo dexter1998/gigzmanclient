@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import SocialIcon, { SUPPORTED_SOCIALS } from "./SocialIcon";
+import BrandMark from "./BrandMark";
 import { joinPath } from "@/lib/tenant";
 import { SERVICE_CATEGORY_LABELS, formatDate } from "@/lib/format";
 import type { firmSettings } from "@/lib/db/schema";
@@ -52,13 +53,6 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
     settings.postalCode,
   ].filter(Boolean);
 
-  const monogram = settings.firmName
-    .split(/\s+/)
-    .filter((w) => /^[A-Za-z]/.test(w))
-    .slice(0, 2)
-    .map((w) => w[0]?.toUpperCase())
-    .join("");
-
   const socials = Object.entries(settings.socialLinks ?? {}).filter(
     ([key, url]) => url && SUPPORTED_SOCIALS.includes(key.toLowerCase()),
   );
@@ -74,9 +68,12 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-10 w-10 items-center justify-center rounded-[9px] bg-white/10 font-display text-[15px] font-medium text-white">
-                {monogram || "CA"}
-              </span>
+              <BrandMark
+                className="h-10 w-[52px] shrink-0"
+                src={settings.logoUrl}
+                alt={settings.firmName}
+                onDark
+              />
               <span className="leading-tight">
                 <span className="block font-display text-[16px] font-medium">
                   {settings.firmName}

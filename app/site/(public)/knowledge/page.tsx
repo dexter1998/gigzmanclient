@@ -93,7 +93,7 @@ export default async function KnowledgePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-[13px]">
                 <thead>
-                  <tr className="border-b border-line bg-cream text-left text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
+                  <tr className="border-b border-line bg-tint text-left text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
                     <th className="px-5 py-2.5 font-medium">Total income</th>
                     <th className="px-5 py-2.5 text-right font-medium">Rate</th>
                   </tr>
@@ -119,7 +119,7 @@ export default async function KnowledgePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-[13px]">
                 <thead>
-                  <tr className="border-b border-line bg-cream text-left text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
+                  <tr className="border-b border-line bg-tint text-left text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
                     <th className="px-5 py-2.5 font-medium">Total income</th>
                     <th className="px-5 py-2.5 text-right font-medium">Rate</th>
                   </tr>
@@ -144,7 +144,7 @@ export default async function KnowledgePage() {
           <div className="overflow-x-auto">
             <table className="w-full min-w-[560px] text-[13px]">
               <thead>
-                <tr className="border-b border-line bg-cream text-left text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
+                <tr className="border-b border-line bg-tint text-left text-[11px] uppercase tracking-[0.06em] text-ink-subtle">
                   <th className="px-5 py-2.5 font-medium">Section</th>
                   <th className="px-5 py-2.5 font-medium">Nature of payment</th>
                   <th className="px-5 py-2.5 text-right font-medium">Threshold</th>

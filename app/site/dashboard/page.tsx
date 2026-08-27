@@ -152,7 +152,7 @@ export default async function DashboardOverview() {
                 <li key={query.id}>
                   <Link
                     href={p(`/dashboard/queries/${query.id}`)}
-                    className="flex items-start justify-between gap-3 px-4 py-3 hover:bg-cream"
+                    className="flex items-start justify-between gap-3 px-4 py-3 hover:bg-tint"
                   >
                     <div className="min-w-0">
                       <p className="truncate text-[13px] font-medium text-ink">{query.name}</p>
@@ -188,7 +188,7 @@ export default async function DashboardOverview() {
                   <li key={query.id}>
                     <Link
                       href={p(`/dashboard/queries/${query.id}`)}
-                      className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-cream"
+                      className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-tint"
                     >
                       <p className="truncate text-[13px] text-ink">{query.name}</p>
                       <span className="shrink-0 text-[12px] text-status-warn">

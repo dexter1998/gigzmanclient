@@ -26,7 +26,7 @@ export default function CalculatorShell({
 
   return (
     <>
-      <section className="bg-cream py-10 sm:py-14">
+      <section className="bg-tint py-10 sm:py-14">
         <div className="mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8">
           <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
             <Link href={breadcrumbHref} className="inline-block py-1 hover:text-navy">

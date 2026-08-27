@@ -3,6 +3,7 @@ import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getSessionUser } from "@/lib/auth";
 import { getFirmSettings } from "@/lib/content";
 import LoginForm from "@/components/dashboard/LoginForm";
+import BrandMark from "@/components/site/BrandMark";
 
 export const metadata = {
   title: "Sign in",
@@ -22,17 +23,14 @@ export default async function LoginPage() {
   const settings = await getFirmSettings(tenant.id);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-cream px-5 py-12">
+    <div className="flex min-h-screen items-center justify-center bg-tint px-5 py-12">
       <div className="w-full max-w-sm">
         <div className="text-center">
-          <span className="mx-auto flex h-11 w-11 items-center justify-center rounded-[10px] bg-navy text-[14px] font-semibold text-white">
-            {(settings?.firmName ?? "CA")
-              .split(/\s+/)
-              .filter((w) => /^[A-Za-z]/.test(w))
-              .slice(0, 2)
-              .map((w) => w[0]?.toUpperCase())
-              .join("")}
-          </span>
+          <BrandMark
+            className="mx-auto h-12 w-[62px]"
+            src={settings?.logoUrl}
+            alt={settings?.firmName ?? ""}
+          />
           <h1 className="display-md mt-5">Sign in</h1>
           <p className="mt-2 text-[13px] text-ink-muted">
             {settings?.firmName} · Website management

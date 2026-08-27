@@ -9,6 +9,8 @@ interface IncomeTaxCalculatorProps {
   calculatorKey: string;
   version: string;
   taxYear: string;
+  /** Values carried over from the picker on another page. */
+  initial?: { salary?: string; deductions?: string; age?: AgeCategory };
 }
 
 const FIELD =
@@ -51,11 +53,17 @@ export default function IncomeTaxCalculator({
   calculatorKey,
   version,
   taxYear,
+  initial,
 }: IncomeTaxCalculatorProps) {
-  const [values, setValues] = useState(EMPTY);
-  const [ageCategory, setAgeCategory] = useState<AgeCategory>("general");
+  const [values, setValues] = useState({
+    ...EMPTY,
+    salaryIncome: initial?.salary ?? "",
+    section80C: initial?.deductions ?? "",
+  });
+  const [ageCategory, setAgeCategory] = useState<AgeCategory>(initial?.age ?? "general");
   const [started, setStarted] = useState(false);
-  const [computed, setComputed] = useState(false);
+  // Arriving with prefilled values means the visitor already asked for a result.
+  const [computed, setComputed] = useState(Boolean(initial?.salary));
 
   const num = (key: NumericField) => Number(values[key].replace(/[^\d.-]/g, "")) || 0;
 

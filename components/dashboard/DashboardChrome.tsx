@@ -98,7 +98,7 @@ export default function DashboardChrome({
   );
 
   return (
-    <div className="flex min-h-screen bg-cream">
+    <div className="flex min-h-screen bg-tint">
       {/* Desktop sidebar */}
       <aside className="hidden w-60 shrink-0 flex-col justify-between bg-navy p-4 lg:flex">
         <div>
@@ -155,7 +155,7 @@ export default function DashboardChrome({
             type="button"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
-            className="flex h-10 w-10 items-center justify-center rounded-[8px] text-navy hover:bg-cream"
+            className="flex h-10 w-10 items-center justify-center rounded-[8px] text-navy hover:bg-tint"
           >
             <Menu className="h-5 w-5" />
           </button>

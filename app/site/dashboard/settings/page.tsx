@@ -52,6 +52,7 @@ export default async function DashboardSettingsPage() {
           establishedYear: settings.establishedYear ?? "",
           firmRegistrationNumber: settings.firmRegistrationNumber ?? "",
           businessCategory: settings.businessCategory ?? "",
+          logoUrl: settings.logoUrl ?? "",
           phone: settings.phone ?? "",
           whatsapp: settings.whatsapp ?? "",
           email: settings.email ?? "",

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Inter, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,9 +8,11 @@ const inter = Inter({
   display: "swap",
 });
 
-// Serif display face for headings, matching the approved design.
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+// Serif display face for headings. Source Serif reads as institutional rather
+// than editorial, which suits a professional practice better than a high-contrast
+// display serif.
+const sourceSerif = Source_Serif_4({
+  variable: "--font-serif",
   subsets: ["latin"],
   display: "swap",
 });
@@ -28,7 +30,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable} h-full`}>
+    <html lang="en" className={`${inter.variable} ${sourceSerif.variable} h-full`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

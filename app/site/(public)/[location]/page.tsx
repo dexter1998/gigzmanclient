@@ -64,7 +64,7 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
         )}
       />
 
-      <Section tone="cream" size="md">
+      <Section tone="tint" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
           <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
@@ -98,7 +98,7 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
         </div>
       </Section>
 
-      <Section tone="white" size="md">
+      <Section tone="page" size="md">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div className="space-y-10">
             <div>
@@ -195,7 +195,7 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
               </ul>
             </Card>
 
-            <Card className="bg-navy text-white">
+            <Card tone="navy">
               <p className="text-[14px] font-semibold">Discuss a requirement</p>
               <p className="mt-2 text-[12px] leading-relaxed text-white/70">
                 Engagements are accepted after the requirement has been reviewed.

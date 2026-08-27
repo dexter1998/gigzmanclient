@@ -45,7 +45,7 @@ export default async function ContactPage(props: PageProps<"/site/contact">) {
 
   return (
     <>
-      <Section tone="cream" size="md">
+      <Section tone="tint" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
           <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
@@ -59,7 +59,7 @@ export default async function ContactPage(props: PageProps<"/site/contact">) {
         </p>
       </Section>
 
-      <Section tone="white" size="md">
+      <Section tone="page" size="md">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[340px_1fr] lg:gap-14">
           <aside className="space-y-4">
             <Card>

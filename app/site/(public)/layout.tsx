@@ -51,6 +51,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
       <SiteHeader
         firmName={settings.firmName}
+        descriptor={settings.businessCategory}
         basePath={basePath || "/"}
         phone={settings.phone}
         navItems={navItems}

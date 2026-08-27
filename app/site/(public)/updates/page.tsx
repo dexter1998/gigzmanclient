@@ -36,7 +36,7 @@ export default async function UpdatesPage(props: PageProps<"/site/updates">) {
 
   return (
     <>
-      <Section tone="cream" size="md">
+      <Section tone="tint" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
           <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
@@ -80,7 +80,7 @@ export default async function UpdatesPage(props: PageProps<"/site/updates">) {
         ) : null}
       </Section>
 
-      <Section tone="white" size="md">
+      <Section tone="page" size="md">
         {visible.length === 0 ? (
           <p className="rounded-[10px] border border-line p-6 text-[14px] text-ink-muted">
             No updates published in this category yet.

@@ -31,7 +31,7 @@ export default async function LegalPage(props: PageProps<"/site/legal/[slug]">) 
   const html = page.body ? await marked.parse(page.body) : "";
 
   return (
-    <Section tone="white" size="md">
+    <Section tone="page" size="md">
       <div className="mx-auto max-w-3xl">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
           <a href={p("/")} className="inline-block py-1 hover:text-navy">

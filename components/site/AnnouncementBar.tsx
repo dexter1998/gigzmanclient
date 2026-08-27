@@ -24,7 +24,7 @@ export default function AnnouncementBar({
   const effectiveDate = extendedDueDate ?? dueDate;
 
   return (
-    <div className="bg-accent text-white">
+    <div className="bg-navy text-white">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-5 py-2.5 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-6 lg:px-8">
         <div className="flex items-start gap-2 sm:items-center">
           <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 sm:mt-0" aria-hidden="true" />
@@ -39,7 +39,7 @@ export default function AnnouncementBar({
         </div>
 
         <div className="flex items-center gap-3 sm:shrink-0">
-          <span className="rounded-full bg-white/15 px-2.5 py-1">
+          <span className="rounded-full bg-accent px-2.5 py-1">
             <CountdownTimer targetIso={deadlineInstant(effectiveDate).toISOString()} compact />
           </span>
           <Link

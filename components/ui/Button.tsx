@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-type Variant = "primary" | "secondary" | "ghost" | "onNavy";
-type Size = "sm" | "md";
+type Variant = "primary" | "secondary" | "accent" | "ghost" | "onNavy";
+type Size = "sm" | "md" | "lg";
 
 interface ButtonProps {
   children: React.ReactNode;
@@ -19,15 +19,17 @@ const BASE =
 
 const VARIANTS: Record<Variant, string> = {
   primary: "bg-navy text-white hover:bg-navy-soft",
-  secondary: "bg-surface text-navy border border-line-strong hover:border-navy hover:bg-cream",
-  ghost: "text-navy hover:bg-cream-deep",
+  secondary: "bg-surface text-navy border border-line-strong hover:border-navy",
+  accent: "bg-accent text-white hover:bg-accent-hover",
+  ghost: "text-navy hover:bg-tint",
   onNavy: "bg-accent text-white hover:bg-accent-hover",
 };
 
-// Minimum 44px tall on the default size to stay above the mobile tap-target floor.
+// Minimum 44px tall at the default size to stay above the mobile tap-target floor.
 const SIZES: Record<Size, string> = {
   sm: "min-h-[38px] px-3.5 text-[13px]",
   md: "min-h-[44px] px-5 text-[14px]",
+  lg: "min-h-[50px] px-6 text-[15px]",
 };
 
 export default function Button({

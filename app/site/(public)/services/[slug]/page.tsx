@@ -61,7 +61,7 @@ export default async function ServiceDetailPage(props: PageProps<"/site/services
       />
       {faqJsonLd ? <script {...jsonLdProps(faqJsonLd)} /> : null}
 
-      <Section tone="cream" size="md">
+      <Section tone="tint" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
           <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
@@ -94,7 +94,7 @@ export default async function ServiceDetailPage(props: PageProps<"/site/services
         </div>
       </Section>
 
-      <Section tone="white" size="md">
+      <Section tone="page" size="md">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_320px] lg:gap-14">
           <div className="space-y-10">
             {service.whoNeedsThis && service.whoNeedsThis.length > 0 ? (
@@ -207,7 +207,7 @@ export default async function ServiceDetailPage(props: PageProps<"/site/services
               </Card>
             ) : null}
 
-            <Card className="bg-navy text-white">
+            <Card tone="navy">
               <p className="text-[14px] font-semibold">Discuss your requirement</p>
               <p className="mt-2 text-[13px] leading-relaxed text-white/70">
                 Share the relevant circumstances and the requirement will be reviewed before any

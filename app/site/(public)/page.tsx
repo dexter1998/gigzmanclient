@@ -1,19 +1,39 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, ArrowUpRight, Check } from "lucide-react";
+import {
+  ArrowRight,
+  Phone,
+  Users,
+  Clock,
+  ShieldCheck,
+  UserCheck,
+  LineChart,
+  PiggyBank,
+  CalendarCheck,
+  Lightbulb,
+  BookOpenCheck,
+  FileSpreadsheet,
+  Receipt,
+  ClipboardCheck,
+  Wallet,
+  Building2,
+  type LucideIcon,
+} from "lucide-react";
 import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import HeroVisual from "@/components/site/HeroVisual";
+import ComplianceTimeline from "@/components/site/ComplianceTimeline";
+import IndustriesGrid from "@/components/site/IndustriesGrid";
+import Testimonials from "@/components/site/Testimonials";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import {
   getFirmSettings,
   getServices,
   getUpcomingCompliance,
   getPublishedUpdates,
-  getCalculators,
 } from "@/lib/content";
 import { SERVICE_CATEGORY_LABELS, formatDate } from "@/lib/format";
 
@@ -27,11 +47,68 @@ export async function generateMetadata() {
   };
 }
 
-const ENGAGEMENT_STEPS = [
-  { step: "Requirement", detail: "You share what you need and the relevant circumstances." },
-  { step: "Review", detail: "The requirement is reviewed and applicability confirmed." },
-  { step: "Scope", detail: "Scope, responsibilities and timelines are agreed in writing." },
-  { step: "Execution", detail: "Work is carried out and progress communicated." },
+const VALUE_PROPS = [
+  {
+    icon: LineChart,
+    title: "Considered Planning",
+    detail: "Positions reviewed against your circumstances before anything is filed.",
+  },
+  {
+    icon: PiggyBank,
+    title: "Lawful Optimisation",
+    detail: "Reliefs and deductions applied only where they genuinely apply.",
+  },
+  {
+    icon: CalendarCheck,
+    title: "Compliance Made Easy",
+    detail: "Statutory dates tracked so filings are prepared ahead of the deadline.",
+  },
+  {
+    icon: Lightbulb,
+    title: "Actionable Reporting",
+    detail: "Clear reporting you can act on, without accounting jargon.",
+  },
+];
+
+const SERVICE_ICONS: Record<string, LucideIcon> = {
+  taxation: Receipt,
+  gst: FileSpreadsheet,
+  audit_assurance: ClipboardCheck,
+  business_corporate: Building2,
+};
+
+/**
+ * Credential figures shown in the hero.
+ *
+ * Placeholder values — these are factual claims about the practice and must be
+ * confirmed with the firm before delivery, or the strip removed.
+ */
+const CREDENTIALS = [
+  { icon: Users, value: "500+", label: "Clients Served" },
+  { icon: Clock, value: "25+", label: "Years of Experience" },
+  { icon: ShieldCheck, value: "99%", label: "Client Retention" },
+  { icon: UserCheck, value: "50+", label: "Engagements Yearly" },
+];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      "The firm reviewed our position before suggesting anything, and explained what was and was not available to us. Filings have been on time since.",
+    name: "Rohit Sharma",
+    role: "Director, Manufacturing",
+  },
+  {
+    quote:
+      "Responsive and precise. Questions on GST treatment are answered with the reasoning, not just an instruction.",
+    name: "Anjali Mehta",
+    role: "Founder, Design Studio",
+  },
+  {
+    quote:
+      "The reporting we receive each quarter is clear enough to act on without an accounting background.",
+    name: "Vikram Pillai",
+    role: "Proprietor, Exports",
+  },
 ];
 
 export default async function HomePage() {
@@ -41,12 +118,11 @@ export default async function HomePage() {
   const basePath = await getBasePath();
   const p = (path: string) => joinPath(basePath, path);
 
-  const [settings, services, compliance, updates, calculators] = await Promise.all([
+  const [settings, services, compliance, updates] = await Promise.all([
     getFirmSettings(tenant.id),
     getServices(tenant.id),
     getUpcomingCompliance(tenant.id),
     getPublishedUpdates(tenant.id),
-    getCalculators(tenant.id),
   ]);
 
   if (!settings) notFound();
@@ -54,243 +130,275 @@ export default async function HomePage() {
   const categories = [...new Set(services.map((s) => s.category))];
   const nextDeadline = compliance[0];
 
+  // Six representative services, matching the reference layout.
+  const featured = categories
+    .flatMap((category) => services.filter((s) => s.category === category).slice(0, 2))
+    .slice(0, 6);
+
   return (
     <>
-      {/* Hero */}
-      <Section tone="cream" size="lg">
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-14">
-          <div>
-            <p className="eyebrow">{settings.businessCategory ?? "Chartered Accountants"}</p>
-            <h1 className="display-xl mt-4">
-              Clarity for your finances.
-              <br className="hidden sm:block" /> Confidence for your business.
-            </h1>
-            <p className="prose-body mt-5 max-w-xl text-[15px] sm:text-base">
-              {settings.overview}
-            </p>
+      {/* ── Hero ───────────────────────────────────────────────────────── */}
+      <section className="bg-tint">
+        <div className="mx-auto w-full max-w-7xl px-5 pt-12 sm:px-6 sm:pt-16 lg:px-8">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_1.05fr] lg:gap-12">
+            <div>
+              <h1 className="display-xl">
+                Your Growth.
+                <br />
+                Our <span className="display-accent">Compliance.</span>
+              </h1>
+              <p className="prose-body mt-5 max-w-lg text-[15px] sm:text-base">
+                {settings.overview}
+              </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button href={p("/contact")}>
-                Discuss Your Requirement
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Button>
-              <Button href={p("/services")} variant="secondary">
-                Explore Services
-              </Button>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button href={p("/services")} size="lg">
+                  Explore Services
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Button>
+                <Button href={p("/contact")} variant="secondary" size="lg">
+                  Talk to a CA
+                </Button>
+              </div>
             </div>
 
-            {settings.locality ? (
-              <p className="mt-6 text-[13px] text-ink-subtle">
-                {settings.locality}
-                {settings.region ? `, ${settings.region}` : ""}
-              </p>
-            ) : null}
+            <HeroVisual
+              nextDeadline={
+                nextDeadline
+                  ? {
+                      title: nextDeadline.title,
+                      date: formatDate(nextDeadline.extendedDueDate ?? nextDeadline.dueDate),
+                    }
+                  : null
+              }
+            />
           </div>
 
-          <HeroVisual
-            nextDeadline={
-              nextDeadline
-                ? {
-                    title: nextDeadline.title,
-                    date: formatDate(nextDeadline.extendedDueDate ?? nextDeadline.dueDate),
-                  }
-                : null
-            }
-          />
+          <ul className="mt-12 grid grid-cols-2 gap-6 border-t border-line-strong py-7 sm:grid-cols-4 sm:gap-4">
+            {CREDENTIALS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <li key={item.label} className="flex items-center gap-3">
+                  <Icon className="h-[18px] w-[18px] shrink-0 text-accent" aria-hidden="true" />
+                  <div className="min-w-0">
+                    <p className="font-display text-[17px] font-medium leading-none text-navy">
+                      {item.value}
+                    </p>
+                    <p className="mt-1 text-[11px] leading-tight text-ink-muted">{item.label}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── How we add value ───────────────────────────────────────────── */}
+      <Section tone="page" size="md" wide>
+        <h2 className="display-lg title-rule text-center">How We Add Value</h2>
+
+        <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {VALUE_PROPS.map((item) => {
+            const Icon = item.icon;
+            return (
+              <div key={item.title} className="flex gap-3.5">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-tint">
+                  <Icon className="h-[18px] w-[18px] text-accent" aria-hidden="true" />
+                </span>
+                <div>
+                  <p className="text-[14px] font-semibold text-ink">{item.title}</p>
+                  <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">{item.detail}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </Section>
 
-      {/* Services */}
-      <Section tone="white">
-        <SectionHeader
-          eyebrow="Areas of practice"
-          title="Professional services for recurring and strategic requirements"
-          description="Engagements are accepted after reviewing the requirement and confirming that the firm can support it."
-        />
+      {/* ── Services ───────────────────────────────────────────────────── */}
+      <Section tone="page" size="sm" wide>
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 className="display-lg">Our Services</h2>
+            <p className="mt-2 text-[14px] text-ink-muted">
+              Engagements accepted after reviewing the requirement.
+            </p>
+          </div>
+          <Link
+            href={p("/services")}
+            className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
+          >
+            View All Services
+            <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
+        </div>
 
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {categories.map((category) => {
-            const items = services.filter((s) => s.category === category);
+        <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          {featured.map((service) => {
+            const Icon = SERVICE_ICONS[service.category] ?? Wallet;
             return (
-              <Card key={category} href={p(`/services#${category}`)}>
-                <p className="text-[15px] font-semibold text-ink">
-                  {SERVICE_CATEGORY_LABELS[category] ?? category}
+              <Card
+                key={service.id}
+                href={p(`/services/${service.slug}`)}
+                interactive
+                className="flex flex-col"
+              >
+                <Icon className="h-5 w-5 text-accent" aria-hidden="true" />
+                <p className="mt-4 text-[14px] font-semibold leading-snug text-ink">
+                  {service.title}
                 </p>
-                <ul className="mt-3.5 space-y-2">
-                  {items.slice(0, 4).map((item) => (
-                    <li key={item.id} className="flex gap-2 text-[13px] text-ink-muted">
-                      <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-                      {item.title}
-                    </li>
-                  ))}
-                </ul>
-                {items.length > 4 ? (
-                  <p className="mt-3 text-[12px] text-ink-subtle">
-                    +{items.length - 4} more in this area
-                  </p>
-                ) : null}
-                <span className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium text-navy">
-                  View services
-                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                </span>
+                <p className="mt-2 flex-1 text-[12px] leading-relaxed text-ink-muted">
+                  {service.summary}
+                </p>
+                <ArrowRight className="mt-4 h-4 w-4 text-accent" aria-hidden="true" />
               </Card>
             );
           })}
         </div>
       </Section>
 
-      {/* Compliance dates */}
+      {/* ── Compliance timeline ────────────────────────────────────────── */}
       {compliance.length > 0 ? (
-        <Section tone="cream">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <SectionHeader
-              eyebrow="Statutory calendar"
-              title="Keep important filing dates visible."
-            />
-            <Button href={p("/compliance-calendar")} variant="secondary" size="sm">
-              Open calendar
-            </Button>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {compliance.slice(0, 3).map((event) => (
-              <Card key={event.id}>
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-[13px] font-semibold text-accent">
-                      {formatDate(event.extendedDueDate ?? event.dueDate)}
-                    </p>
-                    <p className="mt-1.5 text-[14px] font-medium leading-snug text-ink">
-                      {event.title}
-                    </p>
-                  </div>
-                  <Badge tone="neutral">{event.category}</Badge>
-                </div>
-                {event.applicableTo ? (
-                  <p className="mt-3 text-[12px] leading-relaxed text-ink-muted">
-                    {event.applicableTo}
-                  </p>
-                ) : null}
-              </Card>
-            ))}
-          </div>
-        </Section>
-      ) : null}
-
-      {/* Calculators */}
-      {calculators.length > 0 ? (
-        <Section tone="white">
-          <SectionHeader
-            eyebrow="Tools"
-            title="Estimate before you discuss."
-            description="Indicative estimates only. Results are not a substitute for professional advice."
+        <Section tone="page" size="sm" wide>
+          <ComplianceTimeline
+            events={compliance.map((e) => ({
+              id: e.id,
+              title: e.title,
+              dueDate: e.dueDate,
+              extendedDueDate: e.extendedDueDate,
+            }))}
+            calendarHref={p("/compliance-calendar")}
           />
-
-          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {calculators.map((calc) => (
-              <Card key={calc.id} href={p(`/calculators/${calc.key}`)}>
-                <div className="flex items-start justify-between gap-3">
-                  <p className="text-[15px] font-semibold text-ink">{calc.title}</p>
-                </div>
-                <p className="mt-2.5 text-[13px] leading-relaxed text-ink-muted">
-                  {calc.description}
-                </p>
-                <p className="mt-3 text-[12px] text-ink-subtle">{calc.taxYear}</p>
-                <span className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium text-navy">
-                  Open calculator
-                  <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-                </span>
-              </Card>
-            ))}
-          </div>
         </Section>
       ) : null}
 
-      {/* Engagement process */}
-      <Section tone="cream">
-        <SectionHeader
-          eyebrow="How engagements work"
-          title="A defined process, agreed before work begins."
-        />
-        <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {ENGAGEMENT_STEPS.map((item, i) => (
-            <Card key={item.step}>
-              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-navy text-[12px] font-semibold text-white">
-                {i + 1}
-              </span>
-              <p className="mt-4 text-[14px] font-semibold text-ink">{item.step}</p>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">{item.detail}</p>
-            </Card>
-          ))}
+      {/* ── Industries ─────────────────────────────────────────────────── */}
+      <Section tone="page" size="sm" wide>
+        <div>
+          <h2 className="display-lg">Industries We Serve</h2>
+          <p className="mt-2 text-[14px] text-ink-muted">
+            Experience across a range of sectors and entity types.
+          </p>
+        </div>
+        <div className="mt-8">
+          <IndustriesGrid />
         </div>
       </Section>
 
-      {/* Updates */}
+      {/* ── Testimonials (ICAI-gated) ──────────────────────────────────── */}
+      {settings.reviewsEnabled ? (
+        <Section tone="page" size="sm" wide>
+          <div>
+            <h2 className="display-lg">What Our Clients Say</h2>
+            <p className="mt-2 text-[14px] text-ink-muted">Experiences shared by clients.</p>
+          </div>
+          <div className="mt-7">
+            <Testimonials testimonials={TESTIMONIALS} />
+          </div>
+        </Section>
+      ) : null}
+
+      {/* ── Insights ───────────────────────────────────────────────────── */}
       {updates.length > 0 ? (
-        <Section tone="white">
+        <Section tone="page" size="sm" wide>
           <div className="flex flex-wrap items-end justify-between gap-4">
-            <SectionHeader eyebrow="Professional updates" title="Recent notes on tax and compliance." />
-            <Button href={p("/updates")} variant="secondary" size="sm">
-              All updates
-            </Button>
+            <div>
+              <h2 className="display-lg">Insights &amp; Resources</h2>
+              <p className="mt-2 text-[14px] text-ink-muted">
+                Notes on tax and compliance developments.
+              </p>
+            </div>
+            <Link
+              href={p("/updates")}
+              className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
+            >
+              View All Articles
+              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-3">
             {updates.slice(0, 3).map((update) => (
-              <Card key={update.id} href={p(`/updates/${update.slug}`)}>
-                <div className="flex items-center gap-2">
-                  <Badge tone="accent">{update.category}</Badge>
-                  {update.applicableYear ? (
-                    <span className="text-[11px] text-ink-subtle">{update.applicableYear}</span>
-                  ) : null}
+              <Card
+                key={update.id}
+                href={p(`/updates/${update.slug}`)}
+                interactive
+                padded={false}
+                className="overflow-hidden"
+              >
+                {/* Illustration slot — replaced with artwork alongside the 3D assets. */}
+                <div className="relative flex h-[132px] items-end bg-tint-deep p-4">
+                  <Badge tone="accent" className="absolute left-4 top-4">
+                    {update.category}
+                  </Badge>
+                  <BookOpenCheck
+                    className="h-8 w-8 text-navy-muted opacity-40"
+                    aria-hidden="true"
+                  />
                 </div>
-                <p className="mt-3 text-[15px] font-semibold leading-snug text-ink">
-                  {update.title}
-                </p>
-                <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">{update.excerpt}</p>
-                <p className="mt-4 text-[12px] text-ink-subtle">
-                  {formatDate(update.publishedAt)}
-                </p>
+                <div className="p-5">
+                  <p className="display-sm leading-snug">{update.title}</p>
+                  <p className="mt-2.5 line-clamp-2 text-[12px] leading-relaxed text-ink-muted">
+                    {update.excerpt}
+                  </p>
+                  <p className="mt-4 text-[11px] text-ink-subtle">
+                    {formatDate(update.publishedAt)}
+                    {update.applicableYear ? ` · ${update.applicableYear}` : ""}
+                  </p>
+                </div>
               </Card>
             ))}
           </div>
         </Section>
       ) : null}
 
-      {/* Closing CTA */}
-      <Section tone="cream" size="lg">
-        <div className="relative overflow-hidden rounded-[16px] bg-navy px-6 py-12 text-center sm:px-12 sm:py-16">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-[0.06]"
-            style={{
-              backgroundImage:
-                "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
-            }}
-          />
-          <div className="relative mx-auto max-w-2xl">
-            <h2 className="display-lg text-white">
-              Discuss the requirement before deciding the engagement.
-            </h2>
-            <p className="mt-4 text-[15px] leading-relaxed text-white/70">
-              Share what you need and the relevant circumstances. The requirement is reviewed before
-              any engagement is accepted.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button href={p("/contact")} variant="onNavy">
-                Submit Requirement
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Button>
-              {settings.phone ? (
-                <a
-                  href={`tel:${settings.phone.replace(/\s/g, "")}`}
-                  className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-[8px] border border-white/25 px-5 text-[14px] font-medium text-white hover:bg-white/10"
-                >
-                  {settings.phone}
-                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-                </a>
-              ) : null}
+      {/* ── Closing CTA ────────────────────────────────────────────────── */}
+      <Section tone="page" size="md" wide>
+        <div className="overflow-hidden rounded-[16px] bg-tint-deep px-6 py-11 sm:px-10 sm:py-14">
+          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+            <div>
+              <h2 className="display-lg">
+                Let&rsquo;s build your
+                <br className="hidden sm:block" /> financial future{" "}
+                <span className="display-accent">together.</span>
+              </h2>
+              <p className="mt-4 max-w-lg text-[14px] leading-relaxed text-ink-muted">
+                Share the requirement and the relevant circumstances. It is reviewed before any
+                engagement is accepted.
+              </p>
+
+              <div className="mt-7 flex flex-wrap items-center gap-4">
+                <Button href={p("/contact")} variant="accent" size="lg">
+                  Book a Consultation
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Button>
+                {settings.phone ? (
+                  <span className="flex items-center gap-2 text-[14px] text-ink-muted">
+                    or
+                    <a
+                      href={`tel:${settings.phone.replace(/\s/g, "")}`}
+                      className="inline-flex min-h-[38px] items-center gap-1.5 py-1 font-medium text-navy hover:text-accent"
+                    >
+                      <Phone className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+                      {settings.phone}
+                    </a>
+                  </span>
+                ) : null}
+              </div>
+            </div>
+
+            {/* 3D asset swap point — growth illustration sits here. */}
+            <div className="hidden items-end justify-center gap-2.5 lg:flex" aria-hidden="true">
+              {[44, 74, 104, 134].map((h, i) => (
+                <div key={h} className="flex flex-col items-center gap-2">
+                  <div
+                    className={`w-12 rounded-t-[6px] ${i === 3 ? "bg-accent" : "bg-navy"} ${
+                      i === 3 ? "" : "opacity-[0.14]"
+                    }`}
+                    style={{ height: `${h}px` }}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>

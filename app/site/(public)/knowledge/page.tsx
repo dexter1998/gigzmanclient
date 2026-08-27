@@ -62,7 +62,7 @@ export default async function KnowledgePage() {
 
   return (
     <>
-      <Section tone="cream" size="md">
+      <Section tone="tint" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
           <Link href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
@@ -79,7 +79,7 @@ export default async function KnowledgePage() {
       </Section>
 
       {/* Rate reference tables */}
-      <Section tone="white" size="md">
+      <Section tone="page" size="md">
         <h2 className="display-md">Rate reference</h2>
         <p className="mt-2 text-[13px] text-ink-muted">
           {TAX_YEAR} · awaiting professional verification against the provisions in force.
@@ -181,7 +181,7 @@ export default async function KnowledgePage() {
       </Section>
 
       {/* Statutory dates + updates */}
-      <Section tone="cream" size="md">
+      <Section tone="tint" size="md">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <div>
             <div className="flex items-baseline justify-between gap-4">
@@ -241,7 +241,7 @@ export default async function KnowledgePage() {
       </Section>
 
       {/* Regulatory portals */}
-      <Section tone="white" size="md">
+      <Section tone="page" size="md">
         <h2 className="display-md">Regulatory portals</h2>
         <p className="mt-2 text-[13px] text-ink-muted">
           Direct links to the official portals used for filings and verification.

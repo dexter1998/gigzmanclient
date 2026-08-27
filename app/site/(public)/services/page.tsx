@@ -41,7 +41,7 @@ export default async function ServicesPage() {
         )}
       />
 
-      <Section tone="cream" size="md">
+      <Section tone="tint" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
           <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
@@ -57,7 +57,7 @@ export default async function ServicesPage() {
         />
       </Section>
 
-      <Section tone="white" size="md">
+      <Section tone="page" size="md">
         <div className="space-y-14">
           {categories.map((category) => {
             const items = services.filter((s) => s.category === category);

@@ -41,7 +41,7 @@ export default async function ComplianceCalendarPage() {
 
   return (
     <>
-      <Section tone="cream" size="md">
+      <Section tone="tint" size="md">
         <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-ink-subtle">
           <a href={p("/")} className="inline-block py-1 hover:text-navy">
             Home
@@ -67,7 +67,7 @@ export default async function ComplianceCalendarPage() {
         ) : null}
       </Section>
 
-      <Section tone="white" size="md">
+      <Section tone="page" size="md">
         <h2 className="display-md">Upcoming</h2>
 
         {upcoming.length === 0 ? (

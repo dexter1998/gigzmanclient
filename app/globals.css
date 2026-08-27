@@ -5,46 +5,50 @@
  * Tailwind v4 is configured CSS-first — there is deliberately no tailwind.config.ts.
  */
 @theme {
-  /* Navy carries structural weight: footer, dashboard sidebar, hero panel, primary buttons. */
-  --color-navy: #0f2744;
-  --color-navy-soft: #1b3a5c;
-  --color-navy-muted: #35516f;
+  /* Navy carries structural weight: buttons, footer, headings, dashboard sidebar. */
+  --color-navy: #0f2c52;
+  --color-navy-deep: #0b2242;
+  --color-navy-soft: #1c4275;
+  --color-navy-muted: #3a5a86;
 
-  /* Warm neutrals — the page sits on cream, cards sit on white. */
-  --color-cream: #faf7f2;
-  --color-cream-deep: #f2ede4;
+  /* Surfaces are white over cool, very light blue tints. */
+  --color-page: #ffffff;
+  --color-tint: #f4f8fc;
+  --color-tint-deep: #e9f1fa;
   --color-surface: #ffffff;
-  --color-line: #e6e1d8;
-  --color-line-strong: #d5cec1;
+  --color-line: #e3e9f0;
+  --color-line-strong: #cfd9e5;
 
-  /* Accent is used sparingly: announcement bar, primary CTA, active states. */
-  --color-accent: #e07b39;
-  --color-accent-hover: #cc6b2c;
-  --color-accent-soft: #fdf0e4;
+  /* Accent is used sparingly: highlighted words, arrows, primary CTA, due dates. */
+  --color-accent: #f5822b;
+  --color-accent-hover: #e0701c;
+  --color-accent-soft: #fef2e7;
+  --color-accent-ring: #fbd7b5;
 
-  --color-ink: #14213d;
-  --color-ink-muted: #5b6577;
-  --color-ink-subtle: #8a92a1;
+  --color-ink: #0f2c52;
+  --color-ink-muted: #64748b;
+  --color-ink-subtle: #94a3b8;
 
   /* Status colours, shared between site badges and dashboard chips. */
-  --color-status-success: #2f7a55;
-  --color-status-success-soft: #e6f2eb;
-  --color-status-warn: #b7791f;
-  --color-status-warn-soft: #fdf4e3;
-  --color-status-danger: #b4453a;
-  --color-status-danger-soft: #fbeceb;
-  --color-status-info: #2d5f8a;
-  --color-status-info-soft: #e8f0f7;
-  --color-status-neutral: #5b6577;
-  --color-status-neutral-soft: #f0f1f4;
+  --color-status-success: #1f7a4d;
+  --color-status-success-soft: #e6f4ec;
+  --color-status-warn: #b06a10;
+  --color-status-warn-soft: #fdf3e3;
+  --color-status-danger: #c0392b;
+  --color-status-danger-soft: #fbece9;
+  --color-status-info: #1c4275;
+  --color-status-info-soft: #e9f1fa;
+  --color-status-neutral: #64748b;
+  --color-status-neutral-soft: #eef2f7;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
 
-  --radius-card: 10px;
+  --radius-card: 12px;
   --radius-control: 8px;
 
-  --shadow-card: 0 1px 2px rgba(15, 39, 68, 0.04), 0 8px 24px -12px rgba(15, 39, 68, 0.12);
-  --shadow-raised: 0 2px 4px rgba(15, 39, 68, 0.06), 0 16px 40px -16px rgba(15, 39, 68, 0.2);
+  --shadow-card: 0 1px 2px rgba(15, 44, 82, 0.04), 0 10px 30px -18px rgba(15, 44, 82, 0.18);
+  --shadow-raised: 0 2px 6px rgba(15, 44, 82, 0.06), 0 20px 44px -20px rgba(15, 44, 82, 0.24);
 }
 
 * {
@@ -56,36 +60,55 @@ html {
 }
 
 body {
-  background: var(--color-cream);
+  background: var(--color-page);
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Display headings run tighter than body copy, matching the approved design. */
+/* Display headings are set in the serif face; body copy stays sans. */
 .display-xl {
-  font-size: clamp(2rem, 1.4rem + 2.6vw, 3.25rem);
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+  color: var(--color-ink);
 }
 
 .display-lg {
-  font-size: clamp(1.65rem, 1.25rem + 1.7vw, 2.4rem);
-  line-height: 1.14;
-  letter-spacing: -0.02em;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.3rem + 1.9vw, 2.6rem);
+  line-height: 1.16;
+  letter-spacing: -0.012em;
+  font-weight: 500;
+  color: var(--color-ink);
 }
 
 .display-md {
-  font-size: clamp(1.3rem, 1.12rem + 0.8vw, 1.7rem);
-  line-height: 1.2;
-  letter-spacing: -0.015em;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 1.15rem + 0.9vw, 1.85rem);
+  line-height: 1.22;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+  color: var(--color-ink);
 }
 
-/* Uppercase micro-label that precedes most section headings. */
+.display-sm {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1rem + 0.4vw, 1.3rem);
+  line-height: 1.3;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+/* The accent word inside a display heading, as in "Our Compliance." */
+.display-accent {
+  color: var(--color-accent);
+}
+
+/* Uppercase micro-label that precedes some section headings. */
 .eyebrow {
   font-size: 0.6875rem;
   font-weight: 600;
@@ -94,8 +117,19 @@ body {
   color: var(--color-accent);
 }
 
+/* Short orange rule under a centred section title. */
+.title-rule::after {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 2px;
+  margin: 0.75rem auto 0;
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
 .prose-body {
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--color-ink-muted);
 }
 
@@ -119,15 +153,16 @@ body {
 }
 
 .prose-body h2 {
-  margin: 1.6em 0 0.5em;
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  margin: 1.7em 0 0.5em;
+  font-size: 1.4rem;
+  font-weight: 500;
   color: var(--color-ink);
   letter-spacing: -0.01em;
 }
 
 .prose-body h3 {
-  margin: 1.3em 0 0.4em;
+  margin: 1.4em 0 0.4em;
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--color-ink);

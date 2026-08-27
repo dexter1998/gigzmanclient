@@ -22,7 +22,7 @@ export default async function ThankYouPage(props: PageProps<"/site/thank-you">) 
   const settings = await getFirmSettings(tenant.id);
 
   return (
-    <Section tone="cream" size="lg">
+    <Section tone="tint" size="lg">
       <div className="mx-auto max-w-xl text-center">
         <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-status-success-soft">
           <CheckCircle2 className="h-6 w-6 text-status-success" aria-hidden="true" />

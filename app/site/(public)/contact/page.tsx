@@ -3,6 +3,7 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import Section from "@/components/ui/Section";
 import Card from "@/components/ui/Card";
 import QueryForm from "@/components/site/QueryForm";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getServices } from "@/lib/content";
 
@@ -53,10 +54,19 @@ export default async function ContactPage(props: PageProps<"/site/contact">) {
           <span className="mx-1.5">/</span>
           <span className="text-ink-muted">Contact</span>
         </nav>
-        <h1 className="display-xl max-w-3xl">Share a concise overview of your requirement.</h1>
-        <p className="prose-body mt-5 max-w-2xl text-[15px] sm:text-base">
-          The firm will review the requirement and contact you through the method you prefer.
-        </p>
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_300px]">
+          <div>
+            <h1 className="display-xl">Share a concise overview of your requirement.</h1>
+            <p className="prose-body mt-5 max-w-2xl text-[15px] sm:text-base">
+              The firm will review the requirement and contact you through the method you prefer.
+            </p>
+          </div>
+          <Illustration
+            name="documents-shield"
+            sizes="(max-width: 1024px) 55vw, 280px"
+            className="mx-auto hidden h-auto w-full max-w-[260px] lg:block"
+          />
+        </div>
       </Section>
 
       <Section tone="page" size="md">

@@ -5,6 +5,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import ServiceIcon from "@/components/site/ServiceIcon";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getServices } from "@/lib/content";
 import { SERVICE_CATEGORY_LABELS } from "@/lib/format";
@@ -51,11 +52,20 @@ export default async function ServicesPage() {
           <span className="text-ink-muted">Services</span>
         </nav>
 
-        <SectionHeader
-          eyebrow="Areas of practice"
-          title="Professional services organised around your requirement."
-          description="Explore taxation, GST, audit and business services. Availability for a specific engagement is confirmed after review."
-        />
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_320px]">
+          <div>
+            <SectionHeader
+            eyebrow="Areas of practice"
+            title="Professional services organised around your requirement."
+            description="Explore taxation, GST, audit and business services. Availability for a specific engagement is confirmed after review."
+          />
+          </div>
+          <Illustration
+            name="documents-shield"
+            sizes="(max-width: 1024px) 55vw, 300px"
+            className="mx-auto hidden h-auto w-full max-w-[280px] lg:block"
+          />
+        </div>
       </Section>
 
       <Section tone="page" size="md">

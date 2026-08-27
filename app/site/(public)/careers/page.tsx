@@ -5,6 +5,7 @@ import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings } from "@/lib/content";
 
@@ -81,11 +82,20 @@ export default async function CareersPage() {
           <span className="text-ink-muted">Careers</span>
         </nav>
 
-        <SectionHeader
-          eyebrow="Join the firm"
-          title="Articleship and professional opportunities."
-          description="Training is structured around exposure to live engagements across taxation, GST, audit and corporate compliance rather than a single function."
-        />
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_320px]">
+          <div>
+            <SectionHeader
+            eyebrow="Join the firm"
+            title="Articleship and professional opportunities."
+            description="Training is structured around exposure to live engagements across taxation, GST, audit and corporate compliance rather than a single function."
+          />
+          </div>
+          <Illustration
+            name="growth-orange"
+            sizes="(max-width: 1024px) 55vw, 300px"
+            className="mx-auto hidden h-auto w-full max-w-[280px] lg:block"
+          />
+        </div>
       </Section>
 
       <Section tone="page" size="md">

@@ -5,6 +5,7 @@ import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getPublishedUpdates, getUpcomingCompliance } from "@/lib/content";
 import { formatDate } from "@/lib/format";
@@ -71,11 +72,20 @@ export default async function KnowledgePage() {
           <span className="text-ink-muted">Knowledge Centre</span>
         </nav>
 
-        <SectionHeader
-          eyebrow="Reference"
-          title="Reference material for recurring compliance questions."
-          description="General reference tables and links. Applicability depends on the taxpayer category and the provisions in force — confirm before relying on any figure here."
-        />
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_320px]">
+          <div>
+            <SectionHeader
+            eyebrow="Reference"
+            title="Reference material for recurring compliance questions."
+            description="General reference tables and links. Applicability depends on the taxpayer category and the provisions in force — confirm before relying on any figure here."
+          />
+          </div>
+          <Illustration
+            name="percent-tray"
+            sizes="(max-width: 1024px) 55vw, 300px"
+            className="mx-auto hidden h-auto w-full max-w-[280px] lg:block"
+          />
+        </div>
       </Section>
 
       {/* Rate reference tables */}

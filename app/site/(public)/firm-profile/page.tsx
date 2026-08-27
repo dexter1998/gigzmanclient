@@ -4,6 +4,7 @@ import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getTeam, getServices } from "@/lib/content";
 import { SERVICE_CATEGORY_LABELS, formatDate } from "@/lib/format";
@@ -61,11 +62,20 @@ export default async function FirmProfilePage() {
           <span className="text-ink-muted">Firm Profile</span>
         </nav>
 
-        <SectionHeader
-          eyebrow="About the firm"
-          title="Professional identity built on clarity and responsibility."
-          description={settings.overview ?? undefined}
-        />
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_320px]">
+          <div>
+            <SectionHeader
+            eyebrow="About the firm"
+            title="Professional identity built on clarity and responsibility."
+            description={settings.overview ?? undefined}
+          />
+          </div>
+          <Illustration
+            name="podium"
+            sizes="(max-width: 1024px) 55vw, 300px"
+            className="mx-auto hidden h-auto w-full max-w-[280px] lg:block"
+          />
+        </div>
       </Section>
 
       <Section tone="page" size="md">

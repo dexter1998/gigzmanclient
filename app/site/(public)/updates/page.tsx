@@ -3,6 +3,7 @@ import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getPublishedUpdates } from "@/lib/content";
 import { formatDate } from "@/lib/format";
@@ -45,11 +46,20 @@ export default async function UpdatesPage(props: PageProps<"/site/updates">) {
           <span className="text-ink-muted">Professional Updates</span>
         </nav>
 
-        <SectionHeader
-          eyebrow="Knowledge"
-          title="Tax and compliance information for informed decisions."
-          description="General updates on income tax, GST, TDS and corporate compliance. Each note records the applicable period and the source it draws on."
-        />
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_320px]">
+          <div>
+            <SectionHeader
+            eyebrow="Knowledge"
+            title="Tax and compliance information for informed decisions."
+            description="General updates on income tax, GST, TDS and corporate compliance. Each note records the applicable period and the source it draws on."
+          />
+          </div>
+          <Illustration
+            name="growth-blue"
+            sizes="(max-width: 1024px) 55vw, 300px"
+            className="mx-auto hidden h-auto w-full max-w-[280px] lg:block"
+          />
+        </div>
 
         {categories.length > 0 ? (
           <div className="mt-7 flex flex-wrap gap-2">

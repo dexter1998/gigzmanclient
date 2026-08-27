@@ -5,6 +5,7 @@ import Section from "@/components/ui/Section";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getServices } from "@/lib/content";
 import { findLocation, LOCATION_PAGES } from "@/lib/locations";
@@ -90,11 +91,16 @@ export default async function LocationPage(props: PageProps<"/site/[location]">)
           </p>
         ) : null}
 
-        <div className="mt-8">
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-8">
           <Button href={p("/contact")}>
             Discuss Your Requirement
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Button>
+          <Illustration
+            name="podium"
+            sizes="(max-width: 1024px) 50vw, 240px"
+            className="hidden h-auto w-full max-w-[230px] lg:block"
+          />
         </div>
       </Section>
 

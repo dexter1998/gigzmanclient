@@ -4,6 +4,7 @@ import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
 import FaqAccordion from "@/components/site/FaqAccordion";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings } from "@/lib/content";
 import { buildFaqJsonLd, buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
@@ -131,11 +132,20 @@ export default async function FaqPage() {
           <span className="text-ink-muted">FAQs</span>
         </nav>
 
-        <SectionHeader
-          eyebrow="Common questions"
-          title="Questions asked before an engagement begins."
-          description="General answers only. How a provision applies depends on the specific facts and the law in force."
-        />
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_320px]">
+          <div>
+            <SectionHeader
+            eyebrow="Common questions"
+            title="Questions asked before an engagement begins."
+            description="General answers only. How a provision applies depends on the specific facts and the law in force."
+          />
+          </div>
+          <Illustration
+            name="checklist-search"
+            sizes="(max-width: 1024px) 55vw, 300px"
+            className="mx-auto hidden h-auto w-full max-w-[280px] lg:block"
+          />
+        </div>
       </Section>
 
       <Section tone="page" size="md">

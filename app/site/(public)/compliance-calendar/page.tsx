@@ -4,6 +4,7 @@ import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Badge from "@/components/ui/Badge";
 import CountdownTimer from "@/components/site/CountdownTimer";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getUpcomingCompliance, getPastCompliance } from "@/lib/content";
 import { formatDate, deadlineInstant, daysUntil } from "@/lib/format";
@@ -50,11 +51,20 @@ export default async function ComplianceCalendarPage() {
           <span className="text-ink-muted">Compliance Calendar</span>
         </nav>
 
-        <SectionHeader
-          eyebrow="Statutory dates"
-          title="Track upcoming statutory and filing dates."
-          description="Confirm that a date applies to your taxpayer category before acting on it. Dates may be extended by the relevant authority."
-        />
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_320px]">
+          <div>
+            <SectionHeader
+            eyebrow="Statutory dates"
+            title="Track upcoming statutory and filing dates."
+            description="Confirm that a date applies to your taxpayer category before acting on it. Dates may be extended by the relevant authority."
+          />
+          </div>
+          <Illustration
+            name="calendar-clock"
+            sizes="(max-width: 1024px) 55vw, 300px"
+            className="mx-auto hidden h-auto w-full max-w-[280px] lg:block"
+          />
+        </div>
 
         {unverifiedCount > 0 ? (
           <div className="mt-7 flex items-start gap-3 rounded-[10px] bg-accent-soft px-4 py-3.5">

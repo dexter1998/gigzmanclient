@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { CalendarClock } from "lucide-react";
 import { formatDate, daysUntil } from "@/lib/format";
+import Illustration from "./Illustration";
 
 interface TimelineEvent {
   id: string;
@@ -29,9 +29,11 @@ export default function ComplianceTimeline({ events, calendarHref }: ComplianceT
     <div className="rounded-[14px] bg-tint-deep px-5 py-6 sm:px-7 sm:py-7">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,280px)_1fr] lg:items-center lg:gap-10">
         <div className="flex items-start gap-3.5">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[10px] bg-surface">
-            <CalendarClock className="h-5 w-5 text-accent" aria-hidden="true" />
-          </span>
+          <Illustration
+            name="calendar-clock"
+            sizes="120px"
+            className="h-auto w-[86px] shrink-0 sm:w-[104px]"
+          />
           <div>
             <p className="display-sm">Never Miss a Compliance</p>
             <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">

@@ -29,6 +29,7 @@ import ComplianceTimeline from "@/components/site/ComplianceTimeline";
 import IndustriesGrid from "@/components/site/IndustriesGrid";
 import CalculatorPicker from "@/components/site/CalculatorPicker";
 import ServiceIcon from "@/components/site/ServiceIcon";
+import Illustration, { type IllustrationName } from "@/components/site/Illustration";
 import Testimonials from "@/components/site/Testimonials";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import {
@@ -72,6 +73,17 @@ const VALUE_PROPS = [
     detail: "Clear reporting you can act on, without accounting jargon.",
   },
 ];
+
+/** Artwork per update category, so article cards stay visually distinct. */
+const UPDATE_ART: Record<string, IllustrationName> = {
+  "Income Tax": "calculator-rupee",
+  GST: "percent-tray",
+  TDS: "documents-shield",
+  MCA: "checklist-search",
+  Audit: "checklist-search",
+  "Business Compliance": "documents-shield",
+  "Due Dates": "calendar-clock",
+};
 
 const SERVICE_ICONS: Record<string, LucideIcon> = {
   taxation: Receipt,
@@ -368,14 +380,14 @@ export default async function HomePage() {
                 padded={false}
                 className="overflow-hidden"
               >
-                {/* Illustration slot — replaced with artwork alongside the 3D assets. */}
-                <div className="relative flex h-[132px] items-end bg-tint-deep p-4">
-                  <Badge tone="accent" className="absolute left-4 top-4">
+                <div className="relative flex h-[150px] items-center justify-center overflow-hidden bg-tint-deep">
+                  <Badge tone="accent" className="absolute left-4 top-4 z-10">
                     {update.category}
                   </Badge>
-                  <BookOpenCheck
-                    className="h-8 w-8 text-navy-muted opacity-40"
-                    aria-hidden="true"
+                  <Illustration
+                    name={UPDATE_ART[update.category] ?? "growth-blue"}
+                    sizes="(max-width: 768px) 60vw, 260px"
+                    className="h-[124px] w-auto"
                   />
                 </div>
                 <div className="p-5">
@@ -429,19 +441,11 @@ export default async function HomePage() {
               </div>
             </div>
 
-            {/* 3D asset swap point — growth illustration sits here. */}
-            <div className="hidden items-end justify-center gap-2.5 lg:flex" aria-hidden="true">
-              {[44, 74, 104, 134].map((h, i) => (
-                <div key={h} className="flex flex-col items-center gap-2">
-                  <div
-                    className={`w-12 rounded-t-[6px] ${i === 3 ? "bg-accent" : "bg-navy"} ${
-                      i === 3 ? "" : "opacity-[0.14]"
-                    }`}
-                    style={{ height: `${h}px` }}
-                  />
-                </div>
-              ))}
-            </div>
+            <Illustration
+              name="growth-orange"
+              sizes="(max-width: 1024px) 60vw, 380px"
+              className="mx-auto hidden h-auto w-full max-w-[380px] lg:block"
+            />
           </div>
         </div>
       </Section>

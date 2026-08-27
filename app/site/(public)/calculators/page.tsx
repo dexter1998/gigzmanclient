@@ -5,6 +5,7 @@ import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import Badge, { statusTone } from "@/components/ui/Badge";
 import CalculatorPicker from "@/components/site/CalculatorPicker";
+import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getCalculators } from "@/lib/content";
 import { CALCULATOR_STATUS_LABELS, formatDate } from "@/lib/format";
@@ -41,11 +42,20 @@ export default async function CalculatorsPage() {
           <span className="text-ink-muted">Calculators</span>
         </nav>
 
-        <SectionHeader
-          eyebrow="Tools"
-          title="Indicative calculations with visible assumptions."
-          description="Use these to form an estimate before a discussion. Results do not replace professional advice and no calculator here recommends a course of action."
-        />
+        <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1fr_320px]">
+          <div>
+            <SectionHeader
+            eyebrow="Tools"
+            title="Indicative calculations with visible assumptions."
+            description="Use these to form an estimate before a discussion. Results do not replace professional advice and no calculator here recommends a course of action."
+          />
+          </div>
+          <Illustration
+            name="calculator-rupee"
+            sizes="(max-width: 1024px) 55vw, 300px"
+            className="mx-auto hidden h-auto w-full max-w-[280px] lg:block"
+          />
+        </div>
 
         {anyUnreviewed ? (
           <div className="mt-7 flex items-start gap-3 rounded-[10px] bg-accent-soft px-4 py-3.5">

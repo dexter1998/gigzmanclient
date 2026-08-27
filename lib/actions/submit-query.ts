@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { eq, and } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { queries, queryStatusHistory, clients, services } from "@/lib/db/schema";
+import { checkPhone } from "@/lib/phone";
 
 export interface QueryFormState {
   ok: boolean;
@@ -88,8 +89,11 @@ export async function submitQuery(
   if (!phone && !email) {
     errors.phone = "Provide a phone number or an email address.";
   }
-  if (phone && !/^[+\d][\d\s-]{7,19}$/.test(phone)) {
-    errors.phone = "Enter a valid phone number.";
+  let normalisedPhone: string | null = null;
+  if (phone) {
+    const check = checkPhone(phone);
+    if (!check.valid) errors.phone = check.error ?? "Enter a valid phone number.";
+    else normalisedPhone = check.normalised ?? null;
   }
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
     errors.email = "Enter a valid email address.";
@@ -127,7 +131,7 @@ export async function submitQuery(
       clientId,
       reference: ref,
       name,
-      phone: phone || null,
+      phone: normalisedPhone,
       email: email || null,
       clientType: (CLIENT_TYPES as readonly string[]).includes(clientType)
         ? (clientType as (typeof CLIENT_TYPES)[number])

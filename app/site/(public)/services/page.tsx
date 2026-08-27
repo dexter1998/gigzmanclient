@@ -4,6 +4,7 @@ import Section from "@/components/ui/Section";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
+import ServiceIcon from "@/components/site/ServiceIcon";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getServices } from "@/lib/content";
 import { SERVICE_CATEGORY_LABELS } from "@/lib/format";
@@ -74,20 +75,25 @@ export default async function ServicesPage() {
 
                 <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {items.map((service) => (
-                    <Card key={service.id} href={p(`/services/${service.slug}`)}>
-                      <div className="flex items-start justify-between gap-3">
-                        <p className="text-[15px] font-semibold leading-snug text-ink">
-                          {service.title}
-                        </p>
-                        {service.isCaExclusive ? (
-                          <Badge tone="info" className="shrink-0">
-                            CA
-                          </Badge>
-                        ) : null}
+                    <Card key={service.id} href={p(`/services/${service.slug}`)} interactive>
+                      <div className="flex items-start gap-3.5">
+                        <ServiceIcon slug={service.slug} category={service.category} boxed />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-3">
+                            <p className="text-[15px] font-semibold leading-snug text-ink">
+                              {service.title}
+                            </p>
+                            {service.isCaExclusive ? (
+                              <Badge tone="info" className="shrink-0">
+                                CA
+                              </Badge>
+                            ) : null}
+                          </div>
+                          <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">
+                            {service.summary}
+                          </p>
+                        </div>
                       </div>
-                      <p className="mt-2.5 text-[13px] leading-relaxed text-ink-muted">
-                        {service.summary}
-                      </p>
                       <span className="mt-4 inline-flex items-center gap-1 text-[13px] font-medium text-navy">
                         Read more
                         <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />

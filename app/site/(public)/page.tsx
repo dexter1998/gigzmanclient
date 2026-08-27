@@ -28,6 +28,7 @@ import HeroVisual from "@/components/site/HeroVisual";
 import ComplianceTimeline from "@/components/site/ComplianceTimeline";
 import IndustriesGrid from "@/components/site/IndustriesGrid";
 import CalculatorPicker from "@/components/site/CalculatorPicker";
+import ServiceIcon from "@/components/site/ServiceIcon";
 import Testimonials from "@/components/site/Testimonials";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import {
@@ -238,7 +239,6 @@ export default async function HomePage() {
 
         <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
           {featured.map((service) => {
-            const Icon = SERVICE_ICONS[service.category] ?? Wallet;
             return (
               <Card
                 key={service.id}
@@ -246,7 +246,11 @@ export default async function HomePage() {
                 interactive
                 className="flex flex-col"
               >
-                <Icon className="h-5 w-5 text-accent" aria-hidden="true" />
+                <ServiceIcon
+                  slug={service.slug}
+                  category={service.category}
+                  className="h-5 w-5"
+                />
                 <p className="mt-4 text-[14px] font-semibold leading-snug text-ink">
                   {service.title}
                 </p>

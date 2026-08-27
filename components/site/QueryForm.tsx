@@ -6,6 +6,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { submitQuery, type QueryFormState } from "@/lib/actions/submit-query";
 import { analytics } from "@/lib/analytics";
 import { CLIENT_TYPE_LABELS } from "@/lib/format";
+import { checkPhone } from "@/lib/phone";
 
 interface QueryFormProps {
   services: { slug: string; title: string }[];
@@ -28,6 +29,8 @@ export default function QueryForm({
   const router = useRouter();
   const [state, formAction, pending] = useActionState(submitQuery, INITIAL);
   const [started, setStarted] = useState(false);
+  const [phone, setPhone] = useState("");
+  const [phoneTouched, setPhoneTouched] = useState(false);
   const landingPage = useRef("");
 
   useEffect(() => {
@@ -52,6 +55,12 @@ export default function QueryForm({
   };
 
   const err = (field: string) => state.errors?.[field];
+
+  // Only complain once the field has been left, so typing is not interrupted.
+  // The full check runs, not just length, so an invalid leading digit is caught
+  // here as well as on the server.
+  const livePhoneError =
+    phoneTouched && phone.trim() ? (checkPhone(phone).error ?? null) : null;
 
   return (
     <form action={formAction} onFocus={onFirstInteraction} className="space-y-4" noValidate>
@@ -91,13 +100,19 @@ export default function QueryForm({
             id="phone"
             name="phone"
             type="tel"
-            inputMode="tel"
+            inputMode="numeric"
             autoComplete="tel"
+            maxLength={18}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            onBlur={() => setPhoneTouched(true)}
+            aria-invalid={Boolean(livePhoneError || err("phone"))}
+            aria-describedby="phone-hint"
             className={FIELD}
           />
-          {err("phone") ? (
-            <p className="mt-1 text-[12px] text-status-danger">{err("phone")}</p>
-          ) : null}
+          <p id="phone-hint" className="mt-1 text-[12px] text-status-danger">
+            {livePhoneError || err("phone") || ""}
+          </p>
         </div>
         <div>
           <label htmlFor="email" className="mb-1.5 block text-[13px] font-medium text-ink">

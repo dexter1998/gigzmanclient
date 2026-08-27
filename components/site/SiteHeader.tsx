@@ -41,9 +41,11 @@ export default function SiteHeader({
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-5 py-3 sm:px-6 lg:px-8">
         {/* Wordmark — placeholder mark, replaced with the firm's logo at delivery. */}
         <Link href={basePath || "/"} className="flex shrink-0 items-center gap-2.5">
-          <BrandMark className="h-10 w-[52px] shrink-0" src={logoUrl} alt={firmName} />
+          <BrandMark className="h-12 w-[56px] shrink-0" src={logoUrl} alt={firmName} />
           <span className="leading-tight">
-            <span className="block font-display text-[17px] font-medium text-navy">{firmName}</span>
+            <span className="block whitespace-nowrap font-display text-[17px] font-medium text-navy">
+              {firmName}
+            </span>
             {descriptor ? (
               <span className="block text-[9px] font-semibold uppercase tracking-[0.1em] text-accent">
                 {descriptor}

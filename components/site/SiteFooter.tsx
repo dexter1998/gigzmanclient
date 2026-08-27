@@ -65,21 +65,29 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
   return (
     <footer className="mt-auto bg-navy text-white">
       <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 sm:py-14 lg:px-8">
-        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.3fr]">
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2.5">
-              <BrandMark
-                className="h-10 w-[52px] shrink-0"
-                src={settings.logoUrl}
-                alt={settings.firmName}
-                onDark
-              />
+              {/* Supplied artwork is dark-on-transparent, so it sits on a light
+                  chip here; the built-in fallback inverts instead. */}
+              {settings.logoUrl ? (
+                <span className="flex h-12 w-[62px] shrink-0 items-center justify-center rounded-[9px] bg-white p-1.5">
+                  <BrandMark
+                    className="h-full w-full"
+                    src={settings.logoUrl}
+                    alt={settings.firmName}
+                  />
+                </span>
+              ) : (
+                <BrandMark className="h-12 w-[56px] shrink-0" onDark />
+              )}
+
               <span className="leading-tight">
-                <span className="block font-display text-[16px] font-medium">
+                <span className="block whitespace-nowrap font-display text-[16px] font-medium">
                   {settings.firmName}
                 </span>
                 {settings.businessCategory ? (
-                  <span className="block text-[9px] font-semibold uppercase tracking-[0.1em] text-accent">
+                  <span className="mt-0.5 block whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.1em] text-accent">
                     {settings.businessCategory}
                   </span>
                 ) : null}

@@ -6,6 +6,7 @@ import Card from "@/components/ui/Card";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import FaqAccordion from "@/components/site/FaqAccordion";
+import ServiceIcon from "@/components/site/ServiceIcon";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getService, getServices } from "@/lib/content";
 import { SERVICE_CATEGORY_LABELS, formatDate } from "@/lib/format";
@@ -75,6 +76,13 @@ export default async function ServiceDetailPage(props: PageProps<"/site/services
         </nav>
 
         <div className="flex flex-wrap items-center gap-2">
+          <ServiceIcon
+            slug={service.slug}
+            category={service.category}
+            boxed
+            boxClassName="h-11 w-11 rounded-[10px] bg-surface border border-line"
+            className="h-5 w-5"
+          />
           <Badge tone="accent">{SERVICE_CATEGORY_LABELS[service.category] ?? service.category}</Badge>
           {service.isCaExclusive ? (
             <Badge tone="info">Rendered by a chartered accountant</Badge>

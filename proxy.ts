@@ -38,6 +38,10 @@ export function proxy(request: NextRequest) {
   // The bare root lists the sites hosted on this deployment.
   if (segments.length === 0) return NextResponse.next();
 
+  // Files served from public/ live at the root and carry an extension. Without
+  // this they would be treated as an unknown tenant and redirected away.
+  if (/\.[a-z0-9]+$/i.test(pathname)) return NextResponse.next();
+
   // The internal prefix is only ever reached through a rewrite below; a direct
   // request for it would render a tenant page with no tenant resolved.
   if (vertical === "site") return NextResponse.redirect(new URL("/", request.url));
@@ -60,5 +64,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml).*)"],
+  // Anything with a file extension is a static asset and is skipped outright.
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico|robots.txt|sitemap.xml|.*\\.).*)"],
 };

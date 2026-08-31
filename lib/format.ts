@@ -15,6 +15,24 @@ export function formatNumber(value: number): string {
   return new Intl.NumberFormat("en-IN").format(value);
 }
 
+/**
+ * Indian real-estate convention: "₹85 L", "₹2.15 Cr" rather than the full
+ * digit grouping `formatInr` produces. `properties.priceLabel` lets a listing
+ * override this entirely (e.g. "Price on request"); this is the computed
+ * fallback for listings that only set a numeric `price`.
+ */
+export function formatIndianPrice(value: number): string {
+  if (value >= 1_00_00_000) {
+    const crores = value / 1_00_00_000;
+    return `₹${crores % 1 === 0 ? crores.toFixed(0) : crores.toFixed(2)} Cr`;
+  }
+  if (value >= 1_00_000) {
+    const lakhs = value / 1_00_000;
+    return `₹${lakhs % 1 === 0 ? lakhs.toFixed(0) : lakhs.toFixed(1)} L`;
+  }
+  return formatInr(value);
+}
+
 /** Renders a plain `YYYY-MM-DD` without letting the runtime's zone shift the day. */
 export function formatDate(value: string | Date | null | undefined): string {
   if (!value) return "—";
@@ -123,4 +141,24 @@ export const CALCULATOR_STATUS_LABELS: Record<string, string> = {
   active: "Active",
   update_required: "Update Required",
   archived: "Archived",
+};
+
+export const PROPERTY_TYPE_LABELS: Record<string, string> = {
+  apartment: "Apartment",
+  builder_floor: "Builder Floor",
+  plot: "Plot",
+  villa: "Villa",
+  sco: "SCO (Shops)",
+  commercial: "Commercial",
+};
+
+export const PROPERTY_STATUS_LABELS: Record<string, string> = {
+  new_launch: "New Launch",
+  under_construction: "Under Construction",
+  ready_to_move: "Ready to Move",
+};
+
+export const PROPERTY_PURPOSE_LABELS: Record<string, string> = {
+  buy: "Buy",
+  rent: "Rent",
 };

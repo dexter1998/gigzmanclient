@@ -102,4 +102,19 @@ export const analytics = {
 
   viewUpdate: (contentId: string, contentCategory: string) =>
     track("view_update", { content_id: contentId, content_category: contentCategory }),
+
+  // ─────────────────────────────────────────────────── real-estate vertical
+
+  viewProperty: (propertyId: string, propertyType: string) =>
+    track("view_property", { property_id: propertyId, property_type: propertyType }),
+
+  /**
+   * Filter values only (type/purpose/locality/beds) — deliberately never a
+   * price or budget figure, for the same reason a calculator result never
+   * travels: a budget range is financial information about the visitor.
+   */
+  filterProperties: (filters: Record<string, string>) =>
+    track("filter_properties", filters),
+
+  viewLocality: (localitySlug: string) => track("view_locality", { locality_slug: localitySlug }),
 };

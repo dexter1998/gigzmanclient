@@ -9,6 +9,9 @@ import {
   legalPages,
   calculators,
   teamMembers,
+  properties,
+  propertyImages,
+  localities,
 } from "@/lib/db/schema";
 import { todayInIst } from "@/lib/format";
 
@@ -157,6 +160,114 @@ export const getCalculator = cache(async (clientId: string, key: string) => {
     .select()
     .from(calculators)
     .where(and(eq(calculators.clientId, clientId), eq(calculators.key, key)))
+    .limit(1);
+  return row ?? null;
+});
+
+// ───────────────────────────────────────────────────────── real-estate vertical
+
+export interface PropertyFilters {
+  propertyType?: string;
+  purpose?: "buy" | "rent";
+  locality?: string;
+  minBeds?: number;
+  maxPrice?: number;
+  /** Free-text match against title, locality, sector and corridor. */
+  search?: string;
+}
+
+/**
+ * Not `cache()`-wrapped: filter combinations are effectively unbounded (query
+ * string driven), so caching every distinct combination for the life of the
+ * request would grow unbounded instead of collapsing repeats the way the
+ * other cached lookups do.
+ */
+export async function getProperties(clientId: string, filters: PropertyFilters = {}) {
+  const conditions = [eq(properties.clientId, clientId), eq(properties.isActive, true)];
+
+  if (filters.propertyType) conditions.push(eq(properties.propertyType, filters.propertyType));
+  if (filters.purpose) conditions.push(eq(properties.purpose, filters.purpose));
+  if (filters.locality) conditions.push(eq(properties.locality, filters.locality));
+  if (filters.minBeds !== undefined) conditions.push(gte(properties.beds, filters.minBeds));
+  if (filters.maxPrice !== undefined) conditions.push(sql`${properties.price} <= ${filters.maxPrice}`);
+  if (filters.search) {
+    const term = `%${filters.search.trim()}%`;
+    conditions.push(
+      sql`(${properties.title} ILIKE ${term} OR ${properties.locality} ILIKE ${term} OR ${properties.sector} ILIKE ${term} OR ${properties.corridor} ILIKE ${term})`,
+    );
+  }
+
+  return db
+    .select()
+    .from(properties)
+    .where(and(...conditions))
+    .orderBy(desc(properties.isFeatured), asc(properties.sortOrder));
+}
+
+export const getFeaturedProperties = cache(async (clientId: string, limit = 6) =>
+  db
+    .select()
+    .from(properties)
+    .where(and(eq(properties.clientId, clientId), eq(properties.isActive, true)))
+    .orderBy(desc(properties.isFeatured), asc(properties.sortOrder))
+    .limit(limit),
+);
+
+export const getProperty = cache(async (clientId: string, slug: string) => {
+  const [row] = await db
+    .select()
+    .from(properties)
+    .where(
+      and(eq(properties.clientId, clientId), eq(properties.slug, slug), eq(properties.isActive, true)),
+    )
+    .limit(1);
+  return row ?? null;
+});
+
+export const getAllProperties = cache(async (clientId: string) =>
+  db
+    .select()
+    .from(properties)
+    .where(eq(properties.clientId, clientId))
+    .orderBy(desc(properties.isFeatured), asc(properties.sortOrder)),
+);
+
+export const getPropertyImages = cache(async (propertyId: string) =>
+  db
+    .select()
+    .from(propertyImages)
+    .where(eq(propertyImages.propertyId, propertyId))
+    .orderBy(desc(propertyImages.isPrimary), asc(propertyImages.sortOrder)),
+);
+
+/** Distinct locality values actually in use, for the filter control. */
+export const getPropertyLocalityFacets = cache(async (clientId: string) => {
+  const rows = await db
+    .selectDistinct({ locality: properties.locality })
+    .from(properties)
+    .where(and(eq(properties.clientId, clientId), eq(properties.isActive, true)));
+  return rows.map((r) => r.locality).filter((v): v is string => Boolean(v));
+});
+
+export const getLocalities = cache(async (clientId: string) =>
+  db
+    .select()
+    .from(localities)
+    .where(and(eq(localities.clientId, clientId), eq(localities.isPublished, true)))
+    .orderBy(asc(localities.sortOrder)),
+);
+
+export const getAllLocalities = cache(async (clientId: string) =>
+  db.select().from(localities).where(eq(localities.clientId, clientId)).orderBy(asc(localities.sortOrder)),
+);
+
+export const getLocality = cache(async (clientId: string, slug: string) => {
+  const [row] = await db
+    .select()
+    .from(localities)
+    .where(
+      and(eq(localities.clientId, clientId), eq(localities.slug, slug), eq(localities.isPublished, true)),
+    )
     .limit(1);
   return row ?? null;
 });

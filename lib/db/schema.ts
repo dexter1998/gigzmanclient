@@ -6,6 +6,7 @@ import {
   varchar,
   boolean,
   integer,
+  real,
   date,
   timestamp,
   jsonb,
@@ -497,8 +498,12 @@ export const localities = pgTable(
     corridor: varchar("corridor", { length: 120 }),
 
     avgPricePerSqft: integer("avg_price_per_sqft"),
-    yoyChangePercent: integer("yoy_change_percent"),
-    rentalYieldPercent: integer("rental_yield_percent"),
+    // real, not integer: market figures like YoY appreciation and rental yield
+    // are conventionally quoted to one decimal place (e.g. 7.2%), and an
+    // integer column would silently round every seeded and dashboard-entered
+    // value.
+    yoyChangePercent: real("yoy_change_percent"),
+    rentalYieldPercent: real("rental_yield_percent"),
     activeProjects: integer("active_projects"),
     bestFor: varchar("best_for", { length: 120 }),
 

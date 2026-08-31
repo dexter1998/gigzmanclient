@@ -9,6 +9,12 @@ import Illustration from "@/components/site/Illustration";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getCalculators } from "@/lib/content";
 import { CALCULATOR_STATUS_LABELS, formatDate } from "@/lib/format";
+import { getVerticalConfig } from "@/lib/verticals";
+
+const DESCRIPTIONS: Record<string, string> = {
+  cafirm: "Indicative income tax, TDS and GST estimates. Results are not a substitute for professional advice.",
+  realestate: "Indicative EMI, stamp duty and rental yield estimates. Results are not a substitute for professional advice.",
+};
 
 export async function generateMetadata() {
   const tenant = await getTenant();
@@ -16,8 +22,7 @@ export async function generateMetadata() {
   const settings = await getFirmSettings(tenant.id);
   return {
     title: `Calculators — ${settings?.firmName ?? ""}`,
-    description:
-      "Indicative income tax, TDS and GST estimates. Results are not a substitute for professional advice.",
+    description: DESCRIPTIONS[tenant.vertical] ?? DESCRIPTIONS.cafirm,
   };
 }
 
@@ -27,6 +32,7 @@ export default async function CalculatorsPage() {
 
   const basePath = await getBasePath();
   const p = (path: string) => joinPath(basePath, path);
+  const vertical = getVerticalConfig(tenant.vertical);
   const calculators = (await getCalculators(tenant.id)).filter((c) => c.status !== "archived");
 
   const anyUnreviewed = calculators.some((c) => c.status === "ca_review_required");
@@ -47,7 +53,11 @@ export default async function CalculatorsPage() {
             <SectionHeader
             eyebrow="Tools"
             title="Indicative calculations with visible assumptions."
-            description="Use these to form an estimate before a discussion. Results do not replace professional advice and no calculator here recommends a course of action."
+            description={
+              vertical.id === "realestate"
+                ? "Use these to form a budget before a site visit. Results do not replace professional advice and no calculator here recommends a course of action."
+                : "Use these to form an estimate before a discussion. Results do not replace professional advice and no calculator here recommends a course of action."
+            }
           />
           </div>
           <Illustration

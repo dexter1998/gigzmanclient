@@ -137,7 +137,10 @@ export const UPDATE_STATUS_LABELS: Record<string, string> = {
 export const CALCULATOR_STATUS_LABELS: Record<string, string> = {
   draft: "Draft",
   testing: "Testing",
-  ca_review_required: "CA Review Required",
+  // The enum value name is a holdover from the CA-only schema; the label is
+  // deliberately vertical-neutral since real-estate calculators use the same
+  // status column.
+  ca_review_required: "Review Required",
   active: "Active",
   update_required: "Update Required",
   archived: "Archived",

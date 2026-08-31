@@ -16,12 +16,17 @@ export const realestate: VerticalConfig = {
 
   schemaType: "RealEstateAgent",
 
+  // "Insights" and "About" are the public-facing labels; the routes underneath
+  // (`/updates`, `/firm-profile`) are the same physical, vertical-agnostic
+  // route folders the CA vertical uses — only the label differs per vertical,
+  // same pattern as the dashboard nav's "Insights" pointing at
+  // `/dashboard/updates` below.
   nav: [
     { label: "Properties", path: "/properties" },
     { label: "Localities", path: "/localities" },
     { label: "Calculators", path: "/calculators" },
-    { label: "Insights", path: "/insights" },
-    { label: "About", path: "/about" },
+    { label: "Insights", path: "/updates" },
+    { label: "About", path: "/firm-profile" },
     { label: "Contact", path: "/contact" },
   ],
 
@@ -34,7 +39,7 @@ export const realestate: VerticalConfig = {
       { label: "Contact", path: "/contact" },
     ],
     resourceLinks: [
-      { label: "Market Insights", path: "/insights" },
+      { label: "Market Insights", path: "/updates" },
       { label: "Calculators", path: "/calculators" },
     ],
     externalLinks: [
@@ -71,8 +76,8 @@ export const realestate: VerticalConfig = {
     { path: "/calculators/emi", priority: 0.6 },
     { path: "/calculators/stamp-duty", priority: 0.6 },
     { path: "/calculators/rental-yield", priority: 0.6 },
-    { path: "/insights", priority: 0.6 },
-    { path: "/about", priority: 0.6 },
+    { path: "/updates", priority: 0.6 },
+    { path: "/firm-profile", priority: 0.6 },
     { path: "/contact", priority: 0.8 },
     { path: "/legal/privacy-policy", priority: 0.2 },
     { path: "/legal/terms-of-use", priority: 0.2 },

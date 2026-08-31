@@ -3,10 +3,14 @@ import CalculatorShell from "@/components/site/CalculatorShell";
 import IncomeTaxCalculator from "@/components/site/calculators/IncomeTaxCalculator";
 import TdsCalculator from "@/components/site/calculators/TdsCalculator";
 import GstCalculator from "@/components/site/calculators/GstCalculator";
+import EmiCalculator from "@/components/site/calculators/EmiCalculator";
+import StampDutyCalculator from "@/components/site/calculators/StampDutyCalculator";
+import RentalYieldCalculator from "@/components/site/calculators/RentalYieldCalculator";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getCalculator } from "@/lib/content";
 import type { AgeCategory } from "@/lib/calculators/income-tax";
 import type { AmountType } from "@/lib/calculators/gst";
+import type { OwnerCategory } from "@/lib/calculators/stamp-duty";
 
 export async function generateMetadata(props: PageProps<"/site/calculators/[key]">) {
   const { key } = await props.params;
@@ -24,6 +28,7 @@ export async function generateMetadata(props: PageProps<"/site/calculators/[key]
 }
 
 const AGE_CATEGORIES: AgeCategory[] = ["general", "senior", "superSenior"];
+const OWNER_CATEGORIES: OwnerCategory[] = ["male", "female", "joint"];
 
 function str(value: string | string[] | undefined): string | undefined {
   return typeof value === "string" && value.trim() ? value.trim() : undefined;
@@ -53,6 +58,7 @@ export default async function CalculatorPage(props: PageProps<"/site/calculators
   const age = str(searchParams.age);
   const rate = str(searchParams.rate);
   const amountType = str(searchParams.type);
+  const owner = str(searchParams.owner);
 
   return (
     <CalculatorShell
@@ -92,6 +98,42 @@ export default async function CalculatorPage(props: PageProps<"/site/calculators
               amountType === "inclusive" || amountType === "exclusive"
                 ? (amountType as AmountType)
                 : undefined,
+          }}
+        />
+      ) : null}
+
+      {calculator.key === "emi" ? (
+        <EmiCalculator
+          {...shared}
+          initial={{
+            principal: str(searchParams.principal),
+            rate: rate !== undefined && !Number.isNaN(Number(rate)) ? Number(rate) : undefined,
+            tenureYears:
+              str(searchParams.tenure) !== undefined && !Number.isNaN(Number(searchParams.tenure))
+                ? Number(searchParams.tenure)
+                : undefined,
+          }}
+        />
+      ) : null}
+
+      {calculator.key === "stamp-duty" ? (
+        <StampDutyCalculator
+          {...shared}
+          initial={{
+            propertyValue: str(searchParams.value),
+            ownerCategory: OWNER_CATEGORIES.includes(owner as OwnerCategory)
+              ? (owner as OwnerCategory)
+              : undefined,
+          }}
+        />
+      ) : null}
+
+      {calculator.key === "rental-yield" ? (
+        <RentalYieldCalculator
+          {...shared}
+          initial={{
+            propertyValue: str(searchParams.value),
+            monthlyRent: str(searchParams.rent),
           }}
         />
       ) : null}

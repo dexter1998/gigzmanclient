@@ -16,7 +16,13 @@ import {
   calculators,
   users,
 } from "../lib/db/schema";
-import { CALCULATOR_DEFINITIONS, RATES_VERSION, TAX_YEAR } from "../lib/calculators/registry";
+import {
+  CALCULATOR_DEFINITIONS,
+  REALESTATE_CALCULATOR_DEFINITIONS,
+  RATES_VERSION,
+  REALESTATE_RATES_VERSION,
+  TAX_YEAR,
+} from "../lib/calculators/registry";
 
 /**
  * Loads a client folder into the database.
@@ -255,7 +261,17 @@ async function main() {
   // practice; EMI/stamp duty/rental yield for real estate), so only the set
   // matching this client's vertical is seeded. A vertical without a registered
   // definition set yet simply seeds none rather than falling back to CA's.
-  const calculatorDefs = client.vertical === "cafirm" ? CALCULATOR_DEFINITIONS : [];
+  const calculatorDefs =
+    client.vertical === "cafirm"
+      ? CALCULATOR_DEFINITIONS
+      : client.vertical === "realestate"
+        ? REALESTATE_CALCULATOR_DEFINITIONS
+        : [];
+  // EMI/stamp-duty/rental-yield are not tied to a financial year the way
+  // income tax/TDS/GST are (schema.ts documents `calculators.taxYear` as
+  // nullable for exactly this reason).
+  const calculatorVersion = client.vertical === "cafirm" ? RATES_VERSION : REALESTATE_RATES_VERSION;
+  const calculatorTaxYear = client.vertical === "cafirm" ? TAX_YEAR : null;
 
   for (const def of calculatorDefs) {
     const values = {
@@ -263,8 +279,8 @@ async function main() {
       key: def.key,
       title: def.title,
       description: def.description,
-      version: RATES_VERSION,
-      taxYear: TAX_YEAR,
+      version: calculatorVersion,
+      taxYear: calculatorTaxYear,
       disclaimer: def.disclaimer,
       sourceNote: def.sourceNote,
       sortOrder: def.sortOrder,

@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Receipt, FileSpreadsheet, Percent, Check } from "lucide-react";
+import { ArrowRight, Receipt, FileSpreadsheet, Percent, Check, Landmark, ScrollText, TrendingUp } from "lucide-react";
 import { TDS_SECTIONS } from "@/lib/calculators/tds";
 import { GST_RATES } from "@/lib/calculators/gst";
+import { EMI_RATE_PRESETS, EMI_TENURE_PRESETS_YEARS } from "@/lib/calculators/rates/gurugram-2026";
+import type { OwnerCategory } from "@/lib/calculators/stamp-duty";
 import { analytics } from "@/lib/analytics";
 
 interface CalculatorSummary {
@@ -26,6 +28,9 @@ const ICONS: Record<string, typeof Receipt> = {
   "income-tax": Receipt,
   tds: FileSpreadsheet,
   gst: Percent,
+  emi: Landmark,
+  "stamp-duty": ScrollText,
+  "rental-yield": TrendingUp,
 };
 
 const FIELD =
@@ -61,6 +66,16 @@ export default function CalculatorPicker({
   const [gstRate, setGstRate] = useState(18);
   const [amountType, setAmountType] = useState("exclusive");
 
+  const [principal, setPrincipal] = useState("");
+  const [emiRate, setEmiRate] = useState(EMI_RATE_PRESETS[1]);
+  const [tenureYears, setTenureYears] = useState(EMI_TENURE_PRESETS_YEARS[3]);
+
+  const [propertyValue, setPropertyValue] = useState("");
+  const [ownerCategory, setOwnerCategory] = useState<OwnerCategory>("male");
+
+  const [yieldValue, setYieldValue] = useState("");
+  const [monthlyRent, setMonthlyRent] = useState("");
+
   const active = available.find((c) => c.key === activeKey);
   if (!active) return null;
 
@@ -80,6 +95,16 @@ export default function CalculatorPicker({
       if (gstAmount) params.set("amount", gstAmount.replace(/[^\d.]/g, ""));
       params.set("rate", String(gstRate));
       params.set("type", amountType);
+    } else if (activeKey === "emi") {
+      if (principal) params.set("principal", principal.replace(/[^\d.]/g, ""));
+      params.set("rate", String(emiRate));
+      params.set("tenure", String(tenureYears));
+    } else if (activeKey === "stamp-duty") {
+      if (propertyValue) params.set("value", propertyValue.replace(/[^\d.]/g, ""));
+      params.set("owner", ownerCategory);
+    } else if (activeKey === "rental-yield") {
+      if (yieldValue) params.set("value", yieldValue.replace(/[^\d.]/g, ""));
+      if (monthlyRent) params.set("rent", monthlyRent.replace(/[^\d.]/g, ""));
     }
 
     analytics.calculatorStart(activeKey, active.version);
@@ -303,6 +328,143 @@ export default function CalculatorPicker({
                     </button>
                   ))}
                 </div>
+              </div>
+            </>
+          ) : null}
+
+          {activeKey === "emi" ? (
+            <>
+              <div>
+                <label htmlFor="pick-principal" className={LABEL}>
+                  Loan amount
+                </label>
+                <input
+                  id="pick-principal"
+                  type="text"
+                  inputMode="numeric"
+                  value={principal}
+                  onChange={(e) => setPrincipal(e.target.value)}
+                  placeholder="0"
+                  className={FIELD}
+                />
+              </div>
+              <div>
+                <span className={LABEL}>Interest rate (per annum)</span>
+                <div className="flex flex-wrap gap-2">
+                  {EMI_RATE_PRESETS.map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setEmiRate(option)}
+                      aria-pressed={emiRate === option}
+                      className={`min-h-[40px] min-w-[64px] rounded-[8px] border px-3 text-[13px] transition-colors ${
+                        emiRate === option
+                          ? "border-navy bg-navy text-white"
+                          : "border-line-strong bg-surface text-ink-muted hover:border-navy"
+                      }`}
+                    >
+                      {option}%
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <span className={LABEL}>Tenure</span>
+                <div className="flex flex-wrap gap-2">
+                  {EMI_TENURE_PRESETS_YEARS.map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setTenureYears(option)}
+                      aria-pressed={tenureYears === option}
+                      className={`min-h-[40px] min-w-[56px] rounded-[8px] border px-3 text-[13px] transition-colors ${
+                        tenureYears === option
+                          ? "border-navy bg-navy text-white"
+                          : "border-line-strong bg-surface text-ink-muted hover:border-navy"
+                      }`}
+                    >
+                      {option} yr
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : null}
+
+          {activeKey === "stamp-duty" ? (
+            <>
+              <div>
+                <label htmlFor="pick-property-value" className={LABEL}>
+                  Property value
+                </label>
+                <input
+                  id="pick-property-value"
+                  type="text"
+                  inputMode="numeric"
+                  value={propertyValue}
+                  onChange={(e) => setPropertyValue(e.target.value)}
+                  placeholder="0"
+                  className={FIELD}
+                />
+              </div>
+              <div>
+                <span className={LABEL}>Owner category</span>
+                <div className="grid grid-cols-3 gap-2">
+                  {(
+                    [
+                      { value: "male", label: "Male" },
+                      { value: "female", label: "Female" },
+                      { value: "joint", label: "Joint" },
+                    ] as const
+                  ).map((option) => (
+                    <button
+                      key={option.value}
+                      type="button"
+                      onClick={() => setOwnerCategory(option.value)}
+                      aria-pressed={ownerCategory === option.value}
+                      className={`min-h-[44px] rounded-[8px] border px-3 text-[13px] transition-colors ${
+                        ownerCategory === option.value
+                          ? "border-navy bg-navy text-white"
+                          : "border-line-strong bg-surface text-ink-muted hover:border-navy"
+                      }`}
+                    >
+                      {option.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : null}
+
+          {activeKey === "rental-yield" ? (
+            <>
+              <div>
+                <label htmlFor="pick-yield-value" className={LABEL}>
+                  Property value
+                </label>
+                <input
+                  id="pick-yield-value"
+                  type="text"
+                  inputMode="numeric"
+                  value={yieldValue}
+                  onChange={(e) => setYieldValue(e.target.value)}
+                  placeholder="0"
+                  className={FIELD}
+                />
+              </div>
+              <div>
+                <label htmlFor="pick-rent" className={LABEL}>
+                  Expected monthly rent
+                </label>
+                <input
+                  id="pick-rent"
+                  type="text"
+                  inputMode="numeric"
+                  value={monthlyRent}
+                  onChange={(e) => setMonthlyRent(e.target.value)}
+                  placeholder="0"
+                  className={FIELD}
+                />
               </div>
             </>
           ) : null}

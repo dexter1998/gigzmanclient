@@ -17,10 +17,19 @@ const DAY_MAP: Record<string, string> = {
  * markup cannot drift from what is displayed or from the Google Business Profile.
  *
  * `aggregateRating` is deliberately absent: self-serving review markup breaches
- * Google's structured data guidelines, and ICAI's Code of Ethics prohibits a
+ * Google's structured data guidelines — that holds for every vertical, not
+ * just the CA one, where ICAI's Code of Ethics separately prohibits a
  * chartered accountant advertising ratings or testimonials.
+ *
+ * `schemaType` comes from `VerticalConfig.schemaType` (`AccountingService`
+ * for the CA vertical, `RealEstateAgent` for real estate) so this builder
+ * stays vertical-agnostic.
  */
-export function buildOrganizationJsonLd(settings: Settings, siteUrl: string) {
+export function buildOrganizationJsonLd(
+  settings: Settings,
+  siteUrl: string,
+  schemaType = "AccountingService",
+) {
   const hours = (settings.openingHours ?? [])
     .filter((h) => !h.closed && h.opens && h.closes)
     .map((h) => ({
@@ -32,7 +41,7 @@ export function buildOrganizationJsonLd(settings: Settings, siteUrl: string) {
 
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": "AccountingService",
+    "@type": schemaType,
     name: settings.firmName,
     url: siteUrl,
   };
@@ -117,6 +126,77 @@ export function buildArticleJsonLd(input: {
       : undefined,
     publisher: { "@type": "Organization", name: input.publisherName },
   };
+}
+
+export function buildItemListJsonLd(items: { name: string; url: string; image?: string | null }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      url: item.url,
+      name: item.name,
+      image: item.image ?? undefined,
+    })),
+  };
+}
+
+/**
+ * Per-property listing markup for the real-estate vertical. Unlike the CA
+ * vertical — where ICAI rules keep price out of every payload — a property
+ * price is exactly what a buyer expects a listing to disclose, so `Offer`
+ * carries it here.
+ *
+ * `reraNumber` deliberately does not appear: schema.org has no dedicated RERA
+ * property, and the registration number is already surfaced as visible page
+ * content (see `PropertyCard`), which is what actually matters for
+ * compliance. Inventing a custom JSON-LD property for it would be markup for
+ * markup's sake.
+ */
+export function buildPropertyListingJsonLd(input: {
+  title: string;
+  description: string | null;
+  url: string;
+  image: string | null;
+  price: number | null;
+  purpose: "buy" | "rent";
+  locality: string | null;
+  region?: string;
+  country?: string;
+}) {
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "RealEstateListing",
+    name: input.title,
+    description: input.description ?? undefined,
+    url: input.url,
+    image: input.image ?? undefined,
+  };
+
+  if (input.locality) {
+    jsonLd.areaServed = {
+      "@type": "Place",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: input.locality,
+        addressRegion: input.region ?? undefined,
+        addressCountry: input.country ?? "India",
+      },
+    };
+  }
+
+  if (input.price) {
+    jsonLd.offers = {
+      "@type": "Offer",
+      price: input.price,
+      priceCurrency: "INR",
+      businessFunction: input.purpose === "rent" ? "http://purl.org/goodrelations/v1#LeaseOut" : "http://purl.org/goodrelations/v1#Sell",
+      availability: "https://schema.org/InStock",
+    };
+  }
+
+  return jsonLd;
 }
 
 /** Docs recommend a plain script tag with `<` escaped, not next/script. */

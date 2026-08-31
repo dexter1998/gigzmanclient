@@ -33,7 +33,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
   return (
     <>
-      <script {...jsonLdProps(buildOrganizationJsonLd(settings, basePath || "/"))} />
+      <script
+        {...jsonLdProps(buildOrganizationJsonLd(settings, basePath || "/", vertical.schemaType))}
+      />
 
       {deadline && effectiveDate ? (
         <AnnouncementBar

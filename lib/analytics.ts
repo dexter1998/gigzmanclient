@@ -87,9 +87,15 @@ export const analytics = {
       calculator_version: calculatorVersion,
     }),
 
-  /** Records that a calculation completed — never what it produced. */
-  calculatorComplete: (calculatorId: string, taxYear: string) =>
-    track("calculator_complete", { calculator_id: calculatorId, tax_year: taxYear }),
+  /**
+   * Records that a calculation completed — never what it produced. `taxYear` is
+   * nullable: not every calculator (e.g. EMI) is tied to a financial period.
+   */
+  calculatorComplete: (calculatorId: string, taxYear: string | null) =>
+    track("calculator_complete", {
+      calculator_id: calculatorId,
+      tax_year: taxYear ?? undefined,
+    }),
 
   calculatorLeadClick: (calculatorId: string, serviceId?: string) =>
     track("calculator_lead_click", { calculator_id: calculatorId, service_id: serviceId }),

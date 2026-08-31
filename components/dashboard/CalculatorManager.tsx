@@ -13,7 +13,7 @@ interface CalculatorRow {
   title: string;
   description: string;
   version: string;
-  taxYear: string;
+  taxYear: string | null;
   status: string;
   reviewerName: string;
   disclaimer: string;

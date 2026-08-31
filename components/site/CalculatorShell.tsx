@@ -41,7 +41,7 @@ export default function CalculatorShell({
               {CALCULATOR_STATUS_LABELS[calculator.status] ?? calculator.status}
             </Badge>
             <span className="text-[12px] text-ink-subtle">
-              {calculator.taxYear} · v{calculator.version}
+              {calculator.taxYear ? `${calculator.taxYear} · ` : ""}v{calculator.version}
             </span>
           </div>
 
@@ -57,8 +57,8 @@ export default function CalculatorShell({
                 </p>
                 <p className="mt-1 text-[12px] leading-relaxed text-ink-muted">
                   The rate set applied here has not yet been confirmed against the provisions in
-                  force for {calculator.taxYear}. Treat the result as provisional and confirm before
-                  relying on it.
+                  force{calculator.taxYear ? ` for ${calculator.taxYear}` : ""}. Treat the result as
+                  provisional and confirm before relying on it.
                 </p>
               </div>
             </div>

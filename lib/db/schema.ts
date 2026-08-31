@@ -71,14 +71,15 @@ export const calculatorStatus = pgEnum("calculator_status", [
   "archived",
 ]);
 
-export const serviceCategory = pgEnum("service_category", [
-  "taxation",
-  "gst",
-  "audit_assurance",
-  "business_corporate",
-]);
-
 export const userRole = pgEnum("user_role", ["admin", "editor"]);
+
+export const propertyPurpose = pgEnum("property_purpose", ["buy", "rent"]);
+
+export const propertyStatus = pgEnum("property_status", [
+  "new_launch",
+  "under_construction",
+  "ready_to_move",
+]);
 
 export const clients = pgTable("clients", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -87,6 +88,8 @@ export const clients = pgTable("clients", {
   displayName: text("display_name").notNull(),
   customDomain: varchar("custom_domain", { length: 255 }),
   isActive: boolean("is_active").notNull().default(true),
+  /** Marks a tenant as a template-library showcase rather than a real client. */
+  isDemo: boolean("is_demo").notNull().default(false),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
 
@@ -190,7 +193,11 @@ export const services = pgTable(
       .references(() => clients.id, { onDelete: "cascade" }),
     slug: varchar("slug", { length: 140 }).notNull(),
     title: text("title").notNull(),
-    category: serviceCategory("category").notNull(),
+    // Plain varchar rather than a pgEnum: valid categories differ per vertical
+    // (lib/verticals/*.ts serviceCategories) and are validated at the
+    // application layer rather than by a database-level enum, which would need
+    // a migration every time a vertical's category set changes.
+    category: varchar("category", { length: 60 }).notNull(),
     summary: text("summary"),
 
     overview: text("overview"),
@@ -352,7 +359,13 @@ export const calculators = pgTable(
 
     /** Formula version — rate tables live in code and are not editable from the dashboard. */
     version: varchar("version", { length: 30 }).notNull(),
-    taxYear: varchar("tax_year", { length: 60 }).notNull(),
+    /**
+     * Applicable period for the current rate set — "FY 2026-27" for a tax
+     * calculator, a quarter or "N/A" for one that isn't period-sensitive (an
+     * EMI calculator's formula doesn't expire with a financial year the way a
+     * tax slab does). Nullable for exactly that reason.
+     */
+    taxYear: varchar("tax_year", { length: 60 }),
     status: calculatorStatus("status").notNull().default("ca_review_required"),
 
     reviewerName: text("reviewer_name"),
@@ -381,16 +394,127 @@ export const legalPages = pgTable(
   (t) => [unique("legal_pages_client_slug_unique").on(t.clientId, t.slug)],
 );
 
-export const users = pgTable("users", {
+export const users = pgTable(
+  "users",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    clientId: uuid("client_id")
+      .notNull()
+      .references(() => clients.id, { onDelete: "cascade" }),
+    // Unique per client rather than globally, so the same person can hold a
+    // dashboard login on more than one tenant (e.g. an agency running both
+    // its CA template demo and its real-estate template demo).
+    email: varchar("email", { length: 160 }).notNull(),
+    passwordHash: text("password_hash").notNull(),
+    name: text("name"),
+    role: userRole("role").notNull().default("editor"),
+    isActive: boolean("is_active").notNull().default(true),
+    lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [unique("users_client_email_unique").on(t.clientId, t.email)],
+);
+
+// ───────────────────────────────────────────────────────── real-estate vertical
+
+export const properties = pgTable(
+  "properties",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    clientId: uuid("client_id")
+      .notNull()
+      .references(() => clients.id, { onDelete: "cascade" }),
+    slug: varchar("slug", { length: 160 }).notNull(),
+    title: text("title").notNull(),
+    propertyType: varchar("property_type", { length: 40 }).notNull(),
+    purpose: propertyPurpose("purpose").notNull().default("buy"),
+    status: propertyStatus("status").notNull().default("ready_to_move"),
+
+    price: integer("price"),
+    /** Display form — "₹2.15 Cr onwards", "Price on request". */
+    priceLabel: text("price_label"),
+    pricePerSqft: integer("price_per_sqft"),
+
+    sector: varchar("sector", { length: 40 }),
+    locality: varchar("locality", { length: 120 }),
+    corridor: varchar("corridor", { length: 120 }),
+
+    beds: integer("beds"),
+    baths: integer("baths"),
+    area: integer("area"),
+    areaUnit: varchar("area_unit", { length: 20 }).default("sqft"),
+
+    /** Free-form highlight — "New Launch", "RERA Registered". */
+    badge: text("badge"),
+    developer: text("developer"),
+
+    /**
+     * RERA registration number — the real-estate analogue of the CA vertical's
+     * ICAI firm registration number. A listing without one shows a visible
+     * "registration pending" state on the card rather than silently omitting
+     * it (see PropertyCard), because the Real Estate (Regulation and
+     * Development) Act requires this on any advertisement for a registered
+     * project.
+     */
+    reraNumber: varchar("rera_number", { length: 60 }),
+
+    description: text("description"),
+    amenities: jsonb("amenities").$type<string[]>().default([]),
+    specs: jsonb("specs").$type<Record<string, string>>().default({}),
+
+    isFeatured: boolean("is_featured").notNull().default(false),
+    isActive: boolean("is_active").notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [unique("properties_client_slug_unique").on(t.clientId, t.slug)],
+);
+
+export const propertyImages = pgTable("property_images", {
   id: uuid("id").primaryKey().defaultRandom(),
-  clientId: uuid("client_id")
+  propertyId: uuid("property_id")
     .notNull()
-    .references(() => clients.id, { onDelete: "cascade" }),
-  email: varchar("email", { length: 160 }).notNull().unique(),
-  passwordHash: text("password_hash").notNull(),
-  name: text("name"),
-  role: userRole("role").notNull().default("editor"),
-  isActive: boolean("is_active").notNull().default(true),
-  lastLoginAt: timestamp("last_login_at", { withTimezone: true }),
+    .references(() => properties.id, { onDelete: "cascade" }),
+  /** Path under public/uploads/{clientId}/{propertyId}/ — never a trusted client filename. */
+  path: text("path").notNull(),
+  alt: text("alt"),
+  isPrimary: boolean("is_primary").notNull().default(false),
+  sortOrder: integer("sort_order").notNull().default(0),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const localities = pgTable(
+  "localities",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    clientId: uuid("client_id")
+      .notNull()
+      .references(() => clients.id, { onDelete: "cascade" }),
+    slug: varchar("slug", { length: 160 }).notNull(),
+    name: text("name").notNull(),
+    corridor: varchar("corridor", { length: 120 }),
+
+    avgPricePerSqft: integer("avg_price_per_sqft"),
+    yoyChangePercent: integer("yoy_change_percent"),
+    rentalYieldPercent: integer("rental_yield_percent"),
+    activeProjects: integer("active_projects"),
+    bestFor: varchar("best_for", { length: 120 }),
+
+    /**
+     * Required to have genuinely local content, not a name swap on a template —
+     * a locality page with nothing distinguishing it from another is a doorway
+     * page and an index-bloat liability. check-content.ts flags any locality
+     * whose description is missing, too short, or duplicates another.
+     */
+    description: text("description"),
+
+    heroImage: text("hero_image"),
+    lastVerifiedAt: date("last_verified_at"),
+    isPublished: boolean("is_published").notNull().default(true),
+    sortOrder: integer("sort_order").notNull().default(0),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [unique("localities_client_slug_unique").on(t.clientId, t.slug)],
+);

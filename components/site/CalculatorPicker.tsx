@@ -11,7 +11,7 @@ interface CalculatorSummary {
   key: string;
   title: string;
   description: string | null;
-  taxYear: string;
+  taxYear: string | null;
   version: string;
   status: string;
 }

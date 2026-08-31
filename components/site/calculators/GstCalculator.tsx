@@ -8,7 +8,7 @@ import { analytics } from "@/lib/analytics";
 interface GstCalculatorProps {
   calculatorKey: string;
   version: string;
-  taxYear: string;
+  taxYear: string | null;
   /** Values carried over from the picker on another page. */
   initial?: { amount?: string; rate?: number; amountType?: AmountType };
 }

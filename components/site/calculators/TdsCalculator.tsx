@@ -9,7 +9,7 @@ import { analytics } from "@/lib/analytics";
 interface TdsCalculatorProps {
   calculatorKey: string;
   version: string;
-  taxYear: string;
+  taxYear: string | null;
   /** Values carried over from the picker on another page. */
   initial?: { section?: string; payment?: string; panAvailable?: boolean };
 }

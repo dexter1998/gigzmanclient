@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { isVerticalId } from "./lib/verticals";
 
 /**
  * Tenant resolution for a deployment that serves many client sites.
@@ -12,12 +13,14 @@ import type { NextRequest } from "next/server";
  *
  * Either way the internal route tree stays clean and the tenant travels as a
  * request header that Server Components read through `headers()`.
+ *
+ * This only checks that the vertical segment is a *known* vertical — it has no
+ * database access. Whether it's the correct vertical *for that client* is
+ * asserted in `lib/tenant.ts`, which already queries `clients` by slug and can
+ * compare against the stored `vertical` in the same round trip.
  */
 
 const TENANT_MODE = process.env.TENANT_MODE === "host" ? "host" : "path";
-
-/** Verticals that may appear as the first path segment in path mode. */
-const VERTICALS = new Set(["cafirm"]);
 
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{0,118}[a-z0-9]$/;
 
@@ -46,13 +49,14 @@ export function proxy(request: NextRequest) {
   // request for it would render a tenant page with no tenant resolved.
   if (vertical === "site") return NextResponse.redirect(new URL("/", request.url));
 
-  if (!vertical || !VERTICALS.has(vertical) || !slug || !SLUG_PATTERN.test(slug)) {
+  if (!vertical || !isVerticalId(vertical) || !slug || !SLUG_PATTERN.test(slug)) {
     // Un-prefixed paths would otherwise render a tenant page with no tenant.
     return NextResponse.redirect(new URL("/", request.url));
   }
 
   const headers = new Headers(request.headers);
   headers.set("x-tenant", slug);
+  headers.set("x-tenant-vertical", vertical);
   headers.set("x-tenant-base", `/${vertical}/${slug}`);
 
   // Tenant pages live under an internal /site prefix so that `/` stays free for

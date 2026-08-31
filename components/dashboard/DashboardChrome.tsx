@@ -14,38 +14,47 @@ import {
   LogOut,
   Menu,
   X,
+  Building2,
+  MapPin,
+  type LucideIcon,
 } from "lucide-react";
 import { logout } from "@/lib/actions/auth-actions";
 import { joinPath } from "@/lib/paths";
+import type { DashboardNavItem } from "@/lib/verticals";
+
+/** Resolves the icon name string stored in each vertical's dashboardNav config. */
+const ICONS: Record<string, LucideIcon> = {
+  LayoutDashboard,
+  Inbox,
+  FileText,
+  CalendarClock,
+  Calculator,
+  Settings,
+  Building2,
+  MapPin,
+};
 
 interface DashboardChromeProps {
   firmName: string;
   basePath: string;
   siteHref: string;
+  navItems: DashboardNavItem[];
   user: { name: string | null; email: string; role: "admin" | "editor" };
   children: React.ReactNode;
 }
-
-const NAV = [
-  { label: "Overview", path: "/dashboard", icon: LayoutDashboard, adminOnly: false },
-  { label: "Queries", path: "/dashboard/queries", icon: Inbox, adminOnly: false },
-  { label: "Updates", path: "/dashboard/updates", icon: FileText, adminOnly: false },
-  { label: "Compliance", path: "/dashboard/compliance", icon: CalendarClock, adminOnly: false },
-  { label: "Calculators", path: "/dashboard/calculators", icon: Calculator, adminOnly: true },
-  { label: "Settings", path: "/dashboard/settings", icon: Settings, adminOnly: true },
-];
 
 export default function DashboardChrome({
   firmName,
   basePath,
   siteHref,
+  navItems,
   user,
   children,
 }: DashboardChromeProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
-  const items = NAV.filter((item) => !item.adminOnly || user.role === "admin");
+  const items = navItems.filter((item) => !item.adminOnly || user.role === "admin");
 
   const isActive = (path: string) => {
     const href = joinPath(basePath, path);
@@ -56,7 +65,7 @@ export default function DashboardChrome({
     <nav className="space-y-1">
       {items.map((item) => {
         const href = joinPath(basePath, item.path);
-        const Icon = item.icon;
+        const Icon = ICONS[item.icon] ?? LayoutDashboard;
         const active = isActive(item.path);
         return (
           <Link

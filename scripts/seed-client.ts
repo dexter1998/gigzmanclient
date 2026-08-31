@@ -250,7 +250,14 @@ async function main() {
   }
 
   // ----------------------------------------------------------- calculators
-  for (const def of CALCULATOR_DEFINITIONS) {
+  //
+  // Calculator definitions are vertical-specific (income tax/TDS/GST for a CA
+  // practice; EMI/stamp duty/rental yield for real estate), so only the set
+  // matching this client's vertical is seeded. A vertical without a registered
+  // definition set yet simply seeds none rather than falling back to CA's.
+  const calculatorDefs = client.vertical === "cafirm" ? CALCULATOR_DEFINITIONS : [];
+
+  for (const def of calculatorDefs) {
     const values = {
       clientId,
       key: def.key,
@@ -263,8 +270,8 @@ async function main() {
       sortOrder: def.sortOrder,
       updatedAt: new Date(),
     };
-    // Status is intentionally excluded from the update set: once a CA promotes a
-    // calculator to active, re-seeding must not silently revert that decision.
+    // Status is intentionally excluded from the update set: once a calculator is
+    // promoted to active, re-seeding must not silently revert that decision.
     await db
       .insert(calculators)
       .values(values)
@@ -273,7 +280,7 @@ async function main() {
         set: { ...values, status: undefined },
       });
   }
-  console.log(`calc     ${CALCULATOR_DEFINITIONS.length}`);
+  if (calculatorDefs.length > 0) console.log(`calc     ${calculatorDefs.length}`);
 
   // ------------------------------------------------------------ admin user
   const adminEmail = process.env.SEED_ADMIN_EMAIL ?? `admin@${slug}.local`;

@@ -8,6 +8,7 @@ import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getNextDeadline, getServices } from "@/lib/content";
 import { buildOrganizationJsonLd, jsonLdProps } from "@/lib/schema-org";
 import { deadlineInstant, daysUntil, formatDate } from "@/lib/format";
+import { getVerticalConfig } from "@/lib/verticals";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const tenant = await getTenant();
@@ -23,15 +24,9 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
   if (!settings) notFound();
 
   const p = (path: string) => joinPath(basePath, path);
+  const vertical = getVerticalConfig(tenant.vertical);
 
-  const navItems = [
-    { label: "Firm Profile", href: p("/firm-profile") },
-    { label: "Services", href: p("/services") },
-    { label: "Calculators", href: p("/calculators") },
-    { label: "Updates", href: p("/updates") },
-    { label: "Calendar", href: p("/compliance-calendar") },
-    { label: "Contact", href: p("/contact") },
-  ];
+  const navItems = vertical.nav.map((item) => ({ label: item.label, href: p(item.path) }));
 
   const categories = [...new Set(services.map((s) => s.category))];
   const effectiveDate = deadline ? (deadline.extendedDueDate ?? deadline.dueDate) : null;
@@ -61,7 +56,12 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
 
       <main className="flex-1">{children}</main>
 
-      <SiteFooter settings={settings} basePath={basePath} categories={categories} />
+      <SiteFooter
+        settings={settings}
+        basePath={basePath}
+        categories={categories}
+        vertical={vertical}
+      />
 
       {settings.whatsapp ? (
         <WhatsAppFloat number={settings.whatsapp} firmName={settings.firmName} />

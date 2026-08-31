@@ -3,33 +3,14 @@ import { eq, and, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { clients, services, professionalUpdates } from "@/lib/db/schema";
 import { LOCATION_PAGES } from "@/lib/locations";
+import { getVerticalConfig } from "@/lib/verticals";
 
 export const dynamic = "force-dynamic";
 
-const STATIC_PATHS = [
-  { path: "", priority: 1 },
-  { path: "/firm-profile", priority: 0.8 },
-  { path: "/services", priority: 0.9 },
-  { path: "/calculators", priority: 0.7 },
-  { path: "/calculators/income-tax", priority: 0.6 },
-  { path: "/calculators/tds", priority: 0.6 },
-  { path: "/calculators/gst", priority: 0.6 },
-  { path: "/updates", priority: 0.7 },
-  { path: "/compliance-calendar", priority: 0.7 },
-  { path: "/knowledge", priority: 0.6 },
-  { path: "/faq", priority: 0.6 },
-  { path: "/careers", priority: 0.5 },
-  { path: "/contact", priority: 0.8 },
-  { path: "/legal/privacy-policy", priority: 0.2 },
-  { path: "/legal/terms-of-use", priority: 0.2 },
-  { path: "/legal/disclaimer", priority: 0.2 },
-  { path: "/legal/calculator-disclaimer", priority: 0.2 },
-  { path: "/legal/cookie-notice", priority: 0.2 },
-];
-
 /**
- * Emits one entry set per hosted client. The dashboard, the deployment index and
- * the thank-you page are excluded.
+ * Emits one entry set per hosted client, using that client's vertical config
+ * for the static route list. The dashboard, the deployment index, the template
+ * library and the thank-you page are excluded.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
@@ -38,11 +19,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
 
   for (const client of activeClients) {
+    const vertical = getVerticalConfig(client.vertical);
     const prefix = client.customDomain
       ? `https://${client.customDomain}`
       : `${base}/${client.vertical}/${client.slug}`;
 
-    for (const entry of STATIC_PATHS) {
+    for (const entry of vertical.sitemapPaths) {
       entries.push({
         url: `${prefix}${entry.path}`,
         lastModified: new Date(),
@@ -50,8 +32,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
 
-    for (const location of LOCATION_PAGES) {
-      entries.push({ url: `${prefix}/${location.slug}`, lastModified: new Date(), priority: 0.7 });
+    // Location landing pages are a CA-specific content set today (lib/locations.ts).
+    // Real estate gets its equivalent local-SEO surface from `localities`, added
+    // to this sitemap once that table exists.
+    if (client.vertical === "cafirm") {
+      for (const location of LOCATION_PAGES) {
+        entries.push({ url: `${prefix}/${location.slug}`, lastModified: new Date(), priority: 0.7 });
+      }
     }
 
     const [serviceRows, updateRows] = await Promise.all([

@@ -19,7 +19,16 @@ export const getTenant = cache(async (): Promise<Tenant | null> => {
   const slug = h.get("x-tenant");
   if (slug) {
     const [row] = await db.select().from(clients).where(eq(clients.slug, slug)).limit(1);
-    return row ?? null;
+    if (!row) return null;
+
+    // proxy.ts only confirms the URL's vertical segment is a *known* vertical —
+    // it never touches the database. Here is where that segment is checked
+    // against the client's actual vertical, so /cafirm/<realestate-client-slug>
+    // 404s instead of rendering that client under the wrong template.
+    const urlVertical = h.get("x-tenant-vertical");
+    if (urlVertical && urlVertical !== row.vertical) return null;
+
+    return row;
   }
 
   const host = h.get("x-tenant-host");

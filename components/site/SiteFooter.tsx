@@ -3,47 +3,21 @@ import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import SocialIcon, { SUPPORTED_SOCIALS } from "./SocialIcon";
 import BrandMark from "./BrandMark";
 import { joinPath } from "@/lib/tenant";
-import { SERVICE_CATEGORY_LABELS, formatDate } from "@/lib/format";
+import { formatDate } from "@/lib/format";
 import type { firmSettings } from "@/lib/db/schema";
+import type { VerticalConfig } from "@/lib/verticals";
 
 interface SiteFooterProps {
   settings: typeof firmSettings.$inferSelect;
   basePath: string;
   categories: string[];
+  vertical: VerticalConfig;
 }
 
-const QUICK_LINKS = [
-  { label: "Home", path: "/" },
-  { label: "Firm Profile", path: "/firm-profile" },
-  { label: "Services", path: "/services" },
-  { label: "Compliance Calendar", path: "/compliance-calendar" },
-  { label: "Careers", path: "/careers" },
-  { label: "Contact", path: "/contact" },
-];
-
-const RESOURCE_LINKS = [
-  { label: "Professional Updates", path: "/updates" },
-  { label: "Knowledge Centre", path: "/knowledge" },
-  { label: "Calculators", path: "/calculators" },
-  { label: "FAQs", path: "/faq" },
-];
-
-const LEGAL_LINKS = [
-  { label: "Privacy Policy", slug: "privacy-policy" },
-  { label: "Terms of Use", slug: "terms-of-use" },
-  { label: "Disclaimer", slug: "disclaimer" },
-  { label: "Calculator Disclaimer", slug: "calculator-disclaimer" },
-  { label: "Cookie Notice", slug: "cookie-notice" },
-];
-
-/** Links to regulatory portals are expressly permitted under the ICAI website guidelines. */
-const GOVERNMENT_LINKS = [
-  { label: "Income Tax e-Filing", url: "https://www.incometax.gov.in" },
-  { label: "GST Portal", url: "https://www.gst.gov.in" },
-];
-
-export default function SiteFooter({ settings, basePath, categories }: SiteFooterProps) {
+export default function SiteFooter({ settings, basePath, categories, vertical }: SiteFooterProps) {
   const p = (path: string) => joinPath(basePath, path);
+  const categoryLabel = (value: string) =>
+    vertical.serviceCategories.find((c) => c.value === value)?.label ?? value;
 
   // Address is composed from the same fields the JSON-LD uses, so the two cannot diverge.
   const addressParts = [
@@ -118,7 +92,7 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
           </div>
 
           <FooterColumn title="Quick Links">
-            {QUICK_LINKS.map((link) => (
+            {vertical.footer.quickLinks.map((link) => (
               <FooterLink key={link.path} href={p(link.path)}>
                 {link.label}
               </FooterLink>
@@ -128,19 +102,18 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
           <FooterColumn title="Services">
             {categories.map((category) => (
               <FooterLink key={category} href={p(`/services#${category}`)}>
-                {SERVICE_CATEGORY_LABELS[category] ?? category}
+                {categoryLabel(category)}
               </FooterLink>
             ))}
-            <FooterLink href={p("/services")}>All Services</FooterLink>
           </FooterColumn>
 
           <FooterColumn title="Resources">
-            {RESOURCE_LINKS.map((link) => (
+            {vertical.footer.resourceLinks.map((link) => (
               <FooterLink key={link.path} href={p(link.path)}>
                 {link.label}
               </FooterLink>
             ))}
-            {GOVERNMENT_LINKS.map((link) => (
+            {vertical.footer.externalLinks.map((link) => (
               <li key={link.url}>
                 <a
                   href={link.url}
@@ -196,18 +169,11 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
 
         <div className="mt-11 border-t border-white/10 pt-6">
           {/*
-            Chartered accountants in practice may not solicit work or advertise. This
-            notice is the standard position adopted across ICAI-registered practice
-            websites and frames the site as information provided on request.
+            Every vertical carries a regulatory-notice string in its config —
+            ICAI's no-solicitation position for accountancy, RERA's registration
+            requirement for real estate. Neither is optional boilerplate.
           */}
-          <p className="text-[12px] leading-relaxed text-white/40">
-            In accordance with the Chartered Accountants Act, 1949 and the guidelines issued by the
-            Institute of Chartered Accountants of India, this website is not an advertisement and
-            does not solicit work. There has been no advertisement, personal communication,
-            solicitation, invitation or inducement of any kind from the firm to create a
-            professional relationship through this website. Information published here is made
-            available only at the visitor&rsquo;s own request and for their own information.
-          </p>
+          <p className="text-[12px] leading-relaxed text-white/40">{vertical.footer.regulatoryNotice}</p>
           <p className="mt-3 text-[12px] leading-relaxed text-white/40">
             Content on this website is general information and does not constitute professional
             advice. No outcome is assured. Professional advice should be obtained before acting on
@@ -218,14 +184,14 @@ export default function SiteFooter({ settings, basePath, categories }: SiteFoote
             <p className="text-[12px] text-white/40">
               © {new Date().getFullYear()} {settings.firmName}
               {settings.firmRegistrationNumber
-                ? ` · ICAI FRN ${settings.firmRegistrationNumber}`
+                ? ` · ${vertical.footer.registrationLabel} ${settings.firmRegistrationNumber}`
                 : ""}
               {settings.establishedYear ? ` · Est. ${settings.establishedYear}` : ""}
               {" · Updated "}
               {formatDate(settings.updatedAt)}
             </p>
             <ul className="flex flex-wrap gap-x-4 gap-y-1">
-              {LEGAL_LINKS.map((link) => (
+              {vertical.footer.legalSlugs.map((link) => (
                 <li key={link.slug}>
                   <Link
                     href={p(`/legal/${link.slug}`)}

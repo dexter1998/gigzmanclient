@@ -51,6 +51,47 @@
   --shadow-raised: 0 2px 6px rgba(15, 44, 82, 0.06), 0 20px 44px -20px rgba(15, 44, 82, 0.24);
 }
 
+/**
+ * Per-vertical re-skin.
+ *
+ * Tailwind v4's generated utilities (`.bg-navy`, `.text-ink`, …) reference these
+ * custom properties through `var(--color-navy)` rather than inlining the value,
+ * so overriding them here re-skins every component with zero code changes. The
+ * attribute selector's specificity beats the bare `:root` the @theme block
+ * compiles to, so this always wins regardless of source order.
+ *
+ * `--color-ink` and the two `--shadow-*` tokens are redeclared deliberately —
+ * `--color-ink` equals the CA navy hex above by coincidence, and the shadows
+ * hard-code that navy as an inline rgba(). Overriding navy alone without these
+ * would desynchronise headings and shadows from the rest of the palette.
+ */
+:root[data-vertical="realestate"] {
+  --color-navy: #1a3d2b;
+  --color-navy-deep: #122c1f;
+  --color-navy-soft: #2c5f3f;
+  --color-navy-muted: #3d7a52;
+
+  --color-tint: #fdf8ef;
+  --color-tint-deep: #f5ead8;
+  --color-line: #e6e1d6;
+  --color-line-strong: #d9cdb0;
+
+  --color-accent: #c8992a;
+  --color-accent-hover: #b3861f;
+  --color-accent-soft: #f5e6b8;
+  --color-accent-ring: #e8b84b;
+
+  --color-ink: #1a1a1a;
+  --color-ink-muted: #3d3d3d;
+  --color-ink-subtle: #6b6b6b;
+
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+
+  --shadow-card: 0 8px 40px rgba(26, 61, 43, 0.15);
+  --shadow-raised: 0 4px 20px rgba(200, 153, 42, 0.3);
+}
+
 * {
   box-sizing: border-box;
 }

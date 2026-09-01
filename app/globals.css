@@ -66,16 +66,17 @@
  * would desynchronise headings and shadows from the rest of the palette.
  */
 :root[data-vertical="realestate"] {
-  /* Exact values from the High Properties DESIGN-SYSTEM.md pack: Forest /
-     Forest light / Gold / Soft gold / Ivory / Ink / Muted / Line. This is the
-     shared brand foundation across all four templates — each template then
-     layers its own hero/section treatment on top (see the [data-template]
-     overrides below for the one template, market-intelligence, whose own
-     design system calls for a navy-charcoal surface instead of ivory). */
-  --color-navy: #123c31;
-  --color-navy-deep: #0c2820;
-  --color-navy-soft: #1d5143;
-  --color-navy-muted: #3d6b5c;
+  /* Real client brand: Geeta Properties' own logo (navy roof-mark + gold
+     wordmark, "BUY - RENT - SALE" gold band). Navy/gold replaces the earlier
+     High-Properties-demo forest-green palette, per the actual logo supplied —
+     this is the shared brand foundation across all four templates; each
+     template then layers its own hero/section treatment on top (see the
+     [data-template] override below for market-intelligence's own deeper
+     navy-charcoal surface direction). */
+  --color-navy: #1b2436;
+  --color-navy-deep: #10151f;
+  --color-navy-soft: #2a3550;
+  --color-navy-muted: #4a5670;
 
   --color-tint: #f8f5ee;
   --color-tint-deep: #efe6d2;
@@ -87,14 +88,14 @@
   --color-accent-soft: #e9d5aa;
   --color-accent-ring: #d9b876;
 
-  --color-ink: #17211d;
-  --color-ink-muted: #64706a;
-  --color-ink-subtle: #8a958f;
+  --color-ink: #191d24;
+  --color-ink-muted: #5c6270;
+  --color-ink-subtle: #868c99;
 
   --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
 
-  --shadow-card: 0 8px 40px rgba(18, 60, 49, 0.15);
+  --shadow-card: 0 8px 40px rgba(27, 36, 54, 0.15);
   --shadow-raised: 0 4px 20px rgba(199, 155, 69, 0.3);
 }
 

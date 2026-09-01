@@ -288,7 +288,7 @@ export default async function RealEstateHome({ tenant }: { tenant: Tenant }) {
       {/* ── Why us ─────────────────────────────────────────────────────── */}
       <section className="border-b border-line bg-surface">
         <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 lg:px-8">
-          <h2 className="display-md text-center">Why High Properties?</h2>
+          <h2 className="display-md text-center">Why {settings.firmName}?</h2>
           <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {WHY_US.map((item) => {
               const Icon = item.icon;

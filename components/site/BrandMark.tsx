@@ -94,8 +94,11 @@ export default function BrandMark({
  * Original fallback mark for the real-estate vertical — a simple skyline/
  * gate glyph, not sourced from any downloaded asset kit (the approved kit's
  * own brand-mark placeholder was explicitly excluded; see
- * public/verticals/realestate/photos/README.md). Uses the vertical's own
- * green/gold palette rather than the CA mark's navy/orange/green.
+ * public/verticals/realestate/photos/README.md). Colored to Geeta
+ * Properties' actual navy/gold brand rather than the CA mark's navy/orange/
+ * green. If a real logo file (not just a chat-pasted image) is dropped into
+ * public/brand/ and set on a client's settings.logoUrl, that always wins —
+ * this fallback only renders when no logo is configured.
  */
 function RealEstateMark({
   className,
@@ -108,8 +111,8 @@ function RealEstateMark({
   withWordmark: boolean;
   onDark: boolean;
 }) {
-  const line = onDark ? "#ffffff" : "#1a3d2b";
-  const gold = "#c8992a";
+  const line = onDark ? "#ffffff" : "#1b2436";
+  const gold = "#c79b45";
 
   return (
     <svg

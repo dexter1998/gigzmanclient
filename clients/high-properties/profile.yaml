@@ -1,26 +1,26 @@
-# Client seed data — High Properties
+# Client seed data — Geeta Properties (Premium Inventory / Showcase template)
 #
-# DEMO / SAMPLE CLIENT — "High Properties" is not a real business. This folder
-# exists to power the real-estate template shown at /library and is never
-# meant to be delivered to an actual agent as their live site. Every figure,
-# registration number, phone number and address below is either fabricated
-# for demonstration purposes or deliberately left pending — see `_status`.
+# Geeta Properties is a real, existing Gurugram real estate agency (Google
+# Business Profile: "Geeta Properties", 3.6★, 408 reviews, Palam Vihar
+# Extension). Name, category, address and phone below are sourced from that
+# listing. Property/locality inventory, team names and RERA numbers remain
+# fabricated demo content — see `_status`.
 #
 # Loaded into the database by `pnpm seed:client high-properties`.
 # Run `pnpm check:content high-properties` for the placeholder checklist.
 
 slug: high-properties
 vertical: realestate
-display_name: High Properties
+display_name: Geeta Properties
 # Marks this tenant as a template-library demo, not a delivered client site —
 # surfaced on /library and excluded from anywhere real client sites are listed.
 is_demo: true
 
 firm:
-  name: High Properties
-  tagline: Residential and commercial listings across Gurugram's growth corridors
+  name: Geeta Properties
+  tagline: Buy. Rent. Sale.
   overview: >-
-    High Properties is a Gurugram-based real estate advisory helping buyers,
+    Geeta Properties is a Gurugram-based real estate agency helping buyers,
     tenants and investors navigate active listings across Golf Course Road,
     Dwarka Expressway, Sohna Road, SPR and New Gurugram. Every listing is
     reviewed before it goes live, and RERA registration status is shown
@@ -33,31 +33,33 @@ firm:
   business_category: Real Estate Agency
 
 contact:
-  phone: "098100 00000"
-  whatsapp: "098100 00000"
+  phone: "098999 22113"
+  whatsapp: "098999 22113"
   email: "enquiries@example.com"
-  address_line: "Tower B, DLF Cyber City"
-  locality: "Sector 24, Gurugram"
+  address_line: "Geeta Complex, Choma, Block E, Dharam Colony"
+  locality: "Palam Vihar Extension, Gurugram"
   region: Haryana
-  postal_code: "122002"
+  postal_code: "122017"
   country: India
   latitude: ""
   longitude: ""
-  google_maps_url: ""
+  google_maps_url: "https://share.google/AX9lFuP0j7JRB1pzI"
 
+# GBP shows only "Opens 9:30 am" — closing time and the rest of the weekly
+# pattern are assumed and need confirming with the agency.
 opening_hours:
-  - { day: Monday, opens: "10:00", closes: "19:00", closed: false }
-  - { day: Tuesday, opens: "10:00", closes: "19:00", closed: false }
-  - { day: Wednesday, opens: "10:00", closes: "19:00", closed: false }
-  - { day: Thursday, opens: "10:00", closes: "19:00", closed: false }
-  - { day: Friday, opens: "10:00", closes: "19:00", closed: false }
-  - { day: Saturday, opens: "10:00", closes: "19:00", closed: false }
-  - { day: Sunday, opens: "11:00", closes: "17:00", closed: false }
+  - { day: Monday, opens: "09:30", closes: "19:00", closed: false }
+  - { day: Tuesday, opens: "09:30", closes: "19:00", closed: false }
+  - { day: Wednesday, opens: "09:30", closes: "19:00", closed: false }
+  - { day: Thursday, opens: "09:30", closes: "19:00", closed: false }
+  - { day: Friday, opens: "09:30", closes: "19:00", closed: false }
+  - { day: Saturday, opens: "09:30", closes: "19:00", closed: false }
+  - { day: Sunday, opens: "10:00", closes: "17:00", closed: false }
 
 social_links: {}
 
 seo:
-  title: High Properties — Real Estate Listings in Gurugram
+  title: Geeta Properties — Real Estate Listings in Gurugram
   description: >-
     Browse residential and commercial listings across Gurugram's key corridors,
     with locality market data and buyer calculators.
@@ -96,21 +98,21 @@ notification_email: ""
 _status:
   slug: verified
   display_name: verified
-  firm.name: placeholder
-  firm.business_category: placeholder
+  firm.name: verified
+  firm.business_category: verified
   firm.tagline: placeholder
   firm.overview: placeholder
   firm.established_year: pending
   firm.firm_registration_number: pending
-  contact.phone: placeholder
+  contact.phone: verified
   contact.whatsapp: placeholder
   contact.email: placeholder
-  contact.address_line: placeholder
-  contact.locality: placeholder
-  contact.region: placeholder
-  contact.postal_code: placeholder
-  contact.country: placeholder
-  contact.google_maps_url: pending
+  contact.address_line: verified
+  contact.locality: verified
+  contact.region: verified
+  contact.postal_code: verified
+  contact.country: verified
+  contact.google_maps_url: verified
   contact.latitude: pending
   contact.longitude: pending
   opening_hours: placeholder

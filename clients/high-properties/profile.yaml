@@ -1,0 +1,123 @@
+# Client seed data — High Properties
+#
+# DEMO / SAMPLE CLIENT — "High Properties" is not a real business. This folder
+# exists to power the real-estate template shown at /library and is never
+# meant to be delivered to an actual agent as their live site. Every figure,
+# registration number, phone number and address below is either fabricated
+# for demonstration purposes or deliberately left pending — see `_status`.
+#
+# Loaded into the database by `pnpm seed:client high-properties`.
+# Run `pnpm check:content high-properties` for the placeholder checklist.
+
+slug: high-properties
+vertical: realestate
+display_name: High Properties
+# Marks this tenant as a template-library demo, not a delivered client site —
+# surfaced on /library and excluded from anywhere real client sites are listed.
+is_demo: true
+
+firm:
+  name: High Properties
+  tagline: Residential and commercial listings across Gurugram's growth corridors
+  overview: >-
+    High Properties is a Gurugram-based real estate advisory helping buyers,
+    tenants and investors navigate active listings across Golf Course Road,
+    Dwarka Expressway, Sohna Road, SPR and New Gurugram. Every listing is
+    reviewed before it goes live, and RERA registration status is shown
+    plainly on every property.
+  established_year: ""
+  # Left blank deliberately — see the RERA disclosure component on every
+  # property card and the footer's regulatory notice. Do not fill this with
+  # an invented number.
+  firm_registration_number: ""
+  business_category: Real Estate Agency
+
+contact:
+  phone: "098100 00000"
+  whatsapp: "098100 00000"
+  email: "enquiries@example.com"
+  address_line: "Tower B, DLF Cyber City"
+  locality: "Sector 24, Gurugram"
+  region: Haryana
+  postal_code: "122002"
+  country: India
+  latitude: ""
+  longitude: ""
+  google_maps_url: ""
+
+opening_hours:
+  - { day: Monday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Tuesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Wednesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Thursday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Friday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Saturday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Sunday, opens: "11:00", closes: "17:00", closed: false }
+
+social_links: {}
+
+seo:
+  title: High Properties — Real Estate Listings in Gurugram
+  description: >-
+    Browse residential and commercial listings across Gurugram's key corridors,
+    with locality market data and buyer calculators.
+
+analytics:
+  ga4_measurement_id: ""
+  search_console_verification: ""
+
+# Section visibility. No professional-body restriction applies to reviews for
+# a real-estate agency, unlike the CA vertical.
+features:
+  reviews: true
+  pricing: true
+  awards: false
+  client_logos: false
+  team: true
+
+team:
+  - name: Rohan Kapoor
+    designation: Founder & Principal Broker
+    qualifications: ""
+    membership_number: ""
+    bio: >-
+      Leads acquisitions and buyer advisory across Golf Course Road and
+      Dwarka Expressway.
+  - name: Simran Chadha
+    designation: Locality & Market Research
+    qualifications: ""
+    membership_number: ""
+    bio: >-
+      Tracks pricing and inventory movement across all five corridors covered
+      on this site.
+
+notification_email: ""
+
+_status:
+  slug: verified
+  display_name: verified
+  firm.name: placeholder
+  firm.business_category: placeholder
+  firm.tagline: placeholder
+  firm.overview: placeholder
+  firm.established_year: pending
+  firm.firm_registration_number: pending
+  contact.phone: placeholder
+  contact.whatsapp: placeholder
+  contact.email: placeholder
+  contact.address_line: placeholder
+  contact.locality: placeholder
+  contact.region: placeholder
+  contact.postal_code: placeholder
+  contact.country: placeholder
+  contact.google_maps_url: pending
+  contact.latitude: pending
+  contact.longitude: pending
+  opening_hours: placeholder
+  social_links: pending
+  seo.title: placeholder
+  seo.description: placeholder
+  analytics.ga4_measurement_id: pending
+  analytics.search_console_verification: pending
+  team: placeholder
+  notification_email: pending

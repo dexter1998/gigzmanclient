@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { eq, and, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
-import { clients, services, professionalUpdates } from "@/lib/db/schema";
+import { clients, services, professionalUpdates, properties, localities } from "@/lib/db/schema";
 import { LOCATION_PAGES } from "@/lib/locations";
 import { getVerticalConfig } from "@/lib/verticals";
 
@@ -32,16 +32,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       });
     }
 
-    // Location landing pages are a CA-specific content set today (lib/locations.ts).
-    // Real estate gets its equivalent local-SEO surface from `localities`, added
-    // to this sitemap once that table exists.
+    // Location landing pages are a CA-specific content set (lib/locations.ts);
+    // real estate's equivalent local-SEO surface is `localities`, added below.
     if (client.vertical === "cafirm") {
       for (const location of LOCATION_PAGES) {
         entries.push({ url: `${prefix}/${location.slug}`, lastModified: new Date(), priority: 0.7 });
       }
     }
 
-    const [serviceRows, updateRows] = await Promise.all([
+    const [serviceRows, updateRows, propertyRows, localityRows] = await Promise.all([
       db
         .select()
         .from(services)
@@ -55,6 +54,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             sql`${professionalUpdates.status} IN ('published','outdated')`,
           ),
         ),
+      db
+        .select()
+        .from(properties)
+        .where(and(eq(properties.clientId, client.id), eq(properties.isActive, true))),
+      db
+        .select()
+        .from(localities)
+        .where(and(eq(localities.clientId, client.id), eq(localities.isPublished, true))),
     ]);
 
     for (const service of serviceRows) {
@@ -69,6 +76,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       entries.push({
         url: `${prefix}/updates/${update.slug}`,
         lastModified: update.updatedAt,
+        priority: 0.6,
+      });
+    }
+
+    for (const property of propertyRows) {
+      entries.push({
+        url: `${prefix}/properties/${property.slug}`,
+        lastModified: property.updatedAt,
+        priority: property.isFeatured ? 0.8 : 0.7,
+      });
+    }
+
+    for (const locality of localityRows) {
+      entries.push({
+        url: `${prefix}/localities/${locality.slug}`,
+        lastModified: locality.updatedAt,
         priority: 0.6,
       });
     }

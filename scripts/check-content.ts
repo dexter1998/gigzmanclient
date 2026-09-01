@@ -52,12 +52,44 @@ for (const target of targets) {
 
   // Content files carry a single document-level status rather than per-field.
   const contentDir = join(dir, "content");
+  const thinLocalities: string[] = [];
   if (existsSync(contentDir)) {
     for (const file of readdirSync(contentDir).filter((f) => f.endsWith(".yaml"))) {
       const doc = parse(readFileSync(join(contentDir, file), "utf-8")) as { _status?: string };
       if (doc?._status === "placeholder") placeholder.push(`content/${file} (whole file)`);
       else if (doc?._status === "pending") pending.push(`content/${file} (whole file)`);
     }
+
+    // Thin-content / doorway-page guard for the real-estate vertical's locality
+    // pSEO pages — a locality page with no distinguishing content beyond a name
+    // swap is an index-bloat liability (see localities.description in schema.ts).
+    const localitiesPath = join(contentDir, "localities.yaml");
+    if (existsSync(localitiesPath)) {
+      const doc = parse(readFileSync(localitiesPath, "utf-8")) as {
+        localities?: { slug: string; description?: string }[];
+      };
+      const seen = new Map<string, string>();
+      const MIN_LENGTH = 120;
+      for (const loc of doc.localities ?? []) {
+        const desc = (loc.description ?? "").trim();
+        if (desc.length < MIN_LENGTH) {
+          thinLocalities.push(`${loc.slug} — description is ${desc.length} chars (min ${MIN_LENGTH})`);
+          continue;
+        }
+        const normalized = desc.toLowerCase().replace(/\s+/g, " ");
+        const dupOf = seen.get(normalized);
+        if (dupOf) {
+          thinLocalities.push(`${loc.slug} — description duplicates "${dupOf}"`);
+        } else {
+          seen.set(normalized, loc.slug);
+        }
+      }
+    }
+  }
+
+  if (thinLocalities.length > 0) {
+    console.log(`\n  THIN LOCALITY CONTENT — doorway-page risk (${thinLocalities.length})`);
+    for (const f of thinLocalities) console.log(`    · ${f}`);
   }
 
   if (pending.length > 0) {

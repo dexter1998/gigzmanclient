@@ -15,6 +15,9 @@ import {
   legalPages,
   calculators,
   users,
+  properties,
+  propertyImages,
+  localities,
 } from "../lib/db/schema";
 import {
   CALCULATOR_DEFINITIONS,
@@ -62,10 +65,15 @@ async function main() {
       slug: profile.slug,
       vertical: profile.vertical ?? "cafirm",
       displayName: profile.display_name,
+      isDemo: profile.is_demo ?? false,
     })
     .onConflictDoUpdate({
       target: clients.slug,
-      set: { displayName: profile.display_name, vertical: profile.vertical ?? "cafirm" },
+      set: {
+        displayName: profile.display_name,
+        vertical: profile.vertical ?? "cafirm",
+        isDemo: profile.is_demo ?? false,
+      },
     })
     .returning();
 
@@ -253,6 +261,99 @@ async function main() {
         });
     }
     console.log(`legal    ${legalDoc.pages.length}`);
+  }
+
+  // ------------------------------------------------------------ properties
+  const propertiesDoc = readYaml<any>("content/properties.yaml");
+  if (propertiesDoc?.properties) {
+    for (const [i, prop] of propertiesDoc.properties.entries()) {
+      const values = {
+        clientId,
+        slug: prop.slug,
+        title: prop.title,
+        propertyType: prop.property_type,
+        purpose: prop.purpose ?? "buy",
+        status: prop.status ?? "ready_to_move",
+        price: prop.price ?? null,
+        priceLabel: prop.price_label ?? null,
+        pricePerSqft: prop.price_per_sqft ?? null,
+        sector: prop.sector ? String(prop.sector) : null,
+        locality: prop.locality ?? null,
+        corridor: prop.corridor ?? null,
+        beds: prop.beds ?? null,
+        baths: prop.baths ?? null,
+        area: prop.area ?? null,
+        areaUnit: prop.area_unit ?? "sqft",
+        badge: prop.badge ?? null,
+        developer: prop.developer ?? null,
+        // Deliberately left null for some seed properties — see profile.yaml's
+        // _status block. A property with no RERA number renders the visible
+        // "Registration pending" state on PropertyCard rather than hiding it.
+        reraNumber: prop.rera_number || null,
+        description: prop.description ?? null,
+        amenities: prop.amenities ?? [],
+        specs: prop.specs ?? {},
+        isFeatured: prop.is_featured ?? false,
+        isActive: prop.is_active ?? true,
+        sortOrder: i,
+        updatedAt: new Date(),
+      };
+
+      const [row] = await db
+        .insert(properties)
+        .values(values)
+        .onConflictDoUpdate({
+          target: [properties.clientId, properties.slug],
+          set: force ? values : { updatedAt: new Date() },
+        })
+        .returning();
+
+      if (Array.isArray(prop.images) && (force || (await db.select().from(propertyImages).where(eq(propertyImages.propertyId, row.id))).length === 0)) {
+        await db.delete(propertyImages).where(eq(propertyImages.propertyId, row.id));
+        await db.insert(propertyImages).values(
+          prop.images.map((img: any, j: number) => ({
+            propertyId: row.id,
+            path: img.path,
+            alt: img.alt ?? null,
+            isPrimary: img.is_primary ?? j === 0,
+            sortOrder: j,
+          })),
+        );
+      }
+    }
+    console.log(`props    ${propertiesDoc.properties.length}`);
+  }
+
+  // ------------------------------------------------------------ localities
+  const localitiesDoc = readYaml<any>("content/localities.yaml");
+  if (localitiesDoc?.localities) {
+    for (const [i, loc] of localitiesDoc.localities.entries()) {
+      const values = {
+        clientId,
+        slug: loc.slug,
+        name: loc.name,
+        corridor: loc.corridor ?? null,
+        avgPricePerSqft: loc.avg_price_per_sqft ?? null,
+        yoyChangePercent: loc.yoy_change_percent ?? null,
+        rentalYieldPercent: loc.rental_yield_percent ?? null,
+        activeProjects: loc.active_projects ?? null,
+        bestFor: loc.best_for ?? null,
+        description: loc.description ?? null,
+        heroImage: loc.hero_image ?? null,
+        lastVerifiedAt: loc.last_verified_at ?? null,
+        isPublished: loc.is_published ?? true,
+        sortOrder: i,
+        updatedAt: new Date(),
+      };
+      await db
+        .insert(localities)
+        .values(values)
+        .onConflictDoUpdate({
+          target: [localities.clientId, localities.slug],
+          set: force ? values : { updatedAt: new Date() },
+        });
+    }
+    console.log(`locales  ${localitiesDoc.localities.length}`);
   }
 
   // ----------------------------------------------------------- calculators

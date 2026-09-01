@@ -13,6 +13,9 @@
 slug: arora-k-associates
 vertical: cafirm
 display_name: Arora K & Associates
+# Doubles as the CA template's live demo on /library, alongside high-properties
+# for real estate — see the plan's "Library page" section.
+is_demo: true
 
 firm:
   name: Arora K & Associates

@@ -49,6 +49,12 @@ export function proxy(request: NextRequest) {
   // request for it would render a tenant page with no tenant resolved.
   if (vertical === "site") return NextResponse.redirect(new URL("/", request.url));
 
+  // The template-library sales page (app/library/page.tsx) is a top-level route
+  // like the deployment index at "/", not a tenant path — "library" is not a
+  // registered vertical id, so without this it would fall through to the
+  // vertical-mismatch branch below and redirect to "/".
+  if (vertical === "library" && !slug) return NextResponse.next();
+
   if (!vertical || !isVerticalId(vertical) || !slug || !SLUG_PATTERN.test(slug)) {
     // Un-prefixed paths would otherwise render a tenant page with no tenant.
     return NextResponse.redirect(new URL("/", request.url));

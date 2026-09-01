@@ -39,6 +39,17 @@ const REALESTATE_PUBLIC_PAGES = [
   { path: "/legal/privacy-policy", name: "re-legal-privacy" },
 ];
 
+/**
+ * The other three real-estate template tenants share the deep page set with
+ * temp-luxury-showcase (same routes, same data shape), so only each one's
+ * distinct home page needs its own full viewport pass here.
+ */
+const TEMPLATE_HOMES = [
+  { tenant: "/realestate/temp-advisory/high-properties-advisory", name: "t2-advisory-home" },
+  { tenant: "/realestate/temp-market-intel/high-properties-intelligence", name: "t3-intel-home" },
+  { tenant: "/realestate/temp-locality/high-properties-locality", name: "t4-locality-home" },
+];
+
 const ADMIN_EMAIL = process.env.DRY_RUN_EMAIL ?? "admin@arora-k-associates.local";
 const ADMIN_PASSWORD = process.env.DRY_RUN_PASSWORD ?? "";
 
@@ -456,6 +467,10 @@ async function run() {
 
   // ───────────────────────────────────── real-estate tenant, all viewports
   await runPublicPass(browser, REALESTATE_TENANT, REALESTATE_PUBLIC_PAGES, "realestate");
+
+  for (const home of TEMPLATE_HOMES) {
+    await runPublicPass(browser, home.tenant, [{ path: "", name: home.name }], home.name);
+  }
 
   console.log("\n── realestate features ───────────────────────────");
   const reContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });

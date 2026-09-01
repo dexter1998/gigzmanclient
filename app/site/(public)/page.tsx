@@ -31,7 +31,7 @@ import CalculatorPicker from "@/components/site/CalculatorPicker";
 import ServiceIcon from "@/components/site/ServiceIcon";
 import Illustration, { type IllustrationName } from "@/components/site/Illustration";
 import Testimonials from "@/components/site/Testimonials";
-import RealEstateHome from "@/components/realestate/HomeContent";
+import RealEstateTemplateHome from "@/components/realestate/templates";
 import { getTenant, getBasePath, joinPath } from "@/lib/tenant";
 import {
   getFirmSettings,
@@ -136,7 +136,7 @@ export default async function HomePage() {
   // separate component rather than a further branch of this one, so the CA
   // path below stays exactly as it was before the vertical split.
   if (tenant.vertical === "realestate") {
-    return <RealEstateHome tenant={tenant} />;
+    return <RealEstateTemplateHome tenant={tenant} />;
   }
 
   const basePath = await getBasePath();

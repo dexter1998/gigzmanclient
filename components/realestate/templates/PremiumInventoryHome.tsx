@@ -16,11 +16,12 @@ import {
   Calculator,
   BookOpen,
 } from "lucide-react";
-import HeroSearchBar from "./HeroSearchBar";
-import ExploreTabs from "./ExploreTabs";
-import LocalityCard from "./LocalityCard";
-import PropertyCard from "./PropertyCard";
+import HeroSearchBar from "../HeroSearchBar";
+import ExploreTabs from "../ExploreTabs";
+import LocalityCard from "../LocalityCard";
+import PropertyCard from "../PropertyCard";
 import { getBasePath, joinPath, type Tenant } from "@/lib/tenant";
+import { DeveloperLogos, DEVELOPER_LOGOS } from "../sections/shared";
 import {
   getFirmSettings,
   getProperties,
@@ -100,7 +101,40 @@ const TESTIMONIALS = [
   },
 ];
 
-export default async function RealEstateHome({ tenant }: { tenant: Tenant }) {
+/**
+ * Expanded client-outcome stories per the HD pack's showcase upgrade
+ * (sections-hd/09-client-success-stories-expanded.png): homebuyer, NRI and
+ * commercial-investor archetypes with a concrete outcome each, using the
+ * pack's true-alpha people cutouts.
+ */
+const OUTCOME_STORIES = [
+  {
+    photo: "/verticals/realestate/templates/premium-inventory/people/homebuyer-rohit-malhotra.png",
+    name: "Rohit Malhotra",
+    role: "Homebuyer",
+    outcome: "Found a 3 BHK within budget in 3 weeks",
+    quote:
+      "Transparent process from day one — every listing came with its RERA status and a price benchmark against recent deals.",
+  },
+  {
+    photo: "/verticals/realestate/templates/premium-inventory/people/nri-investor-neha-arora.png",
+    name: "Neha Arora",
+    role: "NRI Investor",
+    outcome: "Closed remotely with video site visits",
+    quote:
+      "As an NRI I needed ground truth, not brochures. Video walkthroughs and documentation support made the purchase stress-free from abroad.",
+  },
+  {
+    photo: "/verticals/realestate/templates/premium-inventory/people/commercial-investor-vikram-bansal.png",
+    name: "Vikram Bansal",
+    role: "Commercial Investor",
+    outcome: "Pre-leased asset at a strong yield",
+    quote:
+      "The rental yield numbers were laid out against comparable assets before I committed. The asset has performed to the projection.",
+  },
+];
+
+export default async function PremiumInventoryHome({ tenant }: { tenant: Tenant }) {
   const basePath = await getBasePath();
   const p = (path: string) => joinPath(basePath, path);
 
@@ -305,6 +339,53 @@ export default async function RealEstateHome({ tenant }: { tenant: Tenant }) {
           </div>
         </div>
       </section>
+
+      {/* ── Top developers (expanded network per HD pack section 07) ──── */}
+      <section className="border-b border-line bg-tint">
+        <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 lg:px-8">
+          <h2 className="display-md text-center">Top Developers in Gurugram</h2>
+          <p className="mx-auto mt-2 max-w-xl text-center text-[14px] text-ink-muted">
+            We work directly with Gurugram&rsquo;s leading developers.
+          </p>
+          <div className="mt-7">
+            <DeveloperLogos logos={DEVELOPER_LOGOS} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Client outcomes (expanded stories per HD pack section 09) ─── */}
+      {settings.reviewsEnabled ? (
+        <section className="border-b border-line bg-surface">
+          <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 lg:px-8">
+            <h2 className="display-md text-center">Client Outcomes</h2>
+            <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-3">
+              {OUTCOME_STORIES.map((story) => (
+                <figure key={story.name} className="flex flex-col rounded-[12px] border border-line bg-tint p-5">
+                  <div className="flex items-center gap-3.5">
+                    <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-surface">
+                      <Image
+                        src={story.photo}
+                        alt={story.name}
+                        fill
+                        sizes="64px"
+                        className="object-cover object-top"
+                      />
+                    </div>
+                    <div>
+                      <p className="text-[13.5px] font-semibold text-ink">{story.name}</p>
+                      <p className="text-[11.5px] text-ink-subtle">{story.role}</p>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-[12.5px] font-semibold text-accent">{story.outcome}</p>
+                  <blockquote className="mt-2 flex-1 text-[12.5px] leading-relaxed text-ink-muted">
+                    &ldquo;{story.quote}&rdquo;
+                  </blockquote>
+                </figure>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* ── Personalised recommendations CTA ──────────────────────────── */}
       <section className="bg-navy">

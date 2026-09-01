@@ -49,10 +49,13 @@ export default function SiteHeader({
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-tint/95 backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-5 py-4 sm:px-6 lg:px-8">
-        <Link href={basePath || "/"} className="flex shrink-0 items-center gap-2">
+        {/* min-w-0, not shrink-0: a long firm name ("Geeta Properties
+            Research") must wrap/shrink at phone widths rather than force the
+            whole header row wider than the viewport. */}
+        <Link href={basePath || "/"} className="flex min-w-0 items-center gap-2">
           <BrandMark className="h-9 w-9 shrink-0" src={logoUrl} alt={firmName} vertical="realestate" />
-          <span className="leading-none">
-            <span className="block font-display text-[19px] font-semibold uppercase tracking-[0.04em] text-navy">
+          <span className="min-w-0 leading-tight">
+            <span className="block font-display text-[15px] font-semibold uppercase tracking-[0.04em] text-navy sm:text-[19px]">
               {firmName}
             </span>
           </span>

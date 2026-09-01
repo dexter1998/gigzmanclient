@@ -11,7 +11,7 @@ import { join } from "node:path";
 
 const BASE = process.argv[2] ?? "http://localhost:3001";
 const TENANT = "/cafirm/arora-k-associates";
-const REALESTATE_TENANT = "/realestate/high-properties";
+const REALESTATE_TENANT = "/realestate/temp-luxury-showcase/high-properties";
 const SHOTS = join(process.cwd(), "screenshots");
 
 /**
@@ -515,14 +515,16 @@ async function run() {
     fail("re-filter", `filtering by purpose=rent did not narrow results (${beforeCount} → ${afterCount})`, "warn");
   }
 
-  // Vertical-mismatch guard — a real-estate client under /cafirm/ must 404,
-  // and a CA client under /realestate/ must 404.
+  // Vertical-mismatch guard — a real-estate client under /cafirm/ must 404.
+  // Template-mismatch guard — a client addressed under another real-estate
+  // template's URL segment must also 404 (e.g. the advisory-template client
+  // reached through the locality template's segment).
   const mismatch1 = await rePage.goto(`${BASE}/cafirm/high-properties`, { waitUntil: "networkidle" });
-  const mismatch2 = await rePage.goto(`${BASE}/realestate/arora-k-associates`, {
+  const mismatch2 = await rePage.goto(`${BASE}/realestate/temp-locality/high-properties-advisory`, {
     waitUntil: "networkidle",
   });
   if (mismatch1?.status() === 404 && mismatch2?.status() === 404) {
-    pass("vertical-mismatch tenant paths both 404");
+    pass("vertical- and template-mismatch tenant paths both 404");
   } else {
     fail("tenant-guard", `expected both 404, got ${mismatch1?.status()} and ${mismatch2?.status()}`);
   }

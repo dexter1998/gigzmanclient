@@ -1,0 +1,120 @@
+# Client seed data — High Properties (Luxury Advisory template)
+#
+# DEMO / SAMPLE CLIENT — same fictional "High Properties" business as
+# high-properties, shown here through the Luxury Advisory landing-page
+# direction (~/Downloads/high-properties-4-template-hd/02-luxury-advisory/).
+# Every figure, registration number, phone number and address below is
+# either fabricated for demonstration purposes or deliberately left pending.
+#
+# Loaded into the database by `pnpm seed:client high-properties-advisory`.
+
+slug: high-properties-advisory
+vertical: realestate
+display_name: High Properties
+is_demo: true
+
+firm:
+  name: High Properties
+  tagline: Independent advice. Verified properties. Better outcomes.
+  overview: >-
+    High Properties' advisory desk gives Gurugram buyers, sellers, lessors
+    and investors independent, data-led guidance — from shortlist to
+    negotiation to paperwork. Every listing referenced by an advisor is
+    RERA-verified before it's recommended.
+  established_year: ""
+  firm_registration_number: ""
+  business_category: Real Estate Advisory
+
+contact:
+  phone: "098765 43210"
+  whatsapp: "098765 43210"
+  email: "advisory@example.com"
+  address_line: "Tower B, DLF Cyber City"
+  locality: "Sector 24, Gurugram"
+  region: Haryana
+  postal_code: "122002"
+  country: India
+  latitude: ""
+  longitude: ""
+  google_maps_url: ""
+
+opening_hours:
+  - { day: Monday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Tuesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Wednesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Thursday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Friday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Saturday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Sunday, opens: "11:00", closes: "17:00", closed: false }
+
+social_links: {}
+
+seo:
+  title: High Properties Advisory — Independent Real Estate Advice in Gurugram
+  description: >-
+    Independent, data-led buy/sell/lease/invest advisory for Gurugram real
+    estate, with verified listings and a transparent due-diligence process.
+
+analytics:
+  ga4_measurement_id: ""
+  search_console_verification: ""
+
+features:
+  reviews: true
+  pricing: true
+  awards: false
+  client_logos: false
+  team: true
+
+team:
+  - name: Arjun Mehta
+    designation: Advisor — Golf Course Road
+    qualifications: ""
+    membership_number: ""
+    bio: 15+ years advising buyers and investors on Golf Course Road.
+  - name: Neha Bedi
+    designation: Advisor — Dwarka Expressway
+    qualifications: ""
+    membership_number: ""
+    bio: Specialises in new-launch inventory along Dwarka Expressway.
+  - name: Rahul Sen
+    designation: Advisor — SPR & Sohna Road
+    qualifications: ""
+    membership_number: ""
+    bio: 12+ years experience across SPR and Sohna Road corridors.
+  - name: Kavya Arora
+    designation: Advisor — New Gurugram
+    qualifications: ""
+    membership_number: ""
+    bio: 9+ years experience in New Gurugram's builder-floor and SCO segment.
+
+notification_email: ""
+
+_status:
+  slug: verified
+  display_name: verified
+  firm.name: placeholder
+  firm.business_category: placeholder
+  firm.tagline: placeholder
+  firm.overview: placeholder
+  firm.established_year: pending
+  firm.firm_registration_number: pending
+  contact.phone: placeholder
+  contact.whatsapp: placeholder
+  contact.email: placeholder
+  contact.address_line: placeholder
+  contact.locality: placeholder
+  contact.region: placeholder
+  contact.postal_code: placeholder
+  contact.country: placeholder
+  contact.google_maps_url: pending
+  contact.latitude: pending
+  contact.longitude: pending
+  opening_hours: placeholder
+  social_links: pending
+  seo.title: placeholder
+  seo.description: placeholder
+  analytics.ga4_measurement_id: pending
+  analytics.search_console_verification: pending
+  team: placeholder
+  notification_email: pending

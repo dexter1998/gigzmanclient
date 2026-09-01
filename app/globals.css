@@ -66,30 +66,55 @@
  * would desynchronise headings and shadows from the rest of the palette.
  */
 :root[data-vertical="realestate"] {
-  --color-navy: #1a3d2b;
-  --color-navy-deep: #122c1f;
-  --color-navy-soft: #2c5f3f;
-  --color-navy-muted: #3d7a52;
+  /* Exact values from the High Properties DESIGN-SYSTEM.md pack: Forest /
+     Forest light / Gold / Soft gold / Ivory / Ink / Muted / Line. This is the
+     shared brand foundation across all four templates — each template then
+     layers its own hero/section treatment on top (see the [data-template]
+     overrides below for the one template, market-intelligence, whose own
+     design system calls for a navy-charcoal surface instead of ivory). */
+  --color-navy: #123c31;
+  --color-navy-deep: #0c2820;
+  --color-navy-soft: #1d5143;
+  --color-navy-muted: #3d6b5c;
 
-  --color-tint: #fdf8ef;
-  --color-tint-deep: #f5ead8;
-  --color-line: #e6e1d6;
-  --color-line-strong: #d9cdb0;
+  --color-tint: #f8f5ee;
+  --color-tint-deep: #efe6d2;
+  --color-line: #dedfd8;
+  --color-line-strong: #c9cabf;
 
-  --color-accent: #c8992a;
-  --color-accent-hover: #b3861f;
-  --color-accent-soft: #f5e6b8;
-  --color-accent-ring: #e8b84b;
+  --color-accent: #c79b45;
+  --color-accent-hover: #ad8236;
+  --color-accent-soft: #e9d5aa;
+  --color-accent-ring: #d9b876;
 
-  --color-ink: #1a1a1a;
-  --color-ink-muted: #3d3d3d;
-  --color-ink-subtle: #6b6b6b;
+  --color-ink: #17211d;
+  --color-ink-muted: #64706a;
+  --color-ink-subtle: #8a958f;
 
   --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
 
-  --shadow-card: 0 8px 40px rgba(26, 61, 43, 0.15);
-  --shadow-raised: 0 4px 20px rgba(200, 153, 42, 0.3);
+  --shadow-card: 0 8px 40px rgba(18, 60, 49, 0.15);
+  --shadow-raised: 0 4px 20px rgba(199, 155, 69, 0.3);
+}
+
+/**
+ * Market Intelligence template's own design direction: "may use deep
+ * navy-charcoal surfaces while retaining gold accents" per DESIGN-SYSTEM.md.
+ * Layered on top of the shared realestate palette above via a second
+ * attribute selector, so gold/ink/line tokens are inherited unchanged and
+ * only the structural navy/tint pairing shifts to charcoal.
+ */
+:root[data-vertical="realestate"][data-template="market-intelligence"] {
+  --color-navy: #10151c;
+  --color-navy-deep: #090c11;
+  --color-navy-soft: #1c2530;
+  --color-navy-muted: #384656;
+
+  --color-tint: #f4f5f6;
+  --color-tint-deep: #e7e9ec;
+  --color-line: #dde0e3;
+  --color-line-strong: #c5cad0;
 }
 
 * {

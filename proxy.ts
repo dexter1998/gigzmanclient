@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { isVerticalId } from "./lib/verticals";
+import { isTemplateUrlSlug } from "./lib/templates";
 
 /**
  * Tenant resolution for a deployment that serves many client sites.
@@ -8,16 +9,23 @@ import { isVerticalId } from "./lib/verticals";
  * Next 16 renamed `middleware.ts` to `proxy.ts`; the `middleware` export and the
  * edge runtime are deprecated here, so this runs on Node.
  *
- * path mode — /{vertical}/{slug}/services  is rewritten to  /services
- * host mode — clientdomain.com/services    is served as     /services
+ * path mode, most verticals — /{vertical}/{slug}/services       -> /services
+ * path mode, realestate      — /{vertical}/{template}/{slug}/x  -> /x
+ * host mode                  — clientdomain.com/services        -> /services
+ *
+ * Realestate carries an extra `{template}` segment (e.g. `temp-luxury-showcase`)
+ * identifying which of the several real-estate landing-page templates a tenant
+ * uses, since that vertical hosts more than one design direction — every other
+ * vertical still has exactly one template, so it stays two-segment.
  *
  * Either way the internal route tree stays clean and the tenant travels as a
  * request header that Server Components read through `headers()`.
  *
- * This only checks that the vertical segment is a *known* vertical — it has no
- * database access. Whether it's the correct vertical *for that client* is
- * asserted in `lib/tenant.ts`, which already queries `clients` by slug and can
- * compare against the stored `vertical` in the same round trip.
+ * This only checks that the vertical/template segments are *known* — it has no
+ * database access. Whether they're correct *for that client* is asserted in
+ * `lib/tenant.ts`, which already queries `clients` by slug and can compare
+ * against the stored `vertical` (and, for realestate, its assigned template)
+ * in the same round trip.
  */
 
 const TENANT_MODE = process.env.TENANT_MODE === "host" ? "host" : "path";
@@ -63,6 +71,26 @@ export function proxy(request: NextRequest) {
   // (app/[vertical]/page.tsx) — every template registered for that
   // industry — not a tenant path, so it renders directly with no rewrite.
   if (!slug) return NextResponse.next();
+
+  if (vertical === "realestate") {
+    const templateUrlSlug = slug;
+    const clientSlug = segments[2];
+
+    if (!isTemplateUrlSlug(templateUrlSlug) || !clientSlug || !SLUG_PATTERN.test(clientSlug)) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
+
+    const tenantRest = segments.slice(3);
+    const headers = new Headers(request.headers);
+    headers.set("x-tenant", clientSlug);
+    headers.set("x-tenant-vertical", vertical);
+    headers.set("x-tenant-template-slug", templateUrlSlug);
+    headers.set("x-tenant-base", `/${vertical}/${templateUrlSlug}/${clientSlug}`);
+
+    const url = request.nextUrl.clone();
+    url.pathname = `/site${tenantRest.length > 0 ? `/${tenantRest.join("/")}` : ""}`;
+    return NextResponse.rewrite(url, { request: { headers } });
+  }
 
   if (!SLUG_PATTERN.test(slug)) {
     return NextResponse.redirect(new URL("/", request.url));

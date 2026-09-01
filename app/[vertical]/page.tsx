@@ -55,9 +55,9 @@ export default async function IndustryLibraryPage(props: PageProps<"/[vertical]"
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
           {templates.map((template) => (
             <TemplateCard
-              key={template.vertical}
+              key={template.slug}
               template={template}
-              demo={demoClients.find((c) => c.vertical === template.vertical)}
+              demo={demoClients.find((c) => c.slug === template.slug)}
             />
           ))}
         </div>

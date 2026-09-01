@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { clients, services, professionalUpdates, properties, localities } from "@/lib/db/schema";
 import { LOCATION_PAGES } from "@/lib/locations";
 import { getVerticalConfig } from "@/lib/verticals";
+import { getTenantPath } from "@/lib/templates";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const vertical = getVerticalConfig(client.vertical);
     const prefix = client.customDomain
       ? `https://${client.customDomain}`
-      : `${base}/${client.vertical}/${client.slug}`;
+      : `${base}${getTenantPath(client.vertical, client.slug)}`;
 
     for (const entry of vertical.sitemapPaths) {
       entries.push({

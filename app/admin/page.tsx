@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { db } from "@/lib/db";
 import { clients } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { getTenantPath } from "@/lib/templates";
 
 export const dynamic = "force-dynamic";
 
@@ -50,19 +51,19 @@ export default async function DeploymentIndex() {
                       ) : null}
                     </p>
                     <p className="mt-0.5 text-[13px] text-ink-muted">
-                      /{client.vertical}/{client.slug}
+                      {getTenantPath(client.vertical, client.slug)}
                     </p>
                   </div>
                   <div className="flex gap-2">
                     <Link
-                      href={`/${client.vertical}/${client.slug}`}
+                      href={getTenantPath(client.vertical, client.slug)}
                       className="inline-flex min-h-[38px] items-center gap-1.5 rounded-[8px] bg-navy px-3.5 text-[13px] font-medium text-white hover:bg-navy-soft"
                     >
                       Website
                       <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
                     </Link>
                     <Link
-                      href={`/${client.vertical}/${client.slug}/dashboard`}
+                      href={`${getTenantPath(client.vertical, client.slug)}/dashboard`}
                       className="inline-flex min-h-[38px] items-center gap-1.5 rounded-[8px] border border-line-strong px-3.5 text-[13px] font-medium text-navy hover:border-navy"
                     >
                       Dashboard

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Source_Serif_4, Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
 import { getTenant } from "@/lib/tenant";
+import { getTemplateKeyForSlug } from "@/lib/templates";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -53,7 +54,12 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const fontVariables = `${inter.variable} ${sourceSerif.variable} ${playfairDisplay.variable} ${montserrat.variable}`;
 
   return (
-    <html lang="en" className={`${fontVariables} h-full`} data-vertical={tenant?.vertical}>
+    <html
+      lang="en"
+      className={`${fontVariables} h-full`}
+      data-vertical={tenant?.vertical}
+      data-template={getTemplateKeyForSlug(tenant?.slug)}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

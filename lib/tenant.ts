@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { clients } from "@/lib/db/schema";
 import { joinPath } from "@/lib/paths";
+import { getTemplateKeyForSlug, getTemplateKeyForUrlSlug } from "@/lib/templates";
 
 export { joinPath };
 
@@ -27,6 +28,18 @@ export const getTenant = cache(async (): Promise<Tenant | null> => {
     // 404s instead of rendering that client under the wrong template.
     const urlVertical = h.get("x-tenant-vertical");
     if (urlVertical && urlVertical !== row.vertical) return null;
+
+    // Realestate carries an extra `{template}` URL segment (proxy.ts); confirm
+    // it's actually the template this client is assigned, the same
+    // DB-verified pattern as the vertical check above — /realestate/
+    // temp-locality/<a-luxury-advisory-client> should 404, not silently
+    // render that client under the wrong template's chrome.
+    const urlTemplateSlug = h.get("x-tenant-template-slug");
+    if (urlTemplateSlug) {
+      const urlTemplateKey = getTemplateKeyForUrlSlug(urlTemplateSlug);
+      const clientTemplateKey = getTemplateKeyForSlug(row.slug);
+      if (!urlTemplateKey || urlTemplateKey !== clientTemplateKey) return null;
+    }
 
     return row;
   }

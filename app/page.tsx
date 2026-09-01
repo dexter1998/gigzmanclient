@@ -41,9 +41,9 @@ export default async function LibraryHomePage() {
       <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
         {TEMPLATES.map((template) => (
           <TemplateCard
-            key={template.vertical}
+            key={template.slug}
             template={template}
-            demo={demoClients.find((c) => c.vertical === template.vertical)}
+            demo={demoClients.find((c) => c.slug === template.slug)}
           />
         ))}
       </div>

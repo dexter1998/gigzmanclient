@@ -1,0 +1,109 @@
+# Client seed data — High Properties (Market Intelligence template)
+#
+# DEMO / SAMPLE CLIENT — same fictional "High Properties" business, shown
+# here through the Market Intelligence landing-page direction
+# (~/Downloads/high-properties-4-template-hd/03-market-intelligence/).
+# Every figure below is fabricated for demonstration purposes.
+#
+# Loaded into the database by `pnpm seed:client high-properties-intelligence`.
+
+slug: high-properties-intelligence
+vertical: realestate
+display_name: High Properties Research
+is_demo: true
+
+firm:
+  name: High Properties Research
+  tagline: Real-time Gurugram market intelligence for smarter decisions.
+  overview: >-
+    High Properties Research tracks price trends, appreciation, rental
+    yield and active inventory across every major Gurugram corridor, so
+    buyers and investors can decide with verifiable data rather than
+    guesswork.
+  established_year: ""
+  firm_registration_number: ""
+  business_category: Real Estate Market Research
+
+contact:
+  phone: "097110 44444"
+  whatsapp: "097110 44444"
+  email: "research@example.com"
+  address_line: "Tower B, DLF Cyber City"
+  locality: "Sector 24, Gurugram"
+  region: Haryana
+  postal_code: "122002"
+  country: India
+  latitude: ""
+  longitude: ""
+  google_maps_url: ""
+
+opening_hours:
+  - { day: Monday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Tuesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Wednesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Thursday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Friday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Saturday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Sunday, opens: "11:00", closes: "17:00", closed: false }
+
+social_links: {}
+
+seo:
+  title: High Properties Research — Gurugram Real Estate Market Intelligence
+  description: >-
+    Live Gurugram market data — price trends, appreciation, rental yield and
+    active inventory by corridor and sector.
+
+analytics:
+  ga4_measurement_id: ""
+  search_console_verification: ""
+
+features:
+  reviews: true
+  pricing: true
+  awards: false
+  client_logos: false
+  team: true
+
+team:
+  - name: Rohan Kapoor
+    designation: Head of Research
+    qualifications: ""
+    membership_number: ""
+    bio: Leads corridor-level price and inventory tracking across Gurugram.
+  - name: Simran Chadha
+    designation: Market Analyst
+    qualifications: ""
+    membership_number: ""
+    bio: Builds the quarterly market reports and corridor scorecards.
+
+notification_email: ""
+
+_status:
+  slug: verified
+  display_name: verified
+  firm.name: placeholder
+  firm.business_category: placeholder
+  firm.tagline: placeholder
+  firm.overview: placeholder
+  firm.established_year: pending
+  firm.firm_registration_number: pending
+  contact.phone: placeholder
+  contact.whatsapp: placeholder
+  contact.email: placeholder
+  contact.address_line: placeholder
+  contact.locality: placeholder
+  contact.region: placeholder
+  contact.postal_code: placeholder
+  contact.country: placeholder
+  contact.google_maps_url: pending
+  contact.latitude: pending
+  contact.longitude: pending
+  opening_hours: placeholder
+  social_links: pending
+  seo.title: placeholder
+  seo.description: placeholder
+  analytics.ga4_measurement_id: pending
+  analytics.search_console_verification: pending
+  team: placeholder
+  notification_email: pending

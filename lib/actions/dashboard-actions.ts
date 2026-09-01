@@ -1,7 +1,10 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { eq, and } from "drizzle-orm";
+import { randomBytes } from "node:crypto";
+import { mkdir, writeFile, unlink } from "node:fs/promises";
+import { join } from "node:path";
+import { eq, and, asc } from "drizzle-orm";
 import { db } from "@/lib/db";
 import {
   queries,
@@ -12,6 +15,9 @@ import {
   calculators,
   firmSettings,
   services,
+  properties,
+  propertyImages,
+  localities,
 } from "@/lib/db/schema";
 import { requireUser, requireAdmin } from "@/lib/auth";
 import { slugify } from "@/lib/format";
@@ -444,6 +450,323 @@ export async function toggleService(formData: FormData): Promise<ActionResult> {
     revalidatePath("/site/dashboard/settings");
     revalidatePath("/site/services");
     return { ok: true, message: existing.isActive ? "Service hidden." : "Service published." };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────── properties
+
+export async function saveProperty(formData: FormData): Promise<ActionResult> {
+  try {
+    const user = await requireUser();
+    const id = String(formData.get("id") ?? "").trim();
+
+    const title = String(formData.get("title") ?? "").trim();
+    const propertyType = String(formData.get("propertyType") ?? "").trim();
+    if (!title) return { ok: false, message: "A title is required." };
+    if (!propertyType) return { ok: false, message: "A property type is required." };
+
+    const num = (key: string) => {
+      const raw = String(formData.get(key) ?? "").replace(/[^\d.]/g, "");
+      return raw ? Number(raw) : null;
+    };
+    const str = (key: string) => String(formData.get(key) ?? "").trim() || null;
+
+    const amenities = String(formData.get("amenities") ?? "")
+      .split(",")
+      .map((a) => a.trim())
+      .filter(Boolean);
+
+    const values = {
+      title,
+      propertyType,
+      purpose: String(formData.get("purpose") ?? "buy") as typeof properties.$inferSelect.purpose,
+      status: String(formData.get("status") ?? "ready_to_move") as
+        typeof properties.$inferSelect.status,
+      price: num("price"),
+      priceLabel: str("priceLabel"),
+      pricePerSqft: num("pricePerSqft"),
+      sector: str("sector"),
+      locality: str("locality"),
+      corridor: str("corridor"),
+      beds: num("beds"),
+      baths: num("baths"),
+      area: num("area"),
+      areaUnit: str("areaUnit") ?? "sqft",
+      badge: str("badge"),
+      developer: str("developer"),
+      // Left empty by the agent when registration is genuinely pending — see
+      // PropertyCard's "Registration pending" state. Never auto-filled.
+      reraNumber: str("reraNumber"),
+      description: str("description"),
+      amenities,
+      isFeatured: formData.get("isFeatured") === "on",
+      updatedAt: new Date(),
+    };
+
+    if (id) {
+      const [existing] = await db.select().from(properties).where(eq(properties.id, id)).limit(1);
+      await assertOwnership(existing, user.clientId);
+      await db.update(properties).set(values).where(eq(properties.id, id));
+    } else {
+      await db.insert(properties).values({
+        ...values,
+        clientId: user.clientId,
+        slug: slugify(title),
+        isActive: true,
+      });
+    }
+
+    revalidatePath("/site/dashboard/properties");
+    revalidatePath("/site/properties");
+    return { ok: true, message: "Property saved." };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+export async function toggleProperty(formData: FormData): Promise<ActionResult> {
+  try {
+    const user = await requireUser();
+    const id = String(formData.get("id"));
+
+    const [existing] = await db.select().from(properties).where(eq(properties.id, id)).limit(1);
+    await assertOwnership(existing, user.clientId);
+
+    await db
+      .update(properties)
+      .set({ isActive: !existing.isActive, updatedAt: new Date() })
+      .where(eq(properties.id, id));
+
+    revalidatePath("/site/dashboard/properties");
+    revalidatePath("/site/properties");
+    return { ok: true, message: existing.isActive ? "Property hidden." : "Property published." };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+const ALLOWED_IMAGE_TYPES: Record<string, string> = {
+  "image/jpeg": "jpg",
+  "image/png": "png",
+  "image/webp": "webp",
+};
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
+/**
+ * Writes to `public/uploads/{clientId}/{propertyId}/` per the plan — local
+ * disk, no external API. Filenames are randomised rather than trusting the
+ * uploaded name; type and size are validated server-side regardless of what
+ * the browser's `accept` attribute suggested.
+ *
+ * Vercel's filesystem is ephemeral, so this is correct for local development
+ * and the demo library but not a production deployment target as-is — the
+ * swap to object storage (e.g. Vercel Blob) is a later, isolated change
+ * behind this same action's signature.
+ */
+export async function uploadPropertyImage(formData: FormData): Promise<ActionResult> {
+  try {
+    const user = await requireUser();
+    const propertyId = String(formData.get("propertyId") ?? "").trim();
+    const alt = String(formData.get("alt") ?? "").trim() || null;
+    const file = formData.get("file");
+
+    const [existing] = await db
+      .select()
+      .from(properties)
+      .where(eq(properties.id, propertyId))
+      .limit(1);
+    await assertOwnership(existing, user.clientId);
+
+    if (!(file instanceof File) || file.size === 0) {
+      return { ok: false, message: "Choose an image file to upload." };
+    }
+    if (file.size > MAX_IMAGE_BYTES) {
+      return { ok: false, message: "Image must be 5MB or smaller." };
+    }
+    const ext = ALLOWED_IMAGE_TYPES[file.type];
+    if (!ext) {
+      return { ok: false, message: "Only JPEG, PNG or WebP images are accepted." };
+    }
+
+    const dir = join(process.cwd(), "public", "uploads", user.clientId, propertyId);
+    await mkdir(dir, { recursive: true });
+    const filename = `${randomBytes(16).toString("hex")}.${ext}`;
+    const buffer = Buffer.from(await file.arrayBuffer());
+    await writeFile(join(dir, filename), buffer);
+
+    const publicPath = `/uploads/${user.clientId}/${propertyId}/${filename}`;
+
+    const existingImages = await db
+      .select()
+      .from(propertyImages)
+      .where(eq(propertyImages.propertyId, propertyId));
+
+    await db.insert(propertyImages).values({
+      propertyId,
+      path: publicPath,
+      alt,
+      isPrimary: existingImages.length === 0,
+      sortOrder: existingImages.length,
+    });
+
+    revalidatePath("/site/dashboard/properties");
+    revalidatePath("/site/properties");
+    return { ok: true, message: "Image uploaded." };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+export async function deletePropertyImage(formData: FormData): Promise<ActionResult> {
+  try {
+    const user = await requireUser();
+    const id = String(formData.get("id"));
+
+    const [image] = await db.select().from(propertyImages).where(eq(propertyImages.id, id)).limit(1);
+    if (!image) return { ok: false, message: "Image not found." };
+
+    const [property] = await db
+      .select()
+      .from(properties)
+      .where(eq(properties.id, image.propertyId))
+      .limit(1);
+    await assertOwnership(property, user.clientId);
+
+    await db.delete(propertyImages).where(eq(propertyImages.id, id));
+
+    // Best-effort — a missing file on disk (e.g. after a redeploy on an
+    // ephemeral filesystem) should not block removing the database row.
+    try {
+      await unlink(join(process.cwd(), "public", image.path));
+    } catch {
+      // ignore
+    }
+
+    if (image.isPrimary) {
+      const [next] = await db
+        .select()
+        .from(propertyImages)
+        .where(eq(propertyImages.propertyId, image.propertyId))
+        .orderBy(asc(propertyImages.sortOrder))
+        .limit(1);
+      if (next) {
+        await db.update(propertyImages).set({ isPrimary: true }).where(eq(propertyImages.id, next.id));
+      }
+    }
+
+    revalidatePath("/site/dashboard/properties");
+    revalidatePath("/site/properties");
+    return { ok: true, message: "Image removed." };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+export async function setPrimaryPropertyImage(formData: FormData): Promise<ActionResult> {
+  try {
+    const user = await requireUser();
+    const id = String(formData.get("id"));
+
+    const [image] = await db.select().from(propertyImages).where(eq(propertyImages.id, id)).limit(1);
+    if (!image) return { ok: false, message: "Image not found." };
+
+    const [property] = await db
+      .select()
+      .from(properties)
+      .where(eq(properties.id, image.propertyId))
+      .limit(1);
+    await assertOwnership(property, user.clientId);
+
+    await db
+      .update(propertyImages)
+      .set({ isPrimary: false })
+      .where(eq(propertyImages.propertyId, image.propertyId));
+    await db.update(propertyImages).set({ isPrimary: true }).where(eq(propertyImages.id, id));
+
+    revalidatePath("/site/dashboard/properties");
+    revalidatePath("/site/properties");
+    return { ok: true, message: "Cover photo updated." };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+// ─────────────────────────────────────────────────────────────── localities
+
+export async function saveLocality(formData: FormData): Promise<ActionResult> {
+  try {
+    const user = await requireUser();
+    const id = String(formData.get("id") ?? "").trim();
+
+    const name = String(formData.get("name") ?? "").trim();
+    const description = String(formData.get("description") ?? "").trim();
+    if (!name) return { ok: false, message: "A name is required." };
+
+    const isPublished = formData.get("isPublished") === "on";
+    // The same doorway-page concern check-content.ts flags for seed content
+    // applies to anything entered here — a locality page needs genuinely
+    // distinguishing content before it goes live.
+    if (isPublished && description.length < 120) {
+      return {
+        ok: false,
+        message: "Add at least 120 characters of description before publishing this locality.",
+      };
+    }
+
+    const num = (key: string) => {
+      const raw = String(formData.get(key) ?? "").replace(/[^\d.]/g, "");
+      return raw ? Number(raw) : null;
+    };
+    const str = (key: string) => String(formData.get(key) ?? "").trim() || null;
+
+    const values = {
+      name,
+      corridor: str("corridor"),
+      avgPricePerSqft: num("avgPricePerSqft"),
+      yoyChangePercent: num("yoyChangePercent"),
+      rentalYieldPercent: num("rentalYieldPercent"),
+      activeProjects: num("activeProjects"),
+      bestFor: str("bestFor"),
+      description: description || null,
+      heroImage: str("heroImage"),
+      isPublished,
+      updatedAt: new Date(),
+    };
+
+    if (id) {
+      const [existing] = await db.select().from(localities).where(eq(localities.id, id)).limit(1);
+      await assertOwnership(existing, user.clientId);
+      await db.update(localities).set(values).where(eq(localities.id, id));
+    } else {
+      await db.insert(localities).values({ ...values, clientId: user.clientId, slug: slugify(name) });
+    }
+
+    revalidatePath("/site/dashboard/localities");
+    revalidatePath("/site/localities");
+    return { ok: true, message: "Locality saved." };
+  } catch (error) {
+    return fail(error);
+  }
+}
+
+export async function toggleLocality(formData: FormData): Promise<ActionResult> {
+  try {
+    const user = await requireUser();
+    const id = String(formData.get("id"));
+
+    const [existing] = await db.select().from(localities).where(eq(localities.id, id)).limit(1);
+    await assertOwnership(existing, user.clientId);
+
+    await db
+      .update(localities)
+      .set({ isPublished: !existing.isPublished, updatedAt: new Date() })
+      .where(eq(localities.id, id));
+
+    revalidatePath("/site/dashboard/localities");
+    revalidatePath("/site/localities");
+    return { ok: true, message: existing.isPublished ? "Locality hidden." : "Locality published." };
   } catch (error) {
     return fail(error);
   }

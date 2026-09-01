@@ -38,7 +38,7 @@ export function proxy(request: NextRequest) {
   const segments = pathname.split("/").filter(Boolean);
   const [vertical, slug, ...rest] = segments;
 
-  // The bare root lists the sites hosted on this deployment.
+  // The bare root is the public template-library homepage (app/page.tsx).
   if (segments.length === 0) return NextResponse.next();
 
   // Files served from public/ live at the root and carry an extension. Without
@@ -49,14 +49,22 @@ export function proxy(request: NextRequest) {
   // request for it would render a tenant page with no tenant resolved.
   if (vertical === "site") return NextResponse.redirect(new URL("/", request.url));
 
-  // The template-library sales page (app/library/page.tsx) is a top-level route
-  // like the deployment index at "/", not a tenant path — "library" is not a
-  // registered vertical id, so without this it would fall through to the
-  // vertical-mismatch branch below and redirect to "/".
-  if (vertical === "library" && !slug) return NextResponse.next();
+  // The internal ops deployment index (app/admin/page.tsx) — not a tenant
+  // path, "admin" is not a registered vertical id.
+  if (vertical === "admin" && !slug) return NextResponse.next();
 
-  if (!vertical || !isVerticalId(vertical) || !slug || !SLUG_PATTERN.test(slug)) {
-    // Un-prefixed paths would otherwise render a tenant page with no tenant.
+  if (!vertical || !isVerticalId(vertical)) {
+    // An unknown vertical segment would otherwise render a tenant page with
+    // no tenant resolved.
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // A bare `/{vertical}` (no slug) is the per-industry library page
+  // (app/[vertical]/page.tsx) — every template registered for that
+  // industry — not a tenant path, so it renders directly with no rewrite.
+  if (!slug) return NextResponse.next();
+
+  if (!SLUG_PATTERN.test(slug)) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 

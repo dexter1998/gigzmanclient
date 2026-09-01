@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import SiteHeader from "@/components/site/SiteHeader";
+import RealEstateSiteHeader from "@/components/realestate/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import AnnouncementBar from "@/components/site/AnnouncementBar";
 import CompliancePopup from "@/components/site/CompliancePopup";
@@ -46,17 +47,28 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         />
       ) : null}
 
-      <SiteHeader
-        firmName={settings.firmName}
-        descriptor={settings.businessCategory}
-        logoUrl={settings.logoUrl}
-        basePath={basePath || "/"}
-        phone={settings.phone}
-        navItems={navItems}
-        contactHref={p("/contact")}
-        vertical={vertical.id}
-        ctaLabel={vertical.id === "realestate" ? "Enquire Now" : "Book a Consultation"}
-      />
+      {vertical.id === "realestate" ? (
+        <RealEstateSiteHeader
+          firmName={settings.firmName}
+          logoUrl={settings.logoUrl}
+          basePath={basePath || "/"}
+          phone={settings.phone}
+          whatsapp={settings.whatsapp}
+          navItems={navItems}
+          contactHref={p("/contact")}
+        />
+      ) : (
+        <SiteHeader
+          firmName={settings.firmName}
+          descriptor={settings.businessCategory}
+          logoUrl={settings.logoUrl}
+          basePath={basePath || "/"}
+          phone={settings.phone}
+          navItems={navItems}
+          contactHref={p("/contact")}
+          vertical={vertical.id}
+        />
+      )}
 
       <main className="flex-1">{children}</main>
 

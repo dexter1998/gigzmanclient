@@ -3,50 +3,86 @@ import Image from "next/image";
 import {
   ArrowRight,
   Phone,
-  MapPin,
+  MessageCircle,
   ShieldCheck,
+  Users,
+  Car,
+  Home as HomeIcon,
+  Sparkles,
+  Gem,
+  TrendingUp,
+  FileText,
+  Scale,
   Calculator,
-  Search,
-  Building2,
+  BookOpen,
 } from "lucide-react";
-import Section from "@/components/ui/Section";
-import Button from "@/components/ui/Button";
-import CalculatorPicker from "@/components/site/CalculatorPicker";
-import Testimonials from "@/components/site/Testimonials";
-import PropertyCard from "./PropertyCard";
+import HeroSearchBar from "./HeroSearchBar";
+import ExploreTabs from "./ExploreTabs";
 import LocalityCard from "./LocalityCard";
-import SearchBar from "./SearchBar";
+import PropertyCard from "./PropertyCard";
 import { getBasePath, joinPath, type Tenant } from "@/lib/tenant";
 import {
   getFirmSettings,
-  getFeaturedProperties,
+  getProperties,
   getPropertyImages,
+  getPropertyLocalityFacets,
   getLocalities,
-  getCalculators,
   getPublishedUpdates,
 } from "@/lib/content";
 
-const VALUE_PROPS = [
-  {
-    icon: MapPin,
-    title: "Corridor Expertise",
-    detail: "Inventory tracked across Gurugram's active growth corridors, not just a listings feed.",
-  },
+const TRUST_STRIP = [
   {
     icon: ShieldCheck,
-    title: "RERA Transparency",
-    detail: "Every listing shows its registration status clearly — verified or explicitly pending.",
+    title: "Verified project information",
+    detail: "RERA details, prices and availability confirmed before a listing goes live.",
   },
   {
-    icon: Calculator,
-    title: "Budget First",
-    detail: "EMI, stamp duty and rental yield worked out before you commit to a site visit.",
+    icon: Users,
+    title: "Local market experts",
+    detail: "Deep Gurugram micro-market knowledge, corridor by corridor.",
   },
   {
-    icon: Building2,
-    title: "Verified Inventory",
-    detail: "Listings are reviewed for accuracy before they go live on the site.",
+    icon: Car,
+    title: "Assisted site visits",
+    detail: "Free pick-up and end-to-end support for every shortlisted property.",
   },
+];
+
+const INTENTS = [
+  { icon: HomeIcon, label: "Ready to Move", status: "ready_to_move" },
+  { icon: Sparkles, label: "New Launch", status: "new_launch" },
+  { icon: Gem, label: "Luxury Living", status: null, minBeds: 4 },
+  { icon: TrendingUp, label: "High Yield Commercial", status: null, propertyType: "commercial" },
+];
+
+const WHY_US = [
+  {
+    icon: ShieldCheck,
+    title: "100% Verified Listings",
+    detail: "RERA details, approvals and documents verified before publishing.",
+  },
+  {
+    icon: Scale,
+    title: "Best Price, Always",
+    detail: "We negotiate for you — you pay the best price available.",
+  },
+  {
+    icon: Users,
+    title: "Expert Guidance",
+    detail: "Local experts with deep market knowledge across every corridor.",
+  },
+  {
+    icon: FileText,
+    title: "End-to-End Support",
+    detail: "From shortlisting to possession and beyond.",
+  },
+];
+
+const RESOURCES = [
+  { icon: Scale, label: "RERA Act — What Every Buyer Should Know", slug: "disclaimer" },
+  { icon: FileText, label: "Documents Required for Home Loan", slug: "privacy-policy" },
+  { icon: Calculator, label: "Stamp Duty & Registration Charges", href: "/calculators/stamp-duty" },
+  { icon: BookOpen, label: "Home Buying Checklist", slug: "calculator-disclaimer" },
 ];
 
 const TESTIMONIALS = [
@@ -62,34 +98,44 @@ const TESTIMONIALS = [
     name: "Priya Nair",
     role: "Investor, Dwarka Expressway",
   },
-  {
-    quote:
-      "Straightforward process from shortlist to site visit. Site-visit slots were confirmed the same day.",
-    name: "Arjun Bedi",
-    role: "Buyer, New Gurugram",
-  },
 ];
 
 export default async function RealEstateHome({ tenant }: { tenant: Tenant }) {
   const basePath = await getBasePath();
   const p = (path: string) => joinPath(basePath, path);
 
-  const [settings, featured, localities, calculators, updates] = await Promise.all([
+  const [settings, allProperties, localityFacets, localities, updates] = await Promise.all([
     getFirmSettings(tenant.id),
-    getFeaturedProperties(tenant.id, 6),
+    getProperties(tenant.id, {}),
+    getPropertyLocalityFacets(tenant.id),
     getLocalities(tenant.id),
-    getCalculators(tenant.id),
     getPublishedUpdates(tenant.id),
   ]);
 
   if (!settings) return null;
 
-  const primaryImages = await Promise.all(
-    featured.map(async (property) => {
+  const imageEntries = await Promise.all(
+    allProperties.map(async (property) => {
       const images = await getPropertyImages(property.id);
-      return images.find((img) => img.isPrimary) ?? images[0] ?? null;
+      const primary = images.find((img) => img.isPrimary) ?? images[0] ?? null;
+      return [property.id, primary ? { path: primary.path, alt: primary.alt } : undefined] as const;
     }),
   );
+  const imageMap = Object.fromEntries(imageEntries);
+
+  const newlyLaunched = allProperties.filter((prop) => prop.status === "new_launch").slice(0, 4);
+  const residential = allProperties.filter((prop) => prop.propertyType !== "commercial");
+  const commercial = allProperties.filter((prop) => prop.propertyType === "commercial");
+
+  const intentCounts = INTENTS.map((intent) => {
+    const count = allProperties.filter((prop) => {
+      if (intent.status) return prop.status === intent.status;
+      if (intent.minBeds) return (prop.beds ?? 0) >= intent.minBeds;
+      if (intent.propertyType) return prop.propertyType === intent.propertyType;
+      return false;
+    }).length;
+    return { ...intent, count };
+  });
 
   return (
     <>
@@ -101,271 +147,299 @@ export default async function RealEstateHome({ tenant }: { tenant: Tenant }) {
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-40"
+          className="object-cover opacity-55"
         />
-        <div className="relative mx-auto w-full max-w-7xl px-5 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-deep/70 via-navy-deep/40 to-navy-deep/80" />
+
+        <div className="relative mx-auto w-full max-w-7xl px-5 py-14 sm:px-6 sm:py-20 lg:px-8">
           <div className="max-w-2xl">
-            <h1 className="display-xl text-white">
-              Find Your Next Address in <span className="display-accent">Gurugram.</span>
-            </h1>
-            <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-white/75 sm:text-base">
-              {settings.overview}
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-ring">
+              Gurugram Real Estate
             </p>
-
-            <div className="mt-8 max-w-lg">
-              <SearchBar action={p("/properties")} placeholder="Search sector, locality or project…" />
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <Button href={p("/properties")} size="lg" variant="accent">
-                Browse Properties
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Button>
-              <Button href={p("/contact")} variant="onNavy" size="lg">
-                Talk to an Agent
-              </Button>
-            </div>
+            <h1 className="display-xl mt-3 text-white">Find the right property in Gurugram.</h1>
+            <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-white/75 sm:text-base">
+              Premium homes. Prime locations. Trusted experts.
+            </p>
           </div>
 
-          <ul className="mt-12 grid grid-cols-2 gap-6 border-t border-white/15 py-7 sm:grid-cols-4 sm:gap-4">
-            <li>
-              <p className="font-display text-[20px] font-medium text-white">{featured.length}+</p>
-              <p className="mt-1 text-[11px] text-white/60">Active Listings</p>
-            </li>
-            <li>
-              <p className="font-display text-[20px] font-medium text-white">{localities.length}</p>
-              <p className="mt-1 text-[11px] text-white/60">Localities Tracked</p>
-            </li>
-            <li className="flex items-center gap-2">
-              <ShieldCheck className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              <div>
-                <p className="text-[13px] font-medium text-white">
-                  {settings.firmRegistrationNumber ? "RERA Registered" : "Registration Pending"}
-                </p>
-                <p className="mt-0.5 text-[11px] text-white/60">Agent status</p>
-              </div>
-            </li>
-            <li className="flex items-center gap-2">
-              <Search className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
-              <div>
-                <p className="text-[13px] font-medium text-white">Verified Before Listing</p>
-                <p className="mt-0.5 text-[11px] text-white/60">Every inventory item</p>
-              </div>
-            </li>
-          </ul>
+          <div className="mt-8 max-w-3xl">
+            <HeroSearchBar action={p("/properties")} localities={localityFacets} />
+          </div>
         </div>
       </section>
 
-      {/* ── Why choose us ──────────────────────────────────────────────── */}
-      <Section tone="page" size="md" wide>
-        <h2 className="display-lg title-rule text-center">Why Buyers Work With Us</h2>
-        <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {VALUE_PROPS.map((item) => {
+      {/* ── Trust strip ────────────────────────────────────────────────── */}
+      <section className="border-b border-line bg-tint">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 px-5 py-7 sm:grid-cols-3 sm:px-6 lg:px-8">
+          {TRUST_STRIP.map((item) => {
             const Icon = item.icon;
             return (
-              <div key={item.title} className="flex gap-3.5">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[10px] bg-tint">
-                  <Icon className="h-[18px] w-[18px] text-accent" aria-hidden="true" />
+              <div key={item.title} className="flex items-start gap-3">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] bg-surface">
+                  <Icon className="h-4 w-4 text-accent" aria-hidden="true" />
                 </span>
                 <div>
-                  <p className="text-[14px] font-semibold text-ink">{item.title}</p>
-                  <p className="mt-1.5 text-[13px] leading-relaxed text-ink-muted">{item.detail}</p>
+                  <p className="text-[13px] font-semibold text-ink">{item.title}</p>
+                  <p className="mt-0.5 text-[12px] leading-relaxed text-ink-subtle">{item.detail}</p>
                 </div>
               </div>
             );
           })}
         </div>
-      </Section>
+      </section>
 
-      {/* ── Featured properties ───────────────────────────────────────── */}
-      {featured.length > 0 ? (
-        <Section tone="page" size="sm" wide>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="display-lg">Featured Properties</h2>
-              <p className="mt-2 text-[14px] text-ink-muted">
-                A cross-section of current inventory. Every card shows its RERA status.
-              </p>
+      {/* ── Newly launched ─────────────────────────────────────────────── */}
+      {newlyLaunched.length > 0 ? (
+        <section className="border-b border-line bg-surface">
+          <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h2 className="display-md">Newly Launched Properties</h2>
+              <Link
+                href={p("/properties?status=new_launch")}
+                className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
+              >
+                View all launches
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </Link>
             </div>
-            <Link
-              href={p("/properties")}
-              className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
-            >
-              View All Properties
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
-          </div>
 
-          <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-            {featured.map((property, i) => (
-              <PropertyCard
-                key={property.id}
-                property={property}
-                href={p(`/properties/${property.slug}`)}
-                imagePath={primaryImages[i]?.path}
-                imageAlt={primaryImages[i]?.alt ?? undefined}
-              />
-            ))}
+            <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+              {newlyLaunched.map((property) => (
+                <PropertyCard
+                  key={property.id}
+                  property={property}
+                  href={p(`/properties/${property.slug}`)}
+                  imagePath={imageMap[property.id]?.path}
+                  imageAlt={imageMap[property.id]?.alt ?? undefined}
+                />
+              ))}
+            </div>
           </div>
-        </Section>
+        </section>
       ) : null}
 
-      {/* ── Localities ─────────────────────────────────────────────────── */}
-      {localities.length > 0 ? (
-        <Section tone="tint" size="sm" wide>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="display-lg">Explore by Locality</h2>
-              <p className="mt-2 text-[14px] text-ink-muted">
-                Market snapshots for the corridors we track.
-              </p>
-            </div>
-            <Link
-              href={p("/localities")}
-              className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
-            >
-              All Localities
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
-          </div>
-
-          <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {localities.slice(0, 4).map((locality) => (
-              <LocalityCard key={locality.id} locality={locality} href={p(`/localities/${locality.slug}`)} />
-            ))}
-          </div>
-        </Section>
-      ) : null}
-
-      {/* ── Calculators ────────────────────────────────────────────────── */}
-      {calculators.length > 0 ? (
-        <Section tone="page" size="md" wide>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="display-lg">Work Out Your Budget</h2>
-              <p className="mt-2 text-[14px] text-ink-muted">
-                Pick a calculator, enter the key figures, and open the full working.
-              </p>
-            </div>
-            <Link
-              href={p("/calculators")}
-              className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
-            >
-              All Calculators
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
-          </div>
-
+      {/* ── Explore properties ─────────────────────────────────────────── */}
+      <section className="border-b border-line bg-tint">
+        <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 lg:px-8">
+          <h2 className="display-md text-center">Explore Properties</h2>
           <div className="mt-7">
-            <CalculatorPicker
-              calculators={calculators.map((c) => ({
-                key: c.key,
-                title: c.title,
-                description: c.description,
-                taxYear: c.taxYear,
-                version: c.version,
-                status: c.status,
-              }))}
-              calculatorsHref={p("/calculators")}
+            <ExploreTabs
+              residential={residential}
+              commercial={commercial}
+              images={imageMap}
+              basePath={basePath}
             />
           </div>
-        </Section>
-      ) : null}
+        </div>
+      </section>
 
-      {/* ── Testimonials ───────────────────────────────────────────────── */}
-      {settings.reviewsEnabled ? (
-        <Section tone="tint" size="sm" wide>
-          <div>
-            <h2 className="display-lg">What Buyers Say</h2>
-            <p className="mt-2 text-[14px] text-ink-muted">Experiences shared by buyers and tenants.</p>
-          </div>
-          <div className="mt-7">
-            <Testimonials testimonials={TESTIMONIALS} />
-          </div>
-        </Section>
-      ) : null}
-
-      {/* ── Insights ───────────────────────────────────────────────────── */}
-      {updates.length > 0 ? (
-        <Section tone="page" size="sm" wide>
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="display-lg">Market Insights</h2>
-              <p className="mt-2 text-[14px] text-ink-muted">Notes on locality trends and market movement.</p>
-            </div>
-            <Link
-              href={p("/updates")}
-              className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
-            >
-              View All Insights
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
-          </div>
-
-          <div className="mt-7 grid grid-cols-1 gap-5 md:grid-cols-3">
-            {updates.slice(0, 3).map((update) => (
-              <Link
-                key={update.id}
-                href={p(`/updates/${update.slug}`)}
-                className="group overflow-hidden rounded-[12px] border border-line bg-surface transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-ring"
-              >
-                <div className="p-5">
-                  <p className="display-sm leading-snug">{update.title}</p>
-                  <p className="mt-2.5 line-clamp-2 text-[12px] leading-relaxed text-ink-muted">
-                    {update.excerpt}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Section>
-      ) : null}
-
-      {/* ── Closing CTA ────────────────────────────────────────────────── */}
-      <Section tone="page" size="md" wide>
-        <div className="relative overflow-hidden rounded-[16px] bg-tint-deep px-6 py-11 sm:px-10 sm:py-14">
-          <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-            <div>
-              <h2 className="display-lg">
-                Ready to find your <span className="display-accent">property?</span>
-              </h2>
-              <p className="mt-4 max-w-lg text-[14px] leading-relaxed text-ink-muted">
-                Share your requirement — locality, budget and configuration — and the team will
-                shortlist matching inventory.
-              </p>
-
-              <div className="mt-7 flex flex-wrap items-center gap-4">
-                <Button href={p("/contact")} variant="accent" size="lg">
-                  Enquire Now
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Button>
-                {settings.phone ? (
-                  <span className="flex items-center gap-2 text-[14px] text-ink-muted">
-                    or
-                    <a
-                      href={`tel:${settings.phone.replace(/\s/g, "")}`}
-                      className="inline-flex min-h-[38px] items-center gap-1.5 py-1 font-medium text-navy hover:text-accent"
-                    >
-                      <Phone className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-                      {settings.phone}
-                    </a>
-                  </span>
-                ) : null}
-              </div>
-            </div>
-
-            <div className="relative mx-auto hidden aspect-[4/3] w-full max-w-[380px] overflow-hidden rounded-[12px] lg:block">
-              <Image
-                src="/verticals/realestate/photos/cta-recommendation.webp"
-                alt=""
-                fill
-                sizes="380px"
-                className="object-cover"
-              />
+      {/* ── Browse by intent ───────────────────────────────────────────── */}
+      <section className="border-b border-line bg-surface">
+        <div className="mx-auto w-full max-w-7xl px-5 py-10 sm:px-6 lg:px-8">
+          <div className="rounded-[12px] border border-line bg-tint p-6 sm:p-8">
+            <h2 className="text-center text-[15px] font-semibold text-ink">Browse by Intent</h2>
+            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {intentCounts.map((intent) => {
+                const Icon = intent.icon;
+                const params = new URLSearchParams();
+                if (intent.status) params.set("status", intent.status);
+                if (intent.minBeds) params.set("beds", String(intent.minBeds));
+                if (intent.propertyType) params.set("type", intent.propertyType);
+                return (
+                  <Link
+                    key={intent.label}
+                    href={p(`/properties?${params.toString()}`)}
+                    className="flex flex-col items-center rounded-[10px] bg-surface p-4 text-center transition-shadow hover:shadow-[0_2px_6px_rgba(15,44,82,0.06)]"
+                  >
+                    <Icon className="h-6 w-6 text-accent" aria-hidden="true" />
+                    <p className="mt-2.5 text-[13px] font-medium text-ink">{intent.label}</p>
+                    <p className="mt-0.5 text-[11px] text-ink-subtle">{intent.count} properties</p>
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
-      </Section>
+      </section>
+
+      {/* ── Corridors ──────────────────────────────────────────────────── */}
+      {localities.length > 0 ? (
+        <section className="border-b border-line bg-tint">
+          <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <h2 className="display-md">Explore Gurugram Corridors</h2>
+              <Link
+                href={p("/localities")}
+                className="inline-flex min-h-[38px] items-center gap-1.5 py-1 text-[13px] font-medium text-navy hover:text-accent"
+              >
+                All Localities
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </Link>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+              {localities.slice(0, 5).map((locality) => (
+                <LocalityCard key={locality.id} locality={locality} href={p(`/localities/${locality.slug}`)} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {/* ── Why us ─────────────────────────────────────────────────────── */}
+      <section className="border-b border-line bg-surface">
+        <div className="mx-auto w-full max-w-7xl px-5 py-12 sm:px-6 lg:px-8">
+          <h2 className="display-md text-center">Why High Properties?</h2>
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {WHY_US.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.title} className="flex flex-col items-start gap-2.5 rounded-[10px] border border-line p-5">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-[8px] bg-accent-soft">
+                    <Icon className="h-4 w-4 text-accent" aria-hidden="true" />
+                  </span>
+                  <p className="text-[13.5px] font-semibold text-ink">{item.title}</p>
+                  <p className="text-[12px] leading-relaxed text-ink-subtle">{item.detail}</p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Personalised recommendations CTA ──────────────────────────── */}
+      <section className="bg-navy">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 px-5 py-12 sm:px-6 lg:grid-cols-2 lg:px-8">
+          <div>
+            <h2 className="display-lg text-white">Personalised Recommendations From Gurugram Experts</h2>
+            <p className="mt-3 max-w-md text-[14px] leading-relaxed text-white/70">
+              Share your needs and get a curated shortlist with a site-visit plan.
+            </p>
+            <Link
+              href={p("/contact")}
+              className="mt-6 inline-flex min-h-[46px] items-center gap-2 rounded-[8px] bg-accent px-5 text-[14px] font-medium text-white hover:bg-accent-hover"
+            >
+              Get My Shortlist
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-[12px]">
+            <Image
+              src="/verticals/realestate/photos/hero-advisory.webp"
+              alt=""
+              fill
+              sizes="(max-width: 1024px) 100vw, 560px"
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Testimonials / insights / resources ───────────────────────── */}
+      <section className="border-b border-line bg-tint">
+        <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-10 px-5 py-12 sm:px-6 lg:grid-cols-3 lg:px-8">
+          {settings.reviewsEnabled && TESTIMONIALS.length > 0 ? (
+            <div>
+              <h3 className="text-[15px] font-semibold text-ink">Customer Success Stories</h3>
+              <div className="mt-4 space-y-4">
+                {TESTIMONIALS.map((t) => (
+                  <div key={t.name} className="rounded-[10px] border border-line bg-surface p-4">
+                    <p className="text-[13px] leading-relaxed text-ink-muted">&ldquo;{t.quote}&rdquo;</p>
+                    <p className="mt-3 text-[12px] font-medium text-ink">{t.name}</p>
+                    <p className="text-[11px] text-ink-subtle">{t.role}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {updates.length > 0 ? (
+            <div>
+              <div className="flex items-center justify-between">
+                <h3 className="text-[15px] font-semibold text-ink">Latest Market Insights</h3>
+                <Link
+                  href={p("/updates")}
+                  className="inline-flex min-h-[24px] items-center py-1 text-[12px] font-medium text-navy hover:text-accent"
+                >
+                  View all
+                </Link>
+              </div>
+              <ul className="mt-2 space-y-1">
+                {updates.slice(0, 3).map((update) => (
+                  <li key={update.id}>
+                    <Link
+                      href={p(`/updates/${update.slug}`)}
+                      className="block min-h-[24px] py-2 text-[13px] leading-snug text-ink-muted hover:text-navy"
+                    >
+                      {update.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
+          <div>
+            <h3 className="text-[15px] font-semibold text-ink">RERA &amp; Buyer Resources</h3>
+            <ul className="mt-2 space-y-1">
+              {RESOURCES.map((resource) => {
+                const Icon = resource.icon;
+                return (
+                  <li key={resource.label}>
+                    <Link
+                      href={resource.href ? p(resource.href) : p(`/legal/${resource.slug}`)}
+                      className="flex min-h-[24px] items-start gap-2.5 py-2 text-[13px] leading-snug text-ink-muted hover:text-navy"
+                    >
+                      <Icon className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
+                      {resource.label}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+            <Link
+              href={p("/calculators")}
+              className="mt-5 inline-flex min-h-[38px] items-center gap-1.5 rounded-[6px] bg-navy px-4 text-[12.5px] font-medium text-white hover:bg-navy-soft"
+            >
+              View All Resources
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Closing CTA ────────────────────────────────────────────────── */}
+      <section className="bg-tint-deep">
+        <div className="mx-auto flex w-full max-w-7xl flex-col items-center gap-5 px-5 py-12 text-center sm:px-6 lg:px-8">
+          <h2 className="display-lg">Ready to find your perfect property?</h2>
+          <p className="max-w-md text-[14px] text-ink-muted">
+            Book a free consultation with our Gurugram experts.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <Link
+              href={p("/contact")}
+              className="inline-flex min-h-[46px] items-center gap-2 rounded-[8px] bg-navy px-6 text-[14px] font-medium text-white hover:bg-navy-soft"
+            >
+              Book Consultation
+            </Link>
+            {settings.whatsapp ? (
+              <a
+                href={`https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-[46px] items-center gap-2 rounded-[8px] border border-line-strong px-6 text-[14px] font-medium text-navy hover:border-navy"
+              >
+                <MessageCircle className="h-4 w-4 text-accent" aria-hidden="true" />
+                Chat on WhatsApp
+              </a>
+            ) : null}
+          </div>
+          {settings.phone ? (
+            <a href={`tel:${settings.phone.replace(/\s/g, "")}`} className="flex min-h-[24px] items-center gap-1.5 py-1 text-[13px] text-ink-muted hover:text-navy">
+              <Phone className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
+              {settings.phone}
+            </a>
+          ) : null}
+        </div>
+      </section>
     </>
   );
 }

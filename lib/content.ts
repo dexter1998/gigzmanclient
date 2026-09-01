@@ -169,6 +169,7 @@ export const getCalculator = cache(async (clientId: string, key: string) => {
 export interface PropertyFilters {
   propertyType?: string;
   purpose?: "buy" | "rent";
+  status?: string;
   locality?: string;
   minBeds?: number;
   maxPrice?: number;
@@ -187,6 +188,7 @@ export async function getProperties(clientId: string, filters: PropertyFilters =
 
   if (filters.propertyType) conditions.push(eq(properties.propertyType, filters.propertyType));
   if (filters.purpose) conditions.push(eq(properties.purpose, filters.purpose));
+  if (filters.status) conditions.push(eq(properties.status, filters.status as typeof properties.$inferSelect.status));
   if (filters.locality) conditions.push(eq(properties.locality, filters.locality));
   if (filters.minBeds !== undefined) conditions.push(gte(properties.beds, filters.minBeds));
   if (filters.maxPrice !== undefined) conditions.push(sql`${properties.price} <= ${filters.maxPrice}`);

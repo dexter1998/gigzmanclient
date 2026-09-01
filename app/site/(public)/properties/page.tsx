@@ -30,8 +30,10 @@ export default async function PropertiesPage(props: PageProps<"/site/properties"
   const filters: PropertyFilterInput = {
     propertyType: typeof searchParams.type === "string" ? searchParams.type : undefined,
     purpose: searchParams.purpose === "buy" || searchParams.purpose === "rent" ? searchParams.purpose : undefined,
+    status: typeof searchParams.status === "string" ? searchParams.status : undefined,
     locality: typeof searchParams.locality === "string" ? searchParams.locality : undefined,
     minBeds: typeof searchParams.beds === "string" ? Number(searchParams.beds) || undefined : undefined,
+    maxPrice: typeof searchParams.maxPrice === "string" ? Number(searchParams.maxPrice) || undefined : undefined,
     search: typeof searchParams.search === "string" ? searchParams.search : undefined,
   };
 

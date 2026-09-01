@@ -100,13 +100,29 @@ export default function SiteFooter({ settings, basePath, categories, vertical }:
             ))}
           </FooterColumn>
 
-          <FooterColumn title="Services">
-            {categories.map((category) => (
-              <FooterLink key={category} href={p(`/services#${category}`)}>
-                {categoryLabel(category)}
-              </FooterLink>
-            ))}
-          </FooterColumn>
+          {/*
+            "Services" only means something for the CA vertical's category
+            list — real estate's equivalent explore-by-purpose links live in
+            its own nav config instead, same UX-structure-per-client
+            principle as the header/hero.
+          */}
+          {vertical.id === "realestate" ? (
+            <FooterColumn title="Explore">
+              {vertical.nav.slice(0, 5).map((link) => (
+                <FooterLink key={link.path} href={p(link.path)}>
+                  {link.label}
+                </FooterLink>
+              ))}
+            </FooterColumn>
+          ) : (
+            <FooterColumn title="Services">
+              {categories.map((category) => (
+                <FooterLink key={category} href={p(`/services#${category}`)}>
+                  {categoryLabel(category)}
+                </FooterLink>
+              ))}
+            </FooterColumn>
+          )}
 
           <FooterColumn title="Resources">
             {vertical.footer.resourceLinks.map((link) => (

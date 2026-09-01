@@ -17,7 +17,7 @@ properties:
     title: Horizon Residences
     property_type: apartment
     purpose: buy
-    status: under_construction
+    status: new_launch
     price: 32500000
     price_label: null
     price_per_sqft: 18500
@@ -28,7 +28,7 @@ properties:
     baths: 3
     area: 1850
     area_unit: sqft
-    badge: New Launch
+    badge: null
     developer: Meridian Developers
     rera_number: "HRERA-GGM-1234-2024"
     description: >-
@@ -102,7 +102,7 @@ properties:
     title: Canvas Villas
     property_type: villa
     purpose: buy
-    status: under_construction
+    status: new_launch
     price: 65000000
     price_label: null
     price_per_sqft: null
@@ -113,7 +113,7 @@ properties:
     baths: 6
     area: 4500
     area_unit: sqft
-    badge: New Launch
+    badge: null
     developer: Northgate Estates
     # Deliberately no RERA number — demonstrates the "Registration pending"
     # disclosure state on PropertyCard and the property detail page.
@@ -188,7 +188,7 @@ properties:
     title: Willow SCO Plots
     property_type: sco
     purpose: buy
-    status: under_construction
+    status: new_launch
     price: 42000000
     price_label: null
     price_per_sqft: null
@@ -199,7 +199,7 @@ properties:
     baths: null
     area: 250
     area_unit: sq.yd
-    badge: New Launch
+    badge: null
     developer: Northgate Estates
     rera_number: null
     description: >-

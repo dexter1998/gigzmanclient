@@ -16,18 +16,21 @@ export const realestate: VerticalConfig = {
 
   schemaType: "RealEstateAgent",
 
-  // "Insights" and "About" are the public-facing labels; the routes underneath
-  // (`/updates`, `/firm-profile`) are the same physical, vertical-agnostic
-  // route folders the CA vertical uses — only the label differs per vertical,
-  // same pattern as the dashboard nav's "Insights" pointing at
-  // `/dashboard/updates` below.
+  // Matches the high-properties-ui-assets mockups' nav exactly: Buy/Rent/
+  // Commercial/New Launches read as distinct nav items but are really
+  // `/properties` filtered by purpose/type/status via query params — no new
+  // routes needed, PropertyFilters already drives off the same params.
+  // "Insights" and "About" are the public-facing labels; the routes
+  // underneath (`/updates`, `/firm-profile`) are the same physical,
+  // vertical-agnostic route folders the CA vertical uses.
   nav: [
-    { label: "Properties", path: "/properties" },
+    { label: "Buy", path: "/properties?purpose=buy" },
+    { label: "Rent", path: "/properties?purpose=rent" },
+    { label: "Commercial", path: "/properties?type=commercial" },
+    { label: "New Launches", path: "/properties?status=new_launch" },
     { label: "Localities", path: "/localities" },
-    { label: "Calculators", path: "/calculators" },
-    { label: "Insights", path: "/updates" },
+    { label: "Market Insights", path: "/updates" },
     { label: "About", path: "/firm-profile" },
-    { label: "Contact", path: "/contact" },
   ],
 
   footer: {
@@ -35,7 +38,7 @@ export const realestate: VerticalConfig = {
       { label: "Home", path: "/" },
       { label: "Properties", path: "/properties" },
       { label: "Localities", path: "/localities" },
-      { label: "About", path: "/about" },
+      { label: "About", path: "/firm-profile" },
       { label: "Contact", path: "/contact" },
     ],
     resourceLinks: [

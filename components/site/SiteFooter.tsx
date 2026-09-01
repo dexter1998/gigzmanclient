@@ -50,10 +50,11 @@ export default function SiteFooter({ settings, basePath, categories, vertical }:
                     className="h-full w-full"
                     src={settings.logoUrl}
                     alt={settings.firmName}
+                    vertical={vertical.id}
                   />
                 </span>
               ) : (
-                <BrandMark className="h-12 w-[56px] shrink-0" onDark />
+                <BrandMark className="h-12 w-[56px] shrink-0" onDark vertical={vertical.id} />
               )}
 
               <span className="leading-tight">

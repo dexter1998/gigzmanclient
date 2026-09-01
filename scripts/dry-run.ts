@@ -11,7 +11,33 @@ import { join } from "node:path";
 
 const BASE = process.argv[2] ?? "http://localhost:3001";
 const TENANT = "/cafirm/arora-k-associates";
+const REALESTATE_TENANT = "/realestate/high-properties";
 const SHOTS = join(process.cwd(), "screenshots");
+
+/**
+ * The real-estate tenant gets the same public-page/viewport/overflow/tap-target/
+ * console-error pass as the CA tenant, plus its own small feature exercise
+ * below (EMI calculator, property filters, RERA disclosure) — it does not
+ * replay the CA-only dashboard CRUD flows (compliance popup, editorial
+ * gating, etc.), which are genuinely CA-specific behaviour, not something a
+ * second vertical needs an equivalent of one-for-one.
+ */
+const REALESTATE_PUBLIC_PAGES = [
+  { path: "", name: "re-home" },
+  { path: "/properties", name: "re-properties" },
+  { path: "/properties/horizon-residences-golf-course-road", name: "re-property-detail" },
+  { path: "/properties/canvas-villas-sohna-road", name: "re-property-detail-pending-rera" },
+  { path: "/localities", name: "re-localities" },
+  { path: "/localities/golf-course-road", name: "re-locality-detail" },
+  { path: "/calculators", name: "re-calculators" },
+  { path: "/calculators/emi", name: "re-calc-emi" },
+  { path: "/calculators/stamp-duty", name: "re-calc-stamp-duty" },
+  { path: "/calculators/rental-yield", name: "re-calc-rental-yield" },
+  { path: "/updates", name: "re-updates" },
+  { path: "/firm-profile", name: "re-firm-profile" },
+  { path: "/contact", name: "re-contact" },
+  { path: "/legal/privacy-policy", name: "re-legal-privacy" },
+];
 
 const ADMIN_EMAIL = process.env.DRY_RUN_EMAIL ?? "admin@arora-k-associates.local";
 const ADMIN_PASSWORD = process.env.DRY_RUN_PASSWORD ?? "";
@@ -124,23 +150,27 @@ async function collectConsoleErrors(page: Page): Promise<string[]> {
   return errors;
 }
 
-async function run() {
-  rmSync(SHOTS, { recursive: true, force: true });
-  for (const v of VIEWPORTS) mkdirSync(join(SHOTS, v.name), { recursive: true });
-
-  const browser: Browser = await chromium.launch();
-
-  // ─────────────────────────────────────────── public pages, all viewports
+/**
+ * Public-page/viewport/overflow/tap-target/console-error pass for one tenant.
+ * Shared by both tenants so a second vertical gets the same baseline checks
+ * without duplicating the loop.
+ */
+async function runPublicPass(
+  browser: Browser,
+  tenantPath: string,
+  pages: { path: string; name: string }[],
+  label: string,
+) {
   for (const viewport of VIEWPORTS) {
-    console.log(`\n── ${viewport.name} (${viewport.width}px) ─────────────────────`);
+    console.log(`\n── ${label} · ${viewport.name} (${viewport.width}px) ─────────────────────`);
     const context = await browser.newContext({
       viewport: { width: viewport.width, height: viewport.height },
     });
     const page = await context.newPage();
     const errors = await collectConsoleErrors(page);
 
-    for (const target of PUBLIC_PAGES) {
-      const url = `${BASE}${TENANT}${target.path}`;
+    for (const target of pages) {
+      const url = `${BASE}${tenantPath}${target.path}`;
       const response = await page.goto(url, { waitUntil: "networkidle" });
 
       if (!response || response.status() !== 200) {
@@ -154,13 +184,23 @@ async function run() {
     }
 
     if (errors.length > 0) {
-      fail(`console@${viewport.name}`, [...new Set(errors)].slice(0, 3).join(" | "));
+      fail(`${label} console@${viewport.name}`, [...new Set(errors)].slice(0, 3).join(" | "));
     } else {
-      pass(`no console errors at ${viewport.name}`);
+      pass(`${label}: no console errors at ${viewport.name}`);
     }
 
     await context.close();
   }
+}
+
+async function run() {
+  rmSync(SHOTS, { recursive: true, force: true });
+  for (const v of VIEWPORTS) mkdirSync(join(SHOTS, v.name), { recursive: true });
+
+  const browser: Browser = await chromium.launch();
+
+  // ─────────────────────────────────────────── public pages, all viewports
+  await runPublicPass(browser, TENANT, PUBLIC_PAGES, "cafirm");
 
   // ──────────────────────────────────────────────────── feature exercises
   console.log("\n── features ──────────────────────────────────────");
@@ -413,6 +453,81 @@ async function run() {
 
   await mobileContext.close();
   await context.close();
+
+  // ───────────────────────────────────── real-estate tenant, all viewports
+  await runPublicPass(browser, REALESTATE_TENANT, REALESTATE_PUBLIC_PAGES, "realestate");
+
+  console.log("\n── realestate features ───────────────────────────");
+  const reContext = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+  const rePage = await reContext.newPage();
+  await collectConsoleErrors(rePage);
+
+  // EMI calculator — spot-checked by hand against the standard reducing-balance
+  // formula (₹10L @ 9% / 20yr ≈ ₹8,997/month) when the calculator was built.
+  await rePage.goto(`${BASE}${REALESTATE_TENANT}/calculators/emi`, { waitUntil: "networkidle" });
+  await rePage.fill("#principal", "1000000");
+  await rePage.click('button:has-text("Calculate EMI")');
+  await rePage.waitForTimeout(300);
+  const emiText = await rePage.locator("aside").first().textContent();
+  if (emiText?.includes("Monthly EMI")) {
+    pass("EMI calculator renders a result");
+    await shoot(rePage, "desktop", "re-calc-emi-result");
+  } else {
+    fail("re-calculator", "EMI result did not render");
+  }
+
+  // A property seeded without a RERA number must show the pending state, not
+  // hide it — this is the real-estate analogue of the CA ICAI-notice check.
+  await rePage.goto(`${BASE}${REALESTATE_TENANT}/properties/canvas-villas-sohna-road`, {
+    waitUntil: "networkidle",
+  });
+  const reraText = await rePage.locator("body").textContent();
+  if (reraText?.includes("Registration pending")) {
+    pass("property without a RERA number shows the registration-pending state");
+  } else {
+    fail("rera", "registration-pending state did not render for an unregistered listing");
+  }
+
+  // A property seeded with a RERA number must show it as registered.
+  await rePage.goto(`${BASE}${REALESTATE_TENANT}/properties/emerald-court-golf-course-road`, {
+    waitUntil: "networkidle",
+  });
+  const reraTextVerified = await rePage.locator("body").textContent();
+  if (reraTextVerified?.includes("RERA registered")) {
+    pass("property with a RERA number shows the registered state");
+  } else {
+    fail("rera", "registered state did not render for a listing with a RERA number");
+  }
+
+  // Property filters narrow the listing grid. The filter is a client-side
+  // router.push (a soft RSC navigation, not a full page load), so waiting on
+  // the URL itself is the reliable signal here — "networkidle" can resolve
+  // before the new server-rendered list has actually replaced the DOM.
+  await rePage.goto(`${BASE}${REALESTATE_TENANT}/properties`, { waitUntil: "networkidle" });
+  const beforeCount = await rePage.locator('a[href*="/properties/"]').count();
+  await rePage.selectOption('select[aria-label="Purpose"]', "rent");
+  await rePage.waitForURL("**purpose=rent**", { timeout: 5000 }).catch(() => {});
+  await rePage.waitForTimeout(500);
+  const afterCount = await rePage.locator('a[href*="/properties/"]').count();
+  if (afterCount > 0 && afterCount < beforeCount) {
+    pass(`property filter narrows results (${beforeCount} → ${afterCount})`);
+  } else {
+    fail("re-filter", `filtering by purpose=rent did not narrow results (${beforeCount} → ${afterCount})`, "warn");
+  }
+
+  // Vertical-mismatch guard — a real-estate client under /cafirm/ must 404,
+  // and a CA client under /realestate/ must 404.
+  const mismatch1 = await rePage.goto(`${BASE}/cafirm/high-properties`, { waitUntil: "networkidle" });
+  const mismatch2 = await rePage.goto(`${BASE}/realestate/arora-k-associates`, {
+    waitUntil: "networkidle",
+  });
+  if (mismatch1?.status() === 404 && mismatch2?.status() === 404) {
+    pass("vertical-mismatch tenant paths both 404");
+  } else {
+    fail("tenant-guard", `expected both 404, got ${mismatch1?.status()} and ${mismatch2?.status()}`);
+  }
+
+  await reContext.close();
   await browser.close();
 
   // ───────────────────────────────────────────────────────────── summary

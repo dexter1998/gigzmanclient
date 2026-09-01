@@ -54,6 +54,8 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         phone={settings.phone}
         navItems={navItems}
         contactHref={p("/contact")}
+        vertical={vertical.id}
+        ctaLabel={vertical.id === "realestate" ? "Enquire Now" : "Book a Consultation"}
       />
 
       <main className="flex-1">{children}</main>

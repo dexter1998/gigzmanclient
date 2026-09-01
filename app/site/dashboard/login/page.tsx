@@ -4,6 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 import { getFirmSettings } from "@/lib/content";
 import LoginForm from "@/components/dashboard/LoginForm";
 import BrandMark from "@/components/site/BrandMark";
+import { getVerticalConfig } from "@/lib/verticals";
 
 export const metadata = {
   title: "Sign in",
@@ -30,6 +31,7 @@ export default async function LoginPage() {
             className="mx-auto h-12 w-[62px]"
             src={settings?.logoUrl}
             alt={settings?.firmName ?? ""}
+            vertical={getVerticalConfig(tenant.vertical).id}
           />
           <h1 className="display-md mt-5">Sign in</h1>
           <p className="mt-2 text-[13px] text-ink-muted">

@@ -19,6 +19,8 @@ interface SiteHeaderProps {
   phone: string | null;
   navItems: NavItem[];
   contactHref: string;
+  vertical?: "cafirm" | "realestate";
+  ctaLabel?: string;
 }
 
 export default function SiteHeader({
@@ -29,6 +31,8 @@ export default function SiteHeader({
   phone,
   navItems,
   contactHref,
+  vertical = "cafirm",
+  ctaLabel = "Book a Consultation",
 }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
@@ -41,7 +45,7 @@ export default function SiteHeader({
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-6 px-5 py-3 sm:px-6 lg:px-8">
         {/* Wordmark — placeholder mark, replaced with the firm's logo at delivery. */}
         <Link href={basePath || "/"} className="flex shrink-0 items-center gap-2.5">
-          <BrandMark className="h-12 w-[56px] shrink-0" src={logoUrl} alt={firmName} />
+          <BrandMark className="h-12 w-[56px] shrink-0" src={logoUrl} alt={firmName} vertical={vertical} />
           <span className="leading-tight">
             <span className="block whitespace-nowrap font-display text-[17px] font-medium text-navy">
               {firmName}
@@ -88,7 +92,7 @@ export default function SiteHeader({
             href={contactHref}
             className="hidden min-h-[42px] items-center gap-1.5 rounded-[8px] bg-navy px-4 text-[13px] font-medium text-white hover:bg-navy-soft sm:inline-flex"
           >
-            Book a Consultation
+            {ctaLabel}
             <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
 
@@ -124,7 +128,7 @@ export default function SiteHeader({
               onClick={() => setOpen(false)}
               className="my-3 flex min-h-[46px] items-center justify-center gap-1.5 rounded-[8px] bg-navy px-4 text-[14px] font-medium text-white"
             >
-              Book a Consultation
+              {ctaLabel}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </nav>

@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Source_Serif_4, Playfair_Display, Montserrat } from "next/font/google";
+import { Inter, Source_Serif_4, Playfair_Display, Montserrat, Cormorant_Garamond, Poppins } from "next/font/google";
 import "./globals.css";
-import { getTenant } from "@/lib/tenant";
-import { getTemplateKeyForSlug } from "@/lib/templates";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -35,6 +33,23 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
+// Premium V2 template's editorial display face (Geeta Properties).
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+// Premium V2's body/interface face — headings stay in the Cormorant serif
+// above; this only replaces Inter for paragraphs, nav, buttons and labels.
+const poppins = Poppins({
+  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Professional Services",
   description: "Chartered accountancy, taxation and compliance support.",
@@ -46,20 +61,15 @@ export const viewport: Viewport = {
   themeColor: "#0f2c52",
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  // No tenant resolves for the deployment index or /library — data-vertical is
-  // simply absent there and the base theme applies, which is correct for both.
-  const tenant = await getTenant();
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  // The tenant theme attributes live on a wrapper inside the tenant layout,
+  // not here: resolving the tenant in the ROOT layout would read request
+  // headers and force every route in the app into dynamic rendering.
 
-  const fontVariables = `${inter.variable} ${sourceSerif.variable} ${playfairDisplay.variable} ${montserrat.variable}`;
+  const fontVariables = `${inter.variable} ${sourceSerif.variable} ${playfairDisplay.variable} ${montserrat.variable} ${cormorantGaramond.variable} ${poppins.variable}`;
 
   return (
-    <html
-      lang="en"
-      className={`${fontVariables} h-full`}
-      data-vertical={tenant?.vertical}
-      data-template={getTemplateKeyForSlug(tenant?.slug)}
-    >
+    <html lang="en" className={`${fontVariables} h-full`}>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

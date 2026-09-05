@@ -1,75 +1,79 @@
-# Client seed data — Geeta Properties (Premium Inventory / Showcase template)
+# Client seed data — High Properties (Premium V2 template)
 #
-# Geeta Properties is a real, existing Gurugram real estate agency (Google
-# Business Profile: "Geeta Properties", 3.6★, 408 reviews, Palam Vihar
-# Extension). Name, category, address and phone below are sourced from that
-# listing. Property/locality inventory, team names and RERA numbers remain
-# fabricated demo content — see `_status`.
+# High Properties is a real, existing Gurugram & Delhi NCR real estate
+# brokerage, founded 1998 by Yoogesh Bagga. Name, address, phone, email,
+# hours and social handles below are sourced from the agency's own site
+# (highproperties.in, captured via a Hostinger export) and its
+# schema.org/RealEstateAgent JSON-LD. Property/locality inventory beyond the
+# 3 listings carried over from that export remain fabricated placeholder
+# content pending the rest of the agency's real inventory — see `_status`.
 #
 # Loaded into the database by `pnpm seed:client high-properties`.
 # Run `pnpm check:content high-properties` for the placeholder checklist.
 
 slug: high-properties
 vertical: realestate
-display_name: Geeta Properties
-# Marks this tenant as a template-library demo, not a delivered client site —
-# surfaced on /library and excluded from anywhere real client sites are listed.
-is_demo: true
+display_name: High Properties
+is_demo: false
 
 firm:
-  name: Geeta Properties
-  tagline: Buy. Rent. Sale.
+  name: High Properties
+  tagline: Building Future
   overview: >-
-    Geeta Properties is a Gurugram-based real estate agency helping buyers,
-    tenants and investors navigate active listings across Golf Course Road,
-    Dwarka Expressway, Sohna Road, SPR and New Gurugram. Every listing is
-    reviewed before it goes live, and RERA registration status is shown
-    plainly on every property.
-  established_year: ""
+    High Properties is a Gurugram-based real estate brokerage serving
+    Gurugram and Delhi NCR since 1998 — buying, selling, rentals,
+    construction, collaboration and interior design across residential,
+    commercial and industrial property, with a focus on the Dwarka
+    Expressway corridor. Every listing is reviewed before it goes live, and
+    RERA registration status is shown plainly on every property.
+  established_year: "1998"
   # Left blank deliberately — see the RERA disclosure component on every
   # property card and the footer's regulatory notice. Do not fill this with
   # an invented number.
   firm_registration_number: ""
   business_category: Real Estate Agency
+  logo_url: /verticals/realestate/templates/premium-v2/brand/high-properties-logo.png
 
 contact:
-  phone: "098999 22113"
-  whatsapp: "098999 22113"
-  email: "enquiries@example.com"
-  address_line: "Geeta Complex, Choma, Block E, Dharam Colony"
-  locality: "Palam Vihar Extension, Gurugram"
+  phone: "98215 53693"
+  whatsapp: "98215 53693"
+  email: "highproperties9@gmail.com"
+  address_line: "Shop No. 3, Main Road, Dwarka Expressway, Sector 99"
+  locality: "Gurugram"
   region: Haryana
-  postal_code: "122017"
+  postal_code: "122505"
   country: India
-  latitude: ""
-  longitude: ""
-  google_maps_url: "https://share.google/AX9lFuP0j7JRB1pzI"
+  latitude: "28.5021"
+  longitude: "76.9636"
+  google_maps_url: "https://www.google.com/maps/search/?api=1&query=28.5021,76.9636"
 
-# GBP shows only "Opens 9:30 am" — closing time and the rest of the weekly
-# pattern are assumed and need confirming with the agency.
 opening_hours:
-  - { day: Monday, opens: "09:30", closes: "19:00", closed: false }
-  - { day: Tuesday, opens: "09:30", closes: "19:00", closed: false }
-  - { day: Wednesday, opens: "09:30", closes: "19:00", closed: false }
-  - { day: Thursday, opens: "09:30", closes: "19:00", closed: false }
-  - { day: Friday, opens: "09:30", closes: "19:00", closed: false }
-  - { day: Saturday, opens: "09:30", closes: "19:00", closed: false }
-  - { day: Sunday, opens: "10:00", closes: "17:00", closed: false }
+  - { day: Monday, opens: "11:00", closes: "20:00", closed: false }
+  - { day: Tuesday, opens: "11:00", closes: "20:00", closed: false }
+  - { day: Wednesday, opens: "11:00", closes: "20:00", closed: false }
+  - { day: Thursday, opens: "11:00", closes: "20:00", closed: false }
+  - { day: Friday, opens: "11:00", closes: "20:00", closed: false }
+  - { day: Saturday, opens: "11:00", closes: "20:00", closed: false }
+  - { day: Sunday, opens: "11:00", closes: "20:00", closed: false }
 
-social_links: {}
+social_links:
+  instagram: "https://www.instagram.com/highproperties"
+  facebook: "https://www.facebook.com/highproperties"
+  linkedin: "https://www.linkedin.com/company/highproperties"
+  youtube: "https://www.youtube.com/@highproperties"
 
 seo:
-  title: Geeta Properties — Real Estate Listings in Gurugram
+  title: High Properties — Gurugram & Delhi NCR Real Estate Since 1998
   description: >-
-    Browse residential and commercial listings across Gurugram's key corridors,
-    with locality market data and buyer calculators.
+    High Properties — trusted Gurugram & Delhi NCR real estate experts since
+    1998. Buy, sell, rent, build & collaborate on apartments, plots, SCO,
+    offices, shops & industrial units along Dwarka Expressway and across
+    NCR. RERA-aware, end-to-end documentation.
 
 analytics:
   ga4_measurement_id: ""
   search_console_verification: ""
 
-# Section visibility. No professional-body restriction applies to reviews for
-# a real-estate agency, unlike the CA vertical.
 features:
   reviews: true
   pricing: true
@@ -78,20 +82,13 @@ features:
   team: true
 
 team:
-  - name: Rohan Kapoor
+  - name: Yoogesh Bagga
     designation: Founder & Principal Broker
     qualifications: ""
     membership_number: ""
     bio: >-
-      Leads acquisitions and buyer advisory across Golf Course Road and
-      Dwarka Expressway.
-  - name: Simran Chadha
-    designation: Locality & Market Research
-    qualifications: ""
-    membership_number: ""
-    bio: >-
-      Tracks pricing and inventory movement across all five corridors covered
-      on this site.
+      Founded High Properties in 1998 and has led its buying, selling and
+      construction advisory across Gurugram and Delhi NCR since.
 
 notification_email: ""
 
@@ -100,26 +97,26 @@ _status:
   display_name: verified
   firm.name: verified
   firm.business_category: verified
-  firm.tagline: placeholder
-  firm.overview: placeholder
-  firm.established_year: pending
+  firm.tagline: verified
+  firm.overview: verified
+  firm.established_year: verified
   firm.firm_registration_number: pending
   contact.phone: verified
-  contact.whatsapp: placeholder
-  contact.email: placeholder
+  contact.whatsapp: verified
+  contact.email: verified
   contact.address_line: verified
   contact.locality: verified
   contact.region: verified
   contact.postal_code: verified
   contact.country: verified
   contact.google_maps_url: verified
-  contact.latitude: pending
-  contact.longitude: pending
-  opening_hours: placeholder
-  social_links: pending
-  seo.title: placeholder
-  seo.description: placeholder
+  contact.latitude: verified
+  contact.longitude: verified
+  opening_hours: verified
+  social_links: verified
+  seo.title: verified
+  seo.description: verified
   analytics.ga4_measurement_id: pending
   analytics.search_console_verification: pending
-  team: placeholder
+  team: verified
   notification_email: pending

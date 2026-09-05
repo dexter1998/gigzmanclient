@@ -93,6 +93,7 @@ async function main() {
     establishedYear: firm.established_year || null,
     firmRegistrationNumber: firm.firm_registration_number || null,
     businessCategory: firm.business_category ?? null,
+    logoUrl: firm.logo_url || null,
     phone: contact.phone || null,
     whatsapp: contact.whatsapp || null,
     email: contact.email || null,

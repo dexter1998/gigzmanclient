@@ -1,0 +1,114 @@
+# Client seed data — Evergreen Real Estate (Premium V2 template)
+#
+# NAP below is read from the client's own Google Business Profile
+# (place_id ChIJozjps20pDTkRbunfm45O_-k), rendered in a real browser since
+# the listing is client-side only. Verified from that listing: name, category
+# ("Real estate developer"), rating 4.6, address, phone, plus-code and
+# coordinates. Google exposes only the current day's hours in the signed-out
+# view — Thursday 07:00–21:00 was read directly and the same window is
+# assumed for the rest of the week, so `opening_hours` stays `placeholder`
+# until the client confirms. No website and no email are published on the
+# listing, so `email` and `social_links` remain empty rather than invented.
+#
+# Loaded into the database by `pnpm seed:client evergreen-real-estate`.
+# Run `pnpm check:content evergreen-real-estate` for the placeholder checklist.
+
+slug: evergreen-real-estate
+vertical: realestate
+display_name: Evergreen Real Estate
+is_demo: false
+
+firm:
+  name: Evergreen Real Estate
+  tagline: ""
+  overview: >-
+    Evergreen Real Estate is a Sohna-based real estate developer and advisory,
+    working with buyers, tenants and investors on residential and commercial
+    property along the Sohna–Gurugram corridor. Every listing is reviewed
+    before it goes live, and RERA registration status is shown plainly on
+    every property.
+  established_year: ""
+  firm_registration_number: ""
+  business_category: Real Estate Developer
+  logo_url: /verticals/realestate/templates/premium-v2/brand/evergreen-real-estate-logo.png
+
+# Verified from the client's Google Business Profile. `email` stays empty —
+# the listing publishes no email address, and the contact page/footer hide
+# that row when it is blank. WhatsApp intentionally mirrors the listed phone.
+contact:
+  phone: "096711 95544"
+  whatsapp: "096711 95544"
+  email: ""
+  address_line: "The Westin Sohna Resort & Spa, Karnki"
+  locality: "Sohna, Gurugram"
+  region: Haryana
+  postal_code: "122103"
+  country: India
+  latitude: "28.2400361"
+  longitude: "77.1400002"
+  google_maps_url: "https://www.google.com/maps/search/?api=1&query=Evergreen%20Real%20Estate%20The%20westin%20Vatika%20Sohna%20Karanki&query_place_id=ChIJozjps20pDTkRbunfm45O_-k"
+
+# Only Thursday (07:00–21:00) is exposed on the public listing; the rest of
+# the week mirrors it pending confirmation — see `_status.opening_hours`.
+opening_hours:
+  - { day: Monday, opens: "07:00", closes: "21:00", closed: false }
+  - { day: Tuesday, opens: "07:00", closes: "21:00", closed: false }
+  - { day: Wednesday, opens: "07:00", closes: "21:00", closed: false }
+  - { day: Thursday, opens: "07:00", closes: "21:00", closed: false }
+  - { day: Friday, opens: "07:00", closes: "21:00", closed: false }
+  - { day: Saturday, opens: "07:00", closes: "21:00", closed: false }
+  - { day: Sunday, opens: "07:00", closes: "21:00", closed: false }
+
+social_links: {}
+
+seo:
+  title: Evergreen Real Estate — Property Advisory in Sohna & Gurugram
+  description: >-
+    Residential and commercial property advisory around Sohna and the
+    Gurugram corridor, with locality market intelligence and buyer
+    calculators.
+
+analytics:
+  ga4_measurement_id: ""
+  search_console_verification: ""
+
+features:
+  reviews: true
+  pricing: true
+  awards: false
+  client_logos: false
+  team: false
+
+team: []
+
+notification_email: ""
+
+_status:
+  slug: verified
+  display_name: verified
+  firm.name: verified
+  firm.business_category: verified
+  firm.logo_url: verified
+  firm.tagline: pending
+  firm.overview: placeholder
+  firm.established_year: pending
+  firm.firm_registration_number: pending
+  contact.phone: verified
+  contact.whatsapp: placeholder
+  contact.email: pending
+  contact.address_line: verified
+  contact.locality: verified
+  contact.region: verified
+  contact.postal_code: verified
+  contact.country: verified
+  contact.google_maps_url: verified
+  contact.latitude: verified
+  contact.longitude: verified
+  opening_hours: placeholder
+  social_links: pending
+  seo.title: placeholder
+  seo.description: placeholder
+  analytics.ga4_measurement_id: pending
+  analytics.search_console_verification: pending
+  team: pending
+  notification_email: pending

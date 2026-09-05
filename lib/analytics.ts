@@ -117,4 +117,15 @@ export const analytics = {
     track("filter_properties", filters),
 
   viewLocality: (localitySlug: string) => track("view_locality", { locality_slug: localitySlug }),
+
+  /** Location/type/budget-band filters only — same discipline as filterProperties. */
+  searchSubmit: (pageType: string) => track("search_submit", { page_type: pageType }),
+
+  shortlistRequest: (intent: string) => track("shortlist_request", { intent }),
+
+  siteVisitRequest: (propertyId: string) => track("site_visit_request", { property_id: propertyId }),
+
+  videoPlay: (videoId: string) => track("video_play", { video_id: videoId }),
+
+  reportRequest: (reportId: string) => track("report_request", { report_id: reportId }),
 };

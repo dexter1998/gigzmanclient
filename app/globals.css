@@ -65,7 +65,7 @@
  * hard-code that navy as an inline rgba(). Overriding navy alone without these
  * would desynchronise headings and shadows from the rest of the palette.
  */
-:root[data-vertical="realestate"] {
+[data-vertical="realestate"] {
   /* Real client brand: Geeta Properties' own logo (navy roof-mark + gold
      wordmark, "BUY - RENT - SALE" gold band). Navy/gold replaces the earlier
      High-Properties-demo forest-green palette, per the actual logo supplied —
@@ -106,7 +106,7 @@
  * attribute selector, so gold/ink/line tokens are inherited unchanged and
  * only the structural navy/tint pairing shifts to charcoal.
  */
-:root[data-vertical="realestate"][data-template="market-intelligence"] {
+[data-vertical="realestate"][data-template="market-intelligence"] {
   --color-navy: #10151c;
   --color-navy-deep: #090c11;
   --color-navy-soft: #1c2530;
@@ -118,12 +118,223 @@
   --color-line-strong: #c5cad0;
 }
 
+/**
+ * Premium V2 (Geeta Properties) — a deliberately standalone theme, not a
+ * re-skin of the shared navy/gold realestate palette above. The Premium V2
+ * design pack specifies its own forest/gold/cream system and a dedicated
+ * `--gp-*` token namespace (content width, section rhythm, radii) so its
+ * components never reach for the CA-vertical `--color-*`/`--radius-*` scale.
+ */
+[data-vertical="realestate"][data-template="premium-v2"] {
+  /* The base template's --color-page is white — every GpSection paints its
+     own background, but any sliver that isn't covered by one (a rounding gap
+     under the fixed header, a viewport taller than a section's content)
+     would otherwise show plain white against this template's cream/forest
+     palette. */
+  --color-page: #fbf8f1;
+
+  --color-navy: #0f3d3a;
+  --color-navy-deep: #0a2e2c;
+  --color-navy-soft: #17524c;
+  --color-navy-muted: #216f60;
+
+  --color-tint: #fbf8f1;
+  --color-tint-deep: #f4efe4;
+  --color-line: #d9d5ca;
+  --color-line-strong: #c9c3b3;
+
+  --color-accent: #d4af6c;
+  --color-accent-hover: #b8935a;
+  --color-accent-soft: #e8d2a6;
+  --color-accent-ring: #e8d2a6;
+
+  --color-ink: #18342c;
+  --color-ink-muted: #33443d;
+  --color-ink-subtle: #718078;
+
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+
+  --shadow-card: 0 8px 40px rgba(10, 46, 44, 0.16);
+  --shadow-raised: 0 4px 20px rgba(212, 175, 108, 0.28);
+
+  /* Geeta Properties Premium V2 design tokens — used verbatim by gp-* utility
+     classes and inline styles inside components/realestate/premium-v2/. */
+  --gp-forest-950: #0a2e2c;
+  --gp-forest-900: #0f3d3a;
+  --gp-forest-800: #17524c;
+  --gp-forest-700: #216f60;
+
+  --gp-gold-600: #d4af6c;
+  --gp-gold-300: #e8d2a6;
+
+  --gp-cream-200: #f4efe4;
+  --gp-cream-100: #fbf8f1;
+
+  --gp-ink: #18342c;
+  --gp-body: #33443d;
+  --gp-muted: #718078;
+  --gp-border: #d9d5ca;
+  --gp-success: #78b69a;
+
+  --gp-radius-sm: 8px;
+  --gp-radius-md: 14px;
+  --gp-radius-lg: 18px;
+
+  --gp-content-width: 1792px;
+  --gp-section-space: clamp(72px, 6vw, 112px);
+  --gp-page-gutter: clamp(20px, 6.25vw, 128px);
+
+  --gp-gradient-hero: linear-gradient(
+    90deg,
+    rgba(10, 46, 44, 0.98) 0%,
+    rgba(23, 82, 76, 0.78) 48%,
+    rgba(23, 82, 76, 0.08) 100%
+  );
+  --gp-gradient-card: linear-gradient(
+    180deg,
+    rgba(10, 46, 44, 0) 0%,
+    rgba(10, 46, 44, 0.22) 35%,
+    rgba(10, 46, 44, 0.5) 58%,
+    rgba(10, 46, 44, 0.78) 80%,
+    rgba(10, 46, 44, 0.96) 100%
+  );
+  --gp-gradient-dark-section: linear-gradient(135deg, #17524c 0%, #0a2e2c 100%);
+  --gp-gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96),
+    rgba(244, 239, 228, 0.88)
+  );
+  --gp-gradient-glow: radial-gradient(
+    circle at 82% 5%,
+    rgba(212, 175, 108, 0.26),
+    rgba(23, 82, 76, 0) 58%
+  );
+}
+
+.gp-container {
+  width: min(calc(100% - (var(--gp-page-gutter) * 2)), var(--gp-content-width));
+  margin-inline: auto;
+}
+
+.gp-section {
+  padding-block: var(--gp-section-space);
+}
+
+.gp-hero-title {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(52px, 5vw, 78px);
+  line-height: 1.02;
+  font-weight: 400;
+}
+
+.gp-section-title {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(38px, 3.4vw, 52px);
+  line-height: 1.08;
+}
+
+.gp-overlay-title {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-size: clamp(24px, 2vw, 36px);
+}
+
+.gp-eyebrow {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/*
+ * Premium V2 prose treatment for markdown article/legal bodies (updates,
+ * legal pages). Deliberately separate from `.prose-body` above: that class
+ * is tuned for the CA-vertical navy/orange system (its link colour and
+ * heading rhythm read as an off-brand accent here), whereas `.gp-prose`
+ * reads its palette entirely from the `--gp-*` tokens and sets headings in
+ * the Premium V2 display serif rather than the CA display font.
+ */
+.gp-prose {
+  font-family: var(--font-sans);
+  color: var(--gp-body);
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.gp-prose p + p {
+  margin-top: 1.1em;
+}
+
+.gp-prose ul,
+.gp-prose ol {
+  margin: 1.1em 0;
+  padding-left: 1.3rem;
+  list-style: disc;
+}
+
+.gp-prose ol {
+  list-style: decimal;
+}
+
+.gp-prose li + li {
+  margin-top: 0.5em;
+}
+
+.gp-prose h2 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  margin: 1.8em 0 0.6em;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--gp-ink);
+  letter-spacing: -0.005em;
+}
+
+.gp-prose h3 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  margin: 1.5em 0 0.5em;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--gp-ink);
+}
+
+.gp-prose a {
+  color: var(--gp-gold-600);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.gp-prose strong {
+  color: var(--gp-ink);
+  font-weight: 600;
+}
+
+.gp-prose blockquote {
+  margin: 1.6em 0;
+  padding-left: 1.2em;
+  border-left: 3px solid var(--gp-gold-600);
+  font-style: italic;
+  color: var(--gp-ink);
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+}
+
+/* Tenant theme wrapper. The vertical/template attributes used to sit on
+   <html>, which meant the root layout had to resolve the tenant from request
+   headers and every route in the app became dynamic as a result. They now sit
+   on this wrapper inside the tenant layout instead — custom properties
+   inherit, so everything below it themes identically, and the root layout
+   stays static. The wrapper paints the page ground itself because <body> sits
+   above it and only sees the default palette. */
+[data-vertical] {
+  background: var(--color-page);
+  color: var(--color-ink);
+  min-height: 100vh;
 }
 
 body {

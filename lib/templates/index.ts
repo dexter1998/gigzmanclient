@@ -1,20 +1,17 @@
 /**
- * Maps a demo tenant's slug to which of the 4 High Properties landing-page
- * directions (~/Downloads/high-properties-4-template-hd/) it implements, and
- * to the URL segment that template is addressed by:
- * `/realestate/{urlSlug}/{clientSlug}/...`.
+ * Maps a real-estate tenant's slug to the template it renders and to the
+ * URL segment that template is addressed by: `/realestate/{urlSlug}/
+ * {clientSlug}/...`. Premium V2 is the only surviving template — the earlier
+ * premium-inventory/luxury-advisory/market-intelligence/locality-pseo
+ * template-library demos were removed.
  *
  * Deliberately slug-keyed rather than a `clients.templateKey` DB column —
- * these are fixed, known demo tenants for the template library, not
- * something a real client ever needs to change from the dashboard, so a
- * migration for it would be pure overhead. If a real client ever needs a
- * configurable template, promote this to a column then.
+ * this only needs to say "yes, this slug is a real-estate tenant using the
+ * template", and a slug-keyed map does that for the one real client without
+ * a migration. If a second real-estate client is ever onboarded, add its
+ * slug here.
  */
-export type TemplateKey =
-  | "premium-inventory"
-  | "luxury-advisory"
-  | "market-intelligence"
-  | "locality-pseo";
+export type TemplateKey = "premium-v2";
 
 export interface TemplateConfig {
   key: TemplateKey;
@@ -26,29 +23,11 @@ export interface TemplateConfig {
 }
 
 export const TEMPLATE_REGISTRY: Record<TemplateKey, TemplateConfig> = {
-  "premium-inventory": {
-    key: "premium-inventory",
-    label: "Premium Inventory / Showcase",
-    urlSlug: "temp-luxury-showcase",
-    sourceDir: "01-premium-inventory-showcase",
-  },
-  "luxury-advisory": {
-    key: "luxury-advisory",
-    label: "Luxury Advisory",
-    urlSlug: "temp-advisory",
-    sourceDir: "02-luxury-advisory",
-  },
-  "market-intelligence": {
-    key: "market-intelligence",
-    label: "Market Intelligence",
-    urlSlug: "temp-market-intel",
-    sourceDir: "03-market-intelligence",
-  },
-  "locality-pseo": {
-    key: "locality-pseo",
-    label: "Locality / pSEO",
-    urlSlug: "temp-locality",
-    sourceDir: "04-locality-pseo",
+  "premium-v2": {
+    key: "premium-v2",
+    label: "Premium V2",
+    urlSlug: "temp-premium-v2",
+    sourceDir: "geeta-properties-premium-mixed-v2",
   },
 };
 
@@ -57,10 +36,8 @@ const URL_SLUG_TO_KEY: Record<string, TemplateKey> = Object.fromEntries(
 ) as Record<string, TemplateKey>;
 
 const CLIENT_SLUG_TEMPLATE_MAP: Record<string, TemplateKey> = {
-  "high-properties": "premium-inventory",
-  "high-properties-advisory": "luxury-advisory",
-  "high-properties-intelligence": "market-intelligence",
-  "high-properties-locality": "locality-pseo",
+  "high-properties": "premium-v2",
+  "evergreen-real-estate": "premium-v2",
 };
 
 export function getTemplateKeyForSlug(clientSlug: string | undefined | null): TemplateKey | undefined {

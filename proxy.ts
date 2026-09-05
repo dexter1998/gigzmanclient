@@ -32,6 +32,8 @@ const TENANT_MODE = process.env.TENANT_MODE === "host" ? "host" : "path";
 
 const SLUG_PATTERN = /^[a-z0-9][a-z0-9-]{0,118}[a-z0-9]$/;
 
+
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -46,7 +48,8 @@ export function proxy(request: NextRequest) {
   const segments = pathname.split("/").filter(Boolean);
   const [vertical, slug, ...rest] = segments;
 
-  // The bare root is the public template-library homepage (app/page.tsx).
+  // The bare root is the single gated dashboard (app/page.tsx) — team-only,
+  // requires a client ID typed in by hand, never lists clients.
   if (segments.length === 0) return NextResponse.next();
 
   // Files served from public/ live at the root and carry an extension. Without
@@ -57,9 +60,13 @@ export function proxy(request: NextRequest) {
   // request for it would render a tenant page with no tenant resolved.
   if (vertical === "site") return NextResponse.redirect(new URL("/", request.url));
 
-  // The internal ops deployment index (app/admin/page.tsx) — not a tenant
-  // path, "admin" is not a registered vertical id.
-  if (vertical === "admin" && !slug) return NextResponse.next();
+  // The platform sign-in screen (app/login/**) — not a tenant path, "login"
+  // is not a registered vertical id, so it needs this same early exemption.
+  // There is no longer a separate /admin section: "/" itself is the single
+  // gated dashboard, so an unrecognised /admin now falls through to the
+  // generic "unknown vertical" redirect below, landing on "/" like any
+  // other unrecognised path.
+  if (vertical === "login") return NextResponse.next();
 
   if (!vertical || !isVerticalId(vertical)) {
     // An unknown vertical segment would otherwise render a tenant page with
@@ -67,9 +74,9 @@ export function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  // A bare `/{vertical}` (no slug) is the per-industry library page
-  // (app/[vertical]/page.tsx) — every template registered for that
-  // industry — not a tenant path, so it renders directly with no rewrite.
+  // A bare `/{vertical}` (no slug, e.g. `/realestate`) has no page — this
+  // deployment no longer publishes a per-industry browsing surface, so it
+  // falls through to Next's own 404 rather than rendering anything.
   if (!slug) return NextResponse.next();
 
   if (vertical === "realestate") {
@@ -88,7 +95,9 @@ export function proxy(request: NextRequest) {
     headers.set("x-tenant-base", `/${vertical}/${templateUrlSlug}/${clientSlug}`);
 
     const url = request.nextUrl.clone();
-    url.pathname = `/site${tenantRest.length > 0 ? `/${tenantRest.join("/")}` : ""}`;
+    // The tenant slug is part of the rewritten path, not just a header, so
+    // pages can read it from `params` and stay statically renderable.
+    url.pathname = `/site/${clientSlug}${tenantRest.length > 0 ? `/${tenantRest.join("/")}` : ""}`;
     return NextResponse.rewrite(url, { request: { headers } });
   }
 
@@ -104,7 +113,7 @@ export function proxy(request: NextRequest) {
   // Tenant pages live under an internal /site prefix so that `/` stays free for
   // the index of sites hosted on this deployment.
   const url = request.nextUrl.clone();
-  url.pathname = `/site${rest.length > 0 ? `/${rest.join("/")}` : ""}`;
+  url.pathname = `/site/${slug}${rest.length > 0 ? `/${rest.join("/")}` : ""}`;
 
   return NextResponse.rewrite(url, { request: { headers } });
 }

@@ -1,51 +1,48 @@
-import { eq, and } from "drizzle-orm";
-import { db } from "@/lib/db";
-import { clients } from "@/lib/db/schema";
-import { TEMPLATES } from "@/lib/template-registry";
-import IndustryTabs from "@/components/library/IndustryTabs";
-import TemplateCard from "@/components/library/TemplateCard";
+import { LogOut } from "lucide-react";
+import { requirePlatformAdmin } from "@/lib/platform-auth";
+import { logoutPlatformAdmin } from "./login/actions";
+import ClientLookupForm from "./ClientLookupForm";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Gigzman — Website Templates by Industry",
-  description: "Live, browsable website templates by business category.",
+  title: "Gigzman",
+  robots: { index: false, follow: false },
 };
 
 /**
- * The public homepage: every template across every industry, with tabs to
- * each industry's own page (`/{vertical}`). Each card is a live, working
- * site — not a mockup — the same "browse it the way a prospect would"
- * approach this page has always taken, just promoted from a secondary
- * sales page (formerly `/library`) to the actual root.
+ * The single gated entry point to this deployment. Deliberately shows no
+ * client listing — a signed-in team member opens a specific site by its ID,
+ * so nobody browsing this dashboard can discover a client they don't already
+ * know the slug for. Once on a client's own site, there is no link back
+ * here.
  */
-export default async function LibraryHomePage() {
-  const demoClients = await db
-    .select()
-    .from(clients)
-    .where(and(eq(clients.isDemo, true), eq(clients.isActive, true)));
+export default async function Dashboard() {
+  const session = await requirePlatformAdmin("/");
 
   return (
-    <div className="mx-auto w-full max-w-5xl px-6 py-16">
-      <p className="eyebrow">Template library</p>
-      <h1 className="display-lg mt-3">Ready-made websites, by category.</h1>
-      <p className="prose-body mt-3 max-w-2xl text-[15px]">
-        Each template below is a live, working site — not a mockup. Browse it the way a prospect
-        would, then use it as the starting point for their build.
-      </p>
+    <div className="flex min-h-screen items-center justify-center bg-tint px-5 py-12">
+      <div className="w-full max-w-sm">
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <p className="eyebrow">Gigzman</p>
+            <h1 className="display-md mt-2">Open a client site</h1>
+          </div>
+          <form action={logoutPlatformAdmin}>
+            <button
+              type="submit"
+              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-[8px] border border-line-strong px-3 text-[12.5px] font-medium text-ink-muted hover:border-navy hover:text-navy"
+            >
+              <LogOut className="h-3.5 w-3.5" aria-hidden="true" />
+              Sign out
+            </button>
+          </form>
+        </div>
+        <p className="mt-2 text-[13px] text-ink-muted">{session.email}</p>
 
-      <div className="mt-8">
-        <IndustryTabs active={null} />
-      </div>
-
-      <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
-        {TEMPLATES.map((template) => (
-          <TemplateCard
-            key={template.slug}
-            template={template}
-            demo={demoClients.find((c) => c.slug === template.slug)}
-          />
-        ))}
+        <div className="mt-7 rounded-[12px] border border-line bg-surface p-6">
+          <ClientLookupForm />
+        </div>
       </div>
     </div>
   );

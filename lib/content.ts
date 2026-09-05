@@ -1,5 +1,6 @@
 import { cache } from "react";
-import { and, asc, desc, eq, gte, sql } from "drizzle-orm";
+import { unstable_cache } from "next/cache";
+import { and, asc, desc, eq, gte, inArray, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
 import {
   firmSettings,
@@ -17,26 +18,44 @@ import { todayInIst } from "@/lib/format";
 
 /**
  * Read-side data access for the public site. Every function is scoped by
- * `clientId` and wrapped in `cache` so repeated calls within one request
- * collapse into a single query.
+ * `clientId`.
+ *
+ * Two caching layers, and they do different jobs:
+ *  - React `cache` dedupes repeated calls WITHIN one request.
+ *  - `unstable_cache` (via `cached` below) persists ACROSS requests, which is
+ *    the one that matters here: functions run in bom1 while the Supabase
+ *    pooler is in ap-southeast-2, so every uncached query pays a cross-region
+ *    round trip. A page making a dozen of those is why pages took seconds.
+ *
+ * `REVALIDATE_SECONDS` is the staleness the dashboard tolerates — an edit
+ * shows up within this window rather than instantly.
  */
+const REVALIDATE_SECONDS = 300;
 
-export const getFirmSettings = cache(async (clientId: string) => {
+/** Cross-request cache. Key parts must include every argument that changes the result. */
+function cached<Args extends unknown[], T>(
+  fn: (...args: Args) => Promise<T>,
+  keyParts: string[],
+) {
+  return unstable_cache(fn, keyParts, { revalidate: REVALIDATE_SECONDS });
+}
+
+export const getFirmSettings = cache(cached(async (clientId: string) => {
   const [row] = await db
     .select()
     .from(firmSettings)
     .where(eq(firmSettings.clientId, clientId))
     .limit(1);
   return row ?? null;
-});
+}, ["firm-settings"]));
 
-export const getTeam = cache(async (clientId: string) =>
+export const getTeam = cache(cached(async (clientId: string) =>
   db
     .select()
     .from(teamMembers)
     .where(and(eq(teamMembers.clientId, clientId), eq(teamMembers.isActive, true)))
     .orderBy(asc(teamMembers.sortOrder)),
-);
+["team"]));
 
 export const getServices = cache(async (clientId: string) =>
   db
@@ -147,13 +166,13 @@ export const getLegalPage = cache(async (clientId: string, slug: string) => {
   return row ?? null;
 });
 
-export const getCalculators = cache(async (clientId: string) =>
+export const getCalculators = cache(cached(async (clientId: string) =>
   db
     .select()
     .from(calculators)
     .where(eq(calculators.clientId, clientId))
     .orderBy(asc(calculators.sortOrder)),
-);
+["calculators"]));
 
 export const getCalculator = cache(async (clientId: string, key: string) => {
   const [row] = await db
@@ -234,6 +253,30 @@ export const getAllProperties = cache(async (clientId: string) =>
     .orderBy(desc(properties.isFeatured), asc(properties.sortOrder)),
 );
 
+/**
+ * All images for many properties in ONE query.
+ *
+ * Callers used to map over a property list awaiting `getPropertyImages` per
+ * row — twelve round trips on the homepage alone, each crossing regions.
+ * Returns a map keyed by propertyId so call sites keep the same shape.
+ */
+export const getPropertyImagesFor = cache(
+  cached(async (propertyIds: string[]) => {
+    if (propertyIds.length === 0) return {} as Record<string, typeof propertyImages.$inferSelect[]>;
+    const rows = await db
+      .select()
+      .from(propertyImages)
+      .where(inArray(propertyImages.propertyId, propertyIds))
+      .orderBy(desc(propertyImages.isPrimary), asc(propertyImages.sortOrder));
+
+    const grouped: Record<string, typeof propertyImages.$inferSelect[]> = {};
+    for (const row of rows) {
+      (grouped[row.propertyId] ??= []).push(row);
+    }
+    return grouped;
+  }, ["property-images-batch"]),
+);
+
 export const getPropertyImages = cache(async (propertyId: string) =>
   db
     .select()
@@ -251,13 +294,13 @@ export const getPropertyLocalityFacets = cache(async (clientId: string) => {
   return rows.map((r) => r.locality).filter((v): v is string => Boolean(v));
 });
 
-export const getLocalities = cache(async (clientId: string) =>
+export const getLocalities = cache(cached(async (clientId: string) =>
   db
     .select()
     .from(localities)
     .where(and(eq(localities.clientId, clientId), eq(localities.isPublished, true)))
     .orderBy(asc(localities.sortOrder)),
-);
+["localities"]));
 
 export const getAllLocalities = cache(async (clientId: string) =>
   db.select().from(localities).where(eq(localities.clientId, clientId)).orderBy(asc(localities.sortOrder)),

@@ -1,9 +1,9 @@
-# Locality pSEO pages — DEMO CONTENT ONLY.
+# Locality / corridor pages — DEMO CONTENT ONLY.
 #
-# Every market figure below is fabricated for the /library template demo,
-# not a real market data point. `description` is written to be genuinely
-# distinct per locality (see the thin-content/doorway-page guard in
-# check-content.ts) rather than a name-swapped template paragraph.
+# Every market figure below is fabricated pending real market data from
+# High Properties. `description` is written to be genuinely distinct per
+# locality (see the thin-content/doorway-page guard in check-content.ts)
+# rather than a name-swapped template paragraph.
 
 _status: placeholder
 
@@ -23,7 +23,7 @@ localities:
       hospitals and malls — is the most mature of any corridor on this site,
       which keeps rental demand steady even as new supply comes online
       further out on the extension road.
-    hero_image: /verticals/realestate/photos/corridor-golf-course-road.webp
+    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-golf-course-road.png
     last_verified_at: "2026-08-01"
     is_published: true
 
@@ -41,7 +41,7 @@ localities:
       wave of new-launch inventory from national developers. Most stock here
       is under construction, so buyers are weighing possession timelines
       against entry price more than in the established corridors.
-    hero_image: /verticals/realestate/photos/corridor-dwarka-expressway.webp
+    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-dwarka-expressway.png
     last_verified_at: "2026-08-01"
     is_published: true
 
@@ -58,7 +58,7 @@ localities:
       cluster of gated villa developments further south. Rental yields here
       run higher than the premium corridors, largely because entry prices
       have stayed more accessible relative to the connectivity on offer.
-    hero_image: /verticals/realestate/photos/corridor-sohna-road.webp
+    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-sohna-road.webp
     last_verified_at: "2026-08-01"
     is_published: true
 
@@ -76,7 +76,7 @@ localities:
       development, alongside a growing base of mid-segment apartment
       projects. Plot approvals here are licensed under a well-documented
       layout process, which buyers on this corridor tend to prioritise.
-    hero_image: /verticals/realestate/photos/corridor-spr.webp
+    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-southern-peripheral-road.png
     last_verified_at: "2026-08-01"
     is_published: true
 
@@ -94,6 +94,6 @@ localities:
       floors and SCO retail plots fronting the planned high street corridor.
       Infrastructure is still catching up to the pace of launches, which is
       the main factor buyers weigh against the lower entry price here.
-    hero_image: /verticals/realestate/photos/corridor-new-gurugram.webp
+    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-new-gurugram.png
     last_verified_at: "2026-08-01"
     is_published: true

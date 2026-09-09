@@ -38,14 +38,16 @@ contact:
   phone: "98215 53693"
   whatsapp: "98215 53693"
   email: "highproperties9@gmail.com"
-  address_line: "Shop No. 3, Main Road, Dwarka Expressway, Sector 99"
+  address_line: "Shop on Main Road, Dwarka Expressway, near Assotech The Blinth Society, Sector 99"
   locality: "Gurugram"
   region: Haryana
   postal_code: "122505"
   country: India
-  latitude: "28.5021"
-  longitude: "76.9636"
-  google_maps_url: "https://www.google.com/maps/search/?api=1&query=28.5021,76.9636"
+  latitude: "28.4570814"
+  longitude: "76.9635469"
+  # The listing itself (ftid is the place id off its Maps URL), not a bare
+  # coordinate query — the old link dropped a pin with no business attached.
+  google_maps_url: "https://www.google.com/maps/search/?api=1&query=High%20Properties&ftid=0x390d176d2718550f:0x8fe18c937dad213e"
 
 opening_hours:
   - { day: Monday, opens: "11:00", closes: "20:00", closed: false }
@@ -71,7 +73,7 @@ seo:
     NCR. RERA-aware, end-to-end documentation.
 
 analytics:
-  ga4_measurement_id: ""
+  ga4_measurement_id: "G-NYGSP9G0HC"
   search_console_verification: ""
 
 features:
@@ -116,7 +118,7 @@ _status:
   social_links: verified
   seo.title: verified
   seo.description: verified
-  analytics.ga4_measurement_id: pending
+  analytics.ga4_measurement_id: verified
   analytics.search_console_verification: pending
   team: verified
   notification_email: pending

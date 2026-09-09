@@ -106,7 +106,7 @@ export default function BankLoanHeroV2({
             {state.ok ? (
               <div className="flex flex-col items-start gap-3 py-8">
                 <CheckCircle2 className="h-10 w-10 text-[color:var(--gp-gold-600)]" aria-hidden="true" />
-                <h2 className="font-display text-[24px] text-[color:var(--gp-ink)]">Request received.</h2>
+                <h2 className="font-display text-[18px] text-[color:var(--gp-ink)]">Request received.</h2>
                 <p className="text-[13.5px] leading-relaxed text-[color:var(--gp-body)]">
                   An advisor will call you with an indicative eligibility for {lender.name}. Reference{" "}
                   {state.reference}.
@@ -114,7 +114,7 @@ export default function BankLoanHeroV2({
               </div>
             ) : (
               <>
-                <h2 className="font-display mt-4 text-[26px] leading-tight text-[color:var(--gp-ink)] sm:text-[30px]">
+                <h2 className="font-display mt-4 text-[19px] leading-tight text-[color:var(--gp-ink)] sm:text-[22px]">
                   Check your loan eligibility
                 </h2>
                 <p className="mt-2 text-[13.5px] leading-relaxed text-[color:var(--gp-muted)]">

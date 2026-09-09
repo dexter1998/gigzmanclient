@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Award, Building2, LineChart, MapPinned } from "lucide-react";
+import { Award, Building2, LineChart, MapPinned } from "lucide-react";
 import type { localities } from "@/lib/db/schema";
 import { formatIndianPrice } from "@/lib/format";
 import { joinPath } from "@/lib/paths";
@@ -132,7 +132,7 @@ export default function PremiumV2LocalitiesIndexPage({
 
       {localities.length === 0 ? (
         <GpContainer className="py-16 text-center">
-          <p className="font-display text-[20px] text-[color:var(--gp-ink)]">
+          <p className="font-display text-[15px] text-[color:var(--gp-ink)]">
             Locality pages are being added.
           </p>
         </GpContainer>
@@ -155,23 +155,6 @@ export default function PremiumV2LocalitiesIndexPage({
         </>
       )}
 
-      {/* ── Closing CTA ────────────────────────────────────────────────── */}
-      <div className="bg-[image:var(--gp-gradient-dark-section)]">
-        <GpContainer className="flex flex-col items-center gap-4 py-14 text-center sm:py-16">
-          <h2 className="gp-section-title font-display text-white">Not sure which corridor fits?</h2>
-          <p className="max-w-md text-[14px] text-white/70">
-            Tell us your budget and priorities — an advisor will send a personalised locality
-            report with price trends, top projects and rental yield.
-          </p>
-          <Link
-            href={p("/contact?intent=locality-report")}
-            className="mt-2 inline-flex min-h-[50px] items-center gap-2 rounded-[var(--gp-radius-sm)] bg-[color:var(--gp-gold-600)] px-6 text-[13.5px] font-semibold uppercase tracking-[0.04em] text-[color:var(--gp-forest-950)] transition-colors hover:bg-[color:var(--gp-gold-300)]"
-          >
-            Get Locality Report
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
-        </GpContainer>
-      </div>
     </>
   );
 }

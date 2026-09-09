@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import CalculatorShell from "@/components/site/CalculatorShell";
 import IncomeTaxCalculator from "@/components/site/calculators/IncomeTaxCalculator";
 import TdsCalculator from "@/components/site/calculators/TdsCalculator";
@@ -6,7 +6,8 @@ import GstCalculator from "@/components/site/calculators/GstCalculator";
 import EmiCalculator from "@/components/site/calculators/EmiCalculator";
 import StampDutyCalculator from "@/components/site/calculators/StampDutyCalculator";
 import RentalYieldCalculator from "@/components/site/calculators/RentalYieldCalculator";
-import PremiumV2CalculatorDetailPage from "@/components/realestate/premium-v2/PremiumV2CalculatorDetailPage";
+import PremiumV2EmiCalculatorPage from "@/components/realestate/premium-v2/PremiumV2EmiCalculatorPage";
+import { homeLoanEnabled } from "@/lib/home-loan/enabled";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { getFirmSettings, getCalculator } from "@/lib/content";
@@ -52,7 +53,15 @@ export default async function CalculatorPage(props: PageProps<"/site/[tenant]/ca
   if (!calculator || calculator.status === "archived") notFound();
 
   if (getTemplateKeyForSlug(tenant.slug) === "premium-v2") {
-    return <PremiumV2CalculatorDetailPage tenant={tenant} calculatorKey={calculator.key} />;
+    // Only EMI still has a page under /calculators here. Rental yield moved
+    // to its own purpose-built page and keeps its inbound links via this
+    // redirect; stamp duty was retired with the first-generation panel UI.
+    if (calculator.key === "rental-yield") redirect(p("/rental-yield"));
+    if (calculator.key !== "emi") notFound();
+    // Tenants that publish the financing hub already carry this calculator
+    // there; keeping a second copy here would be two URLs for one page.
+    if (homeLoanEnabled(tenant.slug)) redirect(p("/home-loan"));
+    return <PremiumV2EmiCalculatorPage tenant={tenant} />;
   }
 
   const shared = {

@@ -13,6 +13,15 @@ export interface NavLink {
   label: string;
   /** Route relative to the tenant base, e.g. "/services". */
   path: string;
+  /**
+   * Lucide icon name, resolved by the header. Only rendered inside a dropdown —
+   * the top bar stays text-only so it reads as a nav and not a toolbar.
+   */
+  icon?: string;
+  /** Short flag beside the label, e.g. "New". */
+  badge?: string;
+  /** Present on a grouping entry: the bar shows a dropdown instead of a link. */
+  children?: NavLink[];
 }
 
 export interface ExternalLink {

@@ -153,7 +153,7 @@
   --color-ink-subtle: #718078;
 
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-display: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
 
   --shadow-card: 0 8px 40px rgba(10, 46, 44, 0.16);
   --shadow-raised: 0 4px 20px rgba(212, 175, 108, 0.28);
@@ -221,22 +221,67 @@
   padding-block: var(--gp-section-space);
 }
 
+/*
+ * Card rows become a horizontal snap carousel on phones.
+ *
+ * Applied on top of the same grid the wider breakpoints use, so the desktop
+ * layout is untouched and only the mobile display mode changes. The negative
+ * inline margin plus matching padding lets cards bleed to the viewport edge
+ * and leaves the next one peeking, which is what tells a visitor the row
+ * scrolls — stacked full-width cards gave no such cue and buried anything
+ * past the first two.
+ */
+@media (max-width: 639px) {
+  .gp-mobile-carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gp-page-gutter);
+    margin-inline: calc(var(--gp-page-gutter) * -1);
+    padding-inline: var(--gp-page-gutter);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .gp-mobile-carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gp-mobile-carousel > * {
+    flex: 0 0 82%;
+    scroll-snap-align: start;
+  }
+}
+
 .gp-hero-title {
-  font-family: var(--font-cormorant), Georgia, serif;
-  font-size: clamp(52px, 5vw, 78px);
-  line-height: 1.02;
-  font-weight: 400;
+  font-family: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
+  /* The whole display scale is re-tuned for Poppins by one ratio, 58/78 =
+     0.744. Every size below, and every inline `font-display text-[Npx]` in
+     components/realestate/premium-v2/, is that ratio applied to the value
+     the design used with Cormorant Garamond — a narrow display serif that
+     Poppins, a much wider geometric sans, ran a line or two longer than at
+     the same px. 58px is where it was set from: the largest step at which
+     every h1 in the template still lands on two lines at 1440px and above.
+     Body copy is untouched — `--font-sans` was already Poppins, so only the
+     faces that actually changed are rescaled. Sizes that the ratio would
+     push under 15px are floored there, so no heading ends up smaller than
+     the body copy beside it. */
+  font-size: clamp(34px, 4vw, 58px);
+  line-height: 1.08;
+  font-weight: 500;
 }
 
 .gp-section-title {
-  font-family: var(--font-cormorant), Georgia, serif;
-  font-size: clamp(38px, 3.4vw, 52px);
-  line-height: 1.08;
+  font-family: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(28px, 2.5vw, 39px);
+  line-height: 1.12;
+  font-weight: 500;
 }
 
 .gp-overlay-title {
-  font-family: var(--font-cormorant), Georgia, serif;
-  font-size: clamp(24px, 2vw, 36px);
+  font-family: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(18px, 1.5vw, 27px);
+  font-weight: 500;
 }
 
 .gp-eyebrow {
@@ -281,18 +326,20 @@
 }
 
 .gp-prose h2 {
-  font-family: var(--font-cormorant), Georgia, serif;
+  font-family: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
   margin: 1.8em 0 0.6em;
-  font-size: 1.6rem;
+  font-size: 1.19rem;
   font-weight: 500;
   color: var(--gp-ink);
   letter-spacing: -0.005em;
 }
 
 .gp-prose h3 {
-  font-family: var(--font-cormorant), Georgia, serif;
+  font-family: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
   margin: 1.5em 0 0.5em;
-  font-size: 1.25rem;
+  /* 1.25rem x 0.744 = 0.93rem would land under the 16px prose body — floored
+     to the same 1rem the body runs at, distinguished by weight instead. */
+  font-size: 1rem;
   font-weight: 500;
   color: var(--gp-ink);
 }
@@ -334,6 +381,14 @@ html {
 [data-vertical] {
   background: var(--color-page);
   color: var(--color-ink);
+  /* The per-vertical `--font-sans` has to be applied here, not only on
+     <body>. `body` sits ABOVE this wrapper and so resolves `--font-sans`
+     against the bare `:root` @theme block (Inter); font-family inherits as a
+     computed value, so every element inside the wrapper that did not set its
+     own face kept rendering in Inter while the headings — which name
+     `--font-poppins` explicitly — did not. Body copy, nav, labels and buttons
+     across the whole template were affected. */
+  font-family: var(--font-sans);
   min-height: 100vh;
 }
 

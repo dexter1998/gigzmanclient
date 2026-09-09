@@ -45,7 +45,10 @@ export default function DeveloperRibbonV2({ p }: { p: (path: string) => string }
           </Link>
         </div>
 
-        <div className="mt-9 flex flex-wrap items-center justify-between gap-y-10 border-y border-[color:var(--gp-border)] py-10">
+        {/* A grid, not `flex-wrap` with `flex-1`. Seven flexed items plus their
+            horizontal padding collapsed the content box to about 8px on a
+            phone, so every logo rendered 8x3 and was effectively invisible. */}
+        <div className="mt-9 grid grid-cols-2 gap-y-8 border-y border-[color:var(--gp-border)] py-10 sm:grid-cols-3 lg:grid-cols-7 lg:gap-y-0">
           {DEVELOPERS.map((developer, index) => (
             <Link
               key={developer.name}
@@ -54,8 +57,8 @@ export default function DeveloperRibbonV2({ p }: { p: (path: string) => string }
               // bare `/properties`, so the link is meaningful as soon as that
               // filter ships and degrades to "browse everything" until then.
               href={p(`/properties?developer=${encodeURIComponent(developer.name)}`)}
-              className={`flex h-24 flex-1 items-center justify-center px-6 transition-opacity hover:opacity-70 sm:px-8 ${
-                index > 0 ? "border-l border-[color:var(--gp-border)]" : ""
+              className={`flex h-20 items-center justify-center px-4 transition-opacity hover:opacity-70 sm:px-6 lg:h-24 ${
+                index > 0 ? "lg:border-l lg:border-[color:var(--gp-border)]" : ""
               }`}
             >
               <Image
@@ -63,7 +66,15 @@ export default function DeveloperRibbonV2({ p }: { p: (path: string) => string }
                 alt={developer.name}
                 width={220}
                 height={110}
-                className={`max-h-20 w-auto object-contain ${developer.invert ? "invert" : ""}`}
+                // A set height rather than `max-h`: these files disagree on
+                // intrinsic size (Emaar's SVG is 100x39, DLF's is 1073 wide),
+                // and a max-only rule leaves the small ones at their own size
+                // while the big ones fill the box — Emaar rendered noticeably
+                // smaller than every logo beside it. Sizing by height makes
+                // them optically consistent whatever the source.
+                className={`h-9 w-auto max-w-full object-contain sm:h-10 lg:h-11 ${
+                  developer.invert ? "invert" : ""
+                }`}
               />
             </Link>
           ))}

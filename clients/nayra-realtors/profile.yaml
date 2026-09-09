@@ -1,0 +1,128 @@
+# Client seed data — Nayra Realtors (Premium V2 template)
+#
+# NAP below is read from the client's own Google Business Profile
+# (place_id ChIJKYOumr8bDTkR-vc9Zpnmv-E), rendered in a real browser since the
+# listing is client-side only. Verified from that listing: name, category
+# ("Real estate consultant"), rating 5.0, address, phone, plus code
+# (F2X6+VF Gurugram) and coordinates.
+#
+# Deliberately NOT filled in, because the listing does not publish them and
+# guessing would put invented facts on a live client site:
+#   - email, website, social handles
+#   - established year, founder / team
+#   - full weekly hours (only "Closes 7 pm" is exposed signed-out)
+# A search result titles their site "Nayra Realtors – The Keys To Your Homes",
+# but nayrarealtors.com does not currently resolve, so no website is published
+# here and the tagline is taken from the supplied logo instead — confirm the
+# exact wording ("Home" vs "Homes") with the client.
+#
+# Property and locality inventory is duplicated from the high-properties
+# template and is placeholder content — see `_status` and the header comment
+# in each content/*.yaml.
+#
+# Loaded into the database by `pnpm seed:client nayra-realtors`.
+# Run `pnpm check:content nayra-realtors` for the placeholder checklist.
+
+slug: nayra-realtors
+vertical: realestate
+display_name: Nayra Realtors
+is_demo: false
+
+firm:
+  name: Nayra Realtors
+  tagline: The Keys To Your Home
+  overview: >-
+    Nayra Realtors is a Gurugram-based real estate consultancy operating from
+    Sector 105 on the Dwarka Expressway corridor, working with buyers,
+    tenants and investors across residential and commercial property. Every
+    listing is reviewed before it goes live, and RERA registration status is
+    shown plainly on every property.
+  established_year: ""
+  # Left blank deliberately — see the RERA disclosure component on every
+  # property card and the footer's regulatory notice. Do not fill this with
+  # an invented number.
+  firm_registration_number: ""
+  business_category: Real Estate Consultant
+  logo_url: /verticals/realestate/templates/premium-v2/brand/nayra-realtors-logo.png
+
+# Verified from the Google Business Profile. `email` stays empty — the listing
+# publishes no email address, and the contact page/footer hide that row when
+# it is blank. WhatsApp mirrors the listed phone pending confirmation.
+contact:
+  phone: "088510 05578"
+  whatsapp: "088510 05578"
+  email: ""
+  address_line: "A 44, Lower Ground Floor, Phase 3, Sector 105"
+  locality: "Pawala Khasrupur, Gurugram"
+  region: Haryana
+  postal_code: "122006"
+  country: India
+  latitude: "28.4996323"
+  longitude: "77.0111286"
+  google_maps_url: "https://www.google.com/maps/search/?api=1&query=Nayra%20Realtors&query_place_id=ChIJKYOumr8bDTkR-vc9Zpnmv-E"
+
+# Only the closing time (7 pm) is exposed on the public listing. The opening
+# time and the weekly pattern below are assumptions pending confirmation —
+# see `_status.opening_hours`.
+opening_hours:
+  - { day: Monday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Tuesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Wednesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Thursday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Friday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Saturday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Sunday, opens: "10:00", closes: "19:00", closed: false }
+
+social_links: {}
+
+seo:
+  title: Nayra Realtors — Property Consultants on Dwarka Expressway, Gurugram
+  description: >-
+    Residential and commercial property advisory in Gurugram from Sector 105
+    on the Dwarka Expressway corridor, with locality market intelligence and
+    buyer calculators.
+
+analytics:
+  ga4_measurement_id: ""
+  search_console_verification: ""
+
+features:
+  reviews: true
+  pricing: true
+  awards: false
+  client_logos: false
+  team: false
+
+team: []
+
+notification_email: ""
+
+_status:
+  slug: verified
+  display_name: verified
+  firm.name: verified
+  firm.business_category: verified
+  firm.logo_url: verified
+  firm.tagline: pending
+  firm.overview: placeholder
+  firm.established_year: pending
+  firm.firm_registration_number: pending
+  contact.phone: verified
+  contact.whatsapp: placeholder
+  contact.email: pending
+  contact.address_line: verified
+  contact.locality: verified
+  contact.region: verified
+  contact.postal_code: verified
+  contact.country: verified
+  contact.google_maps_url: verified
+  contact.latitude: verified
+  contact.longitude: verified
+  opening_hours: placeholder
+  social_links: pending
+  seo.title: placeholder
+  seo.description: placeholder
+  analytics.ga4_measurement_id: pending
+  analytics.search_console_verification: pending
+  team: pending
+  notification_email: pending

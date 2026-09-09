@@ -402,7 +402,7 @@ export default async function PremiumV2UpdatesIndexPage({
                   </div>
 
                   <div className="flex-1">
-                    <h3 className="font-display text-[24px] leading-snug text-[color:var(--gp-ink)] transition-colors group-hover:text-[color:var(--gp-gold-600)] sm:text-[28px]">
+                    <h3 className="font-display text-[18px] leading-snug text-[color:var(--gp-ink)] transition-colors group-hover:text-[color:var(--gp-gold-600)] sm:text-[21px]">
                       {update.title}
                     </h3>
                     <p className="mt-2.5 max-w-2xl text-[14px] leading-relaxed text-[color:var(--gp-body)]">
@@ -514,7 +514,7 @@ export default async function PremiumV2UpdatesIndexPage({
                   <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.06em] text-[color:var(--gp-muted)]">
                     {item.corridor}
                   </p>
-                  <h3 className="font-display mt-1.5 text-[18px] text-[color:var(--gp-ink)]">
+                  <h3 className="font-display mt-1.5 text-[15px] text-[color:var(--gp-ink)]">
                     {item.title}
                   </h3>
                   <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--gp-body)]">
@@ -543,7 +543,7 @@ export default async function PremiumV2UpdatesIndexPage({
                 className="group flex flex-col rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-white p-6 transition-colors hover:border-[color:var(--gp-gold-600)]"
               >
                 <FileText className="h-5 w-5 text-[color:var(--gp-gold-600)]" aria-hidden="true" />
-                <h3 className="font-display mt-4 text-[18px] text-[color:var(--gp-ink)]">
+                <h3 className="font-display mt-4 text-[15px] text-[color:var(--gp-ink)]">
                   {item.title}
                 </h3>
                 <p className="mt-2 flex-1 text-[13px] leading-relaxed text-[color:var(--gp-body)]">

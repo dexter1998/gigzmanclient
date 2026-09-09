@@ -11,6 +11,7 @@ import {
 } from "@/lib/vastu";
 import { analytics } from "@/lib/analytics";
 import { GpContainer } from "../gp-primitives";
+import LineArtBackdropV2 from "../LineArtBackdropV2";
 import { openLeadPopup } from "../leadPopup";
 
 const SELECT =
@@ -62,6 +63,7 @@ export default function VastuCalculatorV2({
         className="pointer-events-none absolute inset-0 opacity-[0.35]"
         style={{ background: "var(--gp-gradient-glow)" }}
       />
+      <LineArtBackdropV2 variant="contours-wide" />
       <GpContainer className="relative py-12 sm:py-16">
         {breadcrumb ? <div className="mb-6">{breadcrumb}</div> : null}
 
@@ -74,7 +76,7 @@ export default function VastuCalculatorV2({
 
         <div className="mt-9 grid grid-cols-1 overflow-hidden rounded-[var(--gp-radius-lg)] border border-[color:var(--gp-gold-600)]/35 lg:grid-cols-[1.15fr_0.85fr]">
           <div className="bg-[color:var(--gp-cream-100)] p-6 sm:p-8">
-            <h2 className="font-display text-[22px] text-[color:var(--gp-ink)] sm:text-[26px]">
+            <h2 className="font-display text-[16px] text-[color:var(--gp-ink)] sm:text-[19px]">
               Where is each room?
             </h2>
             <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--gp-muted)]">

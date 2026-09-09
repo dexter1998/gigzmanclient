@@ -32,7 +32,7 @@ export default async function PremiumV2LegalPage({ tenant, slug }: { tenant: Ten
             <span>{page.title}</span>
           </nav>
 
-          <h1 className="font-display text-[32px] text-[color:var(--gp-ink)] sm:text-[38px]">
+          <h1 className="font-display text-[24px] text-[color:var(--gp-ink)] sm:text-[28px]">
             {page.title}
           </h1>
           <p className="mt-3 text-[12px] text-[color:var(--gp-muted)]">

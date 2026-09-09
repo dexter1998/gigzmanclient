@@ -30,10 +30,18 @@ export default function PropertyResultsV2({
   allProperties,
   imageMap,
   propertiesPath,
+  detailPath = propertiesPath,
 }: {
   allProperties: Property[];
   imageMap: Record<string, { path: string; alt: string | null } | undefined>;
+  /** This page's own path — pagination and the reset link stay on it. */
   propertiesPath: string;
+  /**
+   * Where the listings themselves live. Separate from `propertiesPath` because
+   * a sector or developer page paginates under its own URL while its cards
+   * still have to point at `/properties/{slug}`.
+   */
+  detailPath?: string;
 }) {
   const searchParams = useSearchParams();
 
@@ -83,6 +91,25 @@ export default function PropertyResultsV2({
   const currentPage = Math.min(Math.max(1, requestedPage), totalPages);
   const pageItems = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
 
+  /**
+   * First, last and a window around the current page, with gaps marked by null.
+   * A register-sourced inventory runs to ~90 pages; rendering every number laid
+   * a strip of links wider than the viewport across the foot of the page.
+   */
+  const pageNumbers: (number | null)[] = (() => {
+    if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+    const window = new Set<number>([1, totalPages, currentPage]);
+    for (let d = 1; d <= 1; d++) {
+      if (currentPage - d > 1) window.add(currentPage - d);
+      if (currentPage + d < totalPages) window.add(currentPage + d);
+    }
+    if (currentPage <= 3) [2, 3, 4].forEach((n) => n < totalPages && window.add(n));
+    if (currentPage >= totalPages - 2)
+      [totalPages - 1, totalPages - 2, totalPages - 3].forEach((n) => n > 1 && window.add(n));
+    const sorted = [...window].sort((a, b) => a - b);
+    return sorted.flatMap((n, i) => (i > 0 && n - sorted[i - 1] > 1 ? [null, n] : [n]));
+  })();
+
   const pageHref = (targetPage: number) => {
     const params = new URLSearchParams(searchParams.toString());
     if (targetPage <= 1) params.delete("page");
@@ -96,7 +123,7 @@ export default function PropertyResultsV2({
       <div>
         <p className="mb-4 text-[12.5px] text-[color:var(--gp-muted)]">0 properties found</p>
         <div className="rounded-[var(--gp-radius-md)] border border-dashed border-[color:var(--gp-border)] p-12 text-center">
-          <p className="font-display text-[20px] text-[color:var(--gp-ink)]">
+          <p className="font-display text-[15px] text-[color:var(--gp-ink)]">
             No properties match these filters.
           </p>
           <p className="mt-2 text-[13.5px] text-[color:var(--gp-muted)]">
@@ -124,7 +151,7 @@ export default function PropertyResultsV2({
           <PropertyCardV2
             key={property.id}
             property={property}
-            href={`${propertiesPath}/${property.slug}`}
+            href={`${detailPath}/${property.slug}`}
             imagePath={imageMap[property.id]?.path}
             imageAlt={imageMap[property.id]?.alt ?? undefined}
           />
@@ -142,14 +169,21 @@ export default function PropertyResultsV2({
           >
             <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </Link>
-          {Array.from({ length: totalPages }).map((_, i) => {
-            const n = i + 1;
-            return (
+          {pageNumbers.map((n, i) =>
+            n === null ? (
+              <span
+                key={`gap-${i}`}
+                aria-hidden="true"
+                className="px-1 text-[13px] text-[color:var(--gp-muted)]"
+              >
+                &hellip;
+              </span>
+            ) : (
               <Link
                 key={n}
                 href={pageHref(n)}
                 aria-current={n === currentPage ? "page" : undefined}
-                className={`flex h-10 w-10 items-center justify-center rounded-full text-[13px] ${
+                className={`flex h-10 min-w-10 items-center justify-center rounded-full px-2 text-[13px] ${
                   n === currentPage
                     ? "bg-[color:var(--gp-gold-600)] text-white"
                     : "border border-[color:var(--gp-border)] text-[color:var(--gp-ink)] hover:border-[color:var(--gp-gold-600)]"
@@ -157,8 +191,8 @@ export default function PropertyResultsV2({
               >
                 {n}
               </Link>
-            );
-          })}
+            ),
+          )}
           <Link
             href={pageHref(currentPage + 1)}
             aria-disabled={currentPage >= totalPages}

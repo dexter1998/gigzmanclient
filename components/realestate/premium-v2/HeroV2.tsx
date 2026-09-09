@@ -2,27 +2,35 @@
 
 import { useActionState } from "react";
 import Image from "next/image";
-import { ArrowRight, Award, PhoneCall, ShieldCheck, Signpost, Users } from "lucide-react";
+import { ArrowRight, Award, IndianRupee, PhoneCall, Ruler, ShieldCheck, Signpost, Trees, Users } from "lucide-react";
 import { joinPath } from "@/lib/paths";
 import { submitQuery, type QueryFormState } from "@/lib/actions/submit-query";
 import { openLeadPopup } from "./leadPopup";
+import type { HeroCopy, HeroStat } from "@/lib/premium-v2/positioning";
 
 interface HeroV2Props {
   basePath: string;
   heroImageSrc: string;
   firmName: string;
+  /** Headline, supporting line and trust row — see lib/premium-v2/positioning.ts. */
+  copy: HeroCopy;
+  /** Values for the trust row, counted from this client's own inventory. */
+  stats: { label: string; value: string; icon: HeroStat["icon"] }[];
 }
 
-const TRUST_STATS = [
-  { icon: Award, value: "12+", label: "Years Local Expertise" },
-  { icon: Users, value: "500+", label: "Families Placed" },
-  { icon: Signpost, value: "5", label: "Corridors Tracked" },
-  { icon: ShieldCheck, value: "100%", label: "RERA-Verified Listings" },
-];
+const STAT_ICONS = {
+  Award,
+  Users,
+  Signpost,
+  ShieldCheck,
+  Trees,
+  Ruler,
+  IndianRupee,
+} as const;
 
 const INITIAL_STATE: QueryFormState = { ok: false };
 
-export default function HeroV2({ basePath, heroImageSrc, firmName }: HeroV2Props) {
+export default function HeroV2({ basePath, heroImageSrc, firmName, copy, stats }: HeroV2Props) {
   const p = (path: string) => joinPath(basePath, path);
   const [state, formAction, pending] = useActionState<QueryFormState, FormData>(
     submitQuery,
@@ -52,15 +60,14 @@ export default function HeroV2({ basePath, heroImageSrc, firmName }: HeroV2Props
       <div className="gp-container relative pb-16 pt-[calc(88px+3.5rem)] lg:pb-24 lg:pt-[calc(104px+5rem)]">
         <div className="max-w-2xl">
           <span className="mb-5 block h-[2px] w-11 bg-[color:var(--gp-gold-600)]" />
-          <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">Gurugram Real Estate, Reimagined</p>
+          <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">{copy.eyebrow}</p>
           <h1 className="gp-hero-title font-display mt-4 text-white">
-            Curated Addresses.
+            {copy.headline[0]}
             <br />
-            Considered Living.
+            {copy.headline[1]}
           </h1>
           <p className="mt-6 max-w-md text-[15px] leading-relaxed text-white/75 sm:text-base">
-            {firmName} brings verified inventory, corridor-level intelligence and dedicated
-            advisors together, so every decision in Gurugram real estate is made with clarity.
+            {copy.blurb}
           </p>
 
           {state.ok ? (
@@ -129,8 +136,8 @@ export default function HeroV2({ basePath, heroImageSrc, firmName }: HeroV2Props
           </div>
 
           <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-white/15 pt-8 sm:grid-cols-4">
-            {TRUST_STATS.map((stat) => {
-              const Icon = stat.icon;
+            {stats.map((stat) => {
+              const Icon = STAT_ICONS[stat.icon];
               return (
                 <div key={stat.label} className="flex items-start gap-3">
                   <Icon className="mt-0.5 h-5 w-5 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />

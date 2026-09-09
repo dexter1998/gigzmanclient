@@ -1,99 +1,75 @@
-# Locality / corridor pages — DEMO CONTENT ONLY.
+# Corridor pages — Evergreen Real Estate (farm houses).
 #
-# Every market figure below is fabricated pending real market data from
-# Evergreen Real Estate. `description` is written to be genuinely distinct per
-# locality (see the thin-content/doorway-page guard in check-content.ts)
-# rather than a name-swapped template paragraph.
+# Every figure below is computed from the imported listings themselves
+# (scripts/import-farmhouses.mjs): the median asking price per sq ft, the
+# median plot size and the live listing count for that corridor. They are
+# asking prices from one portal on one day, not transacted market rates —
+# which is what the on-page wording says.
 
 _status: placeholder
 
 localities:
-  - slug: golf-course-road
-    name: Golf Course Road
-    corridor: Golf Course Road
-    avg_price_per_sqft: 18500
-    yoy_change_percent: 7.2
-    rental_yield_percent: 2.8
-    active_projects: 12
-    best_for: Premium high-rise apartments and Grade-A office space
-    description: >-
-      Golf Course Road is Gurugram's most established premium corridor,
-      anchored by high-rise residential towers and Grade-A commercial
-      buildings along the Golf Course. Social infrastructure — schools,
-      hospitals and malls — is the most mature of any corridor on this site,
-      which keeps rental demand steady even as new supply comes online
-      further out on the extension road.
-    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-golf-course-road.png
-    last_verified_at: "2026-08-01"
+  - slug: sohna
+    name: "Sohna"
+    corridor: "Sohna"
+    avg_price_per_sqft: 1574
+    active_projects: 306
+    best_for: "Farmhouses and weekend estates"
+    description: "Sohna carries 306 farm-house listings in this dataset, with a median asking price of ₹4.00 crore on a median plot of about 21,780 sq ft, working out to roughly ₹1,574 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
-
-  - slug: dwarka-expressway
-    name: Dwarka Expressway
-    corridor: Dwarka Expressway
-    avg_price_per_sqft: 9800
-    yoy_change_percent: 11.5
-    rental_yield_percent: 2.2
-    active_projects: 24
-    best_for: New-launch apartments and builder floors
-    description: >-
-      Dwarka Expressway has seen the fastest price appreciation of any
-      corridor covered here, driven by improved connectivity to Delhi and a
-      wave of new-launch inventory from national developers. Most stock here
-      is under construction, so buyers are weighing possession timelines
-      against entry price more than in the established corridors.
-    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-dwarka-expressway.png
-    last_verified_at: "2026-08-01"
-    is_published: true
-
   - slug: sohna-road
-    name: Sohna Road
-    corridor: Sohna Road
-    avg_price_per_sqft: 8200
-    yoy_change_percent: 6.4
-    rental_yield_percent: 3.1
-    active_projects: 15
-    best_for: Independent villas and mid-rise rental apartments
-    description: >-
-      Sohna Road mixes established mid-rise apartment stock with a growing
-      cluster of gated villa developments further south. Rental yields here
-      run higher than the premium corridors, largely because entry prices
-      have stayed more accessible relative to the connectivity on offer.
-    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-sohna-road.webp
-    last_verified_at: "2026-08-01"
+    name: "Sohna Road"
+    corridor: "Sohna Road"
+    avg_price_per_sqft: 1377
+    active_projects: 19
+    best_for: "Farmhouses and weekend estates"
+    description: "Sohna Road carries 19 farm-house listings in this dataset, with a median asking price of ₹4.50 crore on a median plot of about 43,560 sq ft, working out to roughly ₹1,377 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
-
-  - slug: southern-peripheral-road
-    name: Southern Peripheral Road
-    corridor: Southern Peripheral Road
-    avg_price_per_sqft: 7600
-    yoy_change_percent: 9.1
-    rental_yield_percent: 2.5
-    active_projects: 18
-    best_for: Licensed residential plots and mid-segment apartments
-    description: >-
-      SPR (Southern Peripheral Road) connects Golf Course Road Extension to
-      Sohna Road and has become the corridor of choice for plotted
-      development, alongside a growing base of mid-segment apartment
-      projects. Plot approvals here are licensed under a well-documented
-      layout process, which buyers on this corridor tend to prioritise.
-    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-southern-peripheral-road.png
-    last_verified_at: "2026-08-01"
+  - slug: manesar
+    name: "Manesar"
+    corridor: "Manesar"
+    avg_price_per_sqft: 2315
+    active_projects: 16
+    best_for: "Farmhouses and weekend estates"
+    description: "Manesar carries 16 farm-house listings in this dataset, with a median asking price of ₹5.00 crore on a median plot of about 21,780 sq ft, working out to roughly ₹2,315 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
-
-  - slug: new-gurugram
-    name: New Gurugram
-    corridor: Dwarka Expressway
-    avg_price_per_sqft: 8900
-    yoy_change_percent: 10.2
-    rental_yield_percent: 2.4
-    active_projects: 20
-    best_for: Builder floors and SCO (shop-cum-office) plots
-    description: >-
-      New Gurugram covers the sectors developing along the Dwarka
-      Expressway's southern stretch, with a mix of independent builder
-      floors and SCO retail plots fronting the planned high street corridor.
-      Infrastructure is still catching up to the pace of launches, which is
-      the main factor buyers weigh against the lower entry price here.
-    hero_image: /verticals/realestate/templates/premium-v2/images/corridor-new-gurugram.png
-    last_verified_at: "2026-08-01"
+  - slug: bhondsi
+    name: "Bhondsi"
+    corridor: "Bhondsi"
+    avg_price_per_sqft: 2066
+    active_projects: 11
+    best_for: "Farmhouses and weekend estates"
+    description: "Bhondsi carries 11 farm-house listings in this dataset, with a median asking price of ₹10.10 crore on a median plot of about 43,560 sq ft, working out to roughly ₹2,066 per sq ft. Figures are asking prices from listing data, not transacted rates."
+    is_published: true
+  - slug: raiseena
+    name: "Raiseena"
+    corridor: "Raiseena"
+    avg_price_per_sqft: 803
+    active_projects: 9
+    best_for: "Farmhouses and weekend estates"
+    description: "Raiseena carries 9 farm-house listings in this dataset, with a median asking price of ₹5.25 crore on a median plot of about 43,560 sq ft, working out to roughly ₹803 per sq ft. Figures are asking prices from listing data, not transacted rates."
+    is_published: true
+  - slug: sector-63a-gurgaon
+    name: "Sector 63A Gurgaon"
+    corridor: "Sector 63A Gurgaon"
+    avg_price_per_sqft: 11111
+    active_projects: 9
+    best_for: "Farmhouses and weekend estates"
+    description: "Sector 63A Gurgaon carries 9 farm-house listings in this dataset, with a median asking price of ₹9.60 crore on a median plot of about 10,800 sq ft, working out to roughly ₹11,111 per sq ft. Figures are asking prices from listing data, not transacted rates."
+    is_published: true
+  - slug: sultanpur
+    name: "Sultanpur"
+    corridor: "Sultanpur"
+    avg_price_per_sqft: 1797
+    active_projects: 5
+    best_for: "Farmhouses and weekend estates"
+    description: "Sultanpur carries 5 farm-house listings in this dataset, with a median asking price of ₹2.72 crore on a median plot of about 16,080 sq ft, working out to roughly ₹1,797 per sq ft. Figures are asking prices from listing data, not transacted rates."
+    is_published: true
+  - slug: garhi-harsaru
+    name: "Garhi Harsaru"
+    corridor: "Garhi Harsaru"
+    avg_price_per_sqft: 2066
+    active_projects: 5
+    best_for: "Farmhouses and weekend estates"
+    description: "Garhi Harsaru carries 5 farm-house listings in this dataset, with a median asking price of ₹9.00 crore on a median plot of about 21,870 sq ft, working out to roughly ₹2,066 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true

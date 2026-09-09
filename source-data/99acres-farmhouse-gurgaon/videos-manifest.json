@@ -1,0 +1,1544 @@
+[
+  {
+    "prop_id": "J89339817",
+    "video_id": "74Qzj4l3QcQ",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/39002/17/780057946ABR-1781867526436/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=74Qzj4l3QcQ"
+  },
+  {
+    "prop_id": "S89341379",
+    "video_id": "iQAyBJU_XJo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41698/19/833979189ABR-1788761991769/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=iQAyBJU_XJo"
+  },
+  {
+    "prop_id": "B89049362",
+    "video_id": "iw-SIgk-SSk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40064/11/801291953ABR-1784869707202/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=iw-SIgk-SSk"
+  },
+  {
+    "prop_id": "X88758076",
+    "video_id": "0ZFlr2U50Gw",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/35629/17/712597165ABR-1770973729085/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=0ZFlr2U50Gw"
+  },
+  {
+    "prop_id": "Z93795026",
+    "video_id": "n1uvgqfvsDo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41327/1/826541993ABR-1787732646524/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=n1uvgqfvsDo"
+  },
+  {
+    "prop_id": "V90719876",
+    "video_id": "XbxWbuAx20o",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37563/18/751278670ABR-1777506706842/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=XbxWbuAx20o"
+  },
+  {
+    "prop_id": "E91692738",
+    "video_id": "tH6R5XPJ4KQ",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39513/18/790278828ABR-1783482063871/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=tH6R5XPJ4KQ"
+  },
+  {
+    "prop_id": "O88729600",
+    "video_id": "5uF-4YcEMrs",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/35605/16/712116941ABR-1770888889409/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=5uF-4YcEMrs"
+  },
+  {
+    "prop_id": "L89701990",
+    "video_id": "N8XZrJljbgk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36531/6/730626320ABR-1774169066207/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=N8XZrJljbgk"
+  },
+  {
+    "prop_id": "C90738948",
+    "video_id": "QgDLKefri1g",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37562/10/751250564ABR-1777499298799/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=QgDLKefri1g"
+  },
+  {
+    "prop_id": "F93798992",
+    "video_id": "YPcLJ1412ak",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41365/16/827316303ABR-1787825821761/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=YPcLJ1412ak"
+  },
+  {
+    "prop_id": "S93088622",
+    "video_id": "S844dxzudM0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41352/6/827046449ABR-1787800125281/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=S844dxzudM0"
+  },
+  {
+    "prop_id": "A92710268",
+    "video_id": "Oi2fpmeUrFU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40171/10/803430681ABR-1785117135387/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Oi2fpmeUrFU"
+  },
+  {
+    "prop_id": "F91694428",
+    "video_id": "-vA-VMKhohw",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39044/11/780891728ABR-1782020371623/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=-vA-VMKhohw"
+  },
+  {
+    "prop_id": "Q61815520",
+    "video_id": "L8IRX9_sTmc",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/41298/19/825979413ABR-1787653759628/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=L8IRX9_sTmc"
+  },
+  {
+    "prop_id": "D90769206",
+    "video_id": "s4pfh4fhin0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39004/4/780084154ABR-1781869354511/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=s4pfh4fhin0"
+  },
+  {
+    "prop_id": "H91980442",
+    "video_id": "2cp6BcJDfrE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39166/4/783324492ABR-1782388827599/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=2cp6BcJDfrE"
+  },
+  {
+    "prop_id": "N88717004",
+    "video_id": "3kKWY4DXraw",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40233/4/804664309ABR-1785309428064/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=3kKWY4DXraw"
+  },
+  {
+    "prop_id": "H89648134",
+    "video_id": "oIPcZTKbj8o",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40962/17/819257193ABR-1786910846886/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=oIPcZTKbj8o"
+  },
+  {
+    "prop_id": "W89123507",
+    "video_id": "WMtovfoyvTo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40590/9/811809055ABR-1786066352785/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=WMtovfoyvTo"
+  },
+  {
+    "prop_id": "T90281990",
+    "video_id": "LXfK6XfFfAs",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39928/3/798563105ABR-1784559691613/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=LXfK6XfFfAs"
+  },
+  {
+    "prop_id": "A89939062",
+    "video_id": "oZ3W0fq9wMM",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36738/9/734769554ABR-1774943912698/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=oZ3W0fq9wMM"
+  },
+  {
+    "prop_id": "X89349361",
+    "video_id": "NNi00IzjJuU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36134/0/722680533ABR-1772929786997/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=NNi00IzjJuU"
+  },
+  {
+    "prop_id": "C94102694",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "B94102392",
+    "video_id": "mN-sWEVlszo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41726/4/834524125ABR-1788830215899/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=mN-sWEVlszo"
+  },
+  {
+    "prop_id": "O94000676",
+    "video_id": "aQsqUcn4w8s",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41601/5/832025395ABR-1788534995721/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=aQsqUcn4w8s"
+  },
+  {
+    "prop_id": "C93540702",
+    "video_id": "S4AQFJwQAUA",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40980/7/819607133ABR-1786959918046/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=S4AQFJwQAUA"
+  },
+  {
+    "prop_id": "H93534800",
+    "video_id": "_nb6tk9TZsE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40967/2/819342947ABR-1786931413290/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=_nb6tk9TZsE"
+  },
+  {
+    "prop_id": "O93524304",
+    "video_id": "4_yFYMcPfW4",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40955/6/819106735ABR-1786882575617/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=4_yFYMcPfW4"
+  },
+  {
+    "prop_id": "H93514562",
+    "video_id": "LuPE3058j-4",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40941/14/818834477ABR-1786850745787/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=LuPE3058j-4"
+  },
+  {
+    "prop_id": "N93514010",
+    "video_id": "FHrONb7_tS0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40944/7/818887551ABR-1786860793518/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=FHrONb7_tS0"
+  },
+  {
+    "prop_id": "Z93143554",
+    "video_id": "_tvFGGyoxCs",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40393/15/807875929ABR-1785658729995/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=_tvFGGyoxCs"
+  },
+  {
+    "prop_id": "Q92989196",
+    "video_id": "NZra8Ar5unA",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40317/15/806355401ABR-1785468721146/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=NZra8Ar5unA"
+  },
+  {
+    "prop_id": "P92934046",
+    "video_id": "sGgi3fu17UE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40269/18/805398783ABR-1785349636781/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=sGgi3fu17UE"
+  },
+  {
+    "prop_id": "Q93910852",
+    "video_id": "vxxb91dlMvA",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41432/14/828654393ABR-1788020801636/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=vxxb91dlMvA"
+  },
+  {
+    "prop_id": "R91681702",
+    "video_id": "ldU230SpeQI",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38723/13/774473782ABR-1781027249631/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ldU230SpeQI"
+  },
+  {
+    "prop_id": "M91652056",
+    "video_id": "08cSPLr732c",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38754/18/775098670ABR-1781134916443/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=08cSPLr732c"
+  },
+  {
+    "prop_id": "V80979021",
+    "video_id": "CNx8hfgCaZE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38628/15/772575340ABR-1780726615920/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=CNx8hfgCaZE"
+  },
+  {
+    "prop_id": "G89624202",
+    "video_id": "ZyCb6AokAwk",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/36414/2/728282075ABR-1773815922198/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ZyCb6AokAwk"
+  },
+  {
+    "prop_id": "G75772139",
+    "video_id": "l-iCETCV5mU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/33876/5/677525235ABR-1764058329619/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=l-iCETCV5mU"
+  },
+  {
+    "prop_id": "U89624418",
+    "video_id": "LA_ayhvud3w",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36471/5/729425176ABR-1773943457227/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=LA_ayhvud3w"
+  },
+  {
+    "prop_id": "I82544610",
+    "video_id": "cryPL3-1Qlo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/29965/0/599300455ABR-1748150623278/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=cryPL3-1Qlo"
+  },
+  {
+    "prop_id": "C89795218",
+    "video_id": "bZDVABNZ54g",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36628/14/732574692ABR-1774486319875/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=bZDVABNZ54g"
+  },
+  {
+    "prop_id": "F89870978",
+    "video_id": "si-mo3nNeCw",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36779/15/735595232ABR-1775014559663/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=si-mo3nNeCw"
+  },
+  {
+    "prop_id": "O91977952",
+    "video_id": "uYzoVYt5Qkg",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38985/12/779712218ABR-1781838369928/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=uYzoVYt5Qkg"
+  },
+  {
+    "prop_id": "S90072792",
+    "video_id": "4Um7-e9EY68",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36963/7/739267390ABR-1775559537649/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=4Um7-e9EY68"
+  },
+  {
+    "prop_id": "B93617888",
+    "video_id": "NfrUQnW7W30",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41037/19/820759765ABR-1787116531348/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=NfrUQnW7W30"
+  },
+  {
+    "prop_id": "F91692766",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "F92041624",
+    "video_id": "-g9jaxgh_PY",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39056/7/781127746ABR-1782045900573/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=-g9jaxgh_PY"
+  },
+  {
+    "prop_id": "B91694046",
+    "video_id": "115lspDMNqY",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40559/13/811193925ABR-1786021372728/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=115lspDMNqY"
+  },
+  {
+    "prop_id": "H93400180",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "J89121997",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "J91908486",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "H88854354",
+    "video_id": "BgNg_Ns_h38",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39964/12/799292691ABR-1784672808510/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=BgNg_Ns_h38"
+  },
+  {
+    "prop_id": "M92473122",
+    "video_id": "6A8nTgiNrvo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39656/12/793132946ABR-1783831502437/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=6A8nTgiNrvo"
+  },
+  {
+    "prop_id": "P88812572",
+    "video_id": "u6Y4AgVff3k",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40281/9/805629033ABR-1785370404029/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=u6Y4AgVff3k"
+  },
+  {
+    "prop_id": "H92383218",
+    "video_id": "sP9DGxUpVII",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39434/19/788699370ABR-1783228542575/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=sP9DGxUpVII"
+  },
+  {
+    "prop_id": "H92941466",
+    "video_id": "HjW6bdnYbPE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40090/0/801800251ABR-1784903200881/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=HjW6bdnYbPE"
+  },
+  {
+    "prop_id": "S93401008",
+    "video_id": "qDJTOwnwx2Y",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41063/17/821277041ABR-1787136115845/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=qDJTOwnwx2Y"
+  },
+  {
+    "prop_id": "F86981166",
+    "video_id": "RD_jegEYEsA",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39729/19/794599233ABR-1784033765108/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=RD_jegEYEsA"
+  },
+  {
+    "prop_id": "P92574220",
+    "video_id": "5voyMTwCgbs",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39678/11/793571192ABR-1783877771591/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=5voyMTwCgbs"
+  },
+  {
+    "prop_id": "V86981032",
+    "video_id": "5_Ev1G-HbPo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/33991/4/679824889ABR-1764500252078/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=5_Ev1G-HbPo"
+  },
+  {
+    "prop_id": "C91874106",
+    "video_id": "ejjGK-apPxI",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40406/8/808128857ABR-1785687670629/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ejjGK-apPxI"
+  },
+  {
+    "prop_id": "G94113404",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "D87215592",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "E93540860",
+    "video_id": "tqjL4WyeMcc",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40980/11/819611387ABR-1786960198976/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=tqjL4WyeMcc"
+  },
+  {
+    "prop_id": "U93286778",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "W93272800",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "Q90275138",
+    "video_id": "cBfMQOry-aE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37126/3/742523386ABR-1776039511341/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=cBfMQOry-aE"
+  },
+  {
+    "prop_id": "E92953396",
+    "video_id": "75MzADX4PkM",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40107/6/802146395ABR-1784946363742/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=75MzADX4PkM"
+  },
+  {
+    "prop_id": "M92839374",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "W92440078",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "O92439788",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "G92430200",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "N92338574",
+    "video_id": "lqzZqtfReE4",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39433/3/788663090ABR-1783208743607/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=lqzZqtfReE4"
+  },
+  {
+    "prop_id": "D89191569",
+    "video_id": "mP_jPrIuQfY",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/35972/17/719457031ABR-1772258851169/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=mP_jPrIuQfY"
+  },
+  {
+    "prop_id": "Z79433243",
+    "video_id": "mJ2egPUjJ0A",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39233/3/784663960ABR-1782603809095/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=mJ2egPUjJ0A"
+  },
+  {
+    "prop_id": "A74825265",
+    "video_id": "BPtilrpaJIU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/34266/13/685333333ABR-1765547437930/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=BPtilrpaJIU"
+  },
+  {
+    "prop_id": "B74251461",
+    "video_id": "EhU8Qs_zUHU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/29948/19/598979597ABR-1748051429136/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=EhU8Qs_zUHU"
+  },
+  {
+    "prop_id": "T89624350",
+    "video_id": "YFhpoPRtdwY",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36446/8/728928839ABR-1773896890712/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=YFhpoPRtdwY"
+  },
+  {
+    "prop_id": "O90632240",
+    "video_id": "aZqc2HgF4fY",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37539/2/750782110ABR-1777454308427/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=aZqc2HgF4fY"
+  },
+  {
+    "prop_id": "K90758362",
+    "video_id": "SwLlZgGYh5g",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37580/3/751603250ABR-1777555987901/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=SwLlZgGYh5g"
+  },
+  {
+    "prop_id": "A90342780",
+    "video_id": "mW0AowBJPFk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40064/11/801291967ABR-1784869472703/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=mW0AowBJPFk"
+  },
+  {
+    "prop_id": "Q90372126",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "C90072670",
+    "video_id": "xgMGXrjP_bk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40215/2/804302433ABR-1785238095279/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=xgMGXrjP_bk"
+  },
+  {
+    "prop_id": "D90095968",
+    "video_id": "Hs3EhGAOZJk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36988/1/739761806ABR-1775636998874/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Hs3EhGAOZJk"
+  },
+  {
+    "prop_id": "Z90072746",
+    "video_id": "AXdRRoZ48TA",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36962/18/739258658ABR-1775559186749/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=AXdRRoZ48TA"
+  },
+  {
+    "prop_id": "I90068502",
+    "video_id": "g4m-KC7XuRk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36962/4/739244794ABR-1775556884818/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=g4m-KC7XuRk"
+  },
+  {
+    "prop_id": "W89591546",
+    "video_id": "22SS-bmYQFM",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36379/11/727591399ABR-1773667423172/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=22SS-bmYQFM"
+  },
+  {
+    "prop_id": "Z90720014",
+    "video_id": "RNrg5MSpnbA",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37563/19/751279542ABR-1777505095068/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=RNrg5MSpnbA"
+  },
+  {
+    "prop_id": "M93086734",
+    "video_id": "7XTZKYvoCGQ",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40276/6/805526187ABR-1785359507801/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=7XTZKYvoCGQ"
+  },
+  {
+    "prop_id": "T90630296",
+    "video_id": "6Qt5X57KPss",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41013/10/820270641ABR-1787044913538/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=6Qt5X57KPss"
+  },
+  {
+    "prop_id": "S92476730",
+    "video_id": "ZBTUTR1HqbI",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39597/1/791941226ABR-1783678769549/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ZBTUTR1HqbI"
+  },
+  {
+    "prop_id": "S89037210",
+    "video_id": "dyUhaNWS-PQ",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39967/19/799359233ABR-1784682119865/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=dyUhaNWS-PQ"
+  },
+  {
+    "prop_id": "B89050996",
+    "video_id": "yU9mhhzgiaE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40064/14/801294687ABR-1784869897232/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=yU9mhhzgiaE"
+  },
+  {
+    "prop_id": "I94134808",
+    "video_id": "xkeCSgeHJeQ",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41724/2/834482907ABR-1788816166090/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=xkeCSgeHJeQ"
+  },
+  {
+    "prop_id": "V94095146",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "W93890998",
+    "video_id": "YuPSQskwXPk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41592/0/831840501ABR-1788495770107/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=YuPSQskwXPk"
+  },
+  {
+    "prop_id": "Y93974042",
+    "video_id": "FSwFVtNoOzw",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41543/6/830866059ABR-1788363111775/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=FSwFVtNoOzw"
+  },
+  {
+    "prop_id": "S93891740",
+    "video_id": "vI8oNTJAkhc",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41532/12/830652655ABR-1788341789514/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=vI8oNTJAkhc"
+  },
+  {
+    "prop_id": "I93981766",
+    "video_id": "iWYhbh4CtSQ",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41548/11/830971035ABR-1788376065137/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=iWYhbh4CtSQ"
+  },
+  {
+    "prop_id": "P90739784",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39820/15/796415525ABR-1784272169961/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Iu6_-fdFyg0"
+  },
+  {
+    "prop_id": "S90726036",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39892/14/797854053ABR-1784464228663/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=9bJtMKPDW1s"
+  },
+  {
+    "prop_id": "Z91590000",
+    "video_id": "osj3zojn8jQ",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38593/19/771879794ABR-1780621473011/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=osj3zojn8jQ"
+  },
+  {
+    "prop_id": "Q92766444",
+    "video_id": "6y2_PISqWO8",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39893/17/797877117ABR-1784467688671/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=6y2_PISqWO8"
+  },
+  {
+    "prop_id": "T93741440",
+    "video_id": "NX_5v-dmXSg",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41592/0/831840185ABR-1788498230882/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=NX_5v-dmXSg"
+  },
+  {
+    "prop_id": "P93773490",
+    "video_id": "pOHbhRmdPpg",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41377/12/827552149ABR-1787846908331/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=pOHbhRmdPpg"
+  },
+  {
+    "prop_id": "B90720108",
+    "video_id": "OoqoZxKchc4",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37563/18/751278662ABR-1777502472951/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=OoqoZxKchc4"
+  },
+  {
+    "prop_id": "O90683552",
+    "video_id": "Yb2o_14SslU",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/37515/19/750319464ABR-1777309887968/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Yb2o_14SslU"
+  },
+  {
+    "prop_id": "O92008224",
+    "video_id": "FQrSebolrEI",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39017/3/780343848ABR-1781929348834/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=FQrSebolrEI"
+  },
+  {
+    "prop_id": "J92180520",
+    "video_id": "91V5wkfQLRo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40177/9/803549229ABR-1785135867476/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=91V5wkfQLRo"
+  },
+  {
+    "prop_id": "D94079690",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "W92941654",
+    "video_id": "_MUrofg1y30",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40814/8/816288425ABR-1786566775954/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=_MUrofg1y30"
+  },
+  {
+    "prop_id": "E90750092",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40422/1/808441967ABR-1785743724404/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ericTf7unCQ"
+  },
+  {
+    "prop_id": "V84401398",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "I89049864",
+    "video_id": "X33SSpYPJjg",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40062/13/801253793ABR-1784861882881/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=X33SSpYPJjg"
+  },
+  {
+    "prop_id": "D91785056",
+    "video_id": "D9AFVu_VJ6w",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40111/16/802236731ABR-1784960864640/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=D9AFVu_VJ6w"
+  },
+  {
+    "prop_id": "V91835210",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "J91666578",
+    "video_id": "uRIlACaS8uY",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40426/7/808527137ABR-1785748831325/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=uRIlACaS8uY"
+  },
+  {
+    "prop_id": "W91653062",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "E89164957",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "Y89164559",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "B89853420",
+    "video_id": "iJV-sgwIr_0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41593/0/831860679ABR-1788503919535/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=iJV-sgwIr_0"
+  },
+  {
+    "prop_id": "U88625824",
+    "video_id": "U1_qDmZBLx8",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41397/5/827945905ABR-1787923231848/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=U1_qDmZBLx8"
+  },
+  {
+    "prop_id": "I88847540",
+    "video_id": "vXPlw_yO5fU",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/39002/5/780045024ABR-1781866246067/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=vXPlw_yO5fU"
+  },
+  {
+    "prop_id": "U93571888",
+    "video_id": "QGlCEtOhs34",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40995/19/819919725ABR-1787002882695/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=QGlCEtOhs34"
+  },
+  {
+    "prop_id": "J92673884",
+    "video_id": "c3aFFDpfXL0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39735/4/794704737ABR-1784047090368/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=c3aFFDpfXL0"
+  },
+  {
+    "prop_id": "M90875400",
+    "video_id": "ZOaN2AJA3bQ",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37703/9/754069374ABR-1777973961818/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ZOaN2AJA3bQ"
+  },
+  {
+    "prop_id": "D90801392",
+    "video_id": "pF0guw-AsH0",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/37623/4/752464128ABR-1777710063950/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=pF0guw-AsH0"
+  },
+  {
+    "prop_id": "G90789824",
+    "video_id": "6wJWd04m7wc",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/37609/19/752199108ABR-1777639647875/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=6wJWd04m7wc"
+  },
+  {
+    "prop_id": "J93253518",
+    "video_id": "9g52WNUK7MU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40478/19/809579515ABR-1785867754315/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=9g52WNUK7MU"
+  },
+  {
+    "prop_id": "L92101658",
+    "video_id": "S9flGfw0viE",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "J90720362",
+    "video_id": "egCSwvyTUSI",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37560/0/751200166ABR-1777485337766/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=egCSwvyTUSI"
+  },
+  {
+    "prop_id": "F89269103",
+    "video_id": "AhP8br2w6YQ",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "E93392600",
+    "video_id": "Kw7_1RPtPJ0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40777/0/815540861ABR-1786528523058/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Kw7_1RPtPJ0"
+  },
+  {
+    "prop_id": "R90797906",
+    "video_id": "LDGKp8kTOBI",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/37619/18/752398738ABR-1777703431598/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=LDGKp8kTOBI"
+  },
+  {
+    "prop_id": "Q93545800",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "X93354582",
+    "video_id": "NitZQQYynC0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41139/15/822795233ABR-1787234428223/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=NitZQQYynC0"
+  },
+  {
+    "prop_id": "N90681378",
+    "video_id": "rO7AsClq_8E",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37533/1/750661396ABR-1777387474179/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=rO7AsClq_8E"
+  },
+  {
+    "prop_id": "U90692386",
+    "video_id": "kn8XF-u61-o",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37515/16/750316562ABR-1777311730279/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=kn8XF-u61-o"
+  },
+  {
+    "prop_id": "T81150653",
+    "video_id": "pCMgIgnjfmU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39961/3/799223579ABR-1784654237283/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=pCMgIgnjfmU"
+  },
+  {
+    "prop_id": "M91365622",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "T79255567",
+    "video_id": "5nsQdqEqt3Y",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38673/15/773475170ABR-1780892024242/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=5nsQdqEqt3Y"
+  },
+  {
+    "prop_id": "C93852494",
+    "video_id": "L1ANrHNzwu0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41344/6/826886037ABR-1787763448794/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=L1ANrHNzwu0"
+  },
+  {
+    "prop_id": "C93852378",
+    "video_id": "tkyiHqnAQTY",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41343/18/826878525ABR-1787764194772/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=tkyiHqnAQTY"
+  },
+  {
+    "prop_id": "Y93852164",
+    "video_id": "61iGxrMM-_0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41344/2/826882007ABR-1787762387555/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=61iGxrMM-_0"
+  },
+  {
+    "prop_id": "F91326892",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "V90491046",
+    "video_id": "6B5fZSI-qG8",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41007/4/820144451ABR-1787035877228/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=6B5fZSI-qG8"
+  },
+  {
+    "prop_id": "C91026018",
+    "video_id": "OGiyM-AMryg",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37955/18/759118706ABR-1778719538298/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=OGiyM-AMryg"
+  },
+  {
+    "prop_id": "S86909100",
+    "video_id": "Py4wIREg-Oc",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/33990/16/679816703ABR-1764507301702/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Py4wIREg-Oc"
+  },
+  {
+    "prop_id": "X86980894",
+    "video_id": "XpHRv0mzwe8",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/33991/0/679820915ABR-1764499350305/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=XpHRv0mzwe8"
+  },
+  {
+    "prop_id": "C88787334",
+    "video_id": "w5MVpQOFios",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41457/2/829142543ABR-1788115217678/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=w5MVpQOFios"
+  },
+  {
+    "prop_id": "E92766526",
+    "video_id": "XOVE1WT3Dfw",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39893/16/797876051ABR-1784467679786/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=XOVE1WT3Dfw"
+  },
+  {
+    "prop_id": "S91957294",
+    "video_id": "4OoGfl8J91w",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38985/1/779701794ABR-1781828915711/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=4OoGfl8J91w"
+  },
+  {
+    "prop_id": "I91025216",
+    "video_id": "7dGyPRcOX4Q",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37955/18/759118422ABR-1778719346609/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=7dGyPRcOX4Q"
+  },
+  {
+    "prop_id": "L93989292",
+    "video_id": "E6TgMq0d7Gk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41746/5/834925895ABR-1788870998735/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=E6TgMq0d7Gk"
+  },
+  {
+    "prop_id": "E93930304",
+    "video_id": "VBfQ5thWNpY",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41591/8/831828073ABR-1788496814564/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=VBfQ5thWNpY"
+  },
+  {
+    "prop_id": "I93927776",
+    "video_id": "Q8FIMD63ieo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41588/17/831777193ABR-1788474898160/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Q8FIMD63ieo"
+  },
+  {
+    "prop_id": "A93882952",
+    "video_id": "8oxMERdQUJg",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41396/15/827935587ABR-1787923327067/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=8oxMERdQUJg"
+  },
+  {
+    "prop_id": "B93882588",
+    "video_id": "J2pYbafKxzc",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41588/13/831773421ABR-1788475118815/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=J2pYbafKxzc"
+  },
+  {
+    "prop_id": "B93839882",
+    "video_id": "gVfWfOThNGE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41657/2/833142429ABR-1788641060467/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=gVfWfOThNGE"
+  },
+  {
+    "prop_id": "H93781212",
+    "video_id": "B5eA3C4EC2c",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41246/12/824932355ABR-1787507234554/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=B5eA3C4EC2c"
+  },
+  {
+    "prop_id": "A93763612",
+    "video_id": "jVYIrGHpcXU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41328/18/826578329ABR-1787736206849/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=jVYIrGHpcXU"
+  },
+  {
+    "prop_id": "J93617538",
+    "video_id": "dOo3ATofEp0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41116/16/822336831ABR-1787201413816/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=dOo3ATofEp0"
+  },
+  {
+    "prop_id": "E93088952",
+    "video_id": "V1m8JwLmrFE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41233/10/824670487ABR-1787474112014/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=V1m8JwLmrFE"
+  },
+  {
+    "prop_id": "M88989980",
+    "video_id": "U-Tq7QStMhg",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/35780/2/715602287ABR-1771578197178/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=U-Tq7QStMhg"
+  },
+  {
+    "prop_id": "D93851946",
+    "video_id": "ZJgKKUHqmyk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41344/4/826884353ABR-1787763096775/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ZJgKKUHqmyk"
+  },
+  {
+    "prop_id": "E90906442",
+    "video_id": "YrUpDnJbkWs",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41368/11/827371013ABR-1787833279416/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=YrUpDnJbkWs"
+  },
+  {
+    "prop_id": "L89095223",
+    "video_id": "JIA4yzwn8kE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40584/3/811683159ABR-1786052567977/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=JIA4yzwn8kE"
+  },
+  {
+    "prop_id": "Y88728818",
+    "video_id": "uOSRAd6LAt8",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41450/6/829006337ABR-1788087662246/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=uOSRAd6LAt8"
+  },
+  {
+    "prop_id": "L88732222",
+    "video_id": "mFxNEX1X7Ys",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/35557/10/711150725ABR-1770716479213/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=mFxNEX1X7Ys"
+  },
+  {
+    "prop_id": "B93540964",
+    "video_id": "M5bx3hiUE00",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40980/14/819614729ABR-1786960413050/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=M5bx3hiUE00"
+  },
+  {
+    "prop_id": "T92937898",
+    "video_id": "Xx6gF-eu1Ig",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40141/6/802826415ABR-1785019167356/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Xx6gF-eu1Ig"
+  },
+  {
+    "prop_id": "Y90042412",
+    "video_id": "q9sZX31kjaU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36917/4/738344168ABR-1775410280627/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=q9sZX31kjaU"
+  },
+  {
+    "prop_id": "X93786526",
+    "orientation": "LANDSCAPE",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "U93425198",
+    "video_id": "1utaMr4RWv0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40821/17/816437625ABR-1786583573450/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=1utaMr4RWv0"
+  },
+  {
+    "prop_id": "B90042428",
+    "video_id": "TJpmPZA35w4",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/36900/4/738004670ABR-1775339633218/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=TJpmPZA35w4"
+  },
+  {
+    "prop_id": "T90144108",
+    "video_id": "z3hZJzI29a4",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37003/17/740077138ABR-1775664291639/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=z3hZJzI29a4"
+  },
+  {
+    "prop_id": "B90143906",
+    "video_id": "ckZsekIg5As",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37003/15/740075266ABR-1775663861968/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ckZsekIg5As"
+  },
+  {
+    "prop_id": "X91191460",
+    "video_id": "vzSn9eMglDs",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38089/16/761796000ABR-1779159925036/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=vzSn9eMglDs"
+  },
+  {
+    "prop_id": "E94074598",
+    "video_id": "9S-I875o8uQ",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "A92813110",
+    "video_id": "Ulp-eefTyro",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39890/13/797813795ABR-1784459367926/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Ulp-eefTyro"
+  },
+  {
+    "prop_id": "U91089786",
+    "video_id": "s9sbbIlVnVU",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/37959/11/759191144ABR-1778738382884/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=s9sbbIlVnVU"
+  },
+  {
+    "prop_id": "R91105226",
+    "video_id": "WuTiq2PUIJ8",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/37961/7/759227330ABR-1778745946055/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=WuTiq2PUIJ8"
+  },
+  {
+    "prop_id": "C91101156",
+    "video_id": "5U8okcaMvw0",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/37958/18/759178296ABR-1778751396037/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=5U8okcaMvw0"
+  },
+  {
+    "prop_id": "G91130474",
+    "video_id": "1jntyr4NCWE",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/37989/10/759790872ABR-1778832472514/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=1jntyr4NCWE"
+  },
+  {
+    "prop_id": "D91158212",
+    "video_id": "xVJsGnyJA08",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/38017/19/760359604ABR-1778912051189/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=xVJsGnyJA08"
+  },
+  {
+    "prop_id": "T91158420",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38485/17/769717800ABR-1780314282044/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=OXA3gH4pvRo"
+  },
+  {
+    "prop_id": "Q91129424",
+    "video_id": "KgtrBSQnRRM",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41724/8/834488199ABR-1788821378264/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=KgtrBSQnRRM"
+  },
+  {
+    "prop_id": "B91161602",
+    "video_id": "PyHzFaAZ6pY",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/38020/17/760417862ABR-1778913711010/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=PyHzFaAZ6pY"
+  },
+  {
+    "prop_id": "M91164342",
+    "video_id": "RQVDz7Vj5WQ",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/38024/19/760499666ABR-1778918397676/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=RQVDz7Vj5WQ"
+  },
+  {
+    "prop_id": "H93892078",
+    "video_id": "-otybLSZXNQ",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41403/6/828066171ABR-1787937689842/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=-otybLSZXNQ"
+  },
+  {
+    "prop_id": "H93698862",
+    "video_id": "nNeId0ohVl8",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "Z93617228",
+    "video_id": "0vFLWiW_IpE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41126/5/822525787ABR-1787214463310/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=0vFLWiW_IpE"
+  },
+  {
+    "prop_id": "N93556826",
+    "video_id": "Fxyy__XjkY8",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40969/16/819396565ABR-1786944590362/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Fxyy__XjkY8"
+  },
+  {
+    "prop_id": "Q93555466",
+    "video_id": "J6snRIudjqA",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40968/13/819373703ABR-1786942018727/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=J6snRIudjqA"
+  },
+  {
+    "prop_id": "P91251108",
+    "video_id": "KyZIm0ek8tU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38113/19/762279234ABR-1779254360527/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=KyZIm0ek8tU"
+  },
+  {
+    "prop_id": "O91251512",
+    "video_id": "KAbEqsZns9k",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39655/11/793111936ABR-1783812802995/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=KAbEqsZns9k"
+  },
+  {
+    "prop_id": "W92673920",
+    "video_id": "OU1v_YA8CFI",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41302/12/826052631ABR-1787659198989/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=OU1v_YA8CFI"
+  },
+  {
+    "prop_id": "S92377516",
+    "video_id": "Uqc0WK-nGs0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41537/14/830754031ABR-1788350045237/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Uqc0WK-nGs0"
+  },
+  {
+    "prop_id": "L92277184",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39326/13/786533282ABR-1782910894342/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=2SaDJazoU6o"
+  },
+  {
+    "prop_id": "F92177334",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39206/18/784138264ABR-1782524494422/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=P2ofS4xAymI"
+  },
+  {
+    "prop_id": "T91935298",
+    "video_id": "PCt6VyHJm5Y",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40941/16/818836495ABR-1786851379045/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=PCt6VyHJm5Y"
+  },
+  {
+    "prop_id": "Y91908514",
+    "video_id": "ILYGn5Z7gYs",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40917/8/818348379ABR-1786757706386/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ILYGn5Z7gYs"
+  },
+  {
+    "prop_id": "N91806330",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38774/14/775494814ABR-1781180007808/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=jxzmDGDEZrw"
+  },
+  {
+    "prop_id": "E91672002",
+    "video_id": "9jsKcRehw3U",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/38658/10/773170842ABR-1780822759568/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=9jsKcRehw3U"
+  },
+  {
+    "prop_id": "P91716182",
+    "video_id": "t4-TwK-DuYk",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/38657/7/773147002ABR-1780822826464/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=t4-TwK-DuYk"
+  },
+  {
+    "prop_id": "N91715738",
+    "orientation": "LANDSCAPE",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "Q91715370",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38657/6/773146780ABR-1780817755509/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=ehTe9rg5nmY"
+  },
+  {
+    "prop_id": "W91380338",
+    "video_id": "5qyXC0kPzX8",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/38272/4/765444794ABR-1779710235572/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=5qyXC0kPzX8"
+  },
+  {
+    "prop_id": "K91298446",
+    "video_id": "E4wiYzUjad8",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39881/11/797631065ABR-1784442933805/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=E4wiYzUjad8"
+  },
+  {
+    "prop_id": "V91265142",
+    "video_id": "3ezpeUI1Oy0",
+    "orientation": "LANDSCAPE",
+    "hls": "https://imagecdn.99acres.com/media1/38130/12/762612176ABR-1779272776057/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=3ezpeUI1Oy0"
+  },
+  {
+    "prop_id": "X90875586",
+    "video_id": "O7DiqMB69B0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39004/18/780098496ABR-1781870653483/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=O7DiqMB69B0"
+  },
+  {
+    "prop_id": "W90769258",
+    "video_id": "zEjSAJTmEKM",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41287/6/825746743ABR-1787635795887/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=zEjSAJTmEKM"
+  },
+  {
+    "prop_id": "T90738348",
+    "video_id": "4tGGmC-QnFo",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41316/18/826338089ABR-1787697266609/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=4tGGmC-QnFo"
+  },
+  {
+    "prop_id": "M90705850",
+    "video_id": "RoGll05I_4o",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41297/16/825956923ABR-1787652800321/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=RoGll05I_4o"
+  },
+  {
+    "prop_id": "R90705468",
+    "video_id": "bIiM27JbUpg",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41308/5/826165599ABR-1787670574932/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=bIiM27JbUpg"
+  },
+  {
+    "prop_id": "X87369506",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/38752/14/775054826ABR-1781116458946/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=o4jAyQUJoqA"
+  },
+  {
+    "prop_id": "K93435446",
+    "video_id": "bJ_gztb2AFU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40764/8/815288775ABR-1786511478129/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=bJ_gztb2AFU"
+  },
+  {
+    "prop_id": "V93904934",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "W65564110",
+    "orientation": "LANDSCAPE",
+    "hls": "",
+    "youtube": ""
+  },
+  {
+    "prop_id": "T93135912",
+    "video_id": "mQnbANjJBH0",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/41467/8/829348621ABR-1788159962783/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=mQnbANjJBH0"
+  },
+  {
+    "prop_id": "Z78790149",
+    "video_id": "cRJ4esliPMk",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39958/18/799178239ABR-1784647647363/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=cRJ4esliPMk"
+  },
+  {
+    "prop_id": "N79951285",
+    "video_id": "2mjrcyCipyE",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/39958/16/799176963ABR-1784647320820/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=2mjrcyCipyE"
+  },
+  {
+    "prop_id": "T92953354",
+    "video_id": "Cbu3Wa9PhWU",
+    "orientation": "PORTRAIT",
+    "hls": "https://imagecdn.99acres.com/media1/40107/5/802145403ABR-1784945875509/master_480p.m3u8",
+    "youtube": "https://www.youtube.com/watch?v=Cbu3Wa9PhWU"
+  },
+  {
+    "prop_id": "T74503363",
+    "video_id": "LtvaVzOiInQ",
+    "orientation": "PORTRAIT",
+    "hls": "",
+    "youtube": "https://www.youtube.com/watch?v=LtvaVzOiInQ"
+  }
+]

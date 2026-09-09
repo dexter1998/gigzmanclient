@@ -7,6 +7,7 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import PropertyGallery from "@/components/realestate/PropertyGallery";
 import PremiumV2PropertyDetailPage from "@/components/realestate/premium-v2/PremiumV2PropertyDetailPage";
+import { ogFor } from "@/lib/og";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { paramsForEachTenant } from "@/lib/static-params";
@@ -41,9 +42,21 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/properti
     getProperty(tenant.id, slug),
   ]);
   if (!property) return {};
+  // The listing's own primary photo becomes the share card, so replacing the
+  // photo in the dashboard changes the WhatsApp preview with no extra step.
+  const images = await getPropertyImages(property.id);
+  const primary = images.find((i) => i.isPrimary) ?? images[0] ?? null;
+
   return {
     title: `${property.title} — ${settings?.firmName ?? ""}`,
     description: property.description ?? undefined,
+    ...ogFor({
+      title: property.title,
+      description: property.description ?? undefined,
+      image: primary?.path,
+      path: joinPath(basePathFor(tenant), `/properties/${property.slug}`),
+      type: "article",
+    }),
   };
 }
 

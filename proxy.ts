@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { isVerticalId } from "./lib/verticals";
 import { isTemplateUrlSlug } from "./lib/templates";
+import { tenantSlugForHost } from "./lib/domains";
 
 /**
  * Tenant resolution for a deployment that serves many client sites.
@@ -42,7 +43,23 @@ export function proxy(request: NextRequest) {
     const headers = new Headers(request.headers);
     headers.set("x-tenant-host", host);
     headers.set("x-tenant-base", "");
-    return NextResponse.next({ request: { headers } });
+
+    // Static assets and the internal prefix pass straight through.
+    if (/\.[a-z0-9]+$/i.test(pathname) || pathname.startsWith("/site/")) {
+      return NextResponse.next({ request: { headers } });
+    }
+
+    // The rewrite is required, not optional. Every page now lives under
+    // `app/site/[tenant]/`, so passing the request through unchanged — as this
+    // branch did before the routes moved — 404s every path on the client's own
+    // domain.
+    const slug = tenantSlugForHost(host);
+    if (!slug) return NextResponse.next({ request: { headers } });
+
+    headers.set("x-tenant", slug);
+    const url = request.nextUrl.clone();
+    url.pathname = `/site/${slug}${pathname === "/" ? "" : pathname}`;
+    return NextResponse.rewrite(url, { request: { headers } });
   }
 
   const segments = pathname.split("/").filter(Boolean);

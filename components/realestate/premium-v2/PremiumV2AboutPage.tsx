@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { Award, CheckCircle2, ShieldCheck, Signpost, Users } from "lucide-react";
 import AdvisorsV2 from "./AdvisorsV2";
 import DeveloperRibbonV2 from "./DeveloperRibbonV2";
-import ConsultationCtaV2 from "./ConsultationCtaV2";
 import BookConsultationButton from "./BookConsultationButton";
 import { GpContainer, GpEyebrow, GpSection } from "./gp-primitives";
 import { basePathFor, joinPath, type Tenant } from "@/lib/tenant";
@@ -191,7 +190,7 @@ export default async function PremiumV2AboutPage({ tenant }: { tenant: Tenant })
             <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
               {PRINCIPLES.map((principle) => (
                 <div key={principle.label} className="border-t border-[color:var(--gp-border)] pt-5">
-                  <p className="font-display text-[19px] text-[color:var(--gp-ink)]">
+                  <p className="font-display text-[15px] text-[color:var(--gp-ink)]">
                     {principle.label}
                   </p>
                   <p className="mt-2 text-[13.5px] leading-relaxed text-[color:var(--gp-muted)]">
@@ -259,7 +258,6 @@ export default async function PremiumV2AboutPage({ tenant }: { tenant: Tenant })
       </GpSection>
 
       {/* ── Closing CTA ──────────────────────────────────────────────── */}
-      <ConsultationCtaV2 phone={settings.phone} />
     </>
   );
 }

@@ -7,6 +7,7 @@ import { EMI_TENURE_PRESETS_YEARS } from "@/lib/calculators/rates/gurugram-2026"
 import { formatInr, formatIndianPrice } from "@/lib/format";
 import { analytics } from "@/lib/analytics";
 import { GpContainer } from "../gp-primitives";
+import LineArtBackdropV2 from "../LineArtBackdropV2";
 import { openLeadPopup, type LeadIntentKey } from "../leadPopup";
 
 const FIELD =
@@ -75,6 +76,7 @@ export default function EmiCalculatorHeroV2({
         className="pointer-events-none absolute inset-0 opacity-[0.35]"
         style={{ background: "var(--gp-gradient-glow)" }}
       />
+      <LineArtBackdropV2 variant="blueprint-wide" />
       <GpContainer className="relative py-12 sm:py-16">
         {breadcrumb ? <div className="mb-6 text-center">{breadcrumb}</div> : null}
 
@@ -91,7 +93,7 @@ export default function EmiCalculatorHeroV2({
         >
           {/* ── Inputs ─────────────────────────────────────────────── */}
           <div className="bg-[color:var(--gp-cream-100)] p-6 sm:p-8">
-            <h2 className="font-display text-[22px] text-[color:var(--gp-ink)] sm:text-[26px]">
+            <h2 className="font-display text-[16px] text-[color:var(--gp-ink)] sm:text-[19px]">
               Enter financing details
             </h2>
 
@@ -206,7 +208,7 @@ export default function EmiCalculatorHeroV2({
           <div className="bg-[image:var(--gp-gradient-dark-section)] p-6 sm:p-8">
             <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">Your estimate</p>
 
-            <p className="font-display mt-3 text-[34px] leading-none text-white sm:text-[42px]">
+            <p className="font-display mt-3 text-[25px] leading-none text-white sm:text-[31px]">
               <span className="font-sans font-semibold">{formatInr(Math.round(result.monthlyEmi))}</span>{" "}
               <span className="text-[20px] sm:text-[24px]">monthly EMI</span>
             </p>
@@ -259,7 +261,7 @@ export default function EmiCalculatorHeroV2({
               </dl>
             </div>
 
-            <p className="font-display mt-7 text-[18px] text-white">Repayment details</p>
+            <p className="font-display mt-7 text-[15px] text-white">Repayment details</p>
             <div className="mt-3 grid grid-cols-3 gap-3">
               {[
                 { icon: Percent, label: "Rate", value: `${rate.toFixed(2)}%` },
@@ -276,6 +278,24 @@ export default function EmiCalculatorHeroV2({
                 );
               })}
             </div>
+
+            {/* Sits under the finished numbers rather than beside the inputs:
+                by this point the visitor has an EMI they believe, which is
+                the moment the loan ask converts. */}
+            <button
+              type="button"
+              onClick={() => {
+                analytics.calculatorComplete("home-loan-emi", null);
+                openLeadPopup("bank");
+              }}
+              className="mt-7 inline-flex min-h-[52px] w-full items-center justify-center gap-2 rounded-[var(--gp-radius-sm)] bg-[color:var(--gp-gold-600)] text-[13.5px] font-bold uppercase tracking-[0.05em] text-[color:var(--gp-forest-950)] transition-colors hover:bg-[color:var(--gp-gold-300)]"
+            >
+              Apply for loan
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </button>
+            <p className="mt-2.5 text-center text-[11.5px] leading-relaxed text-white/50">
+              An advisor checks your eligibility with our lender panel. No fee, no obligation.
+            </p>
           </div>
         </div>
       </GpContainer>

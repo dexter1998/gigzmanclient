@@ -8,7 +8,14 @@
  * inferred from the template key. Add a slug here only once the DSA
  * relationship is confirmed for that client.
  */
-const HOME_LOAN_TENANTS = new Set(["high-properties"]);
+const HOME_LOAN_TENANTS = new Set([
+  "high-properties",
+  // Added on the client's confirmation. If either of these does not in fact
+  // hold a DSA relationship, remove the line — the pages state the firm is an
+  // authorised channel partner.
+  "nayra-realtors",
+  "urban-flat-real-estate",
+]);
 
 export function homeLoanEnabled(clientSlug: string | undefined | null): boolean {
   if (!clientSlug) return false;

@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { DoorOpen } from "lucide-react";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getFirmSettings } from "@/lib/content";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { DIRECTIONS, ROOMS, VASTU_CONTEXTS } from "@/lib/vastu";
+import { vastuSectorsEnabled } from "@/lib/vastu/enabled";
 import { buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
 import VastuCalculatorV2 from "@/components/realestate/premium-v2/tools/VastuCalculatorV2";
-import { ToolPropertyCtaV2 } from "@/components/realestate/premium-v2/tools/ToolSections";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
+import RelatedCardsV2 from "@/components/realestate/premium-v2/RelatedCardsV2";
 
 interface Props {
   params: Promise<{ tenant: string }>;
@@ -31,6 +33,7 @@ export default async function VastuHubPage(props: Props) {
   const { tenant: tenantSlug } = await props.params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  const settings = await getFirmSettings(tenant.id);
 
   const basePath = basePathFor(tenant);
   const p = (path: string) => joinPath(basePath, path);
@@ -73,7 +76,7 @@ export default async function VastuHubPage(props: Props) {
             {DIRECTIONS.map((d) => (
               <div key={d.slug} className="rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-white p-5">
                 <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">{d.element}</p>
-                <h3 className="font-display mt-1.5 text-[19px] text-[color:var(--gp-ink)]">
+                <h3 className="font-display mt-1.5 text-[15px] text-[color:var(--gp-ink)]">
                   {d.name} facing
                 </h3>
                 <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--gp-body)]">{d.summary}</p>
@@ -92,24 +95,20 @@ export default async function VastuHubPage(props: Props) {
             ))}
           </div>
 
-          <h2 className="font-display mt-14 text-[21px] text-[color:var(--gp-ink)]">
-            Vastu by room
-          </h2>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {ROOMS.map((r) => (
-              <Link
-                key={r.slug}
-                href={p(`/vastu/${r.slug}-vastu`)}
-                className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-              >
-                {r.name}
-              </Link>
-            ))}
-          </div>
+          <RelatedCardsV2
+            className="mt-14"
+            title={`Vastu by room`}
+            items={[ROOMS.map((r) => (
+              ({ href: p(`/vastu/${r.slug}-vastu`), title: r.name, subtitle: r.guidance })
+            ))].flat(2)}
+            icon={DoorOpen}
+            columns={3}
+          />
 
+          {vastuSectorsEnabled(tenant.slug) ? (
           <div className="mt-14 rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-white p-6 sm:p-8">
             <GpEyebrow className="text-[color:var(--gp-gold-600)]">By Gurugram sector</GpEyebrow>
-            <h2 className="font-display mt-2 text-[22px] text-[color:var(--gp-ink)]">
+            <h2 className="font-display mt-2 text-[16px] text-[color:var(--gp-ink)]">
               What you can actually act on, sector by sector
             </h2>
             <p className="mt-3 max-w-2xl text-[14px] leading-relaxed text-[color:var(--gp-body)]">
@@ -124,15 +123,10 @@ export default async function VastuHubPage(props: Props) {
               Browse every sector
             </Link>
           </div>
+          ) : null}
         </GpContainer>
       </GpSection>
 
-      <ToolPropertyCtaV2
-        heading="Looking for a home that already works?"
-        blurb="Rather than remedying a layout after you buy, tell us the facing and room placements you want and we will filter Gurugram inventory to match before you visit."
-        href={p("/properties")}
-        cta="Find matching homes"
-      />
     </>
   );
 }

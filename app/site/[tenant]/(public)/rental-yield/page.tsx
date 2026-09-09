@@ -7,7 +7,6 @@ import { getTemplateKeyForSlug } from "@/lib/templates";
 import { buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
 import { formatInr } from "@/lib/format";
 import RentalYieldCalculatorV2 from "@/components/realestate/premium-v2/tools/RentalYieldCalculatorV2";
-import { ToolPropertyCtaV2 } from "@/components/realestate/premium-v2/tools/ToolSections";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
 
 interface Props {
@@ -31,6 +30,7 @@ export default async function RentalYieldHubPage(props: Props) {
   const { tenant: tenantSlug } = await props.params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  const settings = await getFirmSettings(tenant.id);
 
   const basePath = basePathFor(tenant);
   const p = (path: string) => joinPath(basePath, path);
@@ -126,12 +126,6 @@ export default async function RentalYieldHubPage(props: Props) {
         </GpSection>
       ) : null}
 
-      <ToolPropertyCtaV2
-        heading="Want the rent a specific building would actually fetch?"
-        blurb="Rent varies by floor, facing and finish far more than corridor averages suggest. An advisor can give you a realistic figure for the exact property you have in mind."
-        href={p("/properties?purpose=rent")}
-        cta="See rental inventory"
-      />
     </>
   );
 }

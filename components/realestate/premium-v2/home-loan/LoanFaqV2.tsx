@@ -32,7 +32,7 @@ export default function LoanFaqV2({ faqs, heading }: { faqs: LoanFaq[]; heading:
                     aria-expanded={isOpen}
                     className="flex w-full items-start justify-between gap-6 py-5 text-left"
                   >
-                    <span className="font-display text-[17px] text-[color:var(--gp-ink)] sm:text-[19px]">
+                    <span className="font-display text-[15px] text-[color:var(--gp-ink)] sm:text-[15px]">
                       {faq.question}
                     </span>
                     <span

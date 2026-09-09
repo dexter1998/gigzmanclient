@@ -36,6 +36,13 @@
       "when": 1788219334343,
       "tag": "0004_tan_agent_zero",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1788902943409,
+      "tag": "0005_black_the_hand",
+      "breakpoints": true
     }
   ]
 }

@@ -54,7 +54,16 @@ export const getTenantBySlug = cache(async (slug: string): Promise<Tenant | null
 });
 
 /** Link prefix for a tenant, derived from the row rather than a header. */
+/**
+ * Link prefix for a tenant. Empty on a host-mode deployment, where the
+ * client's own domain serves that client at the root — returning the
+ * `/realestate/<template>/<slug>` prefix there would point every internal
+ * link at a path that does not exist on that domain.
+ */
+const HOST_MODE = process.env.TENANT_MODE === "host";
+
 export function basePathFor(tenant: Tenant): string {
+  if (HOST_MODE) return "";
   return getTenantPath(tenant.vertical, tenant.slug);
 }
 

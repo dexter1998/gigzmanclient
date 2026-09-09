@@ -5,19 +5,18 @@ import { useRouter } from "next/navigation";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { submitQuery, type QueryFormState } from "@/lib/actions/submit-query";
 import { analytics } from "@/lib/analytics";
-import { checkPhone } from "@/lib/phone";
 import { joinPath } from "@/lib/paths";
+import { LeadIntent, PhoneField, LEAD_FIELD } from "./LeadFields";
 
 interface PremiumV2EnquiryFormProps {
   basePath: string;
   propertySlug: string;
   propertyId: string;
+  /** What the lead was looking at, e.g. "ATS Marigold, Sector 89". */
+  context?: string;
 }
 
 const INITIAL: QueryFormState = { ok: false };
-
-const FIELD =
-  "w-full min-h-[44px] rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] bg-white px-3 text-[13.5px] text-[color:var(--gp-ink)] placeholder:text-[color:var(--gp-muted)] focus:border-[color:var(--gp-forest-900)] focus:outline-none";
 
 /**
  * Same lead-capture logic as QueryForm (useActionState(submitQuery), the
@@ -31,13 +30,13 @@ export default function PremiumV2EnquiryForm({
   basePath,
   propertySlug,
   propertyId,
+  context,
 }: PremiumV2EnquiryFormProps) {
   const p = (path: string) => joinPath(basePath, path);
   const router = useRouter();
   const [state, formAction, pending] = useActionState(submitQuery, INITIAL);
   const [started, setStarted] = useState(false);
   const [phone, setPhone] = useState("");
-  const [phoneTouched, setPhoneTouched] = useState(false);
   const landingPage = useRef("");
 
   useEffect(() => {
@@ -60,12 +59,10 @@ export default function PremiumV2EnquiryForm({
   };
 
   const err = (field: string) => state.errors?.[field];
-  const livePhoneError = phoneTouched && phone.trim() ? (checkPhone(phone).error ?? null) : null;
 
   return (
     <form action={formAction} onFocus={onFirstInteraction} className="space-y-3.5" noValidate>
       <input type="hidden" name="landingPage" value={landingPage.current} />
-      <input type="hidden" name="message" value={`Enquiry about property: ${propertySlug}`} />
 
       {/* Not shown to people; catches automated submissions. */}
       <div aria-hidden="true" className="absolute h-0 w-0 overflow-hidden opacity-0">
@@ -93,34 +90,19 @@ export default function PremiumV2EnquiryForm({
           type="text"
           required
           autoComplete="name"
-          className={FIELD}
+          className={LEAD_FIELD}
         />
         {err("name") ? <p className="mt-1 text-[12px] text-[#c0392b]">{err("name")}</p> : null}
       </div>
 
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-        <div>
-          <label htmlFor="gp-enquiry-phone" className="mb-1.5 block text-[12.5px] font-medium text-[color:var(--gp-ink)]">
-            Phone
-          </label>
-          <input
-            id="gp-enquiry-phone"
-            name="phone"
-            type="tel"
-            inputMode="numeric"
-            autoComplete="tel"
-            maxLength={18}
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            onBlur={() => setPhoneTouched(true)}
-            aria-invalid={Boolean(livePhoneError || err("phone"))}
-            aria-describedby="gp-enquiry-phone-hint"
-            className={FIELD}
-          />
-          <p id="gp-enquiry-phone-hint" className="mt-1 text-[12px] text-[#c0392b]">
-            {livePhoneError || err("phone") || ""}
-          </p>
-        </div>
+        <PhoneField
+          id="gp-enquiry-phone"
+          required
+          value={phone}
+          onChange={setPhone}
+          serverError={err("phone")}
+        />
         <div>
           <label htmlFor="gp-enquiry-email" className="mb-1.5 block text-[12.5px] font-medium text-[color:var(--gp-ink)]">
             Email
@@ -131,26 +113,13 @@ export default function PremiumV2EnquiryForm({
             type="email"
             inputMode="email"
             autoComplete="email"
-            className={FIELD}
+            className={LEAD_FIELD}
           />
           {err("email") ? <p className="mt-1 text-[12px] text-[#c0392b]">{err("email")}</p> : null}
         </div>
       </div>
-      <p className="-mt-1.5 text-[11.5px] text-[color:var(--gp-muted)]">
-        Provide at least one of phone or email so the team can respond.
-      </p>
 
-      <div>
-        <label htmlFor="gp-enquiry-preferred" className="mb-1.5 block text-[12.5px] font-medium text-[color:var(--gp-ink)]">
-          Preferred contact method
-        </label>
-        <select id="gp-enquiry-preferred" name="preferredContact" defaultValue="" className={FIELD}>
-          <option value="">No preference</option>
-          <option value="phone">Phone</option>
-          <option value="whatsapp">WhatsApp</option>
-          <option value="email">Email</option>
-        </select>
-      </div>
+      <LeadIntent idPrefix="gp-enquiry" context={context ?? propertySlug} defaultInterest="site_visit" />
 
       <div className="space-y-2.5 border-t border-[color:var(--gp-border)] pt-3.5">
         <label htmlFor="gp-enquiry-consent" className="flex gap-2.5">

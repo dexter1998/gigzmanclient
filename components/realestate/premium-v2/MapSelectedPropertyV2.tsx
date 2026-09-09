@@ -175,7 +175,7 @@ export default function MapSelectedPropertyV2({
               <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">
                 {PROPERTY_TYPE_LABELS[selected.propertyType] ?? selected.propertyType}
               </p>
-              <h3 className="font-display mt-1.5 text-[22px] text-[color:var(--gp-ink)]">
+              <h3 className="font-display mt-1.5 text-[16px] text-[color:var(--gp-ink)]">
                 {selected.title}
               </h3>
               <p className="mt-1 text-[13px] text-[color:var(--gp-muted)]">

@@ -291,6 +291,7 @@ async function main() {
         // _status block. A property with no RERA number renders the visible
         // "Registration pending" state on PropertyCard rather than hiding it.
         reraNumber: prop.rera_number || null,
+        videoUrl: prop.video_url || null,
         description: prop.description ?? null,
         amenities: prop.amenities ?? [],
         specs: prop.specs ?? {},
@@ -311,15 +312,20 @@ async function main() {
 
       if (Array.isArray(prop.images) && (force || (await db.select().from(propertyImages).where(eq(propertyImages.propertyId, row.id))).length === 0)) {
         await db.delete(propertyImages).where(eq(propertyImages.propertyId, row.id));
-        await db.insert(propertyImages).values(
-          prop.images.map((img: any, j: number) => ({
-            propertyId: row.id,
-            path: img.path,
-            alt: img.alt ?? null,
-            isPrimary: img.is_primary ?? j === 0,
-            sortOrder: j,
-          })),
-        );
+        // A listing can legitimately carry no photography — HRERA-sourced
+        // projects only have images where the developer publishes them — and
+        // drizzle rejects an empty values() call.
+        if (prop.images.length > 0) {
+          await db.insert(propertyImages).values(
+            prop.images.map((img: any, j: number) => ({
+              propertyId: row.id,
+              path: img.path,
+              alt: img.alt ?? null,
+              isPrimary: img.is_primary ?? j === 0,
+              sortOrder: j,
+            })),
+          );
+        }
       }
     }
     console.log(`props    ${propertiesDoc.properties.length}`);

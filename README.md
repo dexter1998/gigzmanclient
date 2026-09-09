@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gigzman Client Sites
 
-## Getting Started
+Multi-tenant Next.js platform serving several real-estate client websites from
+one codebase. Each client is a "tenant" with its own content, brand and, where
+it has one, its own domain.
 
-First, run the development server:
+## Running it on a fresh machine
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+cp .env.example .env.local     # then fill in the values below
+createdb gigzman_client_sites  # or point DATABASE_URL at an existing one
+pnpm db:migrate
+pnpm seed:client high-properties
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+`.env.local` is not in the repo. It needs:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | What |
+|---|---|
+| `DATABASE_URL` | Postgres connection string |
+| `AUTH_SECRET` | Dashboard session signing key — `openssl rand -base64 32` |
+| `TENANT_MODE` | `path` for the shared deployment, `host` for a client's own domain |
+| `PLATFORM_ADMIN_EMAIL` / `PLATFORM_ADMIN_PASSWORD_HASH` | Gate on the template-library pages |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+With `TENANT_MODE=path`, a tenant is served at
+`/{vertical}/{template}/{client-slug}` — e.g.
+`/realestate/temp-premium-v2/high-properties`.
 
-## Learn More
+## Tenants
 
-To learn more about Next.js, take a look at the following resources:
+| Slug | Template | Notes |
+|---|---|---|
+| `high-properties` | premium-v2 | Live client, own domain |
+| `evergreen-real-estate` | premium-v2 | Farm houses, Sohna belt |
+| `expert-realtors` | premium-v2 | |
+| `nayra-realtors`, `urban-flat-real-estate` | premium-v2 | |
+| `arora-k-associates` | CA vertical | |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Add one by dropping a folder under `clients/`, registering the slug in
+`lib/templates/index.ts`, and running `pnpm seed:client <slug>`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Content scripts
 
-## Deploy on Vercel
+| Command | What |
+|---|---|
+| `pnpm seed:client <slug> [--force]` | Load a client's YAML into the database |
+| `pnpm check:content <slug>` | Placeholder / pending checklist before delivery |
+| `pnpm tsx --env-file=.env.local scripts/prune-client-content.ts <slug>` | Delete rows whose slug has left the YAML — `seed --force` overwrites but never deletes |
+| `node scripts/import-farmhouses.mjs` | Rebuild Evergreen's listings from `source-data/` |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## source-data/
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Inputs the content was built from, vendored so the import scripts run on any
+checkout rather than depending on one laptop's Downloads folder.
+
+| Folder | What |
+|---|---|
+| `99acres-farmhouse-gurgaon/` | 442 scraped farm-house listings (JSON + CSV + facets) |
+| `gurgaon-farmhouses-realistic-hd/` | 30 generated farmhouse photographs used on Evergreen's listings |
+| `highproperties-hostinger/` | The client's previous static site — source of the services and documentation copy |
+| `high-properties-property-management-page/` | Design pack for `/property-management` |
+| `high-properties-property-management-section/` | Design pack for the home-page section |
+
+**Deliberately not included:** the 99acres scrape's own `videos/` (6.0 GB) and
+`images/` (135 MB). Neither is used — video tours are embedded from the
+listings' YouTube URLs, and the scraped photographs were unusable (half under
+400px wide, no larger variant published by the CDN). If they are ever needed
+again they have to come from the original scrape, not from here.
+
+## Content status
+
+Several tenants carry seed content rather than deliverable content, marked
+`_status: placeholder` in their YAML and listed by `pnpm check:content`. Two
+things in particular need replacing before any of it is promoted:
+
+- **Evergreen's listings** are other dealers' listings as published on
+  99acres, and their photographs are generated images, not photographs of the
+  properties described. The detail page carries an illustrative-image notice.
+- **Testimonials** on the property-management page use design-pack people and
+  invented quotes, not consented customer testimonials.

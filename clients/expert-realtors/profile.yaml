@@ -1,0 +1,111 @@
+# Client seed data — Expert Realtors (Premium V2 template)
+#
+# NAP below is read from the client's own Google Business Profile
+# (place_id ChIJd5LWYwAXDTkRSGSOBlRQUb4), rendered in a real browser since
+# the listing is client-side only. Verified from that listing: name, category
+# ("Real estate agent"), rating 4.9, address, phone, plus-code and
+# coordinates. The signed-out listing exposes no website, no email and no
+# opening hours at all, so those stay empty or placeholder rather than being
+# invented — see `_status` at the bottom.
+#
+# Loaded into the database by `pnpm seed:client expert-realtors`.
+# Run `pnpm check:content expert-realtors` for the placeholder checklist.
+
+slug: expert-realtors
+vertical: realestate
+display_name: Expert Realtors
+is_demo: false
+
+firm:
+  name: Expert Realtors
+  tagline: ""
+  overview: >-
+    Expert Realtors is a Gurugram-based property firm working with buyers,
+    tenants and investors on residential and commercial property across the
+    city. Every listing is reviewed before it goes live, and RERA
+    registration status is shown plainly on every property.
+  established_year: ""
+  firm_registration_number: ""
+  business_category: Real Estate Agent
+  logo_url: /verticals/realestate/templates/premium-v2/brand/expert-realtors-logo.png
+
+# Verified from the client's Google Business Profile. `email` stays empty —
+# the listing publishes no email address, and the contact page/footer hide
+# that row when it is blank. WhatsApp intentionally mirrors the listed phone.
+contact:
+  phone: "078382 83908"
+  whatsapp: "078382 83908"
+  email: ""
+  address_line: "21-P, Sector 10A"
+  locality: "Gurugram"
+  region: Haryana
+  postal_code: "122001"
+  country: India
+  latitude: "28.4407705"
+  longitude: "77.0032612"
+  google_maps_url: "https://www.google.com/maps/search/?api=1&query=Expert%20Realtors&query_place_id=ChIJd5LWYwAXDTkRSGSOBlRQUb4"
+
+# The listing exposes no hours at all in the signed-out view — not even the
+# current day — so this is a plain office-hours assumption pending the
+# client's confirmation. See `_status.opening_hours`.
+opening_hours:
+  - { day: Monday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Tuesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Wednesday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Thursday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Friday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Saturday, opens: "10:00", closes: "19:00", closed: false }
+  - { day: Sunday, opens: "10:00", closes: "19:00", closed: true }
+
+social_links: {}
+
+seo:
+  title: Expert Realtors — Buy, Sell & Rent Property in Gurugram
+  description: >-
+    Residential and commercial property in Gurugram — buying, selling and
+    renting, with locality market intelligence and buyer calculators.
+
+analytics:
+  ga4_measurement_id: ""
+  search_console_verification: ""
+
+features:
+  reviews: true
+  pricing: true
+  awards: false
+  client_logos: false
+  team: false
+
+team: []
+
+notification_email: ""
+
+_status:
+  slug: verified
+  display_name: verified
+  firm.name: verified
+  firm.business_category: verified
+  firm.logo_url: verified
+  firm.tagline: pending
+  firm.overview: placeholder
+  firm.established_year: pending
+  firm.firm_registration_number: pending
+  contact.phone: verified
+  contact.whatsapp: placeholder
+  contact.email: pending
+  contact.address_line: verified
+  contact.locality: verified
+  contact.region: verified
+  contact.postal_code: verified
+  contact.country: verified
+  contact.google_maps_url: verified
+  contact.latitude: verified
+  contact.longitude: verified
+  opening_hours: placeholder
+  social_links: pending
+  seo.title: placeholder
+  seo.description: placeholder
+  analytics.ga4_measurement_id: pending
+  analytics.search_console_verification: pending
+  team: pending
+  notification_email: pending

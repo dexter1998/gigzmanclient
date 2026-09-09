@@ -20,16 +20,46 @@ export const realestate: VerticalConfig = {
   // Commercial/New Launches read as distinct nav items but are really
   // `/properties` filtered by purpose/type/status via query params — no new
   // routes needed, PropertyFilters already drives off the same params.
-  // "Insights" and "About" are the public-facing labels; the routes
-  // underneath (`/updates`, `/firm-profile`) are the same physical,
-  // vertical-agnostic route folders the CA vertical uses.
+  // "About" is the public-facing label for `/firm-profile`. Market updates
+  // still ship at `/updates` and are linked from the footer — they were pulled
+  // out of the top nav to make room for Sectors and Builders.
   nav: [
-    { label: "Buy", path: "/properties?purpose=buy" },
-    { label: "Rent", path: "/properties?purpose=rent" },
-    { label: "Commercial", path: "/properties?type=commercial" },
-    { label: "New Launches", path: "/properties?status=new_launch" },
-    { label: "Localities", path: "/localities" },
-    { label: "Market Insights", path: "/updates" },
+    // Everything that is a cut of the same inventory sits behind one menu:
+    // eight sibling links read as a toolbar, and Sectors/Builders had pushed
+    // the bar to wrapping at 1440px. Buy/Rent/Commercial/Properties are
+    // `/properties` filtered by query param — PropertyFilters already drives
+    // off the same params, so no extra routes. Sectors and Builders are real
+    // routes, each entry beneath them its own indexable page.
+    {
+      label: "Explore Properties",
+      path: "/properties",
+      children: [
+        { label: "Buy", path: "/properties?purpose=buy", icon: "Home" },
+        { label: "Rent", path: "/properties?purpose=rent", icon: "KeyRound" },
+        { label: "Commercial", path: "/properties?type=commercial", icon: "Store" },
+        { label: "Properties", path: "/properties?status=new_launch", icon: "Sparkles", badge: "New" },
+        { label: "Sectors", path: "/sectors", icon: "Map" },
+        { label: "Builders & Developers", path: "/builders", icon: "Building2" },
+      ],
+    },
+    // The service lines get their own menu rather than a single link: they
+    // are what the firm sells, and each entry is a different page (or a
+    // different filtered cut of the inventory), so burying them one level
+    // deeper than the property filters would be the wrong way round.
+    {
+      label: "Services",
+      path: "/#services",
+      children: [
+        { label: "Residential", path: "/properties?purpose=buy", icon: "Home" },
+        { label: "Commercial", path: "/properties?type=commercial", icon: "Building2" },
+        { label: "Industrial", path: "/properties?type=industrial", icon: "Factory" },
+        { label: "Property Management", path: "/property-management", icon: "ClipboardCheck" },
+        { label: "Construction & Vastu", path: "/#construction", icon: "HardHat" },
+        { label: "Home Loans", path: "/calculators/emi", icon: "Landmark" },
+        { label: "A–Z Documentation", path: "/#documentation", icon: "FileText" },
+      ],
+    },
+    { label: "Maps", path: "/maps/gurgaon" },
     { label: "About", path: "/firm-profile" },
   ],
 
@@ -43,6 +73,7 @@ export const realestate: VerticalConfig = {
     ],
     resourceLinks: [
       { label: "Market Insights", path: "/updates" },
+      { label: "Plot Maps", path: "/maps/gurgaon" },
       { label: "Calculators", path: "/calculators" },
     ],
     externalLinks: [

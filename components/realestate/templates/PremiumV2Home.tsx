@@ -9,6 +9,8 @@ import {
 import HeroV2 from "../premium-v2/HeroV2";
 import ImageStripV2 from "../premium-v2/ImageStripV2";
 import ServicesMosaicV2 from "../premium-v2/ServicesMosaicV2";
+import DocumentationV2 from "../premium-v2/DocumentationV2";
+import ConstructionVastuV2 from "../premium-v2/ConstructionVastuV2";
 import NewLaunchesV2 from "../premium-v2/NewLaunchesV2";
 import CorridorPanoramaV2 from "../premium-v2/CorridorPanoramaV2";
 import HotPropertiesGridV2 from "../premium-v2/HotPropertiesGridV2";
@@ -16,13 +18,21 @@ import ShortlistCtaV2 from "../premium-v2/ShortlistCtaV2";
 import DeveloperRibbonV2 from "../premium-v2/DeveloperRibbonV2";
 import AdvisorsV2 from "../premium-v2/AdvisorsV2";
 import MarketIntelligenceV2 from "../premium-v2/MarketIntelligenceV2";
-import MapSelectedPropertyV2 from "../premium-v2/MapSelectedPropertyV2";
 import CalculatorsV2 from "../premium-v2/CalculatorsV2";
 import RecentDealsV2 from "../premium-v2/RecentDealsV2";
 import VideoTestimonialsV2 from "../premium-v2/VideoTestimonialsV2";
-import ConsultationCtaV2 from "../premium-v2/ConsultationCtaV2";
 import FaqV2 from "../premium-v2/FaqV2";
 import MapEmbedV2 from "../premium-v2/MapEmbedV2";
+import MapSelectedPropertyV2 from "../premium-v2/MapSelectedPropertyV2";
+import MapsCarouselV2 from "../premium-v2/maps/MapsCarouselV2";
+import PropertyManagementV2 from "../premium-v2/PropertyManagementV2";
+import {
+  propertyMapSectionEnabled,
+  propertyManagementSectionEnabled,
+} from "@/lib/premium-v2/home-sections";
+import { toolHrefsFor } from "@/lib/premium-v2/tools";
+import { heroCopyFor } from "@/lib/premium-v2/positioning";
+import { serviceLinesFor } from "@/lib/premium-v2/services";
 
 const HERO_IMAGE = "/verticals/realestate/templates/premium-v2/images/hero-curated-inventory-v2.png";
 
@@ -78,10 +88,48 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
     midCandidates[1] ?? allProperties[3],
   ];
 
+  // Trust-row figures counted from this client's own inventory rather than
+  // asserted, so they cannot drift from what the listings actually show. A
+  // `claim` stat keeps whatever value the positioning file states — those are
+  // the client's assertions (years in business, families placed), which no
+  // query can verify.
+  const heroCopy = heroCopyFor(tenant.slug, settings.firmName);
+  const medianOf = (values: number[]) => {
+    const sorted = values.filter((n) => Number.isFinite(n) && n > 0).sort((a, b) => a - b);
+    return sorted.length ? sorted[Math.floor(sorted.length / 2)] : null;
+  };
+  const medianPlot = medianOf(allProperties.map((row) => Number(row.area)));
+  const medianPrice = medianOf(allProperties.map((row) => Number(row.price)));
+
+  const heroStats = heroCopy.stats.map((stat) => {
+    const value =
+      stat.kind === "claim"
+        ? (stat.value ?? "—")
+        : stat.kind === "listings"
+          ? allProperties.length.toLocaleString("en-IN")
+          : stat.kind === "corridors"
+            ? // The corridors the site actually publishes a page for, not every
+              // distinct locality string in the inventory — a scraped feed
+              // carries dozens of those and the number stops meaning anything.
+              String(localities.length)
+            : stat.kind === "medianPlot"
+              ? medianPlot
+                ? `${(medianPlot / 43560).toFixed(2).replace(/\.00$/, "")} acre`
+                : "—"
+              : medianPrice
+                ? `₹${(medianPrice / 1e7).toFixed(1)} Cr`
+                : "—";
+    return { label: stat.label, value, icon: stat.icon };
+  });
+
   const advisorName = team[0]?.name ?? settings.firmName;
   const fullAddress = [settings.addressLine, settings.locality, settings.region, settings.postalCode]
     .filter(Boolean)
     .join(", ");
+  // Exact pin from the client's listing; see MapEmbedV2 on why the address
+  // string alone is not enough.
+  const mapCoordinates =
+    settings.latitude && settings.longitude ? `${settings.latitude},${settings.longitude}` : null;
 
   if (!flagship || !tallProperty || !midProperties[0] || !midProperties[1]) {
     // Not enough seeded inventory to build the asymmetric grid — skip it
@@ -92,9 +140,16 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
 
   return (
     <>
-      <HeroV2 basePath={basePath} heroImageSrc={HERO_IMAGE} firmName={settings.firmName} />
+      <HeroV2
+        basePath={basePath}
+        heroImageSrc={HERO_IMAGE}
+        firmName={settings.firmName}
+        copy={heroCopy}
+        stats={heroStats}
+      />
       <ImageStripV2 basePath={basePath} />
-      <ServicesMosaicV2 p={p} />
+      <ServicesMosaicV2 p={p} services={serviceLinesFor(tenant.slug)} />
+      <DocumentationV2 p={p} phone={settings.phone} />
       <NewLaunchesV2 properties={newlyLaunched} imageMap={imageMap} p={p} />
       <CorridorPanoramaV2 localities={localities} basePath={basePath} />
       <HotPropertiesGridV2
@@ -108,21 +163,42 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
       <DeveloperRibbonV2 p={p} />
       <AdvisorsV2 phone={settings.phone} whatsapp={settings.whatsapp} />
       <MarketIntelligenceV2 localities={localities} basePath={basePath} />
-      <MapSelectedPropertyV2
-        properties={allProperties.slice(0, 8)}
-        imageMap={imageMap}
-        basePath={basePath}
-        googleMapsUrl={settings.googleMapsUrl}
+      {propertyMapSectionEnabled(tenant.slug) ? (
+        <MapSelectedPropertyV2
+          properties={allProperties.slice(0, 8)}
+          imageMap={imageMap}
+          basePath={basePath}
+          googleMapsUrl={settings.googleMapsUrl}
+        />
+      ) : null}
+      <MapsCarouselV2 basePath={basePath} />
+      <CalculatorsV2
+        contactHref={p("/contact")}
+        advisorName={advisorName}
+        tools={toolHrefsFor(tenant.slug, basePath)}
       />
-      <CalculatorsV2 contactHref={p("/contact")} advisorName={advisorName} />
+      <ConstructionVastuV2 p={p} />
       <RecentDealsV2 p={p} />
       <VideoTestimonialsV2 />
+      {/* Between the owner stories and the FAQ: it reads as the answer to what
+          the stories just showed, and it is a pitch rather than a reference
+          section, so it belongs ahead of the FAQ rather than after it. */}
+      {propertyManagementSectionEnabled(tenant.slug) ? (
+        <PropertyManagementV2
+          firmName={settings.firmName}
+          contactHref={p("/contact")}
+          servicesHref={p("/property-management")}
+        />
+      ) : null}
       <FaqV2
         asideContent={
-          fullAddress ? <MapEmbedV2 address={fullAddress} className="aspect-[4/3] w-full" /> : undefined
+          fullAddress ? <MapEmbedV2
+              address={fullAddress}
+              coordinates={mapCoordinates}
+              className="aspect-[4/3] w-full"
+            /> : undefined
         }
       />
-      <ConsultationCtaV2 phone={settings.phone} />
     </>
   );
 }

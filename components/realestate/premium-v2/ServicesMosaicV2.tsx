@@ -1,78 +1,97 @@
-import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight, Building2, Factory, FileText, HardHat, Home, Landmark, Sofa, Sprout, Trees, TrendingUp } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { Home, Tag, Key, TrendingUp, Trees, Store, MapPin, Building, Landmark } from "lucide-react";
-import { GpContainer, GpEyebrow, GpSection } from "./gp-primitives";
+import { GpContainer, GpSection, GpEyebrow } from "./gp-primitives";
+import type { ServiceLine } from "@/lib/premium-v2/services";
 
 interface ServicesMosaicV2Props {
   p: (path: string) => string;
+  /** Which set of service lines this client sells — see serviceLinesFor(). */
+  services: ServiceLine[];
 }
 
-const BASE = "/verticals/realestate/templates/premium-v2/images";
+/**
+ * The service lines, as icon cards.
+ *
+ * This used to be a photo mosaic — nine tiles carrying nothing but a one-word
+ * label over stock imagery, which said what the category was called but not
+ * what the firm actually does in it. The copy here is the client's own, from
+ * their previous site, and each card now carries the sentence that was
+ * missing.
+ */
+const ICONS: Record<string, LucideIcon> = {
+  residential: Home,
+  farmhouses: Trees,
+  farmland: Sprout,
+  "weekend-homes": Home,
+  "land-papers": FileText,
+  "farm-development": HardHat,
+  investment: TrendingUp,
+  commercial: Building2,
+  industrial: Factory,
+  construction: HardHat,
+  loans: Landmark,
+  interiors: Sofa,
+};
 
-interface ServiceTile {
-  icon: LucideIcon;
-  label: string;
-  src: string;
-  alt: string;
-  href: string;
-}
-
-// One flat 3x3 grid — the 4 transaction types and the 5 property types both
-// resolve to the same /properties search, so they read as one consistent
-// "how can we help" set rather than a primary/secondary split.
-const SERVICES: ServiceTile[] = [
-  { icon: Home, label: "Buy", src: `${BASE}/hero-curated-inventory.png`, alt: "Curated residential inventory", href: "/properties?purpose=buy" },
-  { icon: Tag, label: "Sell", src: `${BASE}/personalised-recommendation.png`, alt: "Advisor presenting a sale recommendation", href: "/contact?intent=sell" },
-  { icon: Key, label: "Lease", src: `${BASE}/hero-luxury-advisory.png`, alt: "Advisors discussing a leasing plan", href: "/properties?purpose=rent" },
-  { icon: TrendingUp, label: "Invest", src: `${BASE}/hero-market-intelligence.png`, alt: "Gurugram skyline at night", href: "/properties?type=commercial" },
-  { icon: Trees, label: "Villas", src: `${BASE}/project-lowrise-villas.png`, alt: "Villa community", href: "/properties?type=villa" },
-  { icon: Store, label: "Shops", src: `${BASE}/project-commercial-retail.png`, alt: "Retail shops", href: "/properties?type=sco" },
-  { icon: MapPin, label: "Plots", src: `${BASE}/corridor-southern-peripheral-road.png`, alt: "Open plots along a corridor", href: "/properties?type=plot" },
-  { icon: Building, label: "Builder Floors", src: `${BASE}/project-family-residential.png`, alt: "Builder floor residential project", href: "/properties?type=builder_floor" },
-  { icon: Landmark, label: "Commercial", src: `${BASE}/due-diligence.webp`, alt: "Commercial due-diligence review", href: "/properties?type=commercial" },
-];
-
-export default function ServicesMosaicV2({ p }: ServicesMosaicV2Props) {
+export default function ServicesMosaicV2({ p, services }: ServicesMosaicV2Props) {
   return (
-    <GpSection tone="forest">
+    <GpSection tone="forest" id="services">
       <GpContainer>
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <GpEyebrow>Services</GpEyebrow>
-            <h2 className="gp-section-title font-display mt-2 text-white">
-              Expert help across every real-estate decision
-            </h2>
-            <p className="mt-2 max-w-md text-[14px] text-white/65">
-              Clear advice, verified inventory and local execution.
-            </p>
-          </div>
+        <div className="max-w-2xl">
+          <span className="mb-5 block h-px w-12 bg-[color:var(--gp-gold-600)]" aria-hidden="true" />
+          <GpEyebrow className="text-[color:var(--gp-gold-300)]">What we offer</GpEyebrow>
+          <h2 className="gp-section-title font-display mt-3 text-white">
+            Complete real-estate solutions under one roof.
+          </h2>
+          <p className="mt-4 text-[14.5px] leading-relaxed text-white/70">
+            From buying your dream home to constructing commercial spaces — we handle every step
+            with expertise and care.
+          </p>
         </div>
 
-        <div className="mt-9 grid grid-cols-2 gap-4 sm:grid-cols-3">
-          {SERVICES.map((service) => {
-            const Icon = service.icon;
+        <div className="mt-11 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {services.map((service) => {
+            const Icon = ICONS[service.key] ?? Home;
+            // In-page anchors stay as plain anchors: `next/link` would push a
+            // history entry for a jump inside the same document.
+            const isAnchor = service.href.startsWith("#");
+            const href = isAnchor ? service.href : p(service.href);
+            const Tag = isAnchor ? "a" : Link;
+
             return (
-              <Link
-                key={service.label}
-                href={p(service.href)}
-                className="group relative aspect-square overflow-hidden rounded-[var(--gp-radius-md)] sm:aspect-[4/3]"
+              <Tag
+                key={service.key}
+                href={href}
+                className="group flex flex-col rounded-[var(--gp-radius-lg)] border border-white/12 bg-white/[0.04] p-6 transition-colors hover:border-[color:var(--gp-gold-600)]/50 hover:bg-white/[0.07]"
               >
-                <Image
-                  src={service.src}
-                  alt={service.alt}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-[1.04]"
-                />
-                <div className="absolute inset-0" style={{ background: "var(--gp-gradient-card)" }} />
-                <div className="absolute inset-x-0 bottom-0 flex items-center gap-2.5 p-4 sm:p-5">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[color:var(--gp-gold-600)]">
-                    <Icon className="h-4 w-4 text-[color:var(--gp-forest-950)]" aria-hidden="true" />
-                  </span>
-                  <p className="gp-overlay-title font-display text-white">{service.label}</p>
-                </div>
-              </Link>
+                <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--gp-gold-600)]/15 text-[color:var(--gp-gold-300)]">
+                  <Icon className="h-5 w-5" aria-hidden="true" />
+                </span>
+
+                <h3 className="font-display mt-5 flex items-start justify-between gap-3 text-[19px] leading-snug text-white">
+                  {service.title}
+                  <ArrowUpRight
+                    className="mt-1 h-4 w-4 shrink-0 text-white/35 transition-colors group-hover:text-[color:var(--gp-gold-300)]"
+                    aria-hidden="true"
+                  />
+                </h3>
+
+                <p className="mt-2.5 flex-1 text-[13.5px] leading-relaxed text-white/65">
+                  {service.blurb}
+                </p>
+
+                <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-1.5 border-t border-white/10 pt-4">
+                  {service.tags.map((tag) => (
+                    <li
+                      key={tag}
+                      className="text-[11px] font-semibold uppercase tracking-[0.09em] text-[color:var(--gp-gold-300)]"
+                    >
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
+              </Tag>
             );
           })}
         </div>

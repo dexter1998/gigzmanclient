@@ -1,47 +1,66 @@
-import { Suspense } from "react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import PropertyFiltersV2 from "./PropertyFiltersV2";
-import MobileFilterDrawerV2 from "./MobileFilterDrawerV2";
-import PropertyResultsV2 from "./PropertyResultsV2";
-import { GpContainer } from "./gp-primitives";
+import InventoryHubV2, { type HubScope } from "./InventoryHubV2";
 import { basePathFor, joinPath, type Tenant } from "@/lib/tenant";
 import { getFirmSettings, getProperties, getPropertyImagesFor, getPropertyLocalityFacets } from "@/lib/content";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, jsonLdProps } from "@/lib/schema-org";
+import {
+  withStats,
+  facetsFor,
+  developerSlug,
+  sectorSlug,
+  type ListingRow,
+} from "@/lib/register";
+import { formatNumber } from "@/lib/format";
 
 /**
- * Deliberately reads no `searchParams`. Doing so on the server marks the whole
- * route dynamic, which is what left this page — the highest-intent page on the
- * site — rendering on demand while every other page was served from the CDN.
- * The full active inventory is prerendered here and PropertyResultsV2 narrows
- * it in the browser from the same URL params the filters already write.
+ * Every cut of the inventory — the whole register, one sector, one developer —
+ * is this page with a different `scope`. Each has its own route so it can be
+ * crawled and ranked on its own terms; the layout and the data loading are
+ * shared so there is one place to change how inventory reads.
+ *
+ * Deliberately reads no `searchParams`. Doing so on the server marks the route
+ * dynamic, which is what left this page — the highest-intent page on the site —
+ * rendering on demand while every other page was served from the CDN. The cut
+ * is prerendered here and PropertyResultsV2 narrows it in the browser from the
+ * same URL params the filters already write.
  */
-export default async function PremiumV2PropertiesPage({ tenant }: { tenant: Tenant }) {
+export default async function PremiumV2PropertiesPage({
+  tenant,
+  scope = { kind: "all" },
+}: {
+  tenant: Tenant;
+  scope?: HubScope;
+}) {
   const basePath = basePathFor(tenant);
   const p = (path: string) => joinPath(basePath, path);
 
-  const [settings, allProperties, localityFacets] = await Promise.all([
+  const [settings, inventory, localityFacets] = await Promise.all([
     getFirmSettings(tenant.id),
     getProperties(tenant.id),
     getPropertyLocalityFacets(tenant.id),
   ]);
-
   if (!settings) notFound();
 
-  const imagesByProperty = await getPropertyImagesFor(allProperties.map((item) => item.id));
+  // `withStats` parses the numbers each cut needs out of the filing and drops
+  // `description`/`specs` — on a register-sourced inventory those two columns
+  // alone are ~1.6 MB of client payload, enough to stall hydration.
+  const everything = withStats(inventory);
+  const rows = filterForScope(everything, scope);
+  if (rows.length === 0) notFound();
+
+  const imagesByProperty = await getPropertyImagesFor(rows.map((item) => item.id));
   const imageMap = Object.fromEntries(
-    allProperties.map((property) => {
+    rows.map((property) => {
       const images = imagesByProperty[property.id] ?? [];
       const primary = images.find((img) => img.isPrimary) ?? images[0] ?? null;
       return [property.id, primary ? { path: primary.path, alt: primary.alt } : undefined] as const;
     }),
   );
 
-  // The ItemList now covers the whole inventory rather than one filtered page
-  // of it, which is both more useful to a crawler and no longer dependent on
-  // request-time state.
+  const { eyebrow, heading, summary, crumbs, path } = copyFor(scope, rows, p);
+
   const itemListJsonLd = buildItemListJsonLd(
-    allProperties.map((property) => ({
+    rows.map((property) => ({
       name: property.title,
       url: p(`/properties/${property.slug}`),
       image: imageMap[property.id]?.path ?? null,
@@ -52,69 +71,100 @@ export default async function PremiumV2PropertiesPage({ tenant }: { tenant: Tena
     <>
       <script
         {...jsonLdProps(
-          buildBreadcrumbJsonLd([
-            { name: "Home", url: p("/") },
-            { name: "Properties", url: p("/properties") },
-          ]),
+          buildBreadcrumbJsonLd(
+            crumbs.map((c) => ({ name: c.name, url: c.href ?? p(path) })),
+          ),
         )}
       />
-      {allProperties.length > 0 ? <script {...jsonLdProps(itemListJsonLd)} /> : null}
+      {rows.length > 0 ? <script {...jsonLdProps(itemListJsonLd)} /> : null}
 
-      <div className="gp-section bg-[color:var(--gp-cream-100)]">
-        <GpContainer>
-          <nav aria-label="Breadcrumb" className="mb-4 text-[12px] text-[color:var(--gp-muted)]">
-            <Link href={p("/")} className="inline-block py-1 hover:text-[color:var(--gp-gold-600)]">
-              Home
-            </Link>
-            <span className="mx-1.5">/</span>
-            <span>Properties</span>
-          </nav>
-
-          <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">Inventory</p>
-          <h1 className="gp-section-title mt-2 text-[color:var(--gp-ink)]">
-            Properties matched to your requirement.
-          </h1>
-          <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-[color:var(--gp-body)]">
-            Filter by purpose, type, locality, budget and configuration. RERA status is shown
-            plainly on every listing.
-          </p>
-
-          <div className="mt-6">
-            <MobileFilterDrawerV2>
-              <Suspense fallback={null}>
-                <PropertyFiltersV2 localities={localityFacets} />
-              </Suspense>
-            </MobileFilterDrawerV2>
-          </div>
-
-          <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr]">
-            <aside className="hidden lg:block lg:sticky lg:top-28 lg:self-start">
-              <Suspense fallback={null}>
-                <PropertyFiltersV2 localities={localityFacets} />
-              </Suspense>
-            </aside>
-
-            <Suspense
-              fallback={
-                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
-                  {Array.from({ length: 6 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="aspect-[4/3] animate-pulse rounded-[var(--gp-radius-md)] bg-[color:var(--gp-cream-200)]"
-                    />
-                  ))}
-                </div>
-              }
-            >
-              <PropertyResultsV2
-                allProperties={allProperties}
-                imageMap={imageMap}
-                propertiesPath={p("/properties")}
-              />
-            </Suspense>
-          </div>
-        </GpContainer>
-      </div>
+      <InventoryHubV2
+        scope={scope}
+        rows={rows}
+        everything={everything}
+        imageMap={imageMap}
+        localityFacets={localityFacets}
+        basePath={basePath}
+        crumbs={crumbs}
+        eyebrow={eyebrow}
+        heading={heading}
+        summary={summary}
+      />
     </>
   );
+}
+
+function filterForScope(rows: ListingRow[], scope: HubScope): ListingRow[] {
+  if (scope.kind === "sector") return rows.filter((r) => r.sector && sectorSlug(r.sector) === sectorSlug(scope.sector));
+  if (scope.kind === "developer")
+    return rows.filter((r) => r.developer && developerSlug(r.developer) === developerSlug(scope.developer));
+  if (scope.kind === "locality") return rows.filter((r) => r.locality === scope.locality);
+  return rows;
+}
+
+/**
+ * Headings and the summary line are written from the cut's own numbers, so a
+ * sector page reads as a report on that sector rather than a filtered list.
+ */
+export function copyFor(
+  scope: HubScope,
+  rows: ListingRow[],
+  p: (path: string) => string,
+): { eyebrow: string; heading: string; summary: string; crumbs: { name: string; href?: string }[]; path: string } {
+  const f = facetsFor(rows);
+  const n = (v: number) => formatNumber(v);
+  const overdue = f.delayed
+    ? ` ${f.delayed} of them ${f.delayed === 1 ? "is" : "are"} past the completion date their promoter filed.`
+    : "";
+  const stock = f.unsold ? ` Of the ${n(f.units)} units declared, ${n(f.unsold)} were unsold at last filing.` : "";
+
+  if (scope.kind === "sector") {
+    const label = `Sector ${scope.sector}`;
+    return {
+      eyebrow: "Sector record · Gurugram, Haryana",
+      heading: `Property in ${label}, Gurgaon`,
+      summary:
+        `${n(f.projects)} RERA-registered ${f.projects === 1 ? "project" : "projects"} from ${n(f.developers)} ` +
+        `${f.developers === 1 ? "developer" : "developers"}${f.acres ? ` across ${n(f.acres)} acres` : ""}.` +
+        stock +
+        overdue,
+      crumbs: [
+        { name: "Home", href: p("/") },
+        { name: "Sectors", href: p("/sectors") },
+        { name: label },
+      ],
+      path: `/sectors/${sectorSlug(scope.sector)}`,
+    };
+  }
+
+  if (scope.kind === "developer") {
+    return {
+      eyebrow: "Developer record · Gurugram, Haryana",
+      heading: scope.developer,
+      summary:
+        `${n(f.projects)} registered ${f.projects === 1 ? "project" : "projects"} on the HRERA Gurugram register` +
+        `${f.bySector.length ? ` across ${f.bySector.length} ${f.bySector.length === 1 ? "sector" : "sectors"}` : ""}` +
+        `${f.acres ? ` and ${n(f.acres)} acres` : ""}.` +
+        stock +
+        overdue,
+      crumbs: [
+        { name: "Home", href: p("/") },
+        { name: "Builders", href: p("/builders") },
+        { name: scope.developer },
+      ],
+      path: `/builders/${developerSlug(scope.developer)}`,
+    };
+  }
+
+  return {
+    eyebrow: "Inventory",
+    heading: "Every registered project in Gurgaon.",
+    summary:
+      `${n(f.projects)} projects from ${n(f.developers)} developers, published from the HRERA Gurugram register.` +
+      stock +
+      overdue +
+      " Filter by purpose, type, locality, budget and configuration — RERA status is shown plainly on every listing.",
+    crumbs: [{ name: "Home", href: p("/") }, { name: "Properties" }],
+    path: "/properties",
+  };
 }

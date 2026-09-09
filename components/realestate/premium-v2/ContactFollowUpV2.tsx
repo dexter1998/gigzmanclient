@@ -51,7 +51,7 @@ export default function ContactFollowUpV2() {
               <span className="font-sans text-[26px] font-semibold leading-none text-[color:var(--gp-gold-300)]">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h3 className="font-display mt-3 text-[17px] text-white">{step.title}</h3>
+              <h3 className="font-display mt-3 text-[15px] text-white">{step.title}</h3>
               <p className="mt-2 text-[13px] leading-relaxed text-white/65">{step.detail}</p>
             </div>
           ))}

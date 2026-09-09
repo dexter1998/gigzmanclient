@@ -6,6 +6,7 @@ import Button from "@/components/ui/Button";
 import MarketStatRow, { type MarketStat } from "@/components/realestate/MarketStatRow";
 import PropertyCard from "@/components/realestate/PropertyCard";
 import PremiumV2LocalityDetailPage from "@/components/realestate/premium-v2/PremiumV2LocalityDetailPage";
+import { ogFor } from "@/lib/og";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { paramsForEachTenant } from "@/lib/static-params";
@@ -34,6 +35,12 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/localiti
   return {
     title: `${locality.name} Real Estate — ${settings?.firmName ?? ""}`,
     description: locality.description ?? undefined,
+    ...ogFor({
+      title: `${locality.name} — Gurugram corridor guide`,
+      description: locality.description ?? undefined,
+      image: locality.heroImage,
+      path: joinPath(basePathFor(tenant), `/localities/${locality.slug}`),
+    }),
   };
 }
 

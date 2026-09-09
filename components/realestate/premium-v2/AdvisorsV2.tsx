@@ -91,7 +91,7 @@ export default function AdvisorsV2({
 
               <div className="relative px-5 pb-6 pt-2">
                 <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">{advisor.corridor}</p>
-                <h3 className="font-display mt-1.5 text-[24px] text-white">{advisor.name}</h3>
+                <h3 className="font-display mt-1.5 text-[18px] text-white">{advisor.name}</h3>
                 <p className="mt-1.5 text-[13px] leading-relaxed text-white/65">
                   {advisor.specialisation}
                 </p>

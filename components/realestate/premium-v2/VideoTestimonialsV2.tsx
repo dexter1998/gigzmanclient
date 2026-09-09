@@ -251,7 +251,7 @@ export default function VideoTestimonialsV2(): JSX.Element {
 
               <span className="absolute bottom-4 left-4 right-4">
                 <span className="gp-eyebrow block text-[color:var(--gp-gold-300)]">{story.name}</span>
-                <span className="mt-1 block font-display text-[18px] text-white">{story.role}</span>
+                <span className="mt-1 block font-display text-[15px] text-white">{story.role}</span>
               </span>
             </button>
           ))}
@@ -270,7 +270,7 @@ export default function VideoTestimonialsV2(): JSX.Element {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">{active.duration} video</p>
-                <h3 className="font-display mt-1 text-[22px] text-[color:var(--gp-ink)]">
+                <h3 className="font-display mt-1 text-[16px] text-[color:var(--gp-ink)]">
                   {active.name} — {active.role}
                 </h3>
               </div>

@@ -119,6 +119,7 @@ export default async function QueriesPage(props: PageProps<"/site/[tenant]/dashb
                   <th className="px-4 py-3 font-medium">Reference</th>
                   <th className="px-4 py-3 font-medium">Name</th>
                   <th className="px-4 py-3 font-medium">Requirement</th>
+                  <th className="px-4 py-3 font-medium">Via page</th>
                   <th className="px-4 py-3 font-medium">Received</th>
                   <th className="px-4 py-3 font-medium">Follow-up</th>
                   <th className="px-4 py-3 font-medium">Status</th>
@@ -138,6 +139,9 @@ export default async function QueriesPage(props: PageProps<"/site/[tenant]/dashb
                     <td className="px-4 py-3 text-ink">{query.name}</td>
                     <td className="px-4 py-3 text-ink-muted">
                       {query.serviceLabel ?? "General enquiry"}
+                    </td>
+                    <td className="px-4 py-3 text-ink-muted">
+                      <span className="font-mono text-[12px]">{viaPage(query.landingPage)}</span>
                     </td>
                     <td className="px-4 py-3 text-ink-muted">{formatDate(query.createdAt)}</td>
                     <td className="px-4 py-3 text-ink-muted">
@@ -176,7 +180,10 @@ export default async function QueriesPage(props: PageProps<"/site/[tenant]/dashb
                   <p className="mt-2.5 text-[13px] text-ink-muted">
                     {query.serviceLabel ?? "General enquiry"}
                   </p>
-                  <p className="mt-2 text-[11px] text-ink-subtle">
+                  <p className="mt-2 font-mono text-[11px] text-ink-subtle">
+                    {viaPage(query.landingPage)}
+                  </p>
+                  <p className="mt-1 text-[11px] text-ink-subtle">
                     {formatDateTime(query.createdAt)}
                   </p>
                 </Link>
@@ -187,4 +194,18 @@ export default async function QueriesPage(props: PageProps<"/site/[tenant]/dashb
       )}
     </div>
   );
+}
+
+/**
+ * Which page the enquiry was submitted from.
+ *
+ * Forms record `window.location.pathname`, which on the shared deployment
+ * carries the `/{vertical}/{template}/{slug}` prefix — noise in a per-client
+ * dashboard, and wide enough to push the table into a scroll. This trims the
+ * prefix so the column reads as the page the visitor was actually on.
+ */
+function viaPage(landingPage: string | null): string {
+  if (!landingPage) return "—";
+  const trimmed = landingPage.replace(/^\/[a-z-]+\/temp-[a-z0-9-]+\/[a-z0-9-]+/, "");
+  return trimmed === "" ? "/" : trimmed;
 }

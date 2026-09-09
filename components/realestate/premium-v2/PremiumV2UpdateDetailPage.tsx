@@ -8,6 +8,7 @@ import { basePathFor, joinPath, type Tenant } from "@/lib/tenant";
 import { getFirmSettings, getUpdate, getPublishedUpdates } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { buildArticleJsonLd, buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
+import LineArtBackdropV2 from "./LineArtBackdropV2";
 
 export default async function PremiumV2UpdateDetailPage({
   tenant,
@@ -58,7 +59,9 @@ export default async function PremiumV2UpdateDetailPage({
         )}
       />
 
-      <GpSection tone="forest" className="py-14 sm:py-20">
+      <GpSection tone="forest" className="py-14 sm:py-20"
+        background={<LineArtBackdropV2 variant="building-right" opacity={0.6} desktopOnly />}
+      >
         <GpContainer>
           <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-white/50">
             <Link href={p("/")} className="inline-block py-1 hover:text-white">
@@ -169,7 +172,7 @@ export default async function PremiumV2UpdateDetailPage({
                     <p className="text-[11px] font-semibold uppercase tracking-[0.06em] text-[color:var(--gp-gold-600)]">
                       {item.category}
                     </p>
-                    <p className="mt-1.5 font-display text-[17px] leading-snug text-[color:var(--gp-ink)] transition-colors group-hover:text-[color:var(--gp-gold-600)]">
+                    <p className="mt-1.5 font-display text-[15px] leading-snug text-[color:var(--gp-ink)] transition-colors group-hover:text-[color:var(--gp-gold-600)]">
                       {item.title}
                     </p>
                   </Link>

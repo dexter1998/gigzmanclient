@@ -148,6 +148,7 @@ export const CALCULATOR_STATUS_LABELS: Record<string, string> = {
 
 export const PROPERTY_TYPE_LABELS: Record<string, string> = {
   apartment: "Apartment",
+  farmhouse: "Farm House",
   builder_floor: "Builder Floor",
   plot: "Plot",
   villa: "Villa",

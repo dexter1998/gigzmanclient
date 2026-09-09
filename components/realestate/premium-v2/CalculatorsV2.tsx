@@ -10,10 +10,14 @@ import { EMI_RATE_PRESETS, EMI_TENURE_PRESETS_YEARS } from "@/lib/calculators/ra
 import { PROPERTY_TYPE_LABELS, formatInr } from "@/lib/format";
 import { analytics } from "@/lib/analytics";
 import { GpEyebrow, cn } from "./gp-primitives";
+import RelatedCardsV2 from "./RelatedCardsV2";
+import { TOOL_ICONS } from "./toolIcons";
 
 interface CalculatorsV2Props {
   contactHref: string;
   advisorName: string;
+  /** The published tool pages, from lib/premium-v2/tools.ts. */
+  tools: { key: string; label: string; blurb: string; href: string }[];
 }
 
 const FIELD_LIGHT =
@@ -29,7 +33,10 @@ const LABEL_DARK = "mb-1.5 block text-[11px] font-semibold uppercase tracking-[0
 
 type ValuationStep = "form" | "success";
 
-function ValuationPanel({ contactHref, advisorName }: CalculatorsV2Props) {
+function ValuationPanel({
+  contactHref,
+  advisorName,
+}: Pick<CalculatorsV2Props, "contactHref" | "advisorName">) {
   const [step, setStep] = useState<ValuationStep>("form");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -95,7 +102,7 @@ function ValuationPanel({ contactHref, advisorName }: CalculatorsV2Props) {
       style={{ background: "var(--gp-gradient-glass)" }}
     >
       <GpEyebrow>Free Property Valuation</GpEyebrow>
-      <h3 className="font-display mt-2 text-[24px] text-[color:var(--gp-ink)]">
+      <h3 className="font-display mt-2 text-[18px] text-[color:var(--gp-ink)]">
         What&rsquo;s Your Property Worth?
       </h3>
       <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--gp-muted)]">
@@ -217,7 +224,7 @@ function ValuationPanel({ contactHref, advisorName }: CalculatorsV2Props) {
       {step === "success" ? (
         <div className="mt-8 flex flex-col items-center py-6 text-center">
           <CheckCircle2 className="h-10 w-10 text-[color:var(--gp-gold-600)]" aria-hidden="true" />
-          <p className="font-display mt-4 text-[20px] text-[color:var(--gp-ink)]">Request Received</p>
+          <p className="font-display mt-4 text-[15px] text-[color:var(--gp-ink)]">Request Received</p>
           <p className="mt-2 max-w-xs text-[13.5px] leading-relaxed text-[color:var(--gp-muted)]">
             Thanks — your valuation request has been assigned to <strong>{advisorName}</strong>, who
             will reach out shortly.
@@ -234,256 +241,9 @@ function ValuationPanel({ contactHref, advisorName }: CalculatorsV2Props) {
   );
 }
 
-// ────────────────────────────────────────────────────────────── EMI panel
-
-export function EmiPanel({ disclaimerHref }: { disclaimerHref: string }) {
-  const [loanAmount, setLoanAmount] = useState("7500000");
-  const [rate, setRate] = useState<number>(EMI_RATE_PRESETS[1] ?? EMI_RATE_PRESETS[0]);
-  const [tenureYears, setTenureYears] = useState<number>(EMI_TENURE_PRESETS_YEARS[3] ?? EMI_TENURE_PRESETS_YEARS[0]);
-  const [started, setStarted] = useState(false);
-
-  const touch = () => {
-    if (started) return;
-    setStarted(true);
-    analytics.calculatorStart("emi", EMI_VERSION);
-  };
-
-  const numericAmount = Number(loanAmount.replace(/[^\d.]/g, "")) || 0;
-
-  const result = useMemo(
-    () => calculateEmi({ principal: numericAmount, annualRatePercent: rate, tenureYears }),
-    [numericAmount, rate, tenureYears],
-  );
-
-  return (
-    <div
-      className="flex flex-col rounded-[var(--gp-radius-lg)] p-7 text-white"
-      style={{ background: "var(--gp-gradient-dark-section)" }}
-    >
-      <GpEyebrow className="text-[color:var(--gp-gold-300)]">EMI Calculator</GpEyebrow>
-      <h3 className="font-display mt-2 text-[24px] text-white">Plan Your Home Loan</h3>
-
-      <div className="mt-6 space-y-4">
-        <div>
-          <label className={LABEL_DARK} htmlFor="gp-emi-amount">
-            Loan Amount (₹)
-          </label>
-          <input
-            id="gp-emi-amount"
-            type="text"
-            inputMode="numeric"
-            value={loanAmount}
-            onFocus={touch}
-            onChange={(e) => setLoanAmount(e.target.value)}
-            className={FIELD_DARK}
-          />
-        </div>
-
-        <div>
-          <p className={LABEL_DARK}>Interest Rate (% p.a.)</p>
-          <div className="flex flex-wrap gap-2">
-            {EMI_RATE_PRESETS.map((preset) => (
-              <button
-                key={preset}
-                type="button"
-                onClick={() => {
-                  touch();
-                  setRate(preset);
-                }}
-                className={cn(
-                  "min-h-[36px] rounded-[var(--gp-radius-sm)] px-3 text-[12.5px] font-medium transition-colors",
-                  rate === preset
-                    ? "bg-[color:var(--gp-gold-600)] text-[color:var(--gp-forest-950)]"
-                    : "border border-white/20 text-white/70 hover:border-[color:var(--gp-gold-300)]",
-                )}
-              >
-                {preset}%
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <p className={LABEL_DARK}>Tenure (Years)</p>
-          <div className="flex flex-wrap gap-2">
-            {EMI_TENURE_PRESETS_YEARS.map((preset) => (
-              <button
-                key={preset}
-                type="button"
-                onClick={() => {
-                  touch();
-                  setTenureYears(preset);
-                }}
-                className={cn(
-                  "min-h-[36px] rounded-[var(--gp-radius-sm)] px-3 text-[12.5px] font-medium transition-colors",
-                  tenureYears === preset
-                    ? "bg-[color:var(--gp-gold-600)] text-[color:var(--gp-forest-950)]"
-                    : "border border-white/20 text-white/70 hover:border-[color:var(--gp-gold-300)]",
-                )}
-              >
-                {preset} yr
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div
-          className="rounded-[var(--gp-radius-md)] px-5 py-4"
-          onClick={() => {
-            if (numericAmount > 0) analytics.calculatorComplete("emi", null);
-          }}
-        >
-          <div className="rounded-[var(--gp-radius-sm)] bg-white/[0.06] px-4 py-3.5">
-            <p className="text-[11px] uppercase tracking-[0.08em] text-white/50">Monthly EMI</p>
-            <p className="font-sans mt-1 text-[30px] font-semibold text-[color:var(--gp-gold-300)]">
-              {numericAmount > 0 ? formatInr(result.monthlyEmi) : "—"}
-            </p>
-          </div>
-          <div className="mt-3 grid grid-cols-2 gap-3">
-            <div>
-              <p className="text-[11px] text-white/45">Total Interest</p>
-              <p className="mt-0.5 text-[13.5px] font-medium tabular-nums text-white/85">
-                {numericAmount > 0 ? formatInr(result.totalInterest) : "—"}
-              </p>
-            </div>
-            <div>
-              <p className="text-[11px] text-white/45">Total Payment</p>
-              <p className="mt-0.5 text-[13.5px] font-medium tabular-nums text-white/85">
-                {numericAmount > 0 ? formatInr(result.totalPayment) : "—"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <p className="text-[11px] leading-relaxed text-white/40">
-          Indicative estimate on the reducing-balance method — not a loan offer or sanction. Rates
-          shown are illustrative presets pending professional verification.{" "}
-          <a href={disclaimerHref} className="underline underline-offset-2 hover:text-white/70">
-            Read the disclaimer
-          </a>
-        </p>
-      </div>
-    </div>
-  );
-}
-
-// ─────────────────────────────────────────────────────── rent-yield panel
-
-export function RentYieldPanel({ disclaimerHref }: { disclaimerHref: string }) {
-  const [propertyValue, setPropertyValue] = useState("");
-  const [monthlyRent, setMonthlyRent] = useState("");
-  const [started, setStarted] = useState(false);
-
-  const touch = () => {
-    if (started) return;
-    setStarted(true);
-    analytics.calculatorStart("rental-yield", RENTAL_YIELD_VERSION);
-  };
-
-  const numericValue = Number(propertyValue.replace(/[^\d.]/g, "")) || 0;
-  const numericRent = Number(monthlyRent.replace(/[^\d.]/g, "")) || 0;
-
-  const result = useMemo(
-    () => calculateRentalYield({ propertyValue: numericValue, monthlyRent: numericRent }),
-    [numericValue, numericRent],
-  );
-
-  const hasResult = numericValue > 0 && numericRent > 0;
-
-  return (
-    <div
-      className="flex flex-col rounded-[var(--gp-radius-lg)] p-7 text-white"
-      style={{ background: "var(--gp-gradient-dark-section)" }}
-    >
-      <GpEyebrow className="text-[color:var(--gp-gold-300)]">Rental Yield Calculator</GpEyebrow>
-      <h3 className="font-display mt-2 text-[24px] text-white">Estimate Your Returns</h3>
-
-      <div className="mt-6 space-y-4">
-        <div>
-          <label className={LABEL_DARK} htmlFor="gp-ry-value">
-            Property Value (₹)
-          </label>
-          <input
-            id="gp-ry-value"
-            type="text"
-            inputMode="numeric"
-            value={propertyValue}
-            onFocus={touch}
-            onChange={(e) => setPropertyValue(e.target.value)}
-            className={FIELD_DARK}
-          />
-        </div>
-        <div>
-          <label className={LABEL_DARK} htmlFor="gp-ry-rent">
-            Expected Monthly Rent (₹)
-          </label>
-          <input
-            id="gp-ry-rent"
-            type="text"
-            inputMode="numeric"
-            value={monthlyRent}
-            onFocus={touch}
-            onChange={(e) => setMonthlyRent(e.target.value)}
-            className={FIELD_DARK}
-          />
-        </div>
-
-        <div
-          className="rounded-[var(--gp-radius-md)] px-5 py-4"
-          onClick={() => {
-            if (hasResult) analytics.calculatorComplete("rental-yield", null);
-          }}
-        >
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-[var(--gp-radius-sm)] bg-white/[0.06] px-4 py-3.5">
-              <p className="text-[11px] uppercase tracking-[0.08em] text-white/50">Gross Yield</p>
-              <p className="font-sans mt-1 text-[24px] font-semibold text-[color:var(--gp-gold-300)]">
-                {hasResult ? `${result.grossYieldPercent}%` : "—"}
-              </p>
-            </div>
-            <div className="rounded-[var(--gp-radius-sm)] bg-white/[0.06] px-4 py-3.5">
-              <p className="text-[11px] uppercase tracking-[0.08em] text-white/50">Net Yield</p>
-              <p className="font-sans mt-1 text-[24px] font-semibold text-[color:var(--gp-gold-300)]">
-                {hasResult ? `${result.netYieldPercent}%` : "—"}
-              </p>
-            </div>
-          </div>
-          <div className="mt-3 grid grid-cols-2 gap-3">
-            <div>
-              <p className="text-[11px] text-white/45">Annual Rent</p>
-              <p className="mt-0.5 text-[13.5px] font-medium tabular-nums text-white/85">
-                {hasResult ? formatInr(result.annualRent) : "—"}
-              </p>
-            </div>
-            <div>
-              <p className="text-[11px] text-white/45">Est. Annual Expenses</p>
-              <p className="mt-0.5 text-[13.5px] font-medium tabular-nums text-white/85">
-                {hasResult ? formatInr(result.estimatedAnnualExpenses) : "—"}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <p className="text-[11px] leading-relaxed text-white/40">
-          Net yield deducts an assumed expense ratio for maintenance, property tax and vacancy —
-          not actual costs, pending professional verification.{" "}
-          <a href={disclaimerHref} className="underline underline-offset-2 hover:text-white/70">
-            Read the disclaimer
-          </a>
-        </p>
-      </div>
-    </div>
-  );
-}
-
 // ──────────────────────────────────────────────────────────────── export
 
-export default function CalculatorsV2({ contactHref, advisorName }: CalculatorsV2Props) {
-  // The integration contract only passes contactHref (= p("/contact")), so the
-  // tenant-prefixed disclaimer link is derived from it rather than adding a
-  // second prop — both live under the same p()-joined base path.
-  const disclaimerHref = contactHref.replace(/\/contact$/, "/legal/calculator-disclaimer");
-
+export default function CalculatorsV2({ contactHref, advisorName, tools }: CalculatorsV2Props) {
   return (
     <section className="gp-section bg-tint">
       <div className="gp-container">
@@ -492,10 +252,22 @@ export default function CalculatorsV2({ contactHref, advisorName }: CalculatorsV
           Calculate Before You Commit
         </h2>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {/* The EMI and rental-yield panels that used to sit beside the
+            valuation form were the first-generation calculators; both now
+            have their own pages in the current design, so this links out to
+            them rather than shipping a second, older copy on the home page. */}
+        <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
           <ValuationPanel contactHref={contactHref} advisorName={advisorName} />
-          <EmiPanel disclaimerHref={disclaimerHref} />
-          <RentYieldPanel disclaimerHref={disclaimerHref} />
+          <RelatedCardsV2
+            items={tools.map((tool) => ({
+              href: tool.href,
+              title: tool.label,
+              subtitle: tool.blurb,
+              icon: TOOL_ICONS[tool.key],
+            }))}
+            columns={1}
+            className="h-full [&>div]:mt-0 [&>div]:h-full [&>div]:auto-rows-fr [&_a]:items-center"
+          />
         </div>
       </div>
     </section>

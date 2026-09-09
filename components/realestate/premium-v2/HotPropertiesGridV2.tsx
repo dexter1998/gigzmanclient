@@ -46,7 +46,7 @@ export default function HotPropertiesGridV2({
           </Link>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-4 lg:grid-rows-2 lg:gap-6">
+        <div className="gp-mobile-carousel mt-8 grid grid-cols-1 gap-5 lg:grid-cols-4 lg:grid-rows-2 lg:gap-6">
           {/* Explicit line placement, not auto-flow: with only spans set, the
               grid's auto-placement algorithm would slot the second mid card
               into the tall column's first row instead of stacking it under

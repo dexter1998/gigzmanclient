@@ -1,6 +1,6 @@
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { GpContainer, GpSection, GpEyebrow } from "./gp-primitives";
+import RelatedCardsV2 from "./RelatedCardsV2";
 
 /**
  * Discovery links only — there is no per-sector page or tracked market data
@@ -36,21 +36,15 @@ export default function PopularSectorsV2({ p }: { p: (path: string) => string })
           for it directly.
         </p>
 
-        <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {SECTORS.map((sector) => (
-            <Link
-              key={sector}
-              href={p(`/properties?search=${encodeURIComponent(sector)}`)}
-              className="group flex min-h-[52px] items-center justify-between gap-2 rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] bg-white px-4 text-[13.5px] font-medium text-[color:var(--gp-ink)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-            >
-              {sector}
-              <ArrowUpRight
-                className="h-3.5 w-3.5 shrink-0 text-[color:var(--gp-muted)] transition-colors group-hover:text-[color:var(--gp-gold-600)]"
-                aria-hidden="true"
-              />
-            </Link>
-          ))}
-        </div>
+        <RelatedCardsV2
+          className="mt-8"
+          items={SECTORS.map((sector) => ({
+            href: p(`/properties?search=${encodeURIComponent(sector)}`),
+            title: sector,
+            subtitle: "Current listings in this pocket",
+          }))}
+          icon={MapPin}
+        />
       </GpContainer>
     </GpSection>
   );

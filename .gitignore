@@ -45,3 +45,6 @@ next-env.d.ts
 
 # Dry-run screenshot output
 /screenshots/
+
+# macOS junk
+.DS_Store

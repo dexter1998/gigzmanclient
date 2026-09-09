@@ -11,7 +11,6 @@ import { formatIndianPrice } from "@/lib/format";
 import EmiCalculatorHeroV2 from "./EmiCalculatorHeroV2";
 import BankLoanHeroV2 from "./BankLoanHeroV2";
 import LoanFaqV2 from "./LoanFaqV2";
-import ConsultationCtaV2 from "../ConsultationCtaV2";
 import {
   TenureLadderV2,
   GurugramBudgetV2,
@@ -129,7 +128,6 @@ export async function AmountLoanPage({
 
       <RelatedAmountsV2 current={amount} p={p} lender={lender} />
 
-      <ConsultationCtaV2 phone={settings.phone} />
     </>
   );
 }
@@ -189,7 +187,6 @@ export async function LenderLoanPage({ tenant, lenderSlug }: { tenant: Tenant; l
 
       <RelatedAmountsV2 p={p} lender={lender} />
 
-      <ConsultationCtaV2 phone={settings.phone} />
     </>
   );
 }

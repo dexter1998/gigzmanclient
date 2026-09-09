@@ -52,7 +52,7 @@ export default function MobileFilterDrawerV2({ children }: { children: React.Rea
             className="absolute inset-x-0 bottom-0 max-h-[85vh] overflow-y-auto rounded-t-[var(--gp-radius-lg)] bg-[color:var(--gp-cream-100)] p-5 pb-8"
           >
             <div className="mb-4 flex items-center justify-between">
-              <p className="font-display text-[18px] text-[color:var(--gp-ink)]">Filter &amp; Sort</p>
+              <p className="font-display text-[15px] text-[color:var(--gp-ink)]">Filter &amp; Sort</p>
               <button
                 type="button"
                 onClick={() => setOpen(false)}

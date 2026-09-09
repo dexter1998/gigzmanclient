@@ -12,6 +12,7 @@ import {
 import { formatInr, formatIndianPrice } from "@/lib/format";
 import { analytics } from "@/lib/analytics";
 import { GpContainer } from "../gp-primitives";
+import LineArtBackdropV2 from "../LineArtBackdropV2";
 import { openLeadPopup } from "../leadPopup";
 
 const FIELD =
@@ -79,6 +80,7 @@ export default function RentalYieldCalculatorV2({
         className="pointer-events-none absolute inset-0 opacity-[0.35]"
         style={{ background: "var(--gp-gradient-glow)" }}
       />
+      <LineArtBackdropV2 variant="blueprint-wide" />
       <GpContainer className="relative py-12 sm:py-16">
         {breadcrumb ? <div className="mb-6">{breadcrumb}</div> : null}
 
@@ -92,7 +94,7 @@ export default function RentalYieldCalculatorV2({
         <div className="mt-9 grid grid-cols-1 overflow-hidden rounded-[var(--gp-radius-lg)] border border-[color:var(--gp-gold-600)]/35 lg:grid-cols-[1.1fr_0.9fr]">
           {/* ── Inputs ───────────────────────────────────────────── */}
           <div className="bg-[color:var(--gp-cream-100)] p-6 sm:p-8">
-            <h2 className="font-display text-[22px] text-[color:var(--gp-ink)] sm:text-[26px]">
+            <h2 className="font-display text-[16px] text-[color:var(--gp-ink)] sm:text-[19px]">
               Your property
             </h2>
 
@@ -217,7 +219,7 @@ export default function RentalYieldCalculatorV2({
           <div className="bg-[image:var(--gp-gradient-dark-section)] p-6 sm:p-8">
             <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">Time to pay for itself</p>
 
-            <p className="font-display mt-3 text-[40px] leading-none text-white sm:text-[52px]">
+            <p className="font-display mt-3 text-[30px] leading-none text-white sm:text-[39px]">
               <span className="font-sans font-semibold">
                 {result.paybackYearsWithAppreciation
                   ? Math.round(result.paybackYearsWithAppreciation)

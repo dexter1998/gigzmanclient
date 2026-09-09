@@ -6,7 +6,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 import { submitQuery, type QueryFormState } from "@/lib/actions/submit-query";
 import { analytics } from "@/lib/analytics";
 import { CLIENT_TYPE_LABELS } from "@/lib/format";
-import { checkPhone } from "@/lib/phone";
+import { LeadIntent, PhoneField, SelectField } from "./LeadFields";
 
 interface QueryFormV2Props {
   services: { slug: string; title: string }[];
@@ -32,7 +32,6 @@ export default function QueryFormV2({ services, defaultService, thankYouHref }: 
   const [state, formAction, pending] = useActionState(submitQuery, INITIAL);
   const [started, setStarted] = useState(false);
   const [phone, setPhone] = useState("");
-  const [phoneTouched, setPhoneTouched] = useState(false);
   const landingPage = useRef("");
 
   useEffect(() => {
@@ -54,7 +53,6 @@ export default function QueryFormV2({ services, defaultService, thankYouHref }: 
 
   const err = (field: string) => state.errors?.[field];
 
-  const livePhoneError = phoneTouched && phone.trim() ? (checkPhone(phone).error ?? null) : null;
 
   return (
     <form action={formAction} onFocus={onFirstInteraction} className="space-y-4" noValidate>
@@ -85,28 +83,7 @@ export default function QueryFormV2({ services, defaultService, thankYouHref }: 
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="phone-v2" className={LABEL}>
-            Phone
-          </label>
-          <input
-            id="phone-v2"
-            name="phone"
-            type="tel"
-            inputMode="numeric"
-            autoComplete="tel"
-            maxLength={18}
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            onBlur={() => setPhoneTouched(true)}
-            aria-invalid={Boolean(livePhoneError || err("phone"))}
-            aria-describedby="phone-v2-hint"
-            className={FIELD}
-          />
-          <p id="phone-v2-hint" className="mt-1 text-[12px] text-red-700">
-            {livePhoneError || err("phone") || ""}
-          </p>
-        </div>
+        <PhoneField id="phone-v2" label="Phone" value={phone} onChange={setPhone} serverError={err("phone")} />
         <div>
           <label htmlFor="email-v2" className={LABEL}>
             Email
@@ -120,31 +97,17 @@ export default function QueryFormV2({ services, defaultService, thankYouHref }: 
       </p>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="clientType-v2" className={LABEL}>
-            You are
-          </label>
-          <select id="clientType-v2" name="clientType" defaultValue="" className={FIELD}>
-            <option value="">Select</option>
-            {Object.entries(CLIENT_TYPE_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="preferredContact-v2" className={LABEL}>
-            Preferred contact method
-          </label>
-          <select id="preferredContact-v2" name="preferredContact" defaultValue="" className={FIELD}>
-            <option value="">No preference</option>
-            <option value="phone">Phone</option>
-            <option value="whatsapp">WhatsApp</option>
-            <option value="email">Email</option>
-          </select>
-        </div>
+        <SelectField id="clientType-v2" name="clientType" label="You are" defaultValue="">
+          <option value="">Select</option>
+          {Object.entries(CLIENT_TYPE_LABELS).map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </SelectField>
       </div>
+
+      <LeadIntent idPrefix="contact" />
 
       {services.length > 0 ? (
         <div>
@@ -166,7 +129,7 @@ export default function QueryFormV2({ services, defaultService, thankYouHref }: 
         <label htmlFor="message-v2" className={LABEL}>
           Brief description of the requirement
         </label>
-        <textarea id="message-v2" name="message" rows={4} className={`${FIELD} py-3`} />
+        <textarea id="message-v2" name="note" rows={4} className={`${FIELD} py-3`} />
         {err("message") ? <p className="mt-1 text-[12px] text-red-700">{err("message")}</p> : null}
         <p className="mt-1.5 text-[12px] leading-relaxed text-[color:var(--gp-muted)]">
           Please do not include PAN, Aadhaar, passwords, OTPs, bank details or financial documents.

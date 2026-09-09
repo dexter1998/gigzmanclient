@@ -462,6 +462,10 @@ export const properties = pgTable(
     description: text("description"),
     amenities: jsonb("amenities").$type<string[]>().default([]),
     specs: jsonb("specs").$type<Record<string, string>>().default({}),
+    /** A property tour, as a YouTube watch URL. Listing feeds carry these far
+     *  more often than they carry usable floor plans, and an embed costs
+     *  nothing to host. */
+    videoUrl: text("video_url"),
 
     isFeatured: boolean("is_featured").notNull().default(false),
     isActive: boolean("is_active").notNull().default(true),

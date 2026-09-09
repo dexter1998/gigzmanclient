@@ -1,0 +1,1962 @@
+{
+  "VERIFIED_V2": [
+    {
+      "id": "N",
+      "count": 375,
+      "roundCount": 300,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "Y",
+      "label": "Verified Properties",
+      "count": 67,
+      "roundCount": 60,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "TRANSACT_TYPE": [
+    {
+      "id": "1",
+      "label": "Resale",
+      "count": 442,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "New Booking",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "LAND_TYPE": [
+    {
+      "id": "1",
+      "label": "NA (Non Agriculture) Plots",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "R Zone Plots",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "Agriculture Land",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "4",
+      "label": "Mixed Use Plots",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "5",
+      "label": "A Khata Plots",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "6",
+      "label": "B Khata Plots",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "IN_GATED_SOCIETY": [
+    {
+      "id": "Y",
+      "label": "In Gated Society",
+      "count": 304,
+      "roundCount": 300,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "CONSTRUCTION_AVAILABILITY": [
+    {
+      "id": "2",
+      "label": "Ready to move",
+      "count": 423,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1",
+      "label": "Under Construction",
+      "count": 19,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "New Launch",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "VT_AVLBL": [
+    {
+      "id": "Y",
+      "label": "Video Tour Available",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "PRICE_RANGES": [
+    {
+      "id": "234",
+      "count": 212,
+      "roundCount": 200
+    },
+    {
+      "id": "235",
+      "count": 186,
+      "roundCount": 100
+    },
+    {
+      "id": "233",
+      "count": 69,
+      "roundCount": 60
+    },
+    {
+      "id": "232",
+      "count": 1,
+      "roundCount": 1
+    },
+    {
+      "id": "236",
+      "count": 1,
+      "roundCount": 1
+    }
+  ],
+  "CLASS": [
+    {
+      "id": "A",
+      "label": "Dealer",
+      "count": 407,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "O",
+      "label": "Owner",
+      "count": 35,
+      "roundCount": 30,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "B",
+      "label": "Builder",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "T",
+      "label": "Top Dealer",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "ZERO_BROKERAGE": [
+    {
+      "id": "N",
+      "count": 407,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "Y",
+      "label": "Zero Brokerage",
+      "count": 35,
+      "roundCount": 30,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "VERIFIED": [
+    {
+      "id": "Y",
+      "label": "Verified",
+      "count": 61,
+      "roundCount": 60,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "NUMBER_OF_OPEN_SIDES": [
+    {
+      "id": "1",
+      "label": "1",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "2",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "2+",
+      "label": "2+",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "3+",
+      "label": "3+",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "MAX_MAPPED_PROJECT_CATEGORY": [
+    {
+      "id": "15",
+      "count": 423,
+      "roundCount": 400
+    },
+    {
+      "id": "25",
+      "count": 19,
+      "roundCount": 10
+    }
+  ],
+  "PROJECT_PHASE_INFO": [
+    {
+      "id": "r2m",
+      "count": 268,
+      "roundCount": 200
+    },
+    {
+      "id": "uc_2025",
+      "count": 1,
+      "roundCount": 1
+    },
+    {
+      "id": "uc_2026",
+      "count": 1,
+      "roundCount": 1
+    },
+    {
+      "id": "uc_2031",
+      "count": 1,
+      "roundCount": 1
+    }
+  ],
+  "FACING_DIRECTION_V2": [
+    {
+      "id": "5",
+      "label": "North-East Facing",
+      "count": 130,
+      "roundCount": 100
+    },
+    {
+      "id": "3",
+      "label": "East Facing",
+      "count": 97,
+      "roundCount": 90
+    },
+    {
+      "id": "1",
+      "label": "North Facing",
+      "count": 77,
+      "roundCount": 70
+    },
+    {
+      "id": "4",
+      "label": "West Facing",
+      "count": 29,
+      "roundCount": 20
+    },
+    {
+      "id": "6",
+      "label": "North-West Facing",
+      "count": 28,
+      "roundCount": 20
+    },
+    {
+      "id": "2",
+      "label": "South Facing",
+      "count": 13,
+      "roundCount": 10
+    },
+    {
+      "id": "7",
+      "label": "South-East Facing",
+      "count": 9,
+      "roundCount": 9
+    },
+    {
+      "id": "8",
+      "label": "South-West Facing",
+      "count": 4,
+      "roundCount": 4
+    }
+  ],
+  "APPROVED_BY_AUTHORITY": [],
+  "POSSESSION_BY": [
+    {
+      "id": "1",
+      "label": "In 3 months",
+      "count": 12,
+      "roundCount": 10
+    },
+    {
+      "id": "2",
+      "label": "In 6 months",
+      "count": 1,
+      "roundCount": 1
+    }
+  ],
+  "RES_COM": [
+    {
+      "id": "R",
+      "label": "R",
+      "count": 442,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "PROPERTY_TYPE": [
+    {
+      "id": "1",
+      "label": "Residential Apartment",
+      "count": 31200,
+      "roundCount": 30000,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "4",
+      "label": "Builder Floor",
+      "count": 12231,
+      "roundCount": 10000,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "Residential Land",
+      "count": 5683,
+      "roundCount": 5000,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "Independent House/Villa",
+      "count": 2649,
+      "roundCount": 2000,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "5",
+      "label": "Farm House",
+      "count": 442,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "90",
+      "label": "Studio Apartment",
+      "count": 387,
+      "roundCount": 300,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "FURNISH": [
+    {
+      "id": "1",
+      "label": "Furnished",
+      "count": 192,
+      "roundCount": 100,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "Unfurnished",
+      "count": 116,
+      "roundCount": 100,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "4",
+      "label": "Semifurnished",
+      "count": 100,
+      "roundCount": 100,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "BUILDING_ID": [
+    {
+      "id": "446093",
+      "label": "Vatika Westin Sohna Resort",
+      "count": 259,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "7732",
+      "label": "Anant Raj",
+      "count": 9,
+      "roundCount": 9,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "446331",
+      "label": "Bhelpa Greens",
+      "count": 8,
+      "roundCount": 8,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1150104",
+      "label": "Aravali Retreat",
+      "count": 7,
+      "roundCount": 7,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "12210",
+      "label": "Ireo The Grand Arch",
+      "count": 4,
+      "roundCount": 4,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "5560",
+      "label": "M3M Merlin",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "49511",
+      "label": "JJSS Farm House",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "167306",
+      "label": "Bedarwal Consortium Sixty Three Golf Drive",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "219301",
+      "label": "DLF The Camellias",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "232831",
+      "label": "Ansal Mughal Orchards",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1049327",
+      "label": "Raheja Riyasat Hills",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1123654",
+      "label": "DLF Privana South",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1194101",
+      "label": "The Nature Valley",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "DEMO_FLAT": [
+    {
+      "id": "N",
+      "count": 263,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "Y",
+      "label": "Show projects with Sample flat",
+      "count": 17,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "PROPERTY_AGE": [
+    {
+      "id": "1",
+      "label": "1-5 years old",
+      "count": 259,
+      "roundCount": 200
+    },
+    {
+      "id": "6",
+      "label": "0-1 year old",
+      "count": 140,
+      "roundCount": 100
+    },
+    {
+      "id": "5",
+      "count": 18,
+      "roundCount": 10
+    },
+    {
+      "id": "2",
+      "label": "5-10 years old",
+      "count": 17,
+      "roundCount": 10
+    },
+    {
+      "id": "3",
+      "label": "10+ years old",
+      "count": 6,
+      "roundCount": 6
+    }
+  ],
+  "PROJECT_DENSITY": [
+    {
+      "id": "LOW",
+      "label": "Low",
+      "count": 276,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "MID",
+      "label": "Medium",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "HAVEPHOTO": [
+    {
+      "id": "Y",
+      "label": "Properties With Photos",
+      "count": 401,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "IS_POSTER_RERA_REGISTERED": [
+    {
+      "id": "NO",
+      "count": 413,
+      "roundCount": 400
+    },
+    {
+      "id": "YES",
+      "count": 29,
+      "roundCount": 20
+    }
+  ],
+  "IS_VIDEO_AVLBL": [
+    {
+      "id": "Y",
+      "label": "Properties With Videos",
+      "count": 187,
+      "roundCount": 100,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "PROJECT_AREA_BUCKET": [
+    {
+      "id": "6",
+      "label": "20 - 50 acres",
+      "count": 253,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "5",
+      "label": "10 - 20 acres",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "7",
+      "label": "50 & above",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "2 - 5 acres",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "4",
+      "label": "5 - 10 acres",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "LOCALITY_ID": [
+    {
+      "id": "9694",
+      "label": "Sohna",
+      "count": 306,
+      "roundCount": 300,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 4.2
+    },
+    {
+      "id": "1049",
+      "label": "Sohna Road",
+      "count": 19,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 4.3
+    },
+    {
+      "id": "8090",
+      "label": "Manesar",
+      "count": 16,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.8
+    },
+    {
+      "id": "17012",
+      "label": "Bhondsi",
+      "count": 11,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 4
+    },
+    {
+      "id": "12536",
+      "label": "Sector 63A Gurgaon",
+      "count": 9,
+      "roundCount": 9,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.9
+    },
+    {
+      "id": "1099625",
+      "label": "Raiseena",
+      "count": 9,
+      "roundCount": 9,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "8186",
+      "label": "Sector 58 Gurgaon",
+      "count": 5,
+      "roundCount": 5,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "14830",
+      "label": "Garhi Harsaru",
+      "count": 5,
+      "roundCount": 5,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.5
+    },
+    {
+      "id": "47345",
+      "label": "Sultanpur",
+      "count": 5,
+      "roundCount": 5,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "14828",
+      "label": "Bandhwari",
+      "count": 4,
+      "roundCount": 4,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1099889",
+      "label": "Panchgaon",
+      "count": 3,
+      "roundCount": 3,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "6124",
+      "label": "Badshahpur",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 4.1
+    },
+    {
+      "id": "7492",
+      "label": "Sector 95 Gurgaon",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 4.2
+    },
+    {
+      "id": "7499",
+      "label": "Bilaspur",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "12928",
+      "label": "Sector 95B Gurgaon",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1099774",
+      "label": "Hassanpur Tauru",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1109026",
+      "label": "Teekli",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1144446",
+      "label": "Garat Pur Bas",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "2471",
+      "label": "Sector 42 Gurgaon",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.5
+    },
+    {
+      "id": "4780",
+      "label": "MG Road",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 4.3
+    },
+    {
+      "id": "4783",
+      "label": "Gurgaon Faridabad Road",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.9
+    },
+    {
+      "id": "6139",
+      "label": "Sector 35 Gurgaon",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "7487",
+      "label": "Pataudi Road",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.7
+    },
+    {
+      "id": "7489",
+      "label": "Sector 67 Gurgaon",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 4.2
+    },
+    {
+      "id": "7506",
+      "label": "Sector 62 Gurgaon",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.7
+    },
+    {
+      "id": "7875",
+      "label": "Gwal Pahari",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "7886",
+      "label": "Sector 77 Gurgaon",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.8
+    },
+    {
+      "id": "18224",
+      "label": "Pachgaon",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.5
+    },
+    {
+      "id": "27361",
+      "label": "Kadarpur",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.5
+    },
+    {
+      "id": "28445",
+      "label": "Chandu",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.5
+    },
+    {
+      "id": "32823",
+      "label": "Budhera",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.4
+    },
+    {
+      "id": "35663",
+      "label": "Sector 88B Gurgaon",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "36607",
+      "label": "Naurangpur",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "40449",
+      "label": "Sector 8 IMT Manesar",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.5
+    },
+    {
+      "id": "43339",
+      "label": "Dhankot",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.7
+    },
+    {
+      "id": "1009864",
+      "label": "Sector 36 Sohna",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1086991",
+      "label": "Sector-5 Sohna",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "1098917",
+      "label": "Hayatpur",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "1099640",
+      "label": "Aklimpur",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1099659",
+      "label": "Baliawas",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1099673",
+      "label": "Bhadashpur Tethar",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1099789",
+      "label": "Jakhopur",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1105847",
+      "label": "Block C Sheetla Colony",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 4
+    },
+    {
+      "id": "1109089",
+      "label": "Tikli",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1128712",
+      "label": "Khalilpur",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1152488",
+      "label": "Block A South City 2",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "rating": 3.6
+    },
+    {
+      "id": "1152499",
+      "label": "Iqbalpur",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1152501",
+      "label": "Nimot",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1156951",
+      "label": "Rithoj",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1163540",
+      "label": "IMT Sohna",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1171918",
+      "label": "Abhepur",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "BATHROOM_NUM": [
+    {
+      "id": "2",
+      "label": "1+",
+      "count": 76,
+      "roundCount": 70,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "2+",
+      "count": 79,
+      "roundCount": 70,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "4",
+      "label": "3+",
+      "count": 62,
+      "roundCount": 60,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "5",
+      "label": "4+",
+      "count": 21,
+      "roundCount": 20,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "6",
+      "label": "5+",
+      "count": 16,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "FEATURES": [
+    {
+      "id": "4",
+      "label": "Parking",
+      "count": 353,
+      "roundCount": 300,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "Power Backup",
+      "count": 345,
+      "roundCount": 300,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "6",
+      "label": "Park",
+      "count": 333,
+      "roundCount": 300,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "52",
+      "label": "Gated Society",
+      "count": 304,
+      "roundCount": 300,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "9",
+      "label": "Security Guard",
+      "count": 297,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1",
+      "label": "Swimming Pool",
+      "count": 239,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "5",
+      "label": "Vaastu Compliant",
+      "count": 225,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "25",
+      "label": "Waste disposal",
+      "count": 91,
+      "roundCount": 90,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "39",
+      "label": "Near bank",
+      "count": 59,
+      "roundCount": 50,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "12",
+      "label": "Gymnasium",
+      "count": 58,
+      "roundCount": 50,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "29",
+      "label": "Gas Pipeline",
+      "count": 49,
+      "roundCount": 40,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "21",
+      "label": "Lift",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "Club house",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "35",
+      "label": "DG Availability",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "34",
+      "label": "Wheelchair Accessibility",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "11",
+      "label": "ATM",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "48",
+      "label": "With Roof Rights",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "82",
+      "label": "24/7 Security",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "86",
+      "label": "Private Lift",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "PROJECT_LIFT_COUNT_INFO": [],
+  "IS_FEATURE_DEALER": [
+    {
+      "id": "1",
+      "count": 55,
+      "roundCount": 50
+    }
+  ],
+  "PROPERTY_FEATURES": [
+    {
+      "id": "2",
+      "label": "Park Facing",
+      "count": 332,
+      "roundCount": 300
+    },
+    {
+      "id": "3",
+      "label": "Road Facing",
+      "count": 298,
+      "roundCount": 200
+    },
+    {
+      "id": "1",
+      "label": "Corner Property",
+      "count": 248,
+      "roundCount": 200
+    },
+    {
+      "id": "9",
+      "label": "Vaastu Compliant",
+      "count": 225,
+      "roundCount": 200
+    },
+    {
+      "id": "7",
+      "label": "Pool Facing",
+      "count": 224,
+      "roundCount": 200
+    },
+    {
+      "id": "8",
+      "label": "Club House Facing",
+      "count": 174,
+      "roundCount": 100
+    }
+  ],
+  "CITY": [
+    {
+      "id": "8",
+      "label": "Gurgaon",
+      "count": 442,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "AVAILABILITY": [
+    {
+      "id": "2",
+      "label": "Ready to move",
+      "count": 423,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "1",
+      "label": "Under Construction",
+      "count": 19,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "New Launch",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "FLOOR_KEY": [],
+  "FLOOR_KEYS": [],
+  "BEDROOM_NUM": [
+    {
+      "id": "1",
+      "label": "1",
+      "count": 175,
+      "roundCount": 100,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "2",
+      "count": 86,
+      "roundCount": 80,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "3",
+      "count": 95,
+      "roundCount": 90,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "4",
+      "label": "4",
+      "count": 40,
+      "roundCount": 40,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "5",
+      "label": "5",
+      "count": 35,
+      "roundCount": 30,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "6",
+      "label": "6",
+      "count": 9,
+      "roundCount": 9,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "7",
+      "label": "7",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "8",
+      "label": "8",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "9",
+      "label": "9",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "9+",
+      "label": "9+",
+      "count": 2,
+      "roundCount": 2,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "APPROVED_FOR_INDUSTRY": [],
+  "SUB_AVAILABILITY": [
+    {
+      "id": "1",
+      "label": "1 to 5 years old",
+      "count": 259,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true,
+      "isPossession": false
+    },
+    {
+      "id": "6",
+      "label": "0 to 1 year old",
+      "count": 140,
+      "roundCount": 100,
+      "isDisabled": false,
+      "isPresent": true,
+      "isPossession": false
+    },
+    {
+      "id": "2026",
+      "label": "2026",
+      "count": 18,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true,
+      "isPossession": true
+    },
+    {
+      "id": "2",
+      "label": "5 to 10 years old",
+      "count": 17,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true,
+      "isPossession": false
+    },
+    {
+      "id": "3",
+      "label": "10+ years old",
+      "count": 6,
+      "roundCount": 6,
+      "isDisabled": false,
+      "isPresent": true,
+      "isPossession": false
+    },
+    {
+      "id": "1001",
+      "label": "Immediate",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "isPossession": false
+    },
+    {
+      "id": "2027",
+      "label": "2027",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": false,
+      "isPresent": true,
+      "isPossession": true
+    }
+  ],
+  "PROJECT_BUILDER_ID": [
+    {
+      "id": "sqg5yPJZ",
+      "label": "Vatika Group",
+      "count": 258,
+      "roundCount": 200
+    },
+    {
+      "id": "644Yzf6",
+      "label": "Anant Raj Group",
+      "count": 2,
+      "roundCount": 2
+    },
+    {
+      "id": "rpd56S0d",
+      "label": "DLF Homes",
+      "count": 2,
+      "roundCount": 2
+    },
+    {
+      "id": "2zp45N5Mb",
+      "label": "BLF Developers",
+      "count": 1,
+      "roundCount": 1
+    },
+    {
+      "id": "4i3wRqU",
+      "label": "Ireo",
+      "count": 1,
+      "roundCount": 1
+    },
+    {
+      "id": "58p4tZnX",
+      "label": "JJSS Farm House and Developers",
+      "count": 1,
+      "roundCount": 1
+    },
+    {
+      "id": "9ba3UEo7",
+      "label": "Bedarwal Consortium",
+      "count": 1,
+      "roundCount": 1
+    },
+    {
+      "id": "hq1V50m",
+      "label": "Ansal Housing",
+      "count": 1,
+      "roundCount": 1
+    },
+    {
+      "id": "qo53Ln8e",
+      "label": "M3M India",
+      "count": 1,
+      "roundCount": 1
+    }
+  ],
+  "RERA_APPLICABLE": [
+    {
+      "id": "NO",
+      "count": 431,
+      "roundCount": 400
+    },
+    {
+      "id": "YES",
+      "count": 11,
+      "roundCount": 10
+    }
+  ],
+  "PREFERENCE": [
+    {
+      "id": "S",
+      "label": "S",
+      "count": 442,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "R",
+      "label": "R",
+      "count": 18,
+      "roundCount": 10,
+      "isDisabled": false,
+      "isPresent": true
+    }
+  ],
+  "BUILDING_TYPE": [],
+  "OWNERSHIP_TYPE": [
+    {
+      "id": "1",
+      "label": "Freehold",
+      "count": 426,
+      "roundCount": 400,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "4",
+      "label": "Power of Attorney",
+      "count": 4,
+      "roundCount": 4,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "Leasehold",
+      "count": 3,
+      "roundCount": 3,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "Co-operative Society",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "WIDTH_OF_FACING_ROAD": [
+    {
+      "id": "20:50",
+      "label": "20-50 ft",
+      "count": 289,
+      "roundCount": 200,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "50:1000",
+      "label": "50+ ft",
+      "count": 73,
+      "roundCount": 70,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "10:20",
+      "label": "10-20 ft",
+      "count": 4,
+      "roundCount": 4,
+      "isDisabled": false,
+      "isPresent": true
+    },
+    {
+      "id": "0:10",
+      "label": "10 ft",
+      "count": 1,
+      "roundCount": 1,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "FACING_DIRECTION": [
+    {
+      "id": "1",
+      "label": "North",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "2",
+      "label": "South",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "3",
+      "label": "East",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "4",
+      "label": "West",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "5",
+      "label": "North-East",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "6",
+      "label": "North-West",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "7",
+      "label": "South-East",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    },
+    {
+      "id": "8",
+      "label": "South-West",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "HAVE_OFFER": [
+    {
+      "id": "Y",
+      "label": "With offers",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": true
+    }
+  ],
+  "ADDITIONAL_SERVICES": [
+    {
+      "id": "101",
+      "label": "Wheelchair Friendly",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "102",
+      "label": "Pets Allowed",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "103",
+      "label": "AC Room",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "104",
+      "label": "Food Service",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "105",
+      "label": "Wifi",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "106",
+      "label": "Laundry Available",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    }
+  ],
+  "BATHROOM_ATTACHED": [
+    {
+      "id": "Y",
+      "label": "Attached Bathroom",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    }
+  ],
+  "SHARING_COUNT": [
+    {
+      "id": "1",
+      "label": "Private Room",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "2",
+      "label": "2 per Room",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "2+",
+      "label": "More than 2 per Room",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    }
+  ],
+  "CAPACITY": [
+    {
+      "id": "1",
+      "label": "1-2 Guests",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "3",
+      "label": "2-4 Guests",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "5",
+      "label": "4-10 Guests",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    },
+    {
+      "id": "10+",
+      "label": "10+ Guests",
+      "count": 0,
+      "roundCount": 0,
+      "isDisabled": true,
+      "isPresent": false
+    }
+  ],
+  "AVAILABLE_FROM": [
+    {
+      "count": 7,
+      "isDisabled": false,
+      "isPresent": true,
+      "id": "A",
+      "label": "Any Time",
+      "isSelected": false,
+      "value": "A"
+    },
+    {
+      "count": 7,
+      "isDisabled": false,
+      "isPresent": true,
+      "id": "I",
+      "label": "Immediately",
+      "isSelected": false,
+      "value": "I"
+    },
+    {
+      "count": 7,
+      "isDisabled": false,
+      "isPresent": true,
+      "id": "30",
+      "label": "Within 1 Month",
+      "isSelected": false,
+      "value": "30"
+    },
+    {
+      "count": 7,
+      "isDisabled": false,
+      "isPresent": true,
+      "id": "after30",
+      "label": "After 1 Month",
+      "isSelected": false,
+      "value": "after30"
+    },
+    {
+      "count": 7,
+      "isDisabled": false,
+      "isPresent": true,
+      "id": "90",
+      "label": "Within 3 Months",
+      "isSelected": false,
+      "value": "90"
+    },
+    {
+      "count": 7,
+      "isDisabled": false,
+      "isPresent": true,
+      "id": "after90",
+      "label": "After 3 Months",
+      "isSelected": false,
+      "value": "after90"
+    }
+  ]
+}

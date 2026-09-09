@@ -1,11 +1,13 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { analytics } from "@/lib/analytics";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { CheckCircle2, PhoneCall, X } from "lucide-react";
 import { submitQuery, type QueryFormState } from "@/lib/actions/submit-query";
 import { OPEN_LEAD_POPUP_EVENT, LEAD_INTENTS, type LeadIntentKey } from "./leadPopup";
+import { LeadIntent, PhoneField } from "./LeadFields";
 
 const BUILDING_IMAGE =
   "/verticals/realestate/templates/premium-v2/images/hero-curated-inventory-v2.png";
@@ -13,12 +15,6 @@ const BUILDING_IMAGE =
 /** Whichever of these fires first opens the popup; only one fires per session. */
 const TIME_ON_SITE_MS = 30_000;
 const SCROLL_TRIGGER_PROGRESS = 0.75;
-
-const INTENTS = [
-  { value: "buy", label: "I want to Buy" },
-  { value: "sell", label: "I want to Sell" },
-  { value: "valuation", label: "I want a Free Valuation" },
-];
 
 const FIELD =
   "min-h-[48px] w-full rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] bg-white px-3.5 text-[14px] text-[color:var(--gp-ink)] focus:border-[color:var(--gp-gold-600)] focus:outline-none";
@@ -34,6 +30,11 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
   const [open, setOpen] = useState(false);
   const [dismissedForSession, setDismissedForSession] = useState(false);
   const [intent, setIntent] = useState<LeadIntentKey>("default");
+  const [phone, setPhone] = useState("");
+  // Which of the triggers opened it, so scroll/time/navigation nudges can be
+  // told apart from a deliberate CTA press when judging popup performance.
+  const triggerRef = useRef<string>("unknown");
+  const openedAtRef = useRef<number | null>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const triggeredRef = useRef(false);
   const [state, formAction, pending] = useActionState<QueryFormState, FormData>(
@@ -52,9 +53,10 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
 
   const excluded = EXCLUDED_PATH_SUFFIXES.some((suffix) => pathname?.endsWith(suffix));
 
-  const fire = () => {
+  const fire = (trigger: string) => {
     if (triggeredRef.current) return;
     triggeredRef.current = true;
+    triggerRef.current = trigger;
     setOpen(true);
   };
 
@@ -69,11 +71,13 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
     const onScroll = () => {
       const scrollable = document.documentElement.scrollHeight - window.innerHeight;
       const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-      if (progress >= SCROLL_TRIGGER_PROGRESS) fire();
+      if (progress >= SCROLL_TRIGGER_PROGRESS) fire("scroll_75");
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
-    const timeoutId = window.setTimeout(fire, TIME_ON_SITE_MS);
+    // Wrapped rather than passed directly: setTimeout calls its handler with
+    // no arguments, so a bare `fire` would report an undefined trigger.
+    const timeoutId = window.setTimeout(() => fire("time_on_site"), TIME_ON_SITE_MS);
 
     return () => {
       window.removeEventListener("scroll", onScroll);
@@ -88,7 +92,7 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
       firstPathnameRef.current = pathname;
       return;
     }
-    if (pathname !== firstPathnameRef.current) fire();
+    if (pathname !== firstPathnameRef.current) fire("navigation");
   }, [pathname, excluded, dismissedForSession]);
 
   // An explicit "Book Consultation" / "Contact Us" click, dispatched via
@@ -99,6 +103,7 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
     const onOpenRequest = (event: Event) => {
       const key = (event as CustomEvent<{ intent?: LeadIntentKey }>).detail?.intent;
       setIntent(key && key in LEAD_INTENTS ? key : "default");
+      triggerRef.current = "cta";
       setOpen(true);
     };
     window.addEventListener(OPEN_LEAD_POPUP_EVENT, onOpenRequest);
@@ -106,6 +111,11 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
   }, []);
 
   const close = () => {
+    if (openedAtRef.current) {
+      const seconds = Math.round((Date.now() - openedAtRef.current) / 1000);
+      analytics.popupDismiss("lead_popup", intent, seconds);
+      openedAtRef.current = null;
+    }
     setOpen(false);
     try {
       sessionStorage.setItem("gp_lead_popup_seen", "1");
@@ -128,6 +138,17 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  // Reported when it actually becomes visible, not when a trigger arms, so
+  // popup_view / popup_dismiss / generate_lead form one comparable funnel.
+  useEffect(() => {
+    if (!open) return;
+    openedAtRef.current = Date.now();
+    analytics.popupView("lead_popup", intent, triggerRef.current);
+    if (intent === "callback") {
+      analytics.callRequestOpen(triggerRef.current, "popup");
+    }
+  }, [open, intent]);
 
   const copy = LEAD_INTENTS[intent];
 
@@ -165,7 +186,7 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
           {state.ok ? (
             <div className="flex flex-col items-start gap-3 py-4">
               <CheckCircle2 className="h-9 w-9 text-[color:var(--gp-gold-600)]" aria-hidden="true" />
-              <h2 className="font-display text-[22px] text-[color:var(--gp-ink)]">Request received.</h2>
+              <h2 className="font-display text-[16px] text-[color:var(--gp-ink)]">Request received.</h2>
               <p className="text-[13.5px] leading-relaxed text-[color:var(--gp-body)]">
                 An advisor will call you shortly. Reference {state.reference}.
               </p>
@@ -180,7 +201,7 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
           ) : (
             <>
               <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">{copy.eyebrow}</p>
-              <h2 className="font-display mt-2 text-[30px] leading-[1.15] text-[color:var(--gp-ink)] sm:text-[34px]">
+              <h2 className="font-display mt-2 text-[22px] leading-[1.15] text-[color:var(--gp-ink)] sm:text-[25px]">
                 {copy.heading}
               </h2>
               <p className="mt-3 text-[15px] leading-relaxed text-[color:var(--gp-muted)]">
@@ -189,9 +210,7 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
 
               <form action={formAction} className="mt-5 space-y-3">
                 <input type="hidden" name="consent" value="on" />
-                <input type="hidden" name="preferredContact" value="phone" />
                 <input type="hidden" name="landingPage" value={basePath} />
-              <input type="hidden" name="intentContext" value={copy.context} />
 
                 <div>
                   <label htmlFor="gp-popup-name" className="sr-only">
@@ -213,42 +232,16 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
                   ) : null}
                 </div>
 
-                <div>
-                  <label htmlFor="gp-popup-phone" className="sr-only">
-                    Mobile number
-                  </label>
-                  <input
-                    id="gp-popup-phone"
-                    name="phone"
-                    type="tel"
-                    inputMode="numeric"
-                    required
-                    placeholder="Mobile number"
-                    className={FIELD}
-                    aria-invalid={Boolean(state.errors?.phone)}
-                  />
-                  {state.errors?.phone ? (
-                    <p role="alert" className="mt-1 text-[12px] text-status-danger">
-                      {state.errors.phone}
-                    </p>
-                  ) : null}
-                </div>
+                <PhoneField
+                  id="gp-popup-phone"
+                  required
+                  srLabel
+                  value={phone}
+                  onChange={setPhone}
+                  serverError={state.errors?.phone}
+                />
 
-                <div>
-                  <label htmlFor="gp-popup-intent" className="sr-only">
-                    What are you looking for?
-                  </label>
-                  <select id="gp-popup-intent" name="message" required defaultValue="" className={FIELD}>
-                    <option value="" disabled>
-                      What are you looking for?
-                    </option>
-                    {INTENTS.map((intent) => (
-                      <option key={intent.value} value={intent.label}>
-                        {intent.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <LeadIntent idPrefix="gp-popup" context={copy.context} />
 
                 <button
                   type="submit"

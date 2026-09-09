@@ -12,7 +12,6 @@ import LoanFaqV2 from "@/components/realestate/premium-v2/home-loan/LoanFaqV2";
 import {
   ConversionTableV2,
   RelatedConversionsV2,
-  ToolPropertyCtaV2,
 } from "@/components/realestate/premium-v2/tools/ToolSections";
 
 /** Every ordered unit pair, for every real-estate tenant. */
@@ -55,6 +54,7 @@ export default async function AreaPairPage({ params }: Props) {
   const { tenant: tenantSlug, pair } = await params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  const settings = await getFirmSettings(tenant.id);
   const resolved = resolve(pair);
   if (!resolved) notFound();
 
@@ -121,12 +121,6 @@ export default async function AreaPairPage({ params }: Props) {
 
       <RelatedConversionsV2 from={from} to={to} p={p} />
 
-      <ToolPropertyCtaV2
-        heading="Know the size. Now see what it costs in your sector."
-        blurb="Plot prices in Gurugram move sharply between corridors — the same gaj figure buys very differently on Sohna Road than on Golf Course Road. Browse what is actually available."
-        href={p("/properties")}
-        cta="Browse Gurugram properties"
-      />
     </>
   );
 }

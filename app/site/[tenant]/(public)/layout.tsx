@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import SiteHeader from "@/components/site/SiteHeader";
@@ -5,7 +6,13 @@ import RealEstateSiteHeader from "@/components/realestate/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import HeaderV2 from "@/components/realestate/premium-v2/HeaderV2";
 import FooterV2 from "@/components/realestate/premium-v2/FooterV2";
+import ConsultationCtaV2 from "@/components/realestate/premium-v2/ConsultationCtaV2";
 import ScrollLeadPopupV2 from "@/components/realestate/premium-v2/ScrollLeadPopupV2";
+import ScrollDepthTracker from "@/components/realestate/premium-v2/ScrollDepthTracker";
+import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
+import { iconsFor } from "@/lib/brand-icons";
+import { originFor } from "@/lib/og";
+import CallbackFloatV2 from "@/components/realestate/premium-v2/CallbackFloatV2";
 import WhatsAppFloatV2 from "@/components/realestate/premium-v2/WhatsAppFloatV2";
 import MobileActionBarV2 from "@/components/realestate/premium-v2/MobileActionBarV2";
 import AnnouncementBar from "@/components/site/AnnouncementBar";
@@ -13,6 +20,7 @@ import CompliancePopup from "@/components/site/CompliancePopup";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getTemplateKeyForSlug } from "@/lib/templates";
+import { toolLinksFor } from "@/lib/premium-v2/tools";
 import { getFirmSettings, getNextDeadline, getServices } from "@/lib/content";
 import { buildOrganizationJsonLd, jsonLdProps } from "@/lib/schema-org";
 import { deadlineInstant, daysUntil, formatDate } from "@/lib/format";
@@ -25,6 +33,26 @@ import { getVerticalConfig } from "@/lib/verticals";
  * would opt the whole thing back into per-request rendering.
  */
 export const revalidate = 300;
+
+/**
+ * Layout-level metadata so the tenant's favicon covers every public page
+ * beneath it. Page-level `generateMetadata` overrides title and description
+ * but leaves `icons` in place, which is the behaviour wanted here.
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ tenant: string }>;
+}): Promise<Metadata> {
+  const { tenant } = await params;
+  const row = await getTenantBySlug(tenant);
+  return {
+    // Required for Open Graph: relative image paths in page metadata are
+    // resolved against this, and OG requires absolute URLs.
+    metadataBase: originFor(row?.customDomain),
+    icons: iconsFor(tenant),
+  };
+}
 
 
 export default async function SiteLayout({
@@ -50,7 +78,22 @@ export default async function SiteLayout({
   const p = (path: string) => joinPath(basePath, path);
   const vertical = getVerticalConfig(tenant.vertical);
 
-  const navItems = vertical.nav.map((item) => ({ label: item.label, href: p(item.path) }));
+  // Children are resolved here too: a grouping entry renders as a dropdown in
+  // the header and as a labelled block in the mobile sheet.
+  const navItems = vertical.nav.map((item) => ({
+    label: item.label,
+    href: p(item.path),
+    ...(item.children
+      ? {
+          children: item.children.map((child) => ({
+            label: child.label,
+            href: p(child.path),
+            icon: child.icon,
+            badge: child.badge,
+          })),
+        }
+      : {}),
+  }));
 
   const categories = [...new Set(services.map((s) => s.category))];
   const effectiveDate = deadline ? (deadline.extendedDueDate ?? deadline.dueDate) : null;
@@ -79,6 +122,10 @@ export default async function SiteLayout({
         />
       ) : null}
 
+      {/* gtag.js for this tenant's own GA4 property. Rendered here so it
+          covers every public page in one place. */}
+      <GoogleAnalytics measurementId={settings.ga4MeasurementId ?? ""} />
+
       {isPremiumV2 ? (
         // HeaderV2 reads useSearchParams() to highlight the active nav item
         // (Buy/Rent/Commercial all point at /properties with different
@@ -92,6 +139,14 @@ export default async function SiteLayout({
             phone={settings.phone}
             basePath={basePath || "/"}
             navItems={navItems}
+            toolLinks={[
+              ...toolLinksFor(tenant.slug).map((tool) => ({
+                label: tool.label,
+                path: tool.path,
+                icon: tool.icon,
+              })),
+              { label: "All Calculators", path: "/calculators", icon: "Calculator" },
+            ]}
           />
         </Suspense>
       ) : vertical.id === "realestate" ? (
@@ -127,6 +182,13 @@ export default async function SiteLayout({
           background as a visible strip under the header. */}
       <main className={isPremiumV2 ? "flex-1 pt-[88px] lg:pt-[104px]" : "flex-1"}>{children}</main>
 
+      {/* Closing CTA. Rendered here rather than per page so every route in the
+          template ends on the same photographed consultation band directly
+          above the footer — pages used to opt in individually, which left
+          roughly half of them (properties, localities, calculators, updates,
+          legal, careers) ending on a bare section edge. */}
+      {isPremiumV2 ? <ConsultationCtaV2 phone={settings.phone} /> : null}
+
       {isPremiumV2 ? (
         <FooterV2 settings={settings} basePath={basePath || "/"} clientSlug={tenant.slug} />
       ) : (
@@ -153,7 +215,12 @@ export default async function SiteLayout({
             firmName={settings.firmName}
             googleMapsUrl={settings.googleMapsUrl}
           />
+          <CallbackFloatV2 />
           <ScrollLeadPopupV2 basePath={basePath || "/"} />
+          {/* Site-wide scroll milestones. Individual pages that want a more
+              specific page_type (plot maps, the maps index) render their own
+              tracker; the milestone set is deduped per path either way. */}
+          <ScrollDepthTracker pageType="site" />
         </>
       ) : null}
 

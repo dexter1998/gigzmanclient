@@ -71,7 +71,13 @@ export async function submitQuery(
   const clientType = String(formData.get("clientType") ?? "").trim();
   const serviceSlug = String(formData.get("service") ?? "").trim();
   const preferredContact = String(formData.get("preferredContact") ?? "").trim();
-  const message = String(formData.get("message") ?? "").trim();
+  // Forms compose `message` from the structured lead fields (what they are
+  // looking for, what page they were on, how to reach them). `note` is the
+  // free-text box some of them also offer; it is appended rather than kept
+  // apart so the dashboard has one field to read.
+  const note = String(formData.get("note") ?? "").trim();
+  const composed = String(formData.get("message") ?? "").trim();
+  const message = [composed, note ? `Note: ${note}` : ""].filter(Boolean).join(" · ");
   const consent = formData.get("consent") === "on";
   const marketingConsent = formData.get("marketingConsent") === "on";
   const landingPage = String(formData.get("landingPage") ?? "").slice(0, 500);

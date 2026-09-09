@@ -17,12 +17,24 @@ import { clients } from "@/lib/db/schema";
  * build time, so a build never fails over this — those routes simply render
  * on demand and are cached afterwards.
  */
+/**
+ * A single-client deployment (a client's own domain, `TENANT_MODE=host`) has
+ * no reason to prerender every other tenant's pages. `TENANT_ONLY` is a
+ * comma-separated slug list that narrows the build to those clients; unset, it
+ * builds all of them, which is what the shared multi-tenant deployment wants.
+ */
+const TENANT_ONLY = (process.env.TENANT_ONLY ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
 export async function activeTenants(): Promise<{ id: string; slug: string }[]> {
   try {
-    return await db
+    const rows = await db
       .select({ id: clients.id, slug: clients.slug })
       .from(clients)
       .where(eq(clients.isActive, true));
+    return TENANT_ONLY.length > 0 ? rows.filter((r) => TENANT_ONLY.includes(r.slug)) : rows;
   } catch {
     return [];
   }

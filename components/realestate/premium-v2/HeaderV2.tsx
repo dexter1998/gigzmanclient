@@ -4,31 +4,74 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { ChevronDown, Menu, Phone, X } from "lucide-react";
+import {
+  Building2,
+  Calculator,
+  ChevronDown,
+  ClipboardCheck,
+  Compass,
+  Factory,
+  FileText,
+  HardHat,
+  Home,
+  KeyRound,
+  Landmark,
+  Map,
+  Menu,
+  Phone,
+  Ruler,
+  Sparkles,
+  Store,
+  TrendingUp,
+  X,
+  type LucideIcon,
+} from "lucide-react";
 import { cn } from "./gp-primitives";
 import { openLeadPopup } from "./leadPopup";
 import { joinPath } from "@/lib/paths";
 
 const NAV_LINK =
-  "rounded-[var(--gp-radius-sm)] px-2.5 py-2 text-[15px] font-semibold uppercase tracking-[0.04em] transition-colors";
+  // 12.75px is the 15px this bar used, less 15% — the ask was a quieter nav,
+  // and at eight entries the extra room also keeps it on one line.
+  "rounded-[var(--gp-radius-sm)] px-2.5 py-2 text-[12.75px] font-semibold uppercase tracking-[0.04em] transition-colors";
 const NAV_ACTIVE = "text-[color:var(--gp-gold-300)]";
 const NAV_IDLE = "text-white/80 hover:text-white";
 
-/** Calculator and financing hubs, grouped so the main bar stays at seven items. */
-const TOOL_LINKS = [
-  { label: "Home Loan EMI", path: "/home-loan" },
-  { label: "Rental Yield & Payback", path: "/rental-yield" },
-  { label: "Area Converter", path: "/area-converter" },
-  { label: "Vastu Calculator", path: "/vastu" },
-  { label: "All Calculators", path: "/calculators" },
-  { label: "EMI Calculator", path: "/calculators/emi" },
-  { label: "Stamp Duty", path: "/calculators/stamp-duty" },
-  { label: "Rental Yield", path: "/calculators/rental-yield" },
-];
 
 interface NavItem {
   label: string;
   href: string;
+  icon?: string;
+  badge?: string;
+  children?: NavItem[];
+}
+
+/**
+ * Icons appear inside the dropdown only. In the bar itself they would turn a
+ * row of words into a toolbar and compete with the one gold CTA.
+ */
+const NAV_ICONS: Record<string, LucideIcon> = {
+  Home,
+  Factory,
+  ClipboardCheck,
+  HardHat,
+  FileText,
+  KeyRound,
+  Store,
+  Sparkles,
+  Map,
+  Building2,
+  Landmark,
+  TrendingUp,
+  Ruler,
+  Compass,
+  Calculator,
+};
+
+interface ToolLink {
+  label: string;
+  path: string;
+  icon?: string;
 }
 
 interface HeaderV2Props {
@@ -39,6 +82,64 @@ interface HeaderV2Props {
   phone?: string | null;
   basePath: string;
   navItems: NavItem[];
+  /** Calculator and financing hubs, grouped so the main bar stays at seven
+   *  items. Passed in rather than hardcoded here: which of them a tenant
+   *  publishes (and where EMI lives) is resolved server-side in
+   *  lib/premium-v2/tools.ts. */
+  toolLinks: ToolLink[];
+}
+
+/** One row of a dropdown: icon, label, optional flag. */
+function MenuRow({ item }: { item: NavItem }) {
+  const Icon = item.icon ? NAV_ICONS[item.icon] : undefined;
+  return (
+    <Link
+      href={item.href}
+      className="flex items-center gap-3 px-4 py-2.5 text-[14px] text-white/80 transition-colors hover:bg-white/[0.06] hover:text-[color:var(--gp-gold-300)]"
+    >
+      {Icon ? (
+        <Icon className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />
+      ) : null}
+      <span className="min-w-0 flex-1 truncate">{item.label}</span>
+      {item.badge ? (
+        <span className="shrink-0 rounded-full bg-[color:var(--gp-gold-600)] px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.08em] text-[color:var(--gp-forest-950)]">
+          {item.badge}
+        </span>
+      ) : null}
+    </Link>
+  );
+}
+
+/** A bar entry that opens a menu — same hover/focus behaviour as Tools. */
+function NavGroup({ item, isActive }: { item: NavItem; isActive: (href: string) => boolean }) {
+  const [open, setOpen] = useState(false);
+  const active = (item.children ?? []).some((c) => isActive(c.href));
+  return (
+    <div className="relative" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-haspopup="true"
+        onClick={() => setOpen((v) => !v)}
+        className={cn(NAV_LINK, "inline-flex items-center gap-1", active ? NAV_ACTIVE : NAV_IDLE)}
+      >
+        {item.label}
+        <ChevronDown
+          className={cn("h-3.5 w-3.5 transition-transform", open && "rotate-180")}
+          aria-hidden="true"
+        />
+      </button>
+      {open ? (
+        <div className="absolute left-0 top-full z-50 w-64 pt-2">
+          <div className="overflow-hidden rounded-[var(--gp-radius-md)] border border-white/12 bg-[color:var(--gp-forest-950)] py-2 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]">
+            {(item.children ?? []).map((child) => (
+              <MenuRow key={child.href} item={child} />
+            ))}
+          </div>
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 /**
@@ -52,6 +153,7 @@ export default function HeaderV2({
   phone,
   basePath,
   navItems,
+  toolLinks,
 }: HeaderV2Props) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -120,7 +222,7 @@ export default function HeaderV2({
   // with a light (or non-hero) background, so the header must be solid from
   // the first frame there or its white/gold text is unreadable and it
   // visually collides with the page's own breadcrumb/heading underneath it.
-  const toolsActive = TOOL_LINKS.some((t) => pathname?.startsWith(joinPath(basePath, t.path)));
+  const toolsActive = toolLinks.some((t) => pathname?.startsWith(joinPath(basePath, t.path)));
 
   const isHome = pathname === basePath || pathname === `${basePath}/`;
   const solid = scrolled || mobileOpen || !isHome;
@@ -147,7 +249,10 @@ export default function HeaderV2({
         </Link>
 
         <nav className="hidden items-center gap-0.5 lg:flex">
-          {navItems.map((item) => (
+          {navItems.map((item) =>
+            item.children ? (
+              <NavGroup key={item.label} item={item} isActive={isActive} />
+            ) : (
             <Link
               key={item.href}
               href={item.href}
@@ -155,7 +260,8 @@ export default function HeaderV2({
             >
               {item.label}
             </Link>
-          ))}
+            ),
+          )}
 
           {/* Tools sit behind a dropdown rather than as top-level items —
               the bar is already at seven links and adding the calculator
@@ -177,7 +283,7 @@ export default function HeaderV2({
                 toolsActive ? NAV_ACTIVE : NAV_IDLE,
               )}
             >
-              Tools
+              Calculators
               <ChevronDown
                 className={cn("h-3.5 w-3.5 transition-transform", toolsOpen && "rotate-180")}
                 aria-hidden="true"
@@ -187,14 +293,15 @@ export default function HeaderV2({
             {toolsOpen ? (
               <div className="absolute left-0 top-full z-50 w-60 pt-2">
                 <div className="overflow-hidden rounded-[var(--gp-radius-md)] border border-white/12 bg-[color:var(--gp-forest-950)] py-2 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.7)]">
-                  {TOOL_LINKS.map((tool) => (
-                    <Link
+                  {toolLinks.map((tool) => (
+                    <MenuRow
                       key={tool.path}
-                      href={joinPath(basePath, tool.path)}
-                      className="block px-4 py-2.5 text-[14px] text-white/80 transition-colors hover:bg-white/[0.06] hover:text-[color:var(--gp-gold-300)]"
-                    >
-                      {tool.label}
-                    </Link>
+                      item={{
+                        label: tool.label,
+                        href: joinPath(basePath, tool.path),
+                        icon: tool.icon,
+                      }}
+                    />
                   ))}
                 </div>
               </div>
@@ -240,30 +347,72 @@ export default function HeaderV2({
           className="border-t border-white/10 bg-[color:var(--gp-forest-950)] lg:hidden"
         >
           <nav className="gp-container flex flex-col py-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={cn(
-                  "min-h-[48px] rounded-[var(--gp-radius-sm)] px-2 py-3 text-[15px]",
-                  isActive(item.href) ? "font-semibold text-[color:var(--gp-gold-300)]" : "text-white/85",
-                )}
-              >
-                {item.label}
-              </Link>
-            ))}
+            {navItems.map((item) =>
+              item.children ? (
+                <div key={item.label}>
+                  <p className="px-2 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/40">
+                    {item.label}
+                  </p>
+                  {item.children.map((child) => {
+                    const Icon = child.icon ? NAV_ICONS[child.icon] : undefined;
+                    return (
+                      <Link
+                        key={child.href}
+                        href={child.href}
+                        className={cn(
+                          "flex min-h-[46px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-2.5 text-[14.5px]",
+                          isActive(child.href)
+                            ? "font-semibold text-[color:var(--gp-gold-300)]"
+                            : "text-white/85",
+                        )}
+                      >
+                        {Icon ? (
+                          <Icon
+                            className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]"
+                            aria-hidden="true"
+                          />
+                        ) : null}
+                        <span className="min-w-0 flex-1 truncate">{child.label}</span>
+                        {child.badge ? (
+                          <span className="shrink-0 rounded-full bg-[color:var(--gp-gold-600)] px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-[0.08em] text-[color:var(--gp-forest-950)]">
+                            {child.badge}
+                          </span>
+                        ) : null}
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={cn(
+                    "min-h-[48px] rounded-[var(--gp-radius-sm)] px-2 py-3 text-[15px]",
+                    isActive(item.href) ? "font-semibold text-[color:var(--gp-gold-300)]" : "text-white/85",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ),
+            )}
             <p className="mt-3 border-t border-white/10 px-2 pt-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/40">
-              Tools
+              Calculators
             </p>
-            {TOOL_LINKS.map((tool) => (
+            {toolLinks.map((tool) => {
+              const Icon = tool.icon ? NAV_ICONS[tool.icon] : undefined;
+              return (
               <Link
                 key={tool.path}
                 href={joinPath(basePath, tool.path)}
-                className="min-h-[44px] rounded-[var(--gp-radius-sm)] px-2 py-2.5 text-[14px] text-white/75"
+                className="flex min-h-[44px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-2.5 text-[14px] text-white/75"
               >
+                {Icon ? (
+                  <Icon className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />
+                ) : null}
                 {tool.label}
               </Link>
-            ))}
+              );
+            })}
 
             <button
               type="button"

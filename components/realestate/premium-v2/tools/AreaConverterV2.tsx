@@ -5,6 +5,7 @@ import { ArrowLeftRight } from "lucide-react";
 import { AREA_UNITS, convertArea, formatArea, findUnit } from "@/lib/calculators/area-units";
 import { analytics } from "@/lib/analytics";
 import { GpContainer } from "../gp-primitives";
+import LineArtBackdropV2 from "../LineArtBackdropV2";
 import { openLeadPopup } from "../leadPopup";
 
 const FIELD =
@@ -55,6 +56,7 @@ export default function AreaConverterV2({
         className="pointer-events-none absolute inset-0 opacity-[0.35]"
         style={{ background: "var(--gp-gradient-glow)" }}
       />
+      <LineArtBackdropV2 variant="blueprint-wide" />
       <GpContainer className="relative py-12 sm:py-16">
         {breadcrumb ? <div className="mb-6">{breadcrumb}</div> : null}
 
@@ -152,7 +154,7 @@ export default function AreaConverterV2({
 
           <div className="bg-[image:var(--gp-gradient-dark-section)] p-6 sm:p-8">
             <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">Buying in Gurugram?</p>
-            <h2 className="font-display mt-3 text-[24px] leading-tight text-white sm:text-[28px]">
+            <h2 className="font-display mt-3 text-[18px] leading-tight text-white sm:text-[21px]">
               Know the plot size. Now see what it costs.
             </h2>
             <p className="mt-3 text-[14px] leading-relaxed text-white/70">

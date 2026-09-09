@@ -76,7 +76,7 @@ export default function ContactChannelsV2({
               >
                 <Icon className="h-5 w-5 text-[color:var(--gp-gold-600)]" aria-hidden="true" />
                 <p className="gp-eyebrow mt-4 text-[color:var(--gp-gold-600)]">{channel.label}</p>
-                <p className="mt-1.5 flex items-center gap-1.5 font-display text-[17px] leading-snug text-[color:var(--gp-ink)] transition-colors group-hover:text-[color:var(--gp-gold-600)]">
+                <p className="mt-1.5 flex items-center gap-1.5 font-display text-[15px] leading-snug text-[color:var(--gp-ink)] transition-colors group-hover:text-[color:var(--gp-gold-600)]">
                   {channel.title}
                   <ArrowUpRight
                     className="h-4 w-4 shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"

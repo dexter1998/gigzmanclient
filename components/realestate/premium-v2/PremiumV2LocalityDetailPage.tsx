@@ -167,7 +167,7 @@ export default async function PremiumV2LocalityDetailPage({
 
           {listings.length === 0 ? (
             <div className="mt-8 rounded-[var(--gp-radius-md)] border border-dashed border-[color:var(--gp-border)] p-12 text-center">
-              <p className="font-display text-[20px] text-[color:var(--gp-ink)]">
+              <p className="font-display text-[15px] text-[color:var(--gp-ink)]">
                 No active listings in {locality.name} right now.
               </p>
               <Link
@@ -178,7 +178,7 @@ export default async function PremiumV2LocalityDetailPage({
               </Link>
             </div>
           ) : (
-            <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="gp-mobile-carousel mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {listings.map((property, i) => (
                 <PropertyCardV2
                   key={property.id}

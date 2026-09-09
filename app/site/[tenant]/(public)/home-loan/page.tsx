@@ -11,7 +11,6 @@ import {
   GurugramBudgetV2,
   RelatedAmountsV2,
 } from "@/components/realestate/premium-v2/home-loan/LoanSectionsV2";
-import ConsultationCtaV2 from "@/components/realestate/premium-v2/ConsultationCtaV2";
 
 const DEFAULT_LOAN = 7_500_000;
 
@@ -83,7 +82,6 @@ export default async function HomeLoanHubPage(props: PageProps<"/site/[tenant]/h
 
       <RelatedAmountsV2 p={p} />
 
-      <ConsultationCtaV2 phone={settings.phone} />
     </>
   );
 }

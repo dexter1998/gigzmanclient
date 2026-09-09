@@ -45,7 +45,7 @@ export default function LocalityMapExplorerV2({
           Localities on the map
         </h2>
 
-        <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-[1.15fr_1fr]">
+        <div className="mt-10 grid grid-cols-1 gap-6 lg:h-[520px] lg:grid-cols-[1.15fr_1fr]">
           {/* ── Placeholder map panel ─────────────────────────────────── */}
           <div className="relative overflow-hidden rounded-[var(--gp-radius-lg)] border border-[color:var(--gp-border)]">
             {/*
@@ -55,7 +55,7 @@ export default function LocalityMapExplorerV2({
               are derived, not real coordinates.
             */}
             <div
-              className="relative aspect-[4/3] w-full bg-[color:var(--gp-cream-200)] lg:aspect-auto lg:h-full lg:min-h-[420px]"
+              className="relative aspect-[4/3] w-full bg-[color:var(--gp-cream-200)] lg:aspect-auto lg:h-full lg:min-h-0"
               style={{
                 backgroundImage:
                   "linear-gradient(rgba(19,74,67,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(19,74,67,0.06) 1px, transparent 1px)",
@@ -114,8 +114,8 @@ export default function LocalityMapExplorerV2({
           </div>
 
           {/* ── Selected locality detail — clicking a pin or list row syncs this panel ── */}
-          <div className="flex flex-col overflow-hidden rounded-[var(--gp-radius-lg)] border border-[color:var(--gp-border)] bg-white">
-            <div className="relative aspect-[16/10] w-full">
+          <div className="flex min-h-0 flex-col overflow-hidden rounded-[var(--gp-radius-lg)] border border-[color:var(--gp-border)] bg-white">
+            <div className="relative aspect-[16/10] w-full shrink-0 lg:aspect-auto lg:h-[190px]">
               {selected.heroImage ? (
                 <Image
                   src={selected.heroImage}
@@ -131,11 +131,11 @@ export default function LocalityMapExplorerV2({
               )}
             </div>
 
-            <div className="flex flex-1 flex-col p-6">
+            <div className="flex flex-col p-6">
               {selected.corridor && selected.corridor !== selected.name ? (
                 <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">{selected.corridor}</p>
               ) : null}
-              <h3 className="font-display mt-1.5 text-[22px] text-[color:var(--gp-ink)]">
+              <h3 className="font-display mt-1.5 text-[16px] text-[color:var(--gp-ink)]">
                 {selected.name}
               </h3>
               <p className="mt-2 text-[13.5px] leading-relaxed text-[color:var(--gp-ink-muted)]">
@@ -161,7 +161,7 @@ export default function LocalityMapExplorerV2({
             </div>
 
             {/* ── Other localities list — clicking syncs both the map pins and the panel above ── */}
-            <div className="max-h-[220px] overflow-y-auto border-t border-[color:var(--gp-border)]">
+            <div className="max-h-[220px] flex-1 overflow-y-auto border-t border-[color:var(--gp-border)] lg:max-h-none lg:min-h-0">
               {localities
                 .filter((locality) => locality.id !== selected.id)
                 .map((locality) => (

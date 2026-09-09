@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { LockKeyhole, Mail, MapPin, Phone } from "lucide-react";
 import { analytics } from "@/lib/analytics";
 import { joinPath } from "@/lib/paths";
 import WhatsAppIconV2 from "./WhatsAppIconV2";
@@ -42,7 +42,10 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
   const quickLinks: FooterLink[] = [
     { label: "Home", href: p("/") },
     { label: "Properties", href: p("/properties") },
+    { label: "Sectors", href: p("/sectors") },
+    { label: "Builders", href: p("/builders") },
     { label: "Localities", href: p("/localities") },
+    { label: "Plot Maps", href: p("/maps/gurgaon") },
     { label: "Calculators", href: p("/calculators") },
     { label: "Contact", href: p("/contact") },
   ];
@@ -51,6 +54,8 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
     { label: "Buy", href: p("/properties?purpose=buy") },
     { label: "Rent", href: p("/properties?purpose=rent") },
     { label: "Commercial", href: p("/properties?type=commercial") },
+    { label: "Projects by sector", href: p("/sectors") },
+    { label: "Projects by builder", href: p("/builders") },
     { label: "Localities", href: p("/localities") },
   ];
 
@@ -60,6 +65,7 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
     { label: "Rental Yield", href: p("/rental-yield") },
     { label: "Area Converter", href: p("/area-converter") },
     { label: "Vastu", href: p("/vastu") },
+    { label: "Plot Maps", href: p("/maps/gurgaon") },
     { label: "Calculators", href: p("/calculators") },
     { label: "FAQ", href: p("/faq") },
   ];
@@ -176,7 +182,7 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
             </div>
           </div>
 
-          <div className="mt-12 border-t border-white/12 pt-6">
+          <div className="mt-12 flex flex-col gap-6 border-t border-white/12 pt-6 lg:flex-row lg:items-start lg:justify-between">
             <p className="max-w-3xl text-[15px] leading-relaxed text-white/50">
               Property information, availability and market figures on this website are indicative and
               subject to verification. Where a listing shows a RERA registration number, confirm it on
@@ -184,6 +190,26 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
               shown, registration is pending. Buyers should complete independent legal and financial
               due diligence before transacting.
             </p>
+
+            <a
+              href="https://gigzman.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex shrink-0 items-center gap-3 self-start rounded-[var(--gp-radius-sm)] bg-white px-4 py-3 transition-opacity hover:opacity-90"
+            >
+              <span className="block text-[10px] font-semibold uppercase leading-tight tracking-[0.09em] text-[color:var(--gp-muted)]">
+                Managed &amp;
+                <br />
+                developed by
+              </span>
+              <Image
+                src="/brand/gigzman-logo.png"
+                alt="Gigzman"
+                width={368}
+                height={96}
+                className="h-6 w-auto"
+              />
+            </a>
           </div>
 
           <nav className="mt-6 flex flex-wrap gap-x-4 gap-y-1 border-t border-white/12 pt-6 text-[15px] text-white/50">
@@ -192,23 +218,35 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
                 {link.label}
               </Link>
             ))}
+            {/* Staff entry point. Sits with the legal links rather than in a
+                content column so it reads as site plumbing, not a service —
+                the dashboard is behind a sign-in and robots.txt disallows it
+                either way. */}
+            <Link
+              href={p("/dashboard")}
+              className="ml-auto inline-flex items-center gap-1.5 hover:text-white"
+            >
+              <LockKeyhole className="h-3.5 w-3.5" aria-hidden="true" />
+              Admin Dashboard
+            </Link>
           </nav>
         </div>
       </div>
 
       <div className="bg-black">
-        <div className="gp-container flex flex-col gap-2 py-5 text-[13px] text-white/60 sm:flex-row sm:items-center sm:justify-between">
+        <div className="gp-container py-5 text-[13px] text-white/60">
           <p>
             © {new Date().getFullYear()} {settings.firmName}. All rights reserved.
+            <span className="mx-2 text-white/30" aria-hidden="true">|</span>
+            <a
+              href="https://gigzman.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-[color:var(--gp-gold-300)] hover:text-[color:var(--gp-gold-600)]"
+            >
+              Managed &amp; Developed by Gigzman
+            </a>
           </p>
-          <a
-            href="https://gigzman.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white"
-          >
-            Developed &amp; Managed by Gigzman
-          </a>
         </div>
       </div>
     </footer>

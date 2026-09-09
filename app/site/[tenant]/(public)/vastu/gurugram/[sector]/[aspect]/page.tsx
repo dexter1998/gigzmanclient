@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Building2, Compass, MapPin } from "lucide-react";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getLocalities } from "@/lib/content";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { paramsForEachTenant } from "@/lib/static-params";
+import { vastuSectorsEnabled } from "@/lib/vastu/enabled";
 import { DIRECTIONS, ROOMS, VASTU_DISCLAIMER, findDirection, findRoom } from "@/lib/vastu";
 import {
   SECTORS, PROPERTY_CONTEXTS, findSector, resolveSectorAspect, sectorAspectSlugs,
@@ -14,8 +16,9 @@ import {
 } from "@/lib/vastu/sector-content";
 import { buildBreadcrumbJsonLd, buildFaqJsonLd, jsonLdProps } from "@/lib/schema-org";
 import LoanFaqV2 from "@/components/realestate/premium-v2/home-loan/LoanFaqV2";
-import { ToolPropertyCtaV2 } from "@/components/realestate/premium-v2/tools/ToolSections";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
+import LineArtBackdropV2 from "@/components/realestate/premium-v2/LineArtBackdropV2";
+import RelatedCardsV2 from "@/components/realestate/premium-v2/RelatedCardsV2";
 
 const DIRECTION_SLUGS = DIRECTIONS.map((d) => d.slug);
 const ROOM_SLUGS = ROOMS.map((r) => r.slug);
@@ -24,7 +27,7 @@ const ASPECTS = sectorAspectSlugs(DIRECTION_SLUGS, ROOM_SLUGS);
 export async function generateStaticParams() {
   return paramsForEachTenant(async (tenant) => {
     const t = await getTenantBySlug(tenant.slug);
-    if (!t || t.vertical !== "realestate") return [];
+    if (!t || t.vertical !== "realestate" || !vastuSectorsEnabled(t.slug)) return [];
     return SECTORS.flatMap((s) => ASPECTS.map((aspect) => ({ sector: s.slug, aspect })));
   });
 }
@@ -56,6 +59,8 @@ export default async function VastuSectorAspectPage({ params }: Props) {
   const { tenant: tenantSlug, sector: sectorSlug, aspect: aspectSlug } = await params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  const settings = await getFirmSettings(tenant.id);
+  if (!vastuSectorsEnabled(tenant.slug)) notFound();
   const sector = findSector(sectorSlug);
   const aspect = resolveSectorAspect(aspectSlug, DIRECTION_SLUGS, ROOM_SLUGS);
   if (!sector || !aspect) notFound();
@@ -87,7 +92,9 @@ export default async function VastuSectorAspectPage({ params }: Props) {
       />
       {buildFaqJsonLd(faqs) ? <script {...jsonLdProps(buildFaqJsonLd(faqs))} /> : null}
 
-      <GpSection tone="forest" className="py-14 sm:py-20">
+      <GpSection tone="forest" className="py-14 sm:py-20"
+        background={<LineArtBackdropV2 variant="building-right" opacity={0.6} desktopOnly />}
+      >
         <GpContainer>
           <nav aria-label="Breadcrumb" className="mb-6 text-[12.5px] text-white/55">
             <Link href={p("/vastu")} className="hover:text-[color:var(--gp-gold-300)]">Vastu</Link>
@@ -133,28 +140,25 @@ export default async function VastuSectorAspectPage({ params }: Props) {
               <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div className="rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-white p-5">
                   <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">Traditionally placed</p>
-                  <p className="font-display mt-2 text-[19px] text-[color:var(--gp-ink)]">
+                  <p className="font-display mt-2 text-[15px] text-[color:var(--gp-ink)]">
                     {room.preferred.map((d) => findDirection(d)!.name).join(", ")}
                   </p>
                 </div>
                 <div className="rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-white p-5">
                   <p className="gp-eyebrow text-[color:var(--gp-muted)]">Generally avoided</p>
-                  <p className="font-display mt-2 text-[19px] text-[color:var(--gp-ink)]">
+                  <p className="font-display mt-2 text-[15px] text-[color:var(--gp-ink)]">
                     {room.avoid.length ? room.avoid.map((d) => findDirection(d)!.name).join(", ") : "Nothing specific"}
                   </p>
                 </div>
               </div>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {DIRECTIONS.map((d) => (
-                  <Link
-                    key={d.slug}
-                    href={p(`/vastu/${room.slug}-in-${d.slug}-vastu`)}
-                    className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-                  >
-                    {room.name} in the {d.name.toLowerCase()}
-                  </Link>
-                ))}
-              </div>
+              <RelatedCardsV2
+                className="mt-6"
+                items={[DIRECTIONS.map((d) => (
+                  ({ href: p(`/vastu/${room.slug}-in-${d.slug}-vastu`), title: `${room.name} in the ${d.name.toLowerCase()}`, subtitle: d.summary })
+                ))].flat(2)}
+                icon={Compass}
+                columns={3}
+              />
             </>
           ) : (
             <>
@@ -208,61 +212,39 @@ export default async function VastuSectorAspectPage({ params }: Props) {
 
       <GpSection tone="cream" className="pt-0">
         <GpContainer>
-          <h2 className="font-display text-[21px] text-[color:var(--gp-ink)]">
-            Other facings in {sector.name}
-          </h2>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {DIRECTIONS.map((d) => (
-              <Link
-                key={d.slug}
-                href={p(`/vastu/gurugram/${sector.slug}/${d.slug}-facing`)}
-                className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-              >
-                {d.name} facing
-              </Link>
-            ))}
-          </div>
+          <RelatedCardsV2
+            title={`Other facings in ${sector.name}`}
+            items={[DIRECTIONS.map((d) => (
+              ({ href: p(`/vastu/gurugram/${sector.slug}/${d.slug}-facing`), title: `${d.name} facing`, subtitle: d.summary })
+            ))].flat(2)}
+            icon={Compass}
+            columns={3}
+          />
 
-          <h2 className="font-display mt-10 text-[21px] text-[color:var(--gp-ink)]">
-            By property type in {sector.name}
-          </h2>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {PROPERTY_CONTEXTS.map((c) => (
-              <Link
-                key={c.slug}
-                href={p(`/vastu/gurugram/${sector.slug}/${c.slug}`)}
-                className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-              >
-                {c.label}
-              </Link>
-            ))}
-          </div>
+          <RelatedCardsV2
+            className="mt-10"
+            title={`By property type in ${sector.name}`}
+            items={[PROPERTY_CONTEXTS.map((c) => (
+              ({ href: p(`/vastu/gurugram/${sector.slug}/${c.slug}`), title: c.label, subtitle: `Vastu for ${c.plural} here` })
+            ))].flat(2)}
+            icon={Building2}
+            columns={3}
+          />
 
-          <h2 className="font-display mt-10 text-[21px] text-[color:var(--gp-ink)]">
-            Nearby on the {market?.corridorName ?? "same corridor"}
-          </h2>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {SECTORS.filter((s) => s.corridorSlug === sector.corridorSlug && s.slug !== sector.slug)
+          <RelatedCardsV2
+            className="mt-10"
+            title={`Nearby on the ${market?.corridorName ?? "same corridor"}`}
+            items={[SECTORS.filter((s) => s.corridorSlug === sector.corridorSlug && s.slug !== sector.slug)
               .slice(0, 14)
               .map((s) => (
-                <Link
-                  key={s.slug}
-                  href={p(`/vastu/gurugram/${s.slug}/${aspectSlug}`)}
-                  className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-                >
-                  {s.name}
-                </Link>
-              ))}
-          </div>
+                ({ href: p(`/vastu/gurugram/${s.slug}/${aspectSlug}`), title: s.name, subtitle: s.character })
+              ))].flat(2)}
+            icon={MapPin}
+            columns={3}
+          />
         </GpContainer>
       </GpSection>
 
-      <ToolPropertyCtaV2
-        heading={`Want this in ${sector.name}, for real?`}
-        blurb="Guidance only goes so far. Tell us what you are looking for and we will filter current inventory in this sector to what actually matches."
-        href={p("/properties")}
-        cta="Find matching homes"
-      />
     </>
   );
 }

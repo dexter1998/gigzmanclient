@@ -34,7 +34,7 @@ export default function NewLaunchesV2({
           </Link>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="gp-mobile-carousel mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {properties.slice(0, 4).map((property) => (
             <PropertyCardV2
               key={property.id}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Building2, Compass, Ruler } from "lucide-react";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getFirmSettings } from "@/lib/content";
 import { getTemplateKeyForSlug } from "@/lib/templates";
@@ -12,8 +13,9 @@ import {
 import { PLOT_SIZES, PROPERTY_CONTEXTS, type PropertyContext } from "@/lib/vastu/sectors";
 import { buildBreadcrumbJsonLd, buildFaqJsonLd, jsonLdProps } from "@/lib/schema-org";
 import LoanFaqV2 from "@/components/realestate/premium-v2/home-loan/LoanFaqV2";
-import { ToolPropertyCtaV2 } from "@/components/realestate/premium-v2/tools/ToolSections";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
+import LineArtBackdropV2 from "@/components/realestate/premium-v2/LineArtBackdropV2";
+import RelatedCardsV2 from "@/components/realestate/premium-v2/RelatedCardsV2";
 
 /**
  * The non-sector vastu matrix. Each family answers a genuinely different
@@ -232,6 +234,7 @@ export default async function VastuTopicPage({ params }: Props) {
   const { tenant: tenantSlug, topic } = await params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  const settings = await getFirmSettings(tenant.id);
   const resolved = resolve(topic);
   if (!resolved) notFound();
 
@@ -257,7 +260,9 @@ export default async function VastuTopicPage({ params }: Props) {
       />
       {buildFaqJsonLd(faqs) ? <script {...jsonLdProps(buildFaqJsonLd(faqs))} /> : null}
 
-      <GpSection tone="forest" className="py-14 sm:py-20">
+      <GpSection tone="forest" className="py-14 sm:py-20"
+        background={<LineArtBackdropV2 variant="building-right" opacity={0.6} desktopOnly />}
+      >
         <GpContainer>
           <nav aria-label="Breadcrumb" className="mb-6 text-[12.5px] text-white/55">
             <Link href={p("/")} className="hover:text-[color:var(--gp-gold-300)]">Home</Link>
@@ -352,12 +357,10 @@ export default async function VastuTopicPage({ params }: Props) {
 
       <GpSection tone="cream" className="pt-0">
         <GpContainer>
-          <h2 className="font-display text-[21px] text-[color:var(--gp-ink)]">Explore other directions</h2>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {DIRECTIONS.map((d) => (
-              <Link
-                key={d.slug}
-                href={p(
+          <RelatedCardsV2
+            title={`Explore other directions`}
+            items={[DIRECTIONS.map((d) => (
+              ({ href: p(
                   resolved.kind === "roomDir"
                     ? `/vastu/${resolved.room.slug}-in-${d.slug}-vastu`
                     : resolved.kind === "plot"
@@ -365,41 +368,33 @@ export default async function VastuTopicPage({ params }: Props) {
                       : resolved.kind === "type"
                         ? `/vastu/${resolved.context.slug}-${d.slug}-facing-vastu`
                         : `/vastu/${d.slug}-facing-house`,
-                )}
-                className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-              >
-                {d.name}
-              </Link>
-            ))}
-          </div>
+                ), title: d.name, subtitle: d.summary })
+            ))].flat(2)}
+            icon={Compass}
+            columns={3}
+          />
 
-          <h2 className="font-display mt-10 text-[21px] text-[color:var(--gp-ink)]">By property type</h2>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {PROPERTY_CONTEXTS.map((c) =>
+          <RelatedCardsV2
+            className="mt-10"
+            title={`By property type`}
+            items={[PROPERTY_CONTEXTS.map((c) =>
               DIRECTIONS.slice(0, 4).map((d) => (
-                <Link
-                  key={`${c.slug}-${d.slug}`}
-                  href={p(`/vastu/${c.slug}-${d.slug}-facing-vastu`)}
-                  className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-                >
-                  {d.name} facing {c.label.toLowerCase()}
-                </Link>
+                ({ href: p(`/vastu/${c.slug}-${d.slug}-facing-vastu`), title: `${d.name} facing ${c.label.toLowerCase()}`, subtitle: `${c.label} guidance for a ${d.name.toLowerCase()} facing` })
               )),
-            )}
-          </div>
+            )].flat(2)}
+            icon={Building2}
+            columns={3}
+          />
 
-          <h2 className="font-display mt-10 text-[21px] text-[color:var(--gp-ink)]">By plot size</h2>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {PLOT_SIZES.map((size) => (
-              <Link
-                key={size}
-                href={p(`/vastu/${size}-plot-${(highlightDirection ?? DIRECTIONS[0]).slug}-facing-vastu`)}
-                className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-              >
-                {size} plot
-              </Link>
-            ))}
-          </div>
+          <RelatedCardsV2
+            className="mt-10"
+            title={`By plot size`}
+            items={[PLOT_SIZES.map((size) => (
+              ({ href: p(`/vastu/${size}-plot-${(highlightDirection ?? DIRECTIONS[0]).slug}-facing-vastu`), title: `${size} plot`, subtitle: `Layout guidance for a ${size} ft plot` })
+            ))].flat(2)}
+            icon={Ruler}
+            columns={4}
+          />
 
           <p className="mt-9 max-w-3xl text-[12px] leading-relaxed text-[color:var(--gp-muted)]">
             {VASTU_DISCLAIMER}
@@ -407,12 +402,6 @@ export default async function VastuTopicPage({ params }: Props) {
         </GpContainer>
       </GpSection>
 
-      <ToolPropertyCtaV2
-        heading="Want a home that already matches?"
-        blurb="Tell us the facing and the room placements that matter to you, and we will shortlist Gurugram inventory that fits before you spend a weekend on site visits."
-        href={p("/properties")}
-        cta="Find matching homes"
-      />
     </>
   );
 }

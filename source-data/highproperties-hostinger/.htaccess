@@ -1,0 +1,67 @@
+# ═══════════════════════════════════════════════════════════════════════════
+#  High Properties — Apache configuration (Hostinger shared hosting)
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ── force HTTPS + canonical www ────────────────────────────────────────────
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  RewriteCond %{HTTP_HOST} ^highproperties\.in$ [NC]
+  RewriteRule ^(.*)$ https://www.highproperties.in/$1 [R=301,L]
+
+  # pretty URL for a single property: /property/HP-1001
+  RewriteRule ^property/([A-Za-z0-9-]+)/?$ index.html [L]
+</IfModule>
+
+# ── never serve secrets or the data store ──────────────────────────────────
+<FilesMatch "^\.env">
+  Require all denied
+</FilesMatch>
+<FilesMatch "\.(sql|log|md)$">
+  Require all denied
+</FilesMatch>
+RedirectMatch 403 ^/storage/.*$
+
+# ── security headers ───────────────────────────────────────────────────────
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), payment=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+  # Analytics/pixel hosts are allowed because the cookie banner may load them.
+  Header always set Content-Security-Policy "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; connect-src 'self' https://www.google-analytics.com https://graph.facebook.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
+  Header unset X-Powered-By
+</IfModule>
+ServerSignature Off
+
+# ── compression ────────────────────────────────────────────────────────────
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml \
+    application/javascript application/json application/xml \
+    image/svg+xml application/manifest+json
+</IfModule>
+
+# ── caching ────────────────────────────────────────────────────────────────
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/png                "access plus 1 year"
+  ExpiresByType image/jpeg               "access plus 1 year"
+  ExpiresByType image/webp               "access plus 1 year"
+  ExpiresByType image/x-icon             "access plus 1 year"
+  ExpiresByType text/css                 "access plus 1 month"
+  ExpiresByType application/javascript   "access plus 1 month"
+  ExpiresByType application/manifest+json "access plus 1 week"
+  ExpiresByType text/html                "access plus 0 seconds"
+  ExpiresByType application/json         "access plus 0 seconds"
+</IfModule>
+
+# ── misc ───────────────────────────────────────────────────────────────────
+AddDefaultCharset UTF-8
+DirectoryIndex index.html
+Options -Indexes
+
+ErrorDocument 404 /404.html

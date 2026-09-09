@@ -1,24 +1,38 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MapPin, ShieldCheck } from "lucide-react";
 import type { properties } from "@/lib/db/schema";
 import { formatIndianPrice, formatNumber, PROPERTY_STATUS_LABELS, PROPERTY_TYPE_LABELS } from "@/lib/format";
+import PropertyEnquireButton from "./PropertyEnquireButton";
 
 type Property = typeof properties.$inferSelect;
 type CardSize = "default" | "large" | "tall";
 
 /**
- * Aspect ratio governs the "default" card (used in equal 4-up grids). "large"
- * and "tall" are sized by their parent CSS grid in HotPropertiesGridV2 (which
- * row-spans them against two stacked default cards) — an explicit aspect
- * ratio there would fight the grid's stretch sizing, so on large screens
- * those two sizes fill the grid cell (`lg:h-full`) and only fall back to a
- * fixed aspect on mobile, where the asymmetric grid collapses to one column.
+ * Listing card: photograph on top, everything else in a body beneath it.
+ *
+ * Text used to sit over the photograph behind a scrim, which cost the card
+ * both ways — the copy fought whatever was in the picture, and the picture
+ * was half-covered by copy. Splitting them means the photo is seen whole and
+ * the title, location, configuration and price are read on a flat ground,
+ * with room for the two actions a listing card actually needs.
+ *
+ * The size variants now scale the *image*, not the whole card, so the body
+ * stays a constant height and cards line up across a row whatever their
+ * image ratio.
  */
-const SIZE_CLASSES: Record<CardSize, string> = {
+/**
+ * `large` and `tall` sit in HotPropertiesGridV2's asymmetric grid, where the
+ * card is stretched to a row span rather than sized by its own content. Now
+ * that the card has a body under the photograph, that extra height has to go
+ * somewhere: the image absorbs it (`lg:flex-1`) so the body stays the same
+ * compact block as every other card, instead of the buttons drifting to the
+ * bottom of a very tall card with a gap above them.
+ */
+const IMAGE_SIZE_CLASSES: Record<CardSize, string> = {
   default: "aspect-[4/3]",
-  large: "aspect-[16/11] lg:aspect-auto lg:h-full",
-  tall: "aspect-[3/4] lg:aspect-auto lg:h-full",
+  large: "aspect-[16/10] lg:aspect-auto lg:min-h-[260px] lg:flex-1",
+  tall: "aspect-[4/5] lg:aspect-auto lg:min-h-[260px] lg:flex-1",
 };
 
 const IMAGE_SIZES: Record<CardSize, string> = {
@@ -32,18 +46,14 @@ function pillTone(badge: string | null) {
   if (badge && badge.toLowerCase().includes("flagship")) {
     return "bg-[color:var(--gp-gold-600)] text-[color:var(--gp-forest-950)]";
   }
-  if (badge) return "bg-white/92 text-[color:var(--gp-ink)]";
-  return "bg-white/15 text-white backdrop-blur-sm";
+  return "bg-white/92 text-[color:var(--gp-ink)]";
 }
 
 function configLine(property: Property): string {
   const area = property.area ? `${formatNumber(property.area)} ${property.areaUnit ?? "sqft"}` : null;
-  if (property.beds) {
-    const bhk = `${property.beds} BHK`;
-    return area ? `${bhk} · ${area}` : bhk;
-  }
   const typeLabel = PROPERTY_TYPE_LABELS[property.propertyType] ?? property.propertyType;
-  return area ? `${typeLabel} · ${area}` : typeLabel;
+  const bhk = property.beds ? `${property.beds} BHK` : null;
+  return [bhk, typeLabel, area].filter(Boolean).join(" · ");
 }
 
 export default function PropertyCardV2({
@@ -60,54 +70,87 @@ export default function PropertyCardV2({
   size?: CardSize;
 }) {
   const pillLabel = property.badge ?? PROPERTY_STATUS_LABELS[property.status];
-  const priceDisplay = property.priceLabel ?? (property.price ? formatIndianPrice(property.price) : "Price on request");
+  const priceDisplay = property.priceLabel ?? (property.price ? formatIndianPrice(property.price) : null);
   const locationLine = [property.locality, property.sector ? `Sector ${property.sector}` : null]
     .filter(Boolean)
-    .join(" · ");
+    .join(", ");
+  const rera = Boolean(property.reraNumber);
 
   return (
-    <Link
-      href={href}
-      className={`group relative block w-full overflow-hidden rounded-[var(--gp-radius-md)] ${SIZE_CLASSES[size]}`}
-    >
-      {imagePath ? (
-        <Image
-          src={imagePath}
-          alt={imageAlt ?? property.title}
-          fill
-          sizes={IMAGE_SIZES[size]}
-          className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-[1.04]"
-        />
-      ) : (
-        <div className="absolute inset-0 bg-[color:var(--gp-forest-800)]" />
-      )}
+    <article className="group flex h-full flex-col overflow-hidden rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-white transition-shadow hover:shadow-[var(--shadow-card)]">
+      <Link href={href} className="relative flex overflow-hidden lg:flex-1" tabIndex={-1} aria-hidden="true">
+        <div className={`relative w-full ${IMAGE_SIZE_CLASSES[size]}`}>
+          {imagePath ? (
+            <Image
+              src={imagePath}
+              alt={imageAlt ?? property.title}
+              fill
+              sizes={IMAGE_SIZES[size]}
+              className="object-cover transition-transform duration-500 ease-out motion-reduce:transition-none group-hover:scale-[1.04]"
+            />
+          ) : (
+            <div className="absolute inset-0 bg-[color:var(--gp-forest-800)]" />
+          )}
 
-      {/* Bottom-of-image text scrim — the only card treatment; no white body. */}
-      <div className="absolute inset-0" style={{ background: "var(--gp-gradient-card)" }} />
+          <span
+            className={`absolute left-3 top-3 rounded-full px-3 py-1 text-[10.5px] font-bold uppercase tracking-[0.08em] ${pillTone(property.badge)}`}
+          >
+            {pillLabel}
+          </span>
 
-      <div className="absolute left-4 top-4 sm:left-5 sm:top-5">
-        <span className={`rounded-full px-3 py-1 text-[10.5px] font-bold uppercase tracking-[0.08em] ${pillTone(property.badge)}`}>
-          {pillLabel}
-        </span>
-      </div>
+          {rera ? (
+            <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-[color:var(--gp-forest-950)]/85 px-2.5 py-1 text-[10.5px] font-bold uppercase tracking-[0.06em] text-[color:var(--gp-gold-300)] backdrop-blur-sm">
+              <ShieldCheck className="h-3 w-3" aria-hidden="true" />
+              RERA
+            </span>
+          ) : null}
+        </div>
+      </Link>
 
-      <span className="absolute right-4 top-4 flex translate-y-1 items-center gap-1 rounded-full bg-white/92 px-3 py-1 text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[color:var(--gp-ink)] opacity-0 transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 sm:right-5 sm:top-5">
-        View Property
-        <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
-      </span>
+      <div className="flex flex-col p-5">
+        <h3 className="font-display text-[17px] leading-snug text-[color:var(--gp-ink)]">
+          <Link href={href} className="transition-colors hover:text-[color:var(--gp-gold-600)]">
+            {property.title}
+          </Link>
+        </h3>
 
-      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
         {locationLine ? (
-          <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">{locationLine}</p>
-        ) : null}
-        <h3 className="gp-overlay-title font-display mt-1 text-white">{property.title}</h3>
-        <div className="mt-2 flex items-end justify-between gap-3">
-          <p className="text-[12.5px] font-medium text-white/85 sm:text-[13px]">{configLine(property)}</p>
-          <p className="whitespace-nowrap text-[15px] font-semibold text-[color:var(--gp-gold-300)] sm:text-[17px]">
-            {priceDisplay}
+          <p className="mt-2 flex items-center gap-1.5 text-[13px] text-[color:var(--gp-body)]">
+            <MapPin className="h-3.5 w-3.5 shrink-0 text-[color:var(--gp-gold-600)]" aria-hidden="true" />
+            {locationLine}
           </p>
+        ) : null}
+
+        <p className="mt-1.5 text-[12.5px] text-[color:var(--gp-muted)]">{configLine(property)}</p>
+
+        <div className="mt-4 border-t border-[color:var(--gp-border)] pt-3.5">
+          {priceDisplay ? (
+            <p className="font-sans text-[19px] font-semibold text-[color:var(--gp-ink)]">
+              <span className="mr-1.5 text-[11px] font-semibold uppercase tracking-[0.09em] text-[color:var(--gp-muted)]">
+                From
+              </span>
+              {priceDisplay}
+            </p>
+          ) : (
+            <p className="text-[14px] font-medium text-[color:var(--gp-muted)]">Price on request</p>
+          )}
+        </div>
+
+        <div className="mt-4 flex items-end gap-2.5">
+          <Link
+            href={href}
+            className="inline-flex min-h-[42px] flex-1 items-center justify-center gap-1.5 whitespace-nowrap rounded-[var(--gp-radius-sm)] bg-[color:var(--gp-forest-900)] px-3 text-[12.5px] font-semibold text-white transition-colors hover:bg-[color:var(--gp-forest-800)]"
+          >
+            View details
+            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+          </Link>
+          <PropertyEnquireButton
+            propertyId={property.id}
+            propertyType={property.propertyType}
+            className="inline-flex min-h-[42px] flex-1 items-center justify-center whitespace-nowrap rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] px-3 text-[12.5px] font-semibold text-[color:var(--gp-ink)] transition-colors hover:border-[color:var(--gp-forest-900)]"
+          />
         </div>
       </div>
-    </Link>
+    </article>
   );
 }

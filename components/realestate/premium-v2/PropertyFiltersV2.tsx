@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { X } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
+import { amenityIcon } from "./amenity-icons";
 import {
   PROPERTY_TYPE_LABELS,
   PROPERTY_PURPOSE_LABELS,
@@ -38,8 +39,28 @@ const SORT_OPTIONS = [
   { label: "Price: High to Low", value: "price_desc" },
 ];
 
+/**
+ * `appearance-none` plus our own chevron: the native control paints its arrow
+ * hard against the right border and lets the label run underneath it, which is
+ * what clipped "Property Type" to "Property Typ". `pr-10` reserves the room the
+ * arrow sits in.
+ */
 const FIELD =
-  "min-h-[54px] rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] bg-[color:var(--gp-cream-100)] px-3.5 text-[13.5px] text-[color:var(--gp-ink)] focus:border-[color:var(--gp-gold-600)] focus:outline-none";
+  "w-full min-h-[50px] appearance-none truncate rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] " +
+  "bg-[color:var(--gp-cream-100)] py-2.5 pl-3.5 pr-10 text-[13.5px] text-[color:var(--gp-ink)] " +
+  "focus:border-[color:var(--gp-gold-600)] focus:outline-none";
+
+function Field({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="relative min-w-0">
+      {children}
+      <ChevronDown
+        className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-[color:var(--gp-muted)]"
+        aria-hidden="true"
+      />
+    </div>
+  );
+}
 
 /**
  * Every filter is a URL search param — same discipline as the shared
@@ -114,7 +135,11 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
         ) : null}
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      {/* One per row: the desktop rail is 280px, so two columns leave ~130px a
+          field — not enough for "All Localities" once the chevron has its room,
+          and the label truncated instead. */}
+      <div className="grid grid-cols-1 gap-3">
+        <Field>
         <select
           value={current.purpose}
           onChange={(e) => apply("purpose", e.target.value)}
@@ -128,6 +153,9 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
             </option>
           ))}
         </select>
+        </Field>
+
+        <Field>
 
         <select
           value={current.type}
@@ -142,6 +170,9 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
             </option>
           ))}
         </select>
+        </Field>
+
+        <Field>
 
         <select
           value={current.locality}
@@ -156,6 +187,9 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
             </option>
           ))}
         </select>
+        </Field>
+
+        <Field>
 
         <select
           value={current.beds}
@@ -170,6 +204,9 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
             </option>
           ))}
         </select>
+        </Field>
+
+        <Field>
 
         <select
           value={current.maxPrice}
@@ -183,6 +220,9 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
             </option>
           ))}
         </select>
+        </Field>
+
+        <Field>
 
         <select
           value={current.status}
@@ -197,6 +237,7 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
             </option>
           ))}
         </select>
+        </Field>
       </div>
 
       <div>
@@ -210,12 +251,21 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
                 type="button"
                 aria-pressed={active}
                 onClick={() => toggleAmenity(amenity)}
-                className={`min-h-[38px] rounded-full border px-3.5 text-[12.5px] transition-colors ${
+                className={`inline-flex min-h-[38px] items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-[12.5px] transition-colors ${
                   active
                     ? "border-[color:var(--gp-gold-600)] bg-[color:var(--gp-gold-600)] text-white"
                     : "border-[color:var(--gp-border)] bg-[color:var(--gp-cream-100)] text-[color:var(--gp-body)] hover:border-[color:var(--gp-gold-600)]"
                 }`}
               >
+                {(() => {
+                  const Icon = amenityIcon(amenity);
+                  return (
+                    <Icon
+                      className={`h-3.5 w-3.5 shrink-0 ${active ? "" : "text-[color:var(--gp-gold-600)]"}`}
+                      aria-hidden="true"
+                    />
+                  );
+                })()}
                 {amenity}
               </button>
             );
@@ -235,6 +285,7 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
 
       <div>
         <p className="mb-2 text-[12.5px] font-medium text-[color:var(--gp-ink)]">Sort by</p>
+        <Field>
         <select
           value={current.sort}
           onChange={(e) => apply("sort", e.target.value)}
@@ -247,6 +298,7 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
             </option>
           ))}
         </select>
+        </Field>
       </div>
     </div>
   );

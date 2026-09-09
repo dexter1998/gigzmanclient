@@ -38,6 +38,9 @@ const URL_SLUG_TO_KEY: Record<string, TemplateKey> = Object.fromEntries(
 const CLIENT_SLUG_TEMPLATE_MAP: Record<string, TemplateKey> = {
   "high-properties": "premium-v2",
   "evergreen-real-estate": "premium-v2",
+  "nayra-realtors": "premium-v2",
+  "urban-flat-real-estate": "premium-v2",
+  "expert-realtors": "premium-v2",
 };
 
 export function getTemplateKeyForSlug(clientSlug: string | undefined | null): TemplateKey | undefined {

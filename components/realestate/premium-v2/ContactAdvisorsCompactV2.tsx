@@ -103,7 +103,7 @@ export default function ContactAdvisorsCompactV2({
 
               <div className="relative px-4 pb-4 pt-2">
                 <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">{advisor.corridor}</p>
-                <h3 className="font-display mt-1 text-[19px] text-white">{advisor.name}</h3>
+                <h3 className="font-display mt-1 text-[15px] text-white">{advisor.name}</h3>
                 <p className="mt-1 text-[12px] leading-relaxed text-white/65">
                   {advisor.specialisation}
                 </p>

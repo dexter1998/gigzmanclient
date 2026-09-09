@@ -9,7 +9,6 @@ import ContactChannelsV2 from "./ContactChannelsV2";
 import ContactAdvisorsCompactV2 from "./ContactAdvisorsCompactV2";
 import ContactFollowUpV2 from "./ContactFollowUpV2";
 import ContactFaqV2 from "./ContactFaqV2";
-import ConsultationCtaV2 from "./ConsultationCtaV2";
 import { GpContainer, GpEyebrow, GpSection } from "./gp-primitives";
 import { basePathFor, joinPath, type Tenant } from "@/lib/tenant";
 import { getFirmSettings, getServices } from "@/lib/content";
@@ -42,6 +41,10 @@ export default async function PremiumV2ContactPage({
     Boolean,
   );
   const fullAddress = addressParts.join(", ");
+  // Exact pin from the client's listing; see MapEmbedV2 on why the address
+  // string alone is not enough.
+  const mapCoordinates =
+    settings.latitude && settings.longitude ? `${settings.latitude},${settings.longitude}` : null;
   const telHref = settings.phone ? `tel:${settings.phone.replace(/\s/g, "")}` : null;
   const whatsappHref = settings.whatsapp
     ? `https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`
@@ -87,7 +90,7 @@ export default async function PremiumV2ContactPage({
                 className="mt-8 rounded-[var(--gp-radius-lg)] border border-white/60 p-6 sm:p-10"
                 style={{ background: "var(--gp-gradient-glass)", boxShadow: "var(--shadow-raised)" }}
               >
-                <h2 className="font-display text-[24px] text-[color:var(--gp-ink)] sm:text-[28px]">
+                <h2 className="font-display text-[18px] text-[color:var(--gp-ink)] sm:text-[21px]">
                   Discuss your requirement
                 </h2>
                 <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--gp-muted)]">
@@ -197,7 +200,7 @@ export default async function PremiumV2ContactPage({
 
               {fullAddress ? (
                 <div>
-                  <MapEmbedV2 address={fullAddress} />
+                  <MapEmbedV2 address={fullAddress} coordinates={mapCoordinates} />
                   {settings.googleMapsUrl ? (
                     <a
                       href={settings.googleMapsUrl}
@@ -233,7 +236,6 @@ export default async function PremiumV2ContactPage({
 
       <ContactFaqV2 />
 
-      <ConsultationCtaV2 phone={settings.phone} />
     </>
   );
 }

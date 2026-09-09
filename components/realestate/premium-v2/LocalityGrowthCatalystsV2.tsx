@@ -54,7 +54,7 @@ export default function LocalityGrowthCatalystsV2() {
               <span className="absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full border border-[color:var(--gp-gold-600)] text-[11px] font-semibold text-[color:var(--gp-gold-600)]">
                 {index + 1}
               </span>
-              <h3 className="font-display text-[16px] text-[color:var(--gp-ink)]">{item.title}</h3>
+              <h3 className="font-display text-[15px] text-[color:var(--gp-ink)]">{item.title}</h3>
               <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--gp-muted)]">
                 {item.detail}
               </p>

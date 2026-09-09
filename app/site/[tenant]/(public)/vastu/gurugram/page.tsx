@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MapPin } from "lucide-react";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getFirmSettings, getLocalities } from "@/lib/content";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { SECTORS } from "@/lib/vastu/sectors";
 import { VASTU_DISCLAIMER } from "@/lib/vastu";
 import { MARKET_PROVENANCE } from "@/lib/vastu/sector-content";
+import { vastuSectorsEnabled } from "@/lib/vastu/enabled";
 import { buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
-import { ToolPropertyCtaV2 } from "@/components/realestate/premium-v2/tools/ToolSections";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
+import LineArtBackdropV2 from "@/components/realestate/premium-v2/LineArtBackdropV2";
+import RelatedCardsV2 from "@/components/realestate/premium-v2/RelatedCardsV2";
 
 interface Props {
   params: Promise<{ tenant: string }>;
@@ -32,6 +35,8 @@ export default async function VastuGurugramIndexPage(props: Props) {
   const { tenant: tenantSlug } = await props.params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  const settings = await getFirmSettings(tenant.id);
+  if (!vastuSectorsEnabled(tenant.slug)) notFound();
 
   const localities = await getLocalities(tenant.id);
   const basePath = basePathFor(tenant);
@@ -57,7 +62,9 @@ export default async function VastuGurugramIndexPage(props: Props) {
         )}
       />
 
-      <GpSection tone="forest" className="py-14 sm:py-20">
+      <GpSection tone="forest" className="py-14 sm:py-20"
+        background={<LineArtBackdropV2 variant="building-right" opacity={0.6} desktopOnly />}
+      >
         <GpContainer>
           <nav aria-label="Breadcrumb" className="mb-6 text-[12.5px] text-white/55">
             <Link href={p("/")} className="hover:text-[color:var(--gp-gold-300)]">Home</Link>
@@ -85,7 +92,7 @@ export default async function VastuGurugramIndexPage(props: Props) {
           <div className="space-y-11">
             {byCorridor.map(({ locality, sectors }) => (
               <div key={locality.slug}>
-                <h2 className="font-display text-[22px] text-[color:var(--gp-ink)]">{locality.name}</h2>
+                <h2 className="font-display text-[16px] text-[color:var(--gp-ink)]">{locality.name}</h2>
                 <p className="mt-1.5 text-[13px] text-[color:var(--gp-muted)]">
                   {locality.avgPricePerSqft
                     ? `Around ₹${locality.avgPricePerSqft.toLocaleString("en-IN")} per sq ft`
@@ -94,36 +101,27 @@ export default async function VastuGurugramIndexPage(props: Props) {
                     ? ` · ${locality.rentalYieldPercent.toFixed(1)}% gross rental yield`
                     : ""}
                 </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {sectors.map((s) => (
-                    <Link
-                      key={s.slug}
-                      href={p(`/vastu/gurugram/${s.slug}`)}
-                      className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-                    >
-                      {s.name}
-                    </Link>
-                  ))}
-                </div>
+                <RelatedCardsV2
+                  className="mt-4"
+                  items={[sectors.map((s) => (
+                    ({ href: p(`/vastu/gurugram/${s.slug}`), title: s.name, subtitle: s.character })
+                  ))].flat(2)}
+                  icon={MapPin}
+                  columns={3}
+                />
               </div>
             ))}
 
             {ungrouped.length > 0 ? (
               <div>
-                <h2 className="font-display text-[22px] text-[color:var(--gp-ink)]">
-                  Other sectors and colonies
-                </h2>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {ungrouped.map((s) => (
-                    <Link
-                      key={s.slug}
-                      href={p(`/vastu/gurugram/${s.slug}`)}
-                      className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-                    >
-                      {s.name}
-                    </Link>
-                  ))}
-                </div>
+                <RelatedCardsV2
+                  title={`Other sectors and colonies`}
+                  items={[ungrouped.map((s) => (
+                    ({ href: p(`/vastu/gurugram/${s.slug}`), title: s.name, subtitle: s.character })
+                  ))].flat(2)}
+                  icon={MapPin}
+                  columns={3}
+                />
               </div>
             ) : null}
           </div>
@@ -137,12 +135,6 @@ export default async function VastuGurugramIndexPage(props: Props) {
         </GpContainer>
       </GpSection>
 
-      <ToolPropertyCtaV2
-        heading="Narrow this to what is actually for sale"
-        blurb="Tell us the sector and the facing or layout you want, and we will filter current Gurugram inventory to what matches before you spend a weekend on site visits."
-        href={p("/properties")}
-        cta="Find matching homes"
-      />
     </>
   );
 }

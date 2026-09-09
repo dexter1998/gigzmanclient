@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import FaqV2, { FAQS } from "./FaqV2";
-import ConsultationCtaV2 from "./ConsultationCtaV2";
 import MapEmbedV2 from "./MapEmbedV2";
 import { GpContainer, GpEyebrow, GpSection } from "./gp-primitives";
 import { basePathFor, joinPath, type Tenant } from "@/lib/tenant";
 import { getFirmSettings } from "@/lib/content";
 import { buildBreadcrumbJsonLd, buildFaqJsonLd, jsonLdProps } from "@/lib/schema-org";
+import LineArtBackdropV2 from "./LineArtBackdropV2";
 
 /**
  * FaqV2 was built as a homepage section and is entirely self-contained — its
@@ -27,6 +27,10 @@ export default async function PremiumV2FaqPage({ tenant }: { tenant: Tenant }) {
   const fullAddress = [settings.addressLine, settings.locality, settings.region, settings.postalCode]
     .filter(Boolean)
     .join(", ");
+  // Exact pin from the client's listing; see MapEmbedV2 on why the address
+  // string alone is not enough.
+  const mapCoordinates =
+    settings.latitude && settings.longitude ? `${settings.latitude},${settings.longitude}` : null;
 
   return (
     <>
@@ -40,7 +44,9 @@ export default async function PremiumV2FaqPage({ tenant }: { tenant: Tenant }) {
         )}
       />
 
-      <GpSection tone="forest" className="py-16 sm:py-20">
+      <GpSection tone="forest" className="py-16 sm:py-20"
+        background={<LineArtBackdropV2 variant="building-right" opacity={0.6} desktopOnly />}
+      >
         <GpContainer>
           <nav aria-label="Breadcrumb" className="mb-6 text-[12px] text-white/50">
             <Link href={p("/")} className="inline-block py-1 hover:text-white">
@@ -63,11 +69,15 @@ export default async function PremiumV2FaqPage({ tenant }: { tenant: Tenant }) {
 
       <FaqV2
         asideContent={
-          fullAddress ? <MapEmbedV2 address={fullAddress} className="aspect-[4/3] w-full" eager /> : undefined
+          fullAddress ? <MapEmbedV2
+              address={fullAddress}
+              coordinates={mapCoordinates}
+              className="aspect-[4/3] w-full"
+              eager
+            /> : undefined
         }
       />
 
-      <ConsultationCtaV2 phone={settings.phone} />
     </>
   );
 }

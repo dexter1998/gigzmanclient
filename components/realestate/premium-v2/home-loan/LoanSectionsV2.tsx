@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Building2, FileText, ShieldCheck, TrendingUp } from "lucide-react";
+import { ArrowRight, Building2, FileText, IndianRupee, Landmark, ShieldCheck, TrendingUp } from "lucide-react";
 import { calculateEmi } from "@/lib/calculators/emi";
 import { buildAmortisationSchedule } from "@/lib/calculators/amortisation";
 import { EMI_TENURE_PRESETS_YEARS } from "@/lib/calculators/rates/gurugram-2026";
@@ -9,6 +9,7 @@ import LenderLogo from "./LenderLogo";
 import { LOAN_AMOUNTS, amountSlugStem, type LoanAmount } from "@/lib/home-loan/amounts";
 import type { AffordabilitySnapshot } from "@/lib/home-loan/affordability";
 import { GpContainer, GpEyebrow, GpSection } from "../gp-primitives";
+import RelatedCardsV2 from "../RelatedCardsV2";
 
 /* ─────────────────────────────────────────────── tenure ladder
    The single most consistent pattern across every ranking page: each
@@ -47,7 +48,7 @@ export function TenureLadderV2({
                 key={years}
                 className="rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-white p-5"
               >
-                <h3 className="font-display text-[18px] text-[color:var(--gp-ink)]">
+                <h3 className="font-display text-[15px] text-[color:var(--gp-ink)]">
                   {amount.label} EMI for {years} years
                 </h3>
                 <p className="font-sans mt-3 text-[26px] font-semibold leading-none text-[color:var(--gp-gold-600)]">
@@ -119,7 +120,7 @@ export function GurugramBudgetV2({
 
         {snapshot.corridors.length > 0 ? (
           <>
-            <h3 className="font-display mt-12 text-[21px] text-white">Corridor by corridor</h3>
+            <h3 className="font-display mt-12 text-[16px] text-white">Corridor by corridor</h3>
             <div className="mt-5 overflow-x-auto rounded-[var(--gp-radius-md)] border border-white/12">
               <table className="w-full min-w-[560px] text-[13.5px]">
                 <thead>
@@ -175,7 +176,7 @@ export function GurugramBudgetV2({
 
         {snapshot.matches.length > 0 ? (
           <>
-            <h3 className="font-display mt-12 text-[21px] text-white">
+            <h3 className="font-display mt-12 text-[16px] text-white">
               Listings within this budget right now
             </h3>
             <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -188,7 +189,7 @@ export function GurugramBudgetV2({
                   <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">
                     {property.locality ?? property.corridor}
                   </p>
-                  <h4 className="font-display mt-1.5 text-[18px] text-white">{property.title}</h4>
+                  <h4 className="font-display mt-1.5 text-[15px] text-white">{property.title}</h4>
                   <p className="mt-1.5 text-[12.5px] text-white/60">
                     {[property.beds ? `${property.beds} BHK` : null, property.area ? `${property.area} sq.ft` : null]
                       .filter(Boolean)
@@ -441,54 +442,53 @@ export function RelatedAmountsV2({
   p: (path: string) => string;
   lender?: Lender;
 }) {
+  // Every rung and every lender used to render as a bare rounded pill — a
+  // wall of same-size capsules carrying only a number or a bank name, which
+  // gave no reason to pick one. Each link now carries the figure it leads to.
+  const { rate } = rateFor(lender);
+  const TENURE = 20;
+
+  const amountItems = LOAN_AMOUNTS.filter((a) => a.slug !== current?.slug).map((a) => ({
+    href: lender ? p(`/home-loan/${lender.slug}/${amountSlugStem(a)}`) : p(`/home-loan/${a.slug}`),
+    title: a.label,
+    subtitle: `${formatInr(
+      calculateEmi({ principal: a.value, annualRatePercent: rate, tenureYears: TENURE }).monthlyEmi,
+    )} a month over ${TENURE} years at ${rate}%`,
+  }));
+
+  // Both fields are optional on purpose: a lender whose published rate or
+  // tenure could not be verified carries neither, so the line is assembled
+  // from whichever facts exist rather than interpolating `undefined`.
+  const lenderSubtitle = (l: Lender) => {
+    const facts = [
+      l.rateFrom ? `From ${l.rateFrom}% p.a.` : null,
+      l.maxTenureYears ? `up to ${l.maxTenureYears} years` : null,
+    ].filter(Boolean);
+    return facts.length > 0 ? facts.join(", ") : "EMI, eligibility and charges";
+  };
+
+  const lenderItems = LENDERS.filter((l) => l.slug !== lender?.slug).map((l) => ({
+    href: p(`/home-loan/${l.slug}`),
+    title: l.name,
+    subtitle: lenderSubtitle(l),
+  }));
+
   return (
     <GpSection tone="cream" className="pt-0">
       <GpContainer>
-        <h2 className="font-display text-[21px] text-[color:var(--gp-ink)]">
-          {lender ? `${lender.name} home loan by amount` : "Home loan EMI by amount"}
-        </h2>
-        <div className="mt-5 flex flex-wrap gap-2">
-          {LOAN_AMOUNTS.map((a) => {
-            const href = lender
-              ? p(`/home-loan/${lender.slug}/${amountSlugStem(a)}`)
-              : p(`/home-loan/${a.slug}`);
-            const isCurrent = current?.slug === a.slug;
-            return (
-              <Link
-                key={a.slug}
-                href={href}
-                aria-current={isCurrent ? "page" : undefined}
-                className={`rounded-full border px-3.5 py-1.5 text-[12.5px] transition-colors ${
-                  isCurrent
-                    ? "border-[color:var(--gp-gold-600)] bg-[color:var(--gp-gold-600)] text-[color:var(--gp-forest-950)]"
-                    : "border-[color:var(--gp-border)] bg-white text-[color:var(--gp-body)] hover:border-[color:var(--gp-gold-600)]"
-                }`}
-              >
-                {a.label}
-              </Link>
-            );
-          })}
-        </div>
+        <RelatedCardsV2
+          title={lender ? `${lender.name} home loan by amount` : "Home loan EMI by amount"}
+          items={amountItems}
+          icon={IndianRupee}
+        />
 
-        <h2 className="font-display mt-10 text-[21px] text-[color:var(--gp-ink)]">
-          Home loan by lender
-        </h2>
-        <div className="mt-5 flex flex-wrap gap-2">
-          {LENDERS.map((l) => (
-            <Link
-              key={l.slug}
-              href={p(`/home-loan/${l.slug}`)}
-              aria-current={lender?.slug === l.slug ? "page" : undefined}
-              className={`rounded-full border px-3.5 py-1.5 text-[12.5px] transition-colors ${
-                lender?.slug === l.slug
-                  ? "border-[color:var(--gp-gold-600)] bg-[color:var(--gp-gold-600)] text-[color:var(--gp-forest-950)]"
-                  : "border-[color:var(--gp-border)] bg-white text-[color:var(--gp-body)] hover:border-[color:var(--gp-gold-600)]"
-              }`}
-            >
-              {l.name}
-            </Link>
-          ))}
-        </div>
+        <RelatedCardsV2
+          className="mt-12"
+          title="Home loan by lender"
+          items={lenderItems}
+          icon={Landmark}
+          columns={3}
+        />
       </GpContainer>
     </GpSection>
   );

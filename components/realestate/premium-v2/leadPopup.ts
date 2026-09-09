@@ -39,6 +39,47 @@ export const LEAD_INTENTS = {
     blurb: "An advisor will talk through what these numbers mean for your specific property.",
     context: "Calculator enquiry.",
   },
+  /**
+   * The plain "call me back" ask. In Indian real estate this is the path most
+   * buyers actually use — they want a person on the phone, not an email
+   * thread — so it is its own intent rather than folded into `default`, and
+   * it reports separately (`call_request_open` / `call_request_submit`) so its
+   * volume is not hidden inside generic enquiries.
+   */
+  callback: {
+    eyebrow: "Prefer to talk?",
+    heading: "We’ll call you back.",
+    blurb: "Leave a number and a Gurugram advisor will call you — no email thread, no obligation.",
+    context: "Callback request.",
+  },
+  /** Opened from a plot-map page: the question is almost always about a plot. */
+  map: {
+    eyebrow: "Looking at this sector?",
+    heading: "Ask us what’s actually available here.",
+    blurb: "Tell us the plot size or block you are looking at and an advisor will call with what is on the market.",
+    context: "Plot map enquiry.",
+  },
+  property: {
+    eyebrow: "Interested in this property?",
+    heading: "Get the full details and a site visit.",
+    blurb: "An advisor will confirm availability, the current asking price and arrange a visit.",
+    context: "Property enquiry.",
+  },
+  /**
+   * Every service CTA on the property-management page opens the popup with
+   * this intent rather than scrolling to the form at the bottom — an owner
+   * who clicks "raise a request" or "start tenant search" halfway down the
+   * page has already decided, and sending them looking for a form loses
+   * them. The consultation section keeps its own inline form for people who
+   * arrive at the bottom still reading.
+   */
+  propertyManagement: {
+    eyebrow: "Property management",
+    heading: "Tell us about your property.",
+    blurb:
+      "Share a few details and a property-management advisor will call you with a plan for tenants, rent and upkeep.",
+    context: "Property management enquiry.",
+  },
 } as const satisfies Record<string, LeadPopupIntent>;
 
 export type LeadIntentKey = keyof typeof LEAD_INTENTS;

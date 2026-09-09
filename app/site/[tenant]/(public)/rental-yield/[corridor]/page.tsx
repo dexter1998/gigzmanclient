@@ -9,7 +9,6 @@ import { buildBreadcrumbJsonLd, buildFaqJsonLd, jsonLdProps } from "@/lib/schema
 import { formatInr, formatIndianPrice } from "@/lib/format";
 import RentalYieldCalculatorV2 from "@/components/realestate/premium-v2/tools/RentalYieldCalculatorV2";
 import LoanFaqV2 from "@/components/realestate/premium-v2/home-loan/LoanFaqV2";
-import { ToolPropertyCtaV2 } from "@/components/realestate/premium-v2/tools/ToolSections";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
 
 export async function generateStaticParams() {
@@ -161,16 +160,6 @@ export default async function CorridorYieldPage({ params }: Props) {
 
       <LoanFaqV2 faqs={faqs} heading={`Renting out in ${locality.name}, answered`} />
 
-      <ToolPropertyCtaV2
-        heading={`Buying to let in ${locality.name}?`}
-        blurb={
-          inCorridor.length > 0
-            ? `We currently track ${inCorridor.length} ${inCorridor.length === 1 ? "listing" : "listings"} here. An advisor can tell you which of them actually let quickly and at what rent.`
-            : "An advisor can tell you which sectors within this corridor let quickly, and at what rent."
-        }
-        href={p("/properties")}
-        cta="See what's available"
-      />
     </>
   );
 }

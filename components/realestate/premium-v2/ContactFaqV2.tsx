@@ -68,7 +68,7 @@ export default function ContactFaqV2() {
                       <span className="gp-eyebrow text-[color:var(--gp-gold-600)]">
                         {String(i + 1).padStart(2, "0")}
                       </span>
-                      <span className="font-display text-[18px] text-[color:var(--gp-ink)] sm:text-[20px]">
+                      <span className="font-display text-[15px] text-[color:var(--gp-ink)] sm:text-[15px]">
                         {faq.question}
                       </span>
                     </span>

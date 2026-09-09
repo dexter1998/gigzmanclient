@@ -1,0 +1,128 @@
+# Client seed data — Urban Flat Real Estate (Premium V2 template)
+#
+# NAP below is read from the client's own Google Business Profile
+# (place_id 0x390d236a75ddd507:0x2bf290eb28652225), rendered in a real browser
+# since the listing is client-side only. Verified from that listing: name,
+# category ("Property investment company"), rating 5.0, address, phone, plus
+# code (C325+RR Gurugram) and coordinates.
+#
+# Google lists the business as "Urban Flat Real estate Consultant". The
+# display name below follows the supplied logo ("Urban Flat / Real Estate")
+# — confirm with the client which they want shown on the site.
+#
+# Deliberately NOT filled in, because the listing does not publish them and
+# guessing would put invented facts on a live client site:
+#   - email, website, social handles
+#   - established year, founder / team
+#   - full weekly hours (only "Closes 7:30 pm" is exposed signed-out)
+#
+# Property and locality inventory is duplicated from the high-properties
+# template and is placeholder content — see `_status` and the header comment
+# in each content/*.yaml.
+#
+# Loaded into the database by `pnpm seed:client urban-flat-real-estate`.
+# Run `pnpm check:content urban-flat-real-estate` for the placeholder checklist.
+
+slug: urban-flat-real-estate
+vertical: realestate
+display_name: Urban Flat Real Estate
+is_demo: false
+
+firm:
+  name: Urban Flat Real Estate
+  tagline: ""
+  overview: >-
+    Urban Flat Real Estate is a Gurugram-based property consultancy operating
+    from Sector 66 on the Golf Course Extension corridor, working with buyers,
+    tenants and investors across residential and commercial property. Every
+    listing is reviewed before it goes live, and RERA registration status is
+    shown plainly on every property.
+  established_year: ""
+  # Left blank deliberately — see the RERA disclosure component on every
+  # property card and the footer's regulatory notice. Do not fill this with
+  # an invented number.
+  firm_registration_number: ""
+  business_category: Property Investment Company
+  logo_url: /verticals/realestate/templates/premium-v2/brand/urban-flat-real-estate-logo.png
+
+# Verified from the Google Business Profile. `email` stays empty — the listing
+# publishes no email address, and the contact page/footer hide that row when
+# it is blank. WhatsApp mirrors the listed phone pending confirmation.
+contact:
+  phone: "097114 41113"
+  whatsapp: "097114 41113"
+  email: ""
+  address_line: "R2 109, 1st Floor, M3M Cosmopolitan, Badshahpur, Sector 66"
+  locality: "Gurugram"
+  region: Haryana
+  postal_code: "122101"
+  country: India
+  latitude: "28.4021046"
+  longitude: "77.0595745"
+  google_maps_url: "https://www.google.com/maps/place/Urban+Flat+Real+estate+Consultant/@28.4021046,77.0595745,17z/data=!4m6!3m5!1s0x390d236a75ddd507:0x2bf290eb28652225!8m2!3d28.4021046!4d77.0595745"
+
+# Only the closing time (7:30 pm) is exposed on the public listing. The
+# opening time and the weekly pattern below are assumptions pending
+# confirmation — see `_status.opening_hours`.
+opening_hours:
+  - { day: Monday, opens: "10:00", closes: "19:30", closed: false }
+  - { day: Tuesday, opens: "10:00", closes: "19:30", closed: false }
+  - { day: Wednesday, opens: "10:00", closes: "19:30", closed: false }
+  - { day: Thursday, opens: "10:00", closes: "19:30", closed: false }
+  - { day: Friday, opens: "10:00", closes: "19:30", closed: false }
+  - { day: Saturday, opens: "10:00", closes: "19:30", closed: false }
+  - { day: Sunday, opens: "10:00", closes: "19:30", closed: false }
+
+social_links: {}
+
+seo:
+  title: Urban Flat Real Estate — Property Consultants in Sector 66, Gurugram
+  description: >-
+    Residential and commercial property advisory in Gurugram from Sector 66 on
+    the Golf Course Extension corridor, with locality market intelligence and
+    buyer calculators.
+
+analytics:
+  ga4_measurement_id: ""
+  search_console_verification: ""
+
+features:
+  reviews: true
+  pricing: true
+  awards: false
+  client_logos: false
+  team: false
+
+team: []
+
+notification_email: ""
+
+_status:
+  slug: verified
+  display_name: pending
+  firm.name: pending
+  firm.business_category: verified
+  firm.logo_url: verified
+  firm.tagline: pending
+  firm.overview: placeholder
+  firm.established_year: pending
+  firm.firm_registration_number: pending
+  contact.phone: verified
+  contact.whatsapp: placeholder
+  contact.email: pending
+  contact.address_line: verified
+  contact.locality: verified
+  contact.region: verified
+  contact.postal_code: verified
+  contact.country: verified
+  contact.google_maps_url: verified
+  contact.latitude: verified
+  contact.longitude: verified
+  opening_hours: placeholder
+  social_links: pending
+  seo.title: placeholder
+  seo.description: placeholder
+  analytics.ga4_measurement_id: pending
+  analytics.search_console_verification: pending
+  team: pending
+  notification_email: pending

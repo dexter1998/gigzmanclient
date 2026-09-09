@@ -4,10 +4,11 @@ import { notFound } from "next/navigation";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getFirmSettings } from "@/lib/content";
 import { getTemplateKeyForSlug } from "@/lib/templates";
+import { ArrowLeftRight } from "lucide-react";
 import { AREA_UNITS, convertArea, formatArea, pairSlug } from "@/lib/calculators/area-units";
+import RelatedCardsV2 from "@/components/realestate/premium-v2/RelatedCardsV2";
 import { buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
 import AreaConverterV2 from "@/components/realestate/premium-v2/tools/AreaConverterV2";
-import { ToolPropertyCtaV2 } from "@/components/realestate/premium-v2/tools/ToolSections";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
 
 interface Props {
@@ -31,6 +32,7 @@ export default async function AreaConverterHubPage(props: Props) {
   const { tenant: tenantSlug } = await props.params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  const settings = await getFirmSettings(tenant.id);
 
   const basePath = basePathFor(tenant);
   const p = (path: string) => joinPath(basePath, path);
@@ -109,36 +111,26 @@ export default async function AreaConverterHubPage(props: Props) {
             </table>
           </div>
 
-          <h2 className="font-display mt-12 text-[21px] text-[color:var(--gp-ink)]">
-            Most used conversions
-          </h2>
-          <div className="mt-5 flex flex-wrap gap-2">
-            {AREA_UNITS.flatMap((from) =>
+          <RelatedCardsV2
+            className="mt-12"
+            title="Most used conversions"
+            items={AREA_UNITS.flatMap((from) =>
               AREA_UNITS.filter((to) => to.slug !== from.slug).map((to) => ({ from, to })),
             )
               .filter(({ from, to }) =>
                 ["square-yard", "marla", "kanal", "bigha", "killa"].includes(from.slug) &&
                 ["square-feet", "square-yard", "square-metre"].includes(to.slug),
               )
-              .map(({ from, to }) => (
-                <Link
-                  key={pairSlug(from, to)}
-                  href={p(`/area-converter/${pairSlug(from, to)}`)}
-                  className="rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 py-1.5 text-[12.5px] text-[color:var(--gp-body)] transition-colors hover:border-[color:var(--gp-gold-600)]"
-                >
-                  {from.name} to {to.name}
-                </Link>
-              ))}
-          </div>
+              .map(({ from, to }) => ({
+                href: p(`/area-converter/${pairSlug(from, to)}`),
+                title: `${from.name} to ${to.name}`,
+                subtitle: `1 ${from.name.toLowerCase()} = ${formatArea(convertArea(1, from, to))} ${to.name.toLowerCase()}`,
+              }))}
+            icon={ArrowLeftRight}
+          />
         </GpContainer>
       </GpSection>
 
-      <ToolPropertyCtaV2
-        heading="Looking at a plot in Gurugram?"
-        blurb="Tell us the size and the sector, and an advisor will come back with what comparable plots have actually transacted at."
-        href={p("/properties")}
-        cta="See available plots"
-      />
     </>
   );
 }

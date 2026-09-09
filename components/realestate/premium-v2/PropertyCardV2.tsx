@@ -29,10 +29,18 @@ type CardSize = "default" | "large" | "tall";
  * compact block as every other card, instead of the buttons drifting to the
  * bottom of a very tall card with a gap above them.
  */
+/**
+ * Below `lg` every size uses the SAME aspect ratio, and that is load-bearing.
+ * The mobile carousel is a flex row, so its cards stretch to the tallest one;
+ * the `lg:flex-1` that lets the image soak up that extra height does not apply
+ * at this breakpoint. With mixed ratios the tall card (4/5, ~400px at the
+ * carousel's 82% width) set the height and the 16/10 card (~200px) rendered
+ * 200px of blank white below its buttons.
+ */
 const IMAGE_SIZE_CLASSES: Record<CardSize, string> = {
   default: "aspect-[4/3]",
-  large: "aspect-[16/10] lg:aspect-auto lg:min-h-[260px] lg:flex-1",
-  tall: "aspect-[4/5] lg:aspect-auto lg:min-h-[260px] lg:flex-1",
+  large: "aspect-[4/3] lg:aspect-auto lg:min-h-[260px] lg:flex-1",
+  tall: "aspect-[4/3] lg:aspect-auto lg:min-h-[260px] lg:flex-1",
 };
 
 const IMAGE_SIZES: Record<CardSize, string> = {

@@ -24,12 +24,20 @@ const DIRECTION_SLUGS = DIRECTIONS.map((d) => d.slug);
 const ROOM_SLUGS = ROOMS.map((r) => r.slug);
 const ASPECTS = sectorAspectSlugs(DIRECTION_SLUGS, ROOM_SLUGS);
 
+/**
+ * Deliberately empty. Prerendering this route meant 137 sectors x 26 aspects, i.e. 3,562 pages per tenant, and
+ * each page costs roughly 500KB of build output once HTML, RSC payload and
+ * segments are counted. That pushed a single deployment past 28,000 output
+ * items and the project past its 10GB deployment-storage limit — paid on
+ * every build, for pages that are long-tail by definition.
+ *
+ * `dynamicParams` defaults to true, so every one of these URLs still renders
+ * and is then cached exactly as before; the first request pays the cost
+ * instead of the build. They stay in the sitemap, so the only change a
+ * crawler sees is a slower first hit.
+ */
 export async function generateStaticParams() {
-  return paramsForEachTenant(async (tenant) => {
-    const t = await getTenantBySlug(tenant.slug);
-    if (!t || t.vertical !== "realestate" || !vastuSectorsEnabled(t.slug)) return [];
-    return SECTORS.flatMap((s) => ASPECTS.map((aspect) => ({ sector: s.slug, aspect })));
-  });
+  return [];
 }
 
 interface Props {

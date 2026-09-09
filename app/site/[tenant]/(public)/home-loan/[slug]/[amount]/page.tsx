@@ -11,13 +11,18 @@ import { AmountLoanPage } from "@/components/realestate/premium-v2/home-loan/Loa
 /** `/home-loan/{lender}/{amount}` — the lender × amount matrix. */
 
 /** Prerenders the full lender x amount matrix for DSA-enabled tenants. */
+/**
+ * Deliberately empty, for the same reason as the vastu sector pages: every
+ * lender x loan-amount combination is one prerendered page, and these run
+ * roughly 860KB each of HTML, RSC payload and segments. 524 of them is 452MB
+ * of build output paid on every deployment.
+ *
+ * `dynamicParams` defaults to true, so each URL still renders on first
+ * request and is cached from then on. The lender pages one level up stay
+ * prerendered — those are the ones that actually get linked and crawled.
+ */
 export async function generateStaticParams() {
-  return paramsForEachTenant(async (tenant) => {
-    if (!homeLoanEnabled(tenant.slug)) return [];
-    return LENDERS.flatMap((lender) =>
-      LOAN_AMOUNTS.map((amount) => ({ slug: lender.slug, amount: amountSlugStem(amount) })),
-    );
-  });
+  return [];
 }
 
 

@@ -27,18 +27,20 @@ import RelatedCardsV2 from "@/components/realestate/premium-v2/RelatedCardsV2";
  *   plot size x facing   how a layout fits a given footprint
  *   type x facing        a flat cannot be re-planned the way a plot can
  */
+/**
+ * Deliberately empty. Prerendering this route meant over 1,200 generated topic pages per tenant, and
+ * each page costs roughly 500KB of build output once HTML, RSC payload and
+ * segments are counted. That pushed a single deployment past 28,000 output
+ * items and the project past its 10GB deployment-storage limit — paid on
+ * every build, for pages that are long-tail by definition.
+ *
+ * `dynamicParams` defaults to true, so every one of these URLs still renders
+ * and is then cached exactly as before; the first request pays the cost
+ * instead of the build. They stay in the sitemap, so the only change a
+ * crawler sees is a slower first hit.
+ */
 export async function generateStaticParams() {
-  return paramsForEachTenant(async (tenant) => {
-    const t = await getTenantBySlug(tenant.slug);
-    if (!t || t.vertical !== "realestate") return [];
-    return [
-      ...DIRECTIONS.flatMap((d) => VASTU_CONTEXTS.map((c) => ({ topic: `${d.slug}-facing-${c.slug}` }))),
-      ...ROOMS.map((r) => ({ topic: `${r.slug}-vastu` })),
-      ...ROOMS.flatMap((r) => DIRECTIONS.map((d) => ({ topic: `${r.slug}-in-${d.slug}-vastu` }))),
-      ...PLOT_SIZES.flatMap((size) => DIRECTIONS.map((d) => ({ topic: `${size}-plot-${d.slug}-facing-vastu` }))),
-      ...PROPERTY_CONTEXTS.flatMap((c) => DIRECTIONS.map((d) => ({ topic: `${c.slug}-${d.slug}-facing-vastu` }))),
-    ];
-  });
+  return [];
 }
 
 type Resolved =

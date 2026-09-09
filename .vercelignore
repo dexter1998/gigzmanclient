@@ -1,0 +1,12 @@
+# Inputs the import scripts read, not the app. Nothing under app/, lib/ or
+# components/ imports them, so they only inflate every upload.
+source-data/
+
+# Seed content and one-off scripts. The database is what the site reads at
+# runtime; these are how rows get there.
+scripts/
+clients/
+drizzle/
+
+# Repo docs
+SETUP-PROMPT.md

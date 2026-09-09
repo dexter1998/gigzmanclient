@@ -11,7 +11,8 @@
     "db:studio": "drizzle-kit studio",
     "seed:client": "tsx --env-file=.env.local scripts/seed-client.ts",
     "check:content": "tsx scripts/check-content.ts",
-    "dry-run": "tsx --env-file=.env.local scripts/dry-run.ts"
+    "dry-run": "tsx --env-file=.env.local scripts/dry-run.ts",
+    "setup": "node scripts/setup-env.mjs"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

@@ -8,14 +8,17 @@ it has one, its own domain.
 
 ```bash
 pnpm install
-cp .env.example .env.local     # then fill in the values below
+pnpm setup                     # writes .env.local with a generated AUTH_SECRET
 createdb gigzman_client_sites  # or point DATABASE_URL at an existing one
 pnpm db:migrate
 pnpm seed:client high-properties
 pnpm dev
 ```
 
-`.env.local` is not in the repo. It needs:
+`pnpm setup` fills in everything a development machine needs. Credentials are
+not committed: a signing key in git history is a signing key for everyone who
+ever clones the repo, so the local one is generated per machine and production
+values live on the deployment. The variables are:
 
 | Variable | What |
 |---|---|

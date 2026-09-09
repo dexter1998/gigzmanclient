@@ -33,6 +33,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/updates/
   ]);
   if (!update) return {};
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), `/updates/${slug}`) },
     title: update.seoTitle ?? `${update.title} — ${settings?.firmName ?? ""}`,
     description: update.seoDescription ?? update.excerpt ?? undefined,
   };

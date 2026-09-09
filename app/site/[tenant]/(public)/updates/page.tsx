@@ -16,6 +16,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/updates"
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/updates") },
     title: `Professional Updates — ${settings?.firmName ?? ""}`,
     description:
       "Notes on income tax, GST, TDS and compliance developments, reviewed before publication.",

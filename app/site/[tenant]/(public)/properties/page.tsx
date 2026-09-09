@@ -1,6 +1,7 @@
+import { joinPath } from "@/lib/paths";
 import { notFound } from "next/navigation";
 import PremiumV2PropertiesPage from "@/components/realestate/premium-v2/PremiumV2PropertiesPage";
-import { getTenantBySlug } from "@/lib/tenant";
+import { getTenantBySlug, basePathFor } from "@/lib/tenant";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { getFirmSettings } from "@/lib/content";
 
@@ -30,6 +31,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/properti
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/properties") },
     title: `Properties — ${settings?.firmName ?? ""}`,
     description:
       "Browse residential and commercial listings by locality, budget and configuration. Every listing shows its RERA registration status.",

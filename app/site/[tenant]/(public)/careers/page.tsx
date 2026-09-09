@@ -15,6 +15,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/careers"
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/careers") },
     title: `Careers and Articleship — ${settings?.firmName ?? ""}`,
     description:
       "Articleship and professional opportunities. Publishing job vacancies is expressly permitted under the ICAI website guidelines.",

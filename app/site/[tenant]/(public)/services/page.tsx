@@ -17,6 +17,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/services
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/services") },
     title: `Services — ${settings?.firmName ?? ""}`,
     description:
       "Taxation, GST, audit and corporate compliance services. Availability is confirmed after reviewing the requirement.",

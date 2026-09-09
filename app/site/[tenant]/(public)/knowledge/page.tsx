@@ -19,6 +19,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/knowledg
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/knowledge") },
     title: `Knowledge Centre — ${settings?.firmName ?? ""}`,
     description:
       "Reference tables, statutory dates, regulatory portals and professional updates for taxpayers and businesses.",

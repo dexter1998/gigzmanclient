@@ -17,6 +17,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/faq">) {
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/faq") },
     title: `Frequently Asked Questions — ${settings?.firmName ?? ""}`,
     description:
       "Common questions about engaging a chartered accountant, the engagement process, and how requirements are reviewed.",

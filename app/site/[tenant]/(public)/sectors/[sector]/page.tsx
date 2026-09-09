@@ -1,6 +1,7 @@
+import { joinPath } from "@/lib/paths";
 import { notFound } from "next/navigation";
 import PremiumV2PropertiesPage from "@/components/realestate/premium-v2/PremiumV2PropertiesPage";
-import { getTenantBySlug } from "@/lib/tenant";
+import { getTenantBySlug, basePathFor } from "@/lib/tenant";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { paramsForEachTenant } from "@/lib/static-params";
 import { getFirmSettings, getProperties } from "@/lib/content";
@@ -44,6 +45,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/sectors/
   ]);
   if (!label) return {};
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), `/sectors/${sector}`) },
     title: `Property in Sector ${label}, Gurgaon — ${settings?.firmName ?? ""}`,
     description: `Every RERA-registered project in Sector ${label}, Gurugram — developers, land area, unit availability and delivery status, taken from the HRERA register.`,
   };

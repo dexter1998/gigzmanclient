@@ -33,6 +33,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/localiti
   ]);
   if (!locality) return {};
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), `/localities/${slug}`) },
     title: `${locality.name} Real Estate — ${settings?.firmName ?? ""}`,
     description: locality.description ?? undefined,
     ...ogFor({

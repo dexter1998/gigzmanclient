@@ -15,6 +15,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/contact"
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/contact") },
     title: `Contact — ${settings?.firmName ?? ""}`,
     description: "Share your requirement. It is reviewed before any engagement is accepted.",
   };

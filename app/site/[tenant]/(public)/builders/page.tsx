@@ -24,6 +24,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/builders
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/builders") },
     title: `Gurgaon developers — projects by builder — ${settings?.firmName ?? ""}`,
     description:
       "Developers on the HRERA Gurugram register, with how many projects each holds, the land they cover, unsold stock and how delivery is tracking against their filed dates.",

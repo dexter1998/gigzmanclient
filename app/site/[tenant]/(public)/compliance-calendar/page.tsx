@@ -15,6 +15,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/complian
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/compliance-calendar") },
     title: `Compliance Calendar — ${settings?.firmName ?? ""}`,
     description:
       "Upcoming statutory filing and compliance dates. Confirm applicability to your circumstances before filing.",

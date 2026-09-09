@@ -18,6 +18,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/localiti
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/localities") },
     title: `Explore Gurugram by Locality — ${settings?.firmName ?? ""}`,
     description:
       "Locality-wise market snapshots — average price per sq.ft, year-on-year change and rental yield.",

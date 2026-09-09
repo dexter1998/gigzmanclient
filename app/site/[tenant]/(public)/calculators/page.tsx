@@ -24,6 +24,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/calculat
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/calculators") },
     title: `Calculators — ${settings?.firmName ?? ""}`,
     description: DESCRIPTIONS[tenant.vertical] ?? DESCRIPTIONS.cafirm,
   };

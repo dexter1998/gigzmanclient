@@ -48,6 +48,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/properti
   const primary = images.find((i) => i.isPrimary) ?? images[0] ?? null;
 
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), `/properties/${slug}`) },
     title: `${property.title} — ${settings?.firmName ?? ""}`,
     description: property.description ?? undefined,
     ...ogFor({

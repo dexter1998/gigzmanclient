@@ -24,6 +24,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/sectors"
   if (!tenant) return {};
   const settings = await getFirmSettings(tenant.id);
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), "/sectors") },
     title: `Gurgaon sectors — registered projects by sector — ${settings?.firmName ?? ""}`,
     description:
       "Every Gurugram sector with RERA-registered projects, with project counts, land area, unsold stock and how many have run past their filed completion date.",

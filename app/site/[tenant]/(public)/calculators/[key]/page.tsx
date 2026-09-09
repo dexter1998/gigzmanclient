@@ -26,6 +26,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/calculat
   ]);
   if (!calculator) return {};
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), `/calculators/${key}`) },
     title: `${calculator.title} — ${settings?.firmName ?? ""}`,
     description: calculator.description ?? undefined,
   };

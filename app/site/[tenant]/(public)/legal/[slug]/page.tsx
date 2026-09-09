@@ -17,7 +17,10 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/legal/[s
     getLegalPage(tenant.id, slug),
   ]);
   if (!page) return {};
-  return { title: `${page.title} — ${settings?.firmName ?? ""}` };
+  return {
+    alternates: { canonical: joinPath(basePathFor(tenant), `/legal/${slug}`) },
+    title: `${page.title} — ${settings?.firmName ?? ""}`,
+  };
 }
 
 export default async function LegalPage(props: PageProps<"/site/[tenant]/legal/[slug]">) {

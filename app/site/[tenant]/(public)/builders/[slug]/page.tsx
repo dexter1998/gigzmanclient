@@ -1,6 +1,7 @@
+import { joinPath } from "@/lib/paths";
 import { notFound } from "next/navigation";
 import PremiumV2PropertiesPage from "@/components/realestate/premium-v2/PremiumV2PropertiesPage";
-import { getTenantBySlug } from "@/lib/tenant";
+import { getTenantBySlug, basePathFor } from "@/lib/tenant";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { paramsForEachTenant } from "@/lib/static-params";
 import { getFirmSettings, getProperties } from "@/lib/content";
@@ -47,6 +48,7 @@ export async function generateMetadata(props: PageProps<"/site/[tenant]/builders
   ]);
   if (!name) return {};
   return {
+    alternates: { canonical: joinPath(basePathFor(tenant), `/builders/${slug}`) },
     title: `${name} projects in Gurgaon — ${settings?.firmName ?? ""}`,
     description: `Every ${name} project on the HRERA Gurugram register — sectors, land area, unit availability and how delivery is tracking against the dates filed.`,
   };

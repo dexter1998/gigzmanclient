@@ -40,6 +40,8 @@ const CLIENT_SLUG_TEMPLATE_MAP: Record<string, TemplateKey> = {
   "evergreen-real-estate": "premium-v2",
   "nayra-realtors": "premium-v2",
   "urban-flat-real-estate": "premium-v2",
+  "balaji-properties": "premium-v2",
+  "housing-hub": "premium-v2",
   "expert-realtors": "premium-v2",
 };
 

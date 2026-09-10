@@ -238,14 +238,23 @@ export default function HeaderV2({
     >
       <div className="gp-container flex items-center justify-between gap-3 py-4 lg:py-5">
         <Link href={basePath || "/"} className="flex min-w-0 shrink-0 items-center">
-          <Image
-            src={logoUrl}
-            alt={firmName}
-            width={220}
-            height={73}
-            priority
-            className="h-14 w-auto object-contain sm:h-16"
-          />
+          {/* A client without a logo file yet gets its name set, not an empty
+              gap: `<Image src="">` renders nothing at all, which reads as a
+              broken header rather than an unbranded one. */}
+          {logoUrl ? (
+            <Image
+              src={logoUrl}
+              alt={firmName}
+              width={220}
+              height={73}
+              priority
+              className="h-14 w-auto object-contain sm:h-16"
+            />
+          ) : (
+            <span className="font-display truncate text-[19px] font-medium tracking-tight text-white sm:text-[22px]">
+              {firmName}
+            </span>
+          )}
         </Link>
 
         <nav className="hidden items-center gap-0.5 lg:flex">

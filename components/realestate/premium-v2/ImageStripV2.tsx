@@ -9,6 +9,8 @@ import { GpContainer, GpEyebrow, GpSection } from "./gp-primitives";
 
 interface ImageStripV2Props {
   basePath: string;
+  /** The client's own corridors, in the order the landing page ranks them. */
+  localities: { name: string; slug: string }[];
 }
 
 const BASE = "/verticals/realestate/templates/premium-v2/images";
@@ -21,10 +23,23 @@ interface StripTile {
   href: string;
 }
 
-export default function ImageStripV2({ basePath }: ImageStripV2Props) {
+/** Corridor photography, keyed by locality slug. */
+const LOCALITY_IMAGE: Record<string, string> = {
+  "golf-course-road": "corridor-golf-course-road.png",
+  "dwarka-expressway": "corridor-dwarka-expressway.png",
+  "new-gurugram": "corridor-new-gurugram.png",
+  "sohna-road": "corridor-sohna-road.webp",
+  "southern-peripheral-road": "corridor-southern-peripheral-road.png",
+};
+
+export default function ImageStripV2({ basePath, localities }: ImageStripV2Props) {
   const p = (path: string) => joinPath(basePath, path);
   const trackRef = useRef<HTMLDivElement>(null);
 
+  // Localities only. Two of these tiles used to be property types — "Villas"
+  // and "Commercial", both pointing at a filtered listing — which is a
+  // different question from "where do I want to live" and made the row read
+  // as a mixed bag. Every tile is now a real place with its own page.
   const tiles: StripTile[] = [
     {
       src: `${BASE}/hero-locality-discovery.png`,
@@ -32,30 +47,12 @@ export default function ImageStripV2({ basePath }: ImageStripV2Props) {
       caption: "Explore Localities",
       href: p("/localities"),
     },
-    {
-      src: `${BASE}/corridor-golf-course-road.png`,
-      alt: "Golf Course Road towers",
-      caption: "Golf Course Road",
-      href: p("/localities/golf-course-road"),
-    },
-    {
-      src: `${BASE}/project-lowrise-villas.png`,
-      alt: "Low-rise villa community",
-      caption: "Villas",
-      href: p("/properties?type=villa"),
-    },
-    {
-      src: `${BASE}/corridor-dwarka-expressway.png`,
-      alt: "Dwarka Expressway corridor",
-      caption: "Dwarka Expressway",
-      href: p("/localities/dwarka-expressway"),
-    },
-    {
-      src: `${BASE}/project-commercial-retail.png`,
-      alt: "Commercial and retail development",
-      caption: "Commercial",
-      href: p("/properties?type=commercial"),
-    },
+    ...localities.slice(0, 5).map((locality) => ({
+      src: `${BASE}/${LOCALITY_IMAGE[locality.slug] ?? "corridor-new-gurugram.png"}`,
+      alt: `${locality.name}, Gurugram`,
+      caption: locality.name,
+      href: p(`/localities/${locality.slug}`),
+    })),
   ];
 
   function scrollByCard(direction: 1 | -1) {

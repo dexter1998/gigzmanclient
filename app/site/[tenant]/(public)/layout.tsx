@@ -132,7 +132,7 @@ export default async function SiteLayout({
         // params). That hook opts the whole route out of static rendering
         // unless it sits behind a Suspense boundary — with one, the shell
         // prerenders and the header resolves its active state on the client.
-        <Suspense fallback={<div className="h-[88px] lg:h-[104px]" />}>
+        <Suspense fallback={<div className="h-[88px] lg:h-[140px]" />}>
           <HeaderV2
             firmName={settings.firmName}
             logoUrl={settings.logoUrl ?? ""}
@@ -180,7 +180,7 @@ export default async function SiteLayout({
           Tailwind step — pt-28/pt-32 (112px/128px) left a 24px gap where a
           dark first section (e.g. Updates/Localities) showed the page's own
           background as a visible strip under the header. */}
-      <main className={isPremiumV2 ? "flex-1 pt-[88px] lg:pt-[104px]" : "flex-1"}>{children}</main>
+      <main className={isPremiumV2 ? "flex-1 pt-[88px] lg:pt-[140px]" : "flex-1"}>{children}</main>
 
       {/* Closing CTA. Rendered here rather than per page so every route in the
           template ends on the same photographed consultation band directly

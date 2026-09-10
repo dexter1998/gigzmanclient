@@ -9,6 +9,7 @@ import {
 import HeroV2 from "../premium-v2/HeroV2";
 import ImageStripV2 from "../premium-v2/ImageStripV2";
 import ServicesMosaicV2 from "../premium-v2/ServicesMosaicV2";
+import ValuationCtaV2 from "../premium-v2/ValuationCtaV2";
 import DocumentationV2 from "../premium-v2/DocumentationV2";
 import ConstructionVastuV2 from "../premium-v2/ConstructionVastuV2";
 import NewLaunchesV2 from "../premium-v2/NewLaunchesV2";
@@ -147,7 +148,8 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
         copy={heroCopy}
         stats={heroStats}
       />
-      <ImageStripV2 basePath={basePath} />
+      <ImageStripV2 basePath={basePath} localities={localities} />
+      <ValuationCtaV2 p={p} localities={localities.map((l) => l.name)} />
       <ServicesMosaicV2 p={p} services={serviceLinesFor(tenant.slug)} />
       <DocumentationV2 p={p} phone={settings.phone} />
       <NewLaunchesV2 properties={newlyLaunched} imageMap={imageMap} p={p} />

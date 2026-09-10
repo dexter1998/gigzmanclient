@@ -64,7 +64,13 @@ export default function AdvisorsV2({
           broadly, so the person you speak to already knows the street.
         </p>
 
-        <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
+        {/* Swipeable below 640px, a plain grid above it. Four advisor cards
+            fit a desktop row without scrolling, and a carousel there would
+            hide three of them behind an interaction; on a phone the same four
+            cards are four full screens of scrolling. `gp-mobile-carousel`
+            is the same utility the property rows use, so the gesture is
+            consistent down the page. */}
+        <div className="gp-mobile-carousel mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {ADVISORS.map((advisor) => (
             <article
               key={advisor.slug}

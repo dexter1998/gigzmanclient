@@ -57,7 +57,7 @@ export default function HeroV2({ basePath, heroImageSrc, firmName, copy, stats }
       />
       <div className="absolute inset-0" style={{ background: "var(--gp-gradient-hero)" }} />
 
-      <div className="gp-container relative pb-16 pt-[calc(88px+3.5rem)] lg:pb-24 lg:pt-[calc(104px+5rem)]">
+      <div className="gp-container relative pb-16 pt-[calc(88px+3.5rem)] lg:pb-24 lg:pt-[calc(140px+5rem)]">
         <div className="max-w-2xl">
           <span className="mb-5 block h-[2px] w-11 bg-[color:var(--gp-gold-600)]" />
           <p className="gp-eyebrow text-[color:var(--gp-gold-300)]">{copy.eyebrow}</p>

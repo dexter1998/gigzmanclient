@@ -19,6 +19,7 @@ import {
   Map,
   Menu,
   Phone,
+  PlusCircle,
   Ruler,
   Sparkles,
   Store,
@@ -236,6 +237,33 @@ export default function HeaderV2({
           : "bg-transparent",
       )}
     >
+      {/* Desktop-only top strip, 36px. The main bar was already at seven links
+          plus a phone number and a consultation button — the comment on the
+          Calculators dropdown records it overflowing at 1440px — so these two
+          go above it rather than into it. It stays `hidden lg:flex` on
+          purpose: the mobile header height feeds the sticky filter offset on
+          the listing page, and changing it would move that too. */}
+      <div className="hidden border-b border-white/10 lg:block">
+        <div className="gp-container flex h-9 items-center justify-end gap-5">
+          <Link
+            href={joinPath(basePath, "/property-management")}
+            className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/75 transition-colors hover:text-[color:var(--gp-gold-300)]"
+          >
+            <Building2 className="h-3.5 w-3.5" aria-hidden="true" />
+            Property Management
+          </Link>
+          <span className="h-3.5 w-px bg-white/15" aria-hidden="true" />
+          <button
+            type="button"
+            onClick={() => openLeadPopup("postProperty")}
+            className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[color:var(--gp-gold-300)] transition-colors hover:text-white"
+          >
+            <PlusCircle className="h-3.5 w-3.5" aria-hidden="true" />
+            Post Your Property
+          </button>
+        </div>
+      </div>
+
       <div className="gp-container flex items-center justify-between gap-3 py-4 lg:py-5">
         <Link href={basePath || "/"} className="flex min-w-0 shrink-0 items-center">
           {/* A client without a logo file yet gets its name set, not an empty
@@ -404,6 +432,27 @@ export default function HeaderV2({
                 </Link>
               ),
             )}
+            {/* The desktop top strip is `hidden lg:block`, so its two actions
+                would be unreachable on a phone without repeating them here. */}
+            <Link
+              href={joinPath(basePath, "/property-management")}
+              className="flex min-h-[48px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-3 text-[15px] text-white/85"
+            >
+              <Building2 className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />
+              Property Management
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileOpen(false);
+                openLeadPopup("postProperty");
+              }}
+              className="flex min-h-[48px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-3 text-left text-[15px] font-semibold text-[color:var(--gp-gold-300)]"
+            >
+              <PlusCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+              Post Your Property
+            </button>
+
             <p className="mt-3 border-t border-white/10 px-2 pt-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/40">
               Calculators
             </p>

@@ -80,6 +80,19 @@ export const LEAD_INTENTS = {
       "Share a few details and a property-management advisor will call you with a plan for tenants, rent and upkeep.",
     context: "Property management enquiry.",
   },
+  /**
+   * Seller-side, from the header strip. Everything else in this list is a
+   * buyer or an owner asking for a service; this is someone with inventory,
+   * and the copy has to say what happens next or it reads as another
+   * "book a consultation".
+   */
+  postProperty: {
+    eyebrow: "List with us",
+    heading: "Post your property.",
+    blurb:
+      "Tell us what you are selling or letting. An advisor will confirm the details, agree a price band with you and put it in front of matched buyers.",
+    context: "Post property enquiry.",
+  },
 } as const satisfies Record<string, LeadPopupIntent>;
 
 export type LeadIntentKey = keyof typeof LEAD_INTENTS;

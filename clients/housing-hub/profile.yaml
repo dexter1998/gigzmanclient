@@ -26,7 +26,7 @@ firm:
   established_year: ""
   firm_registration_number: ""
   business_category: Real Estate Agent
-  logo_url: ""
+  logo_url: /verticals/realestate/templates/premium-v2/brand/housing-hub-logo.png
 
 contact:
   phone: "098712 80244"
@@ -82,7 +82,7 @@ _status:
   display_name: verified
   firm.name: verified
   firm.business_category: verified
-  firm.logo_url: pending
+  firm.logo_url: verified
   firm.tagline: pending
   firm.overview: placeholder
   firm.established_year: pending

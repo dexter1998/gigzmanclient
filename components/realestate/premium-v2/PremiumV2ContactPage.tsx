@@ -200,7 +200,11 @@ export default async function PremiumV2ContactPage({
 
               {fullAddress ? (
                 <div>
-                  <MapEmbedV2 address={fullAddress} coordinates={mapCoordinates} />
+                  <MapEmbedV2
+                    address={fullAddress}
+                    businessName={settings.firmName}
+                    coordinates={mapCoordinates}
+                  />
                   {settings.googleMapsUrl ? (
                     <a
                       href={settings.googleMapsUrl}

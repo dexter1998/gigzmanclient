@@ -24,6 +24,17 @@ import {
   jsonLdProps,
 } from "@/lib/schema-org";
 
+/**
+ * Required, not optional. `getProperties` is deliberately uncached (filter
+ * combinations are unbounded), so without an explicit revalidate this segment
+ * renders dynamically on every request — which cost more than speed: a
+ * streamed dynamic render has already sent its headers by the time
+ * `notFound()` runs, so an unknown slug answered 200 with not-found content.
+ * Every listing page was also uncacheable. `builders/[slug]`, which reads the
+ * same uncached helper, sets this and behaves correctly.
+ */
+export const revalidate = 300;
+
 /** Prerenders every active listing for each tenant. */
 export async function generateStaticParams() {
   return paramsForEachTenant(async (tenant) => {

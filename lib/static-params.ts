@@ -49,9 +49,19 @@ export async function paramsForEachTenant<T extends Record<string, string>>(
   for (const tenant of tenants) {
     try {
       for (const row of await rowsFor(tenant)) out.push({ tenant: tenant.slug, ...row });
-    } catch {
-      // One tenant failing to enumerate must not take the whole build down.
+    } catch (error) {
+      // One tenant failing to enumerate must not take the whole build down —
+      // but it must not do so silently either. Swallowing this is how a route
+      // ends up with zero params and is quietly demoted to fully dynamic
+      // rendering, which looks like a performance problem and behaves like an
+      // SEO one (a streamed dynamic render answers 200 before `notFound()`
+      // can set a status).
+      console.error(
+        `generateStaticParams: enumerating "${tenant.slug}" failed, its pages will render on demand —`,
+        error instanceof Error ? error.message : error,
+      );
     }
   }
   return out;
 }
+

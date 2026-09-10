@@ -13,6 +13,8 @@ import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import { iconsFor } from "@/lib/brand-icons";
 import { originFor } from "@/lib/og";
 import CallbackFloatV2 from "@/components/realestate/premium-v2/CallbackFloatV2";
+import AskAiV2 from "@/components/realestate/premium-v2/AskAiV2";
+import AskAiFloatV2 from "@/components/realestate/premium-v2/AskAiFloatV2";
 import WhatsAppFloatV2 from "@/components/realestate/premium-v2/WhatsAppFloatV2";
 import MobileActionBarV2 from "@/components/realestate/premium-v2/MobileActionBarV2";
 import AnnouncementBar from "@/components/site/AnnouncementBar";
@@ -216,6 +218,15 @@ export default async function SiteLayout({
             googleMapsUrl={settings.googleMapsUrl}
           />
           <CallbackFloatV2 />
+          {/* The assistant only mounts where it can work. Without a key the
+              route answers 503, and a button that always fails is worse than
+              no button. */}
+          {process.env.GEMINI_API_KEY ? (
+            <>
+              <AskAiFloatV2 />
+              <AskAiV2 tenantSlug={tenant.slug} />
+            </>
+          ) : null}
           <ScrollLeadPopupV2 basePath={basePath || "/"} />
           {/* Site-wide scroll milestones. Individual pages that want a more
               specific page_type (plot maps, the maps index) render their own

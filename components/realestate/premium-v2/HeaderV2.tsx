@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { cn } from "./gp-primitives";
 import { openLeadPopup } from "./leadPopup";
+import { openAskAi } from "./AskAiV2";
 import { joinPath } from "@/lib/paths";
 
 const NAV_LINK =
@@ -255,6 +256,15 @@ export default function HeaderV2({
           <span className="h-3.5 w-px bg-white/15" aria-hidden="true" />
           <button
             type="button"
+            onClick={() => openAskAi("summarize")}
+            className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/75 transition-colors hover:text-[color:var(--gp-gold-300)]"
+          >
+            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
+            Summarise with AI
+          </button>
+          <span className="h-3.5 w-px bg-white/15" aria-hidden="true" />
+          <button
+            type="button"
             onClick={() => openLeadPopup("postProperty")}
             className="inline-flex items-center gap-1.5 text-[12.5px] font-semibold text-[color:var(--gp-gold-300)] transition-colors hover:text-white"
           >
@@ -357,6 +367,17 @@ export default function HeaderV2({
             </a>
           ) : null}
 
+          {/* Star, not a word: the bar is tight, and this is the one action
+              that has to be reachable at every width including the phone. */}
+          <button
+            type="button"
+            onClick={() => openAskAi("ask")}
+            aria-label="Ask AI about this site"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-[var(--gp-radius-sm)] border border-white/20 text-[color:var(--gp-gold-300)] transition-colors hover:border-[color:var(--gp-gold-600)] hover:bg-white/5"
+          >
+            <Sparkles className="h-4 w-4" aria-hidden="true" />
+          </button>
+
           <button
             type="button"
             onClick={() => openLeadPopup()}
@@ -434,6 +455,17 @@ export default function HeaderV2({
             )}
             {/* The desktop top strip is `hidden lg:block`, so its two actions
                 would be unreachable on a phone without repeating them here. */}
+            <button
+              type="button"
+              onClick={() => {
+                setMobileOpen(false);
+                openAskAi("summarize");
+              }}
+              className="flex min-h-[48px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-3 text-left text-[15px] text-white/85"
+            >
+              <Sparkles className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />
+              Summarise with AI
+            </button>
             <Link
               href={joinPath(basePath, "/property-management")}
               className="flex min-h-[48px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-3 text-[15px] text-white/85"

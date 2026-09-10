@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Check, Phone } from "lucide-react";
+import { ArrowRight, Phone } from "lucide-react";
 import { GpContainer, GpSection, GpEyebrow } from "./gp-primitives";
 import { DOCUMENTATION_GROUPS } from "@/lib/premium-v2/services";
 
@@ -35,11 +35,15 @@ export default function DocumentationV2({
           </p>
         </div>
 
+        {/* Each card names the stage and what it is, then hands off. It used
+            to print all six document names, which read as a list to skim past
+            rather than a service to enquire about — the names are on the
+            detail page, where there is room to say what we do with them. */}
         <div className="mt-11 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {DOCUMENTATION_GROUPS.map((group) => (
             <article
               key={group.step}
-              className="rounded-[var(--gp-radius-lg)] border border-[color:var(--gp-border)] bg-white p-6"
+              className="flex flex-col rounded-[var(--gp-radius-lg)] border border-[color:var(--gp-border)] bg-white p-6 transition-shadow hover:shadow-[var(--shadow-card)]"
             >
               <div className="flex items-center gap-3">
                 <span className="font-sans text-[12px] font-bold tracking-[0.08em] text-[color:var(--gp-gold-600)]">
@@ -52,17 +56,21 @@ export default function DocumentationV2({
                 {group.title}
               </h3>
 
-              <ul className="mt-4 space-y-2.5">
-                {group.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-[13px] leading-relaxed text-[color:var(--gp-body)]">
-                    <Check
-                      className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[color:var(--gp-gold-600)]"
-                      aria-hidden="true"
-                    />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <p className="mt-3 flex-1 text-[13.5px] leading-relaxed text-[color:var(--gp-body)]">
+                {group.summary}
+              </p>
+
+              <p className="mt-4 text-[11.5px] font-semibold uppercase tracking-[0.08em] text-[color:var(--gp-muted)]">
+                {group.items.length} documents
+              </p>
+
+              <Link
+                href={`${p("/documentation")}#${group.slug}`}
+                className="mt-4 inline-flex min-h-[42px] items-center gap-1.5 self-start text-[13px] font-semibold text-[color:var(--gp-forest-900)] transition-colors hover:text-[color:var(--gp-gold-600)]"
+              >
+                View details
+                <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+              </Link>
             </article>
           ))}
         </div>

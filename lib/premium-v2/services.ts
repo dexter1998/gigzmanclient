@@ -50,20 +50,50 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
     href: "#construction",
   },
   {
-    key: "loans",
-    title: "Home Loans & Documentation",
+    key: "agriculture",
+    title: "Agricultural Properties",
     blurb:
-      "EMI calculations, loan tie-ups with SBI, HDFC, ICICI, Axis and 10+ banks, plus complete A–Z documentation support.",
-    tags: ["Loans", "EMI", "Docs"],
-    href: "/calculators/emi",
+      "Farmland, orchards and agricultural plots across the Sohna and Manesar belts, with land-use status and mutation checked before you commit.",
+    tags: ["Buy", "Sell", "Land use"],
+    href: "/properties?type=agriculture",
+  },
+  // Loans and documentation were one card. They are different engagements —
+  // one is a bank tie-up and an EMI, the other is registry, mutation and NOC
+  // work people come to us for on its own — and a single card sent both to
+  // the EMI calculator.
+  {
+    key: "loans",
+    title: "Home Loans",
+    blurb:
+      "EMI calculations and loan tie-ups with SBI, HDFC, ICICI, Axis and 10+ banks, including balance transfer and top-up.",
+    tags: ["Loans", "EMI", "Balance transfer"],
+    href: "/home-loan",
   },
   {
-    key: "interiors",
-    title: "Interior Design & Vastu",
+    key: "documentation",
+    title: "Documentation",
     blurb:
-      "Professional interior design services with Vastu Shastra consultation for homes and offices in NCR.",
-    tags: ["Interior", "Vastu", "Plans"],
+      "Registry, mutation, NOC, khata transfer and every other paper a Gurugram sale turns on — handled end to end.",
+    tags: ["Registry", "Mutation", "NOC"],
+    href: "/documentation",
+  },
+  // Split for the same reason: a Vastu consultation is booked without any
+  // interior work, and interior clients do not all want Vastu.
+  {
+    key: "interiors",
+    title: "Interior Design",
+    blurb:
+      "Turnkey interiors for homes and offices — layouts, material selection, execution and handover.",
+    tags: ["Interior", "Turnkey", "Plans"],
     href: "#construction",
+  },
+  {
+    key: "vastu",
+    title: "Vastu Consultation",
+    blurb:
+      "Direction, room placement and plot-level Vastu guidance, read against the actual floor plan rather than a generic chart.",
+    tags: ["Vastu", "Floor plan", "Plot"],
+    href: "/vastu",
   },
 ];
 
@@ -181,6 +211,16 @@ export const VASTU_WHEEL = [
 export interface DocumentationGroup {
   step: string;
   title: string;
+  /** Anchor on /documentation the landing card's "View details" jumps to. */
+  slug: string;
+  /**
+   * One line saying what this stage actually is. The landing cards used to
+   * print all six document names, which read as a list to skim past rather
+   * than a service to enquire about — the names live on the detail page now.
+   */
+  summary: string;
+  /** What we do at this stage, for the detail page. */
+  detail: string;
   items: string[];
 }
 
@@ -192,6 +232,11 @@ export const DOCUMENTATION_GROUPS: DocumentationGroup[] = [
   {
     step: "01",
     title: "Property Buying Docs",
+    slug: "property-buying",
+    summary:
+      "Everything that has to exist before money moves — and proof that it does.",
+    detail:
+      "Before a rupee changes hands we read the chain of title back through every previous owner, pull the encumbrance certificate ourselves rather than accepting a copy, and confirm the society or builder has no dues standing against the unit. Most disputes we are called into later started as a gap at this stage that nobody checked.",
     items: [
       "Sale Agreement / Sale Deed",
       "Title Verification Report",
@@ -204,6 +249,11 @@ export const DOCUMENTATION_GROUPS: DocumentationGroup[] = [
   {
     step: "02",
     title: "Registry & Mutation",
+    slug: "registry-mutation",
+    summary:
+      "The transfer itself, from stamp duty to your name in the revenue record.",
+    detail:
+      "Registration is only half of it. A sale is not finished until mutation is recorded and the khata sits in your name, and in Gurugram that is a separate application to a separate office with its own queue. We calculate the stamp duty, book the sub-registrar slot, attend the appointment with you, and then follow the mutation through until the updated jamabandi comes back.",
     items: [
       "Sub-Registrar Registration",
       "Stamp Duty Payment",
@@ -216,6 +266,11 @@ export const DOCUMENTATION_GROUPS: DocumentationGroup[] = [
   {
     step: "03",
     title: "Home Loan Docs",
+    slug: "home-loan",
+    summary:
+      "The paperwork the bank needs, prepared once instead of five times.",
+    detail:
+      "Every lender asks for the same file in a slightly different order, which is why applications stall. We assemble the income, KYC and property set once, get the valuation and legal opinion moving in parallel rather than in sequence, and coordinate disbursement with the registry date so the draft is ready on the day.",
     items: [
       "Income & Bank Statements",
       "Property Valuation Report",
@@ -228,6 +283,11 @@ export const DOCUMENTATION_GROUPS: DocumentationGroup[] = [
   {
     step: "04",
     title: "Legal Documents",
+    slug: "legal",
+    summary:
+      "Deeds and instruments for the cases a plain sale does not cover.",
+    detail:
+      "Inheritance, a division between siblings, a gift within the family, a sale conducted on someone's behalf — each needs its own instrument, correctly drafted and correctly executed. We draft, notarise and register these, and tell you plainly when a power of attorney is not the shortcut it is being sold as.",
     items: [
       "Power of Attorney (PoA)",
       "Will / Relinquishment Deed",
@@ -240,6 +300,11 @@ export const DOCUMENTATION_GROUPS: DocumentationGroup[] = [
   {
     step: "05",
     title: "Construction Docs",
+    slug: "construction",
+    summary:
+      "Approvals and certificates, from sanctioned plan to occupancy.",
+    detail:
+      "A building without an occupancy certificate is difficult to sell, refinance or insure, and the gap usually traces back to a deviation from the sanctioned plan. We handle plan approval, RERA registration, structural safety and the completion and occupancy certificates, and flag deviations while they are still cheap to correct.",
     items: [
       "Building Plan Approval",
       "Occupancy Certificate (OC)",
@@ -252,6 +317,11 @@ export const DOCUMENTATION_GROUPS: DocumentationGroup[] = [
   {
     step: "06",
     title: "NRI & Special Cases",
+    slug: "nri",
+    summary:
+      "Buying, selling or repatriating from abroad, without flying in.",
+    detail:
+      "An overseas power of attorney has to be attested in the right order or the sub-registrar will refuse it. We prepare that chain, apply the correct TDS rate on the transaction rather than the default one, keep the purchase FEMA-compliant, and handle repatriation paperwork so the proceeds can actually leave the country.",
     items: [
       "NRI Property Purchase Help",
       "Repatriation Documents",

@@ -135,6 +135,11 @@ function coreEntries(client: Client, prefix: string): Entries {
       { url: `${prefix}/rental-yield`, priority: 0.7 },
       { url: `${prefix}/vastu`, priority: 0.7 },
       { url: `${prefix}/maps/gurgaon`, priority: 0.7 },
+      // Only premium-v2 renders /documentation; the other templates 404 it,
+      // and a sitemap that lists a 404 is worse than one that omits a page.
+      ...(getTemplateKeyForSlug(client.slug) === "premium-v2"
+        ? [{ url: `${prefix}/documentation`, priority: 0.7 }]
+        : []),
     );
     if (homeLoanEnabled(client.slug)) {
       entries.push({ url: `${prefix}/home-loan`, priority: 0.7 });

@@ -51,9 +51,17 @@ export default function PropertyResultsV2({
     const purpose = get("purpose");
     const status = get("status");
     const locality = get("locality");
+    // `sector` is what a link from a sector page carries, so arriving from
+    // "Sector 57" lands on the listing already narrowed to it.
+    const sector = get("sector");
     const beds = Number(get("beds")) || undefined;
     const maxPrice = Number(get("maxPrice")) || undefined;
-    const search = get("search")?.trim().toLowerCase();
+    // `q` is what the search bar writes; `search` is the older key and still
+    // honoured so shared links keep working.
+    const search = (get("q") ?? get("search"))?.trim().toLowerCase();
+    // "Sector 57" typed (or picked) in the search box should match the sector
+    // column exactly rather than hoping the words appear in a title.
+    const searchSector = search?.match(/^sector\s+([a-z0-9-]+)$/)?.[1];
     const amenities = (get("amenities") ?? "").split(",").filter(Boolean);
     const verifiedOnly = get("verified") === "1";
     const sort = get("sort") ?? "";
@@ -63,6 +71,7 @@ export default function PropertyResultsV2({
       if ((purpose === "buy" || purpose === "rent") && property.purpose !== purpose) return false;
       if (status && property.status !== status) return false;
       if (locality && property.locality !== locality) return false;
+      if (sector && String(property.sector ?? "").toLowerCase() !== sector.toLowerCase()) return false;
       if (beds !== undefined && (property.beds ?? 0) < beds) return false;
       if (maxPrice !== undefined && (property.price ?? 0) > maxPrice) return false;
       if (verifiedOnly && !property.reraNumber) return false;
@@ -71,11 +80,15 @@ export default function PropertyResultsV2({
         if (!amenities.every((a) => own.includes(a))) return false;
       }
       if (search) {
-        const haystack = [property.title, property.locality, property.sector, property.corridor]
-          .filter(Boolean)
-          .join(" ")
-          .toLowerCase();
-        if (!haystack.includes(search)) return false;
+        if (searchSector) {
+          if (String(property.sector ?? "").toLowerCase() !== searchSector) return false;
+        } else {
+          const haystack = [property.title, property.locality, property.sector, property.corridor]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+          if (!haystack.includes(search)) return false;
+        }
       }
       return true;
     });

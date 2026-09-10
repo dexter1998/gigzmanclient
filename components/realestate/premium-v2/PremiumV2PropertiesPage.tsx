@@ -45,6 +45,27 @@ export default async function PremiumV2PropertiesPage({
   // `description`/`specs` — on a register-sourced inventory those two columns
   // alone are ~1.6 MB of client payload, enough to stall hydration.
   const everything = withStats(inventory);
+
+  // Suggestions for the location box, counted from the inventory itself so
+  // nothing is offered that has no listings behind it.
+  const locationSuggestions = (() => {
+    const tally = new Map<string, { label: string; kind: string; count: number }>();
+    const add = (label: string | null | undefined, kind: string) => {
+      const name = label?.trim();
+      if (!name) return;
+      const key = `${kind}:${name.toLowerCase()}`;
+      const hit = tally.get(key);
+      if (hit) hit.count += 1;
+      else tally.set(key, { label: kind === "Sector" ? `Sector ${name}` : name, kind, count: 1 });
+    };
+    for (const row of everything) {
+      add(row.sector, "Sector");
+      add(row.locality, "Locality");
+      add(row.corridor, "Corridor");
+    }
+    return [...tally.values()].sort((a, b) => b.count - a.count);
+  })();
+
   const rows = filterForScope(everything, scope);
   if (rows.length === 0) notFound();
 
@@ -84,6 +105,7 @@ export default async function PremiumV2PropertiesPage({
         everything={everything}
         imageMap={imageMap}
         localityFacets={localityFacets}
+        locationSuggestions={locationSuggestions}
         basePath={basePath}
         crumbs={crumbs}
         eyebrow={eyebrow}

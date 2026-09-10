@@ -4,6 +4,7 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { SlidersHorizontal, X } from "lucide-react";
 import { PROPERTY_TYPE_LABELS, PROPERTY_PURPOSE_LABELS } from "@/lib/format";
 import { analytics } from "@/lib/analytics";
+import PropertyTypeOptions from "@/components/realestate/PropertyTypeOptions";
 
 interface PropertyFiltersProps {
   localities: string[];
@@ -80,11 +81,7 @@ export default function PropertyFilters({ localities }: PropertyFiltersProps) {
           aria-label="Property type"
         >
           <option value="">Property Type</option>
-          {Object.entries(PROPERTY_TYPE_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
+          <PropertyTypeOptions />
         </select>
 
         <select

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PROPERTY_TYPE_LABELS } from "@/lib/format";
+import PropertyTypeOptions from "@/components/realestate/PropertyTypeOptions";
 
 interface ValuationFormProps {
   contactHref: string;
@@ -50,11 +51,7 @@ export default function ValuationForm({ contactHref, localities }: ValuationForm
           </label>
           <select id="vf-type" value={propertyType} onChange={(e) => setPropertyType(e.target.value)} className={FIELD}>
             <option value="">Select Type</option>
-            {Object.entries(PROPERTY_TYPE_LABELS).map(([value, label]) => (
-              <option key={value} value={value}>
-                {label}
-              </option>
-            ))}
+            <PropertyTypeOptions />
           </select>
         </div>
         <div>

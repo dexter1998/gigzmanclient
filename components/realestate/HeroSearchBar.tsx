@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { PROPERTY_TYPE_LABELS } from "@/lib/format";
+import PropertyTypeOptions from "@/components/realestate/PropertyTypeOptions";
 
 interface HeroSearchBarProps {
   action: string;
@@ -65,11 +66,7 @@ export default function HeroSearchBar({ action, localities }: HeroSearchBarProps
           aria-label="Property type"
         >
           <option value="">Property Type</option>
-          {Object.entries(PROPERTY_TYPE_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
+          <PropertyTypeOptions />
         </select>
 
         <select

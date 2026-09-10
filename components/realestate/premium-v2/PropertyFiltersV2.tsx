@@ -9,6 +9,7 @@ import {
   PROPERTY_STATUS_LABELS,
 } from "@/lib/format";
 import { analytics } from "@/lib/analytics";
+import PropertyTypeOptions from "@/components/realestate/PropertyTypeOptions";
 
 interface PropertyFiltersV2Props {
   localities: string[];
@@ -164,11 +165,7 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
           aria-label="Property type"
         >
           <option value="">Property Type</option>
-          {Object.entries(PROPERTY_TYPE_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
-            </option>
-          ))}
+          <PropertyTypeOptions />
         </select>
         </Field>
 

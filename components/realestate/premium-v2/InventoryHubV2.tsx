@@ -6,6 +6,7 @@ import MobileFilterDrawerV2 from "./MobileFilterDrawerV2";
 import PropertyResultsV2 from "./PropertyResultsV2";
 import { GpContainer } from "./gp-primitives";
 import SearchBarV2 from "./SearchBarV2";
+import type { LocationSuggestion } from "./LocationCombobox";
 import { joinPath } from "@/lib/tenant";
 import { statIcon } from "./amenity-icons";
 import { facetsFor, developerSlug, sectorSlug, compareSectors, type ListingRow } from "@/lib/register";
@@ -148,6 +149,7 @@ export default function InventoryHubV2({
   everything,
   imageMap,
   localityFacets,
+  locationSuggestions,
   basePath,
   crumbs,
   eyebrow,
@@ -161,6 +163,7 @@ export default function InventoryHubV2({
   everything: ListingRow[];
   imageMap: Record<string, { path: string; alt: string | null } | undefined>;
   localityFacets: string[];
+  locationSuggestions: LocationSuggestion[];
   basePath: string;
   crumbs: Crumb[];
   eyebrow: string;
@@ -234,7 +237,7 @@ export default function InventoryHubV2({
             filter panel below reads, so the two never disagree and a searched
             result stays shareable. */}
         <div className="mt-8 max-w-4xl">
-          <SearchBarV2 basePath={basePath} localities={localityFacets} />
+          <SearchBarV2 basePath={basePath} suggestions={locationSuggestions} />
         </div>
 
         <div className="mt-5 flex flex-wrap gap-2">
@@ -252,7 +255,12 @@ export default function InventoryHubV2({
 
         <StatStrip items={stats} />
 
-        <div className="mt-6">
+        {/* Sticky on phones only. The filter trigger used to scroll away with
+            the header above it, so narrowing a 822-row list meant scrolling
+            back to the top first. `top-[76px]` clears the fixed header; the
+            negative inline margin lets the bar's background span the full
+            width while its contents stay on the page gutter. */}
+        <div className="sticky top-[76px] z-30 mt-6 -mx-[var(--gp-page-gutter)] border-y border-[color:var(--gp-border)] bg-[color:var(--gp-cream-100)]/95 px-[var(--gp-page-gutter)] py-2.5 backdrop-blur lg:static lg:mx-0 lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:backdrop-blur-none">
           <MobileFilterDrawerV2>
             <Suspense fallback={null}>
               <PropertyFiltersV2 localities={localityFacets} />

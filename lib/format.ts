@@ -146,15 +146,45 @@ export const CALCULATOR_STATUS_LABELS: Record<string, string> = {
   archived: "Archived",
 };
 
+/**
+ * Keys are what the database stores, so the six already in use — apartment,
+ * plot, builder_floor, commercial, villa, sco — must keep their spelling or
+ * every existing listing loses its label.
+ *
+ * `sco` used to read "SCO (Shops)", which collapsed two things a buyer
+ * searches for separately: an SCO is a shop-cum-office plot sold by the DTCP
+ * allotment, a shop is a unit. Retail (a mall or high-street storefront) is a
+ * third. They are listed apart for the same reason offices and warehouses are.
+ */
 export const PROPERTY_TYPE_LABELS: Record<string, string> = {
+  // Residential
   apartment: "Apartment",
-  farmhouse: "Farm House",
   builder_floor: "Builder Floor",
-  plot: "Plot",
   villa: "Villa",
-  sco: "SCO (Shops)",
+  farmhouse: "Farm House",
+  affordable: "Affordable Flat",
+  // Commercial
   commercial: "Commercial",
+  sco: "SCO",
+  shop: "Shop",
+  retail: "Retail",
+  office: "Office Space",
+  warehouse: "Warehouse",
+  industrial: "Industrial",
+  // Land
+  plot: "Plot",
+  agriculture: "Agricultural Land",
 };
+
+/**
+ * The dropdown's grouping. Flat lists of a dozen types read as a wall; these
+ * are the three decisions a buyer has already made before they open it.
+ */
+export const PROPERTY_TYPE_GROUPS: { label: string; types: string[] }[] = [
+  { label: "Residential", types: ["apartment", "builder_floor", "villa", "farmhouse", "affordable"] },
+  { label: "Commercial", types: ["commercial", "sco", "shop", "retail", "office", "warehouse", "industrial"] },
+  { label: "Land", types: ["plot", "agriculture"] },
+];
 
 export const PROPERTY_STATUS_LABELS: Record<string, string> = {
   new_launch: "New Launch",

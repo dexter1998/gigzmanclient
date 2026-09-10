@@ -72,6 +72,7 @@ export default async function PremiumV2FaqPage({ tenant }: { tenant: Tenant }) {
           fullAddress ? <MapEmbedV2
               address={fullAddress}
               businessName={settings.firmName}
+              tenantSlug={tenant.slug}
               coordinates={mapCoordinates}
               className="aspect-[4/3] w-full"
               eager

@@ -203,6 +203,7 @@ export default async function PremiumV2ContactPage({
                   <MapEmbedV2
                     address={fullAddress}
                     businessName={settings.firmName}
+                    tenantSlug={tenant.slug}
                     coordinates={mapCoordinates}
                   />
                   {settings.googleMapsUrl ? (

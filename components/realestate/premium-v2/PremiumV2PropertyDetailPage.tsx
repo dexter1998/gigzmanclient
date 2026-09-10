@@ -21,6 +21,7 @@ import PremiumV2PropertyGallery from "./PremiumV2PropertyGallery";
 import PremiumV2EnquiryForm from "./PremiumV2EnquiryForm";
 import PremiumV2CallLink from "./PremiumV2CallLink";
 import PremiumV2WhatsappLink from "./PremiumV2WhatsappLink";
+import ShareButtonV2 from "./ShareButtonV2";
 import PropertyCardV2 from "./PropertyCardV2";
 import { GpContainer } from "./gp-primitives";
 import { amenityIcon, statIcon } from "./amenity-icons";
@@ -469,14 +470,20 @@ export default function PremiumV2PropertyDetailPage({
                     : "Share your requirement and we will confirm the current band."}
               </p>
 
-              {telHref || whatsappHref ? (
-                <div className="mt-5 flex flex-wrap gap-2.5">
-                  {telHref ? <PremiumV2CallLink telHref={telHref} phone={settings.phone!} /> : null}
-                  {whatsappHref ? (
-                    <PremiumV2WhatsappLink whatsappHref={whatsappHref} propertyId={property.id} />
-                  ) : null}
-                </div>
-              ) : null}
+              <div className="mt-5 flex flex-wrap gap-2.5">
+                {telHref ? <PremiumV2CallLink telHref={telHref} phone={settings.phone!} /> : null}
+                {whatsappHref ? (
+                  <PremiumV2WhatsappLink whatsappHref={whatsappHref} propertyId={property.id} />
+                ) : null}
+                {/* Property links travel on WhatsApp here; on a phone this
+                    opens the OS sheet, which puts the listing one tap from a
+                    family group. */}
+                <ShareButtonV2
+                  title={property.title}
+                  label="Share listing"
+                  pageType="property_detail"
+                />
+              </div>
 
               {/* Same honesty rule as PropertyCard: a listing without a
                   registration number visibly says so rather than omitting it. */}

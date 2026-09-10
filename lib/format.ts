@@ -196,3 +196,22 @@ export const PROPERTY_PURPOSE_LABELS: Record<string, string> = {
   buy: "Buy",
   rent: "Rent",
 };
+
+/**
+ * Budget bands, shared by the listing filter and every lead form.
+ *
+ * `value` is a rupee ceiling because that is what the listing filters on;
+ * the label is how a Gurugram buyer says it. Kept in one place so a lead
+ * saying "₹1 Cr – ₹2 Cr" means the same range the filter used.
+ */
+export const BUDGET_BANDS: { label: string; value: string }[] = [
+  { label: "Under ₹50 L", value: "5000000" },
+  { label: "₹50 L – ₹1 Cr", value: "10000000" },
+  { label: "₹1 Cr – ₹2 Cr", value: "20000000" },
+  { label: "₹2 Cr – ₹5 Cr", value: "50000000" },
+  { label: "Above ₹5 Cr", value: "1000000000" },
+];
+
+export const BUDGET_LABELS: Record<string, string> = Object.fromEntries(
+  BUDGET_BANDS.map((b) => [b.value, b.label]),
+);

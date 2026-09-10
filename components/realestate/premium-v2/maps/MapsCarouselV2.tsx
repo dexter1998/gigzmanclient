@@ -44,7 +44,7 @@ export default function MapsCarouselV2({
       <GpContainer>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div className="min-w-0">
-            <GpEyebrow>Plot maps</GpEyebrow>
+            <GpEyebrow>Maps</GpEyebrow>
             <h2 className="gp-section-title font-display mt-2 text-[color:var(--gp-ink)]">
               Find your plot on the sector map
             </h2>

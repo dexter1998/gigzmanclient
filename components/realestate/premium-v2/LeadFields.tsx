@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronDown, MessageCircle, Phone, Check } from "lucide-react";
 import { checkPhone } from "@/lib/phone";
+import { BUDGET_BANDS, BUDGET_LABELS } from "@/lib/format";
 
 /**
  * The fields every lead form on this site carries, so a query arrives with the
@@ -231,14 +232,20 @@ export function composeMessage({
   context,
   channels,
   note,
+  budget,
 }: {
   interest: string;
   context?: string;
   channels: string[];
   note?: string;
+  budget?: string;
 }): string {
   const parts = [
     `Looking for: ${INTEREST_LABELS[interest] ?? "Not specified"}`,
+    // Folded into the message rather than given its own column: the leads
+    // table has no budget field, and adding one would mean migrating
+    // production before the next deploy could ship.
+    budget ? `Budget: ${BUDGET_LABELS[budget] ?? budget}` : null,
     context ? `About: ${context}` : null,
     channels.length ? `Reach via: ${channels.map((c) => (c === "whatsapp" ? "WhatsApp" : "Phone call")).join(", ")}` : null,
     note?.trim() ? `Note: ${note.trim()}` : null,
@@ -263,6 +270,7 @@ export function LeadIntent({
   label?: string;
 }) {
   const [interest, setInterest] = useState(defaultInterest);
+  const [budget, setBudget] = useState("");
   const [channels, setChannels] = useState<string[]>(["whatsapp", "phone"]);
 
   return (
@@ -285,9 +293,32 @@ export function LeadIntent({
         ))}
       </SelectField>
 
+      {/* Optional on purpose. A required budget is the field people abandon
+          a form on, and an advisor can ask on the call — but most leads
+          answer it, and one that arrives with a band attached can be routed
+          to matching inventory before anyone picks up the phone. */}
+      <SelectField
+        id={`${idPrefix}-budget`}
+        name="budget"
+        label="Budget (optional)"
+        value={budget}
+        onChange={setBudget}
+      >
+        <option value="">Not sure yet</option>
+        {BUDGET_BANDS.map((b) => (
+          <option key={b.value} value={b.value}>
+            {b.label}
+          </option>
+        ))}
+      </SelectField>
+
       <ContactChannels value={channels} onChange={setChannels} />
 
-      <input type="hidden" name="message" value={composeMessage({ interest, context, channels })} />
+      <input
+        type="hidden"
+        name="message"
+        value={composeMessage({ interest, context, channels, budget })}
+      />
       {context ? <input type="hidden" name="intentContext" value={context} /> : null}
     </>
   );

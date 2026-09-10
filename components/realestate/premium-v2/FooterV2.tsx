@@ -45,7 +45,7 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
     { label: "Sectors", href: p("/sectors") },
     { label: "Builders", href: p("/builders") },
     { label: "Localities", href: p("/localities") },
-    { label: "Plot Maps", href: p("/maps/gurgaon") },
+    { label: "Maps", href: p("/maps/gurgaon") },
     { label: "Calculators", href: p("/calculators") },
     { label: "Contact", href: p("/contact") },
   ];
@@ -65,7 +65,7 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
     { label: "Rental Yield", href: p("/rental-yield") },
     { label: "Area Converter", href: p("/area-converter") },
     { label: "Vastu", href: p("/vastu") },
-    { label: "Plot Maps", href: p("/maps/gurgaon") },
+    { label: "Maps", href: p("/maps/gurgaon") },
     { label: "Calculators", href: p("/calculators") },
     { label: "FAQ", href: p("/faq") },
   ];

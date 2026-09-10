@@ -73,7 +73,7 @@ export const realestate: VerticalConfig = {
     ],
     resourceLinks: [
       { label: "Market Insights", path: "/updates" },
-      { label: "Plot Maps", path: "/maps/gurgaon" },
+      { label: "Maps", path: "/maps/gurgaon" },
       { label: "Calculators", path: "/calculators" },
     ],
     externalLinks: [

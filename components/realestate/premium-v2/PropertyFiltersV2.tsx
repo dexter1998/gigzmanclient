@@ -4,9 +4,10 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { X, ChevronDown } from "lucide-react";
 import { amenityIcon } from "./amenity-icons";
 import {
-  PROPERTY_TYPE_LABELS,
+  BUDGET_BANDS,
   PROPERTY_PURPOSE_LABELS,
   PROPERTY_STATUS_LABELS,
+  PROPERTY_TYPE_LABELS,
 } from "@/lib/format";
 import { analytics } from "@/lib/analytics";
 import PropertyTypeOptions from "@/components/realestate/PropertyTypeOptions";
@@ -16,14 +17,9 @@ interface PropertyFiltersV2Props {
   onNavigate?: () => void; // closes the mobile drawer after a filter is applied
 }
 
-const BUDGET_BANDS = [
-  { label: "Any Budget", value: "" },
-  { label: "Under ₹50 L", value: "5000000" },
-  { label: "₹50 L – ₹1 Cr", value: "10000000" },
-  { label: "₹1 Cr – ₹2 Cr", value: "20000000" },
-  { label: "₹2 Cr – ₹5 Cr", value: "50000000" },
-  { label: "Above ₹5 Cr", value: "1000000000" },
-];
+/** "Any Budget" is filter-only; the bands themselves are shared with the lead
+ *  forms so a lead's stated range means the same thing the filter used. */
+const BUDGET_OPTIONS = [{ label: "Any Budget", value: "" }, ...BUDGET_BANDS];
 
 const AMENITY_OPTIONS = [
   "Clubhouse",
@@ -211,7 +207,7 @@ export default function PropertyFiltersV2({ localities, onNavigate }: PropertyFi
           className={FIELD}
           aria-label="Budget"
         >
-          {BUDGET_BANDS.map((band) => (
+          {BUDGET_OPTIONS.map((band) => (
             <option key={band.label} value={band.value}>
               {band.label}
             </option>

@@ -198,14 +198,46 @@ export const CONSTRUCTION_SERVICES = [
 
 /** The eight compass sectors on the vastu wheel, in drawing order from east. */
 export const VASTU_WHEEL = [
-  { label: "Living", direction: "E" },
-  { label: "Kitchen", direction: "SE" },
-  { label: "Store", direction: "S" },
-  { label: "Bath", direction: "SW" },
-  { label: "Sleep", direction: "W" },
-  { label: "Entry", direction: "NW" },
-  { label: "Puja", direction: "N" },
-  { label: "Master", direction: "NE" },
+  {
+    label: "Living",
+    direction: "E",
+    note: "The east face takes the morning sun, so the room the household and its guests use most is placed here. Keep the north-east corner of it open rather than built into storage.",
+  },
+  {
+    label: "Kitchen",
+    direction: "SE",
+    note: "The south-east is the fire corner (agni). The cooking platform faces east, and the sink is kept away from the hob so water and fire are not adjacent.",
+  },
+  {
+    label: "Store",
+    direction: "S",
+    note: "Heavy storage sits south because weight belongs on the south and west sides — the same reason staircases and thick walls are placed here rather than north.",
+  },
+  {
+    label: "Bath",
+    direction: "SW",
+    note: "Toilets go south-west or west, never north-east. Drainage is kept flowing away from the north-east, which is the corner the plan tries to leave light and open.",
+  },
+  {
+    label: "Sleep",
+    direction: "W",
+    note: "West suits children's and guest bedrooms. The head of the bed points south or east; a bed under a beam or facing a mirror is what gets flagged on most site visits.",
+  },
+  {
+    label: "Entry",
+    direction: "NW",
+    note: "North-west takes movement — the main door, a guest room or the garage. It is the direction associated with air, so it is kept ventilated rather than sealed.",
+  },
+  {
+    label: "Puja",
+    direction: "N",
+    note: "The prayer space faces north or north-east, at ground level and not against a bathroom wall. North is also where the plot is kept lower and lighter than the south.",
+  },
+  {
+    label: "Master",
+    direction: "NE",
+    note: "The north-east (ishaan) is the most auspicious corner — kept open, uncluttered and lightly built. Water features and the main light source belong here.",
+  },
 ] as const;
 
 export interface DocumentationGroup {

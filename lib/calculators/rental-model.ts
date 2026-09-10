@@ -14,15 +14,38 @@ import { NET_YIELD_EXPENSE_RATIO } from "./rates/gurugram-2026";
  * Everything here is arithmetic on the inputs. No rate lookup, no service.
  */
 
-export type UnitType = "1bhk" | "2bhk" | "3bhk" | "4bhk" | "studio" | "shop";
+export type UnitType =
+  | "1bhk"
+  | "2bhk"
+  | "3bhk"
+  | "4bhk"
+  | "studio"
+  | "shop"
+  | "office"
+  | "showroom"
+  | "warehouse";
 
+/**
+ * "Shop / commercial" used to be the single non-residential option, which
+ * made the model unusable for the buildings it matters most on: an SCO floor
+ * let as an office, a ground-floor showroom and a Manesar warehouse rent on
+ * different terms and at different rates, and lumping them together meant the
+ * owner had to pretend a warehouse was a shop to get a number out of it.
+ *
+ * Nothing switches exhaustively on this union — the model only sums the rent
+ * entered per floor — so the added members change the labels a user picks
+ * from, not the arithmetic.
+ */
 export const UNIT_TYPES: { value: UnitType; label: string }[] = [
   { value: "studio", label: "Studio" },
   { value: "1bhk", label: "1 BHK" },
   { value: "2bhk", label: "2 BHK" },
   { value: "3bhk", label: "3 BHK" },
   { value: "4bhk", label: "4 BHK" },
-  { value: "shop", label: "Shop / commercial" },
+  { value: "shop", label: "Shop" },
+  { value: "showroom", label: "Showroom / retail" },
+  { value: "office", label: "Office space" },
+  { value: "warehouse", label: "Warehouse / industrial" },
 ];
 
 export interface RentableFloor {

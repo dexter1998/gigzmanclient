@@ -19,6 +19,7 @@ import ScrollDepthTracker from "@/components/realestate/premium-v2/ScrollDepthTr
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
 import LineArtBackdropV2 from "@/components/realestate/premium-v2/LineArtBackdropV2";
 import RelatedCardsV2 from "@/components/realestate/premium-v2/RelatedCardsV2";
+import MapSearchV2 from "@/components/realestate/premium-v2/maps/MapSearchV2";
 
 const BLUR = blurPlaceholders as Record<string, string>;
 
@@ -156,6 +157,15 @@ export default async function PlotMapPage({ params }: Props) {
 
       <GpSection tone="cream" className="pt-8">
         <GpContainer>
+          {/* Switching between two adjoining sectors used to mean going back
+              to the index and scrolling 150-odd areas. */}
+          <div className="mb-8 max-w-xl">
+            <MapSearchV2
+              basePath={basePath}
+              areas={MAP_AREAS.map((a) => ({ slug: a.slug, name: a.name }))}
+            />
+          </div>
+
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.55fr_1fr]">
             <PlotMapViewerV2
               slug={area.slug}

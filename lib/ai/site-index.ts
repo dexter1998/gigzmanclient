@@ -131,10 +131,15 @@ export async function buildSiteIndex(tenant: Tenant): Promise<SiteIndex | null> 
     lines.push(`- ${s.title}${s.summary ? `: ${s.summary}` : ""} → ${p(`/services/${s.slug}`)}`);
   }
 
-  lines.push("\n## Maps available");
-  lines.push(
-    MAP_AREAS.slice(0, 60).map((a) => `${a.name} → ${p(`/maps/gurgaon/${a.slug}`)}`).join("; "),
-  );
+  // Every map, not a slice. An earlier cap at 60 dropped the last 15 — Sector
+  // 57, Manesar, Udyog Vihar, Pace City among them — so when someone asked for
+  // the Sector 57 map the assistant linked the index instead, because it had
+  // never been shown the page. These are one short line each; there is nothing
+  // to save by truncating them.
+  lines.push(`\n## Maps available (${MAP_AREAS.length})`);
+  for (const a of MAP_AREAS) {
+    lines.push(`- ${a.name} → ${p(`/maps/gurgaon/${a.slug}`)}`);
+  }
 
   return { firmName: settings.firmName, context: lines.join("\n") };
 }

@@ -23,6 +23,7 @@ import {
   Ruler,
   Sparkles,
   Store,
+  Trees,
   TrendingUp,
   X,
   type LucideIcon,
@@ -54,6 +55,7 @@ interface NavItem {
  */
 const NAV_ICONS: Record<string, LucideIcon> = {
   Home,
+  Trees,
   Factory,
   ClipboardCheck,
   HardHat,
@@ -160,6 +162,8 @@ export default function HeaderV2({
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
+  /** Which mobile group is expanded. Services is the one people open. */
+  const [openGroup, setOpenGroup] = useState<string | null>("Services");
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const mobileNavRef = useRef<HTMLDivElement>(null);
@@ -244,7 +248,11 @@ export default function HeaderV2({
           go above it rather than into it. It stays `hidden lg:flex` on
           purpose: the mobile header height feeds the sticky filter offset on
           the listing page, and changing it would move that too. */}
-      <div className="hidden border-b border-white/10 lg:block">
+      {/* Paints its own dark background rather than inheriting the header's.
+          At scroll-top the header is transparent and the 37px behind this
+          strip is the cream page background, not the hero — white-on-cream,
+          so the three links were invisible until you scrolled. */}
+      <div className="hidden border-b border-white/10 bg-[color:var(--gp-forest-950)] lg:block">
         <div className="gp-container flex h-9 items-center justify-end gap-5">
           <Link
             href={joinPath(basePath, "/property-management")}
@@ -402,15 +410,32 @@ export default function HeaderV2({
       {mobileOpen ? (
         <div
           ref={mobileNavRef}
-          className="border-t border-white/10 bg-[color:var(--gp-forest-950)] lg:hidden"
+          /* The drawer ran 1342px tall inside an 844px viewport with no
+             scroll, so everything past the fold — Summarise, Property
+             Management, Post Your Property — was unreachable, and the last
+             60px sat behind the fixed action bar. It now scrolls within what
+             is left of the screen and pads past that bar. */
+          className="max-h-[calc(100vh-88px)] overflow-y-auto overscroll-contain border-t border-white/10 bg-[color:var(--gp-forest-950)] pb-[calc(72px+env(safe-area-inset-bottom))] lg:hidden"
         >
           <nav className="gp-container flex flex-col py-2">
             {navItems.map((item) =>
               item.children ? (
-                <div key={item.label}>
-                  <p className="px-2 pb-1 pt-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/40">
+                /* Collapsed by default, Services open: every group expanded at
+                   once is what made this list longer than the screen. `open`
+                   rather than `defaultOpen` so the state survives re-renders
+                   of the drawer. */
+                <details
+                  key={item.label}
+                  open={openGroup === item.label}
+                  onToggle={(e) =>
+                    setOpenGroup((e.currentTarget as HTMLDetailsElement).open ? item.label : null)
+                  }
+                  className="border-b border-white/5 last:border-b-0"
+                >
+                  <summary className="flex min-h-[48px] cursor-pointer list-none items-center justify-between px-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/40 [&::-webkit-details-marker]:hidden">
                     {item.label}
-                  </p>
+                    <ChevronDown className="h-4 w-4 transition-transform [details[open]_&]:rotate-180" aria-hidden="true" />
+                  </summary>
                   {item.children.map((child) => {
                     const Icon = child.icon ? NAV_ICONS[child.icon] : undefined;
                     return (
@@ -439,7 +464,7 @@ export default function HeaderV2({
                       </Link>
                     );
                   })}
-                </div>
+                </details>
               ) : (
                 <Link
                   key={item.href}

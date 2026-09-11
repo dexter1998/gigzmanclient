@@ -53,10 +53,15 @@ export const realestate: VerticalConfig = {
         { label: "Residential", path: "/properties?purpose=buy", icon: "Home" },
         { label: "Commercial", path: "/properties?type=commercial", icon: "Building2" },
         { label: "Industrial", path: "/properties?type=industrial", icon: "Factory" },
+        { label: "Agricultural Land", path: "/properties?type=agriculture", icon: "Trees" },
         { label: "Property Management", path: "/property-management", icon: "ClipboardCheck" },
-        { label: "Construction & Vastu", path: "/#construction", icon: "HardHat" },
-        { label: "Home Loans", path: "/calculators/emi", icon: "Landmark" },
-        { label: "A–Z Documentation", path: "/#documentation", icon: "FileText" },
+        // Construction and Vastu are separate engagements — a Vastu reading is
+        // booked with no building work attached — so they are separate links,
+        // matching how the service cards on the landing page now split them.
+        { label: "Construction", path: "/#construction", icon: "HardHat" },
+        { label: "Vastu", path: "/vastu", icon: "Compass" },
+        { label: "Home Loans", path: "/home-loan", icon: "Landmark" },
+        { label: "Documentation", path: "/documentation", icon: "FileText" },
       ],
     },
     { label: "Maps", path: "/maps/gurgaon" },

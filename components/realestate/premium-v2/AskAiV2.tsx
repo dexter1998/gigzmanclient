@@ -103,7 +103,10 @@ export default function AskAiV2({ tenantSlug }: { tenantSlug: string }) {
       aria-label="Ask AI"
       onClick={(e) => e.target === e.currentTarget && setOpen(false)}
     >
-      <div className="max-h-[88vh] w-full overflow-y-auto rounded-t-[var(--gp-radius-lg)] bg-white p-5 shadow-[var(--shadow-raised)] sm:max-w-2xl sm:rounded-[var(--gp-radius-lg)] sm:p-7">
+      {/* `pb-[80px]` below `sm`: the mobile action bar is fixed over the
+          bottom 62px of the screen, and without this the Ask button and the
+          footnote sat behind it. */}
+      <div className="max-h-[85vh] w-full overflow-y-auto rounded-t-[var(--gp-radius-lg)] bg-white p-5 pb-[calc(80px+env(safe-area-inset-bottom))] shadow-[var(--shadow-raised)] sm:max-w-2xl sm:rounded-[var(--gp-radius-lg)] sm:p-7 sm:pb-7">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-2.5">
             <Sparkles className="h-5 w-5 text-[color:var(--gp-gold-600)]" aria-hidden="true" />

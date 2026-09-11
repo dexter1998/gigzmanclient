@@ -17,7 +17,7 @@ export default function AskAiFloatV2() {
       type="button"
       onClick={() => openAskAi("ask")}
       aria-label="Ask AI about this site"
-      className="fixed bottom-[92px] right-5 z-40 inline-flex min-h-[46px] items-center gap-2 rounded-full bg-[color:var(--gp-gold-600)] px-4 text-[13px] font-semibold text-[color:var(--gp-forest-950)] shadow-[0_10px_30px_-8px_rgba(10,46,44,0.55)] transition-colors hover:bg-[color:var(--gp-gold-300)] sm:bottom-[176px]"
+      className="fixed bottom-[calc(78px+env(safe-area-inset-bottom))] right-5 z-40 inline-flex min-h-[46px] items-center gap-2 rounded-full bg-[color:var(--gp-gold-600)] px-4 text-[13px] font-semibold text-[color:var(--gp-forest-950)] shadow-[0_10px_30px_-8px_rgba(10,46,44,0.55)] transition-colors hover:bg-[color:var(--gp-gold-300)] sm:bottom-[176px]"
     >
       <Sparkles className="h-4 w-4" aria-hidden="true" />
       Ask AI

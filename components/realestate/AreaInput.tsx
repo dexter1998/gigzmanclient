@@ -33,30 +33,42 @@ export default function AreaInput({
   fieldClassName: string;
 }) {
   return (
+    /* Widths live on the wrappers, not on the fields.
+     *
+     * Callers pass a field class that already contains `w-full` — every form
+     * here does — and adding `flex-1` / `w-[42%]` on top of it does not win:
+     * conflicting Tailwind widths resolve by stylesheet order, not by the
+     * order they are written. `w-full` took the select to 100% of the row,
+     * pushing it 38px past the form edge and squeezing the number input to
+     * 30px. Letting each field fill a sized wrapper removes the fight. */
     <div className={`flex gap-2 ${className}`}>
-      <input
-        id={id}
-        type="number"
-        inputMode="decimal"
-        min="0"
-        step="any"
-        value={value}
-        placeholder={placeholder}
-        onChange={(e) => onValueChange(e.target.value)}
-        className={`${fieldClassName} flex-1`}
-      />
-      <select
-        value={unit}
-        onChange={(e) => onUnitChange(e.target.value)}
-        aria-label="Unit"
-        className={`${fieldClassName} w-[42%] shrink-0`}
-      >
-        {AREA_UNITS.map((u) => (
-          <option key={u.slug} value={u.slug}>
-            {u.name}
-          </option>
-        ))}
-      </select>
+      <div className="min-w-0 flex-1">
+        <input
+          id={id}
+          type="number"
+          inputMode="decimal"
+          min="0"
+          step="any"
+          value={value}
+          placeholder={placeholder}
+          onChange={(e) => onValueChange(e.target.value)}
+          className={fieldClassName}
+        />
+      </div>
+      <div className="min-w-0 shrink-0 basis-[46%]">
+        <select
+          value={unit}
+          onChange={(e) => onUnitChange(e.target.value)}
+          aria-label="Unit"
+          className={fieldClassName}
+        >
+          {AREA_UNITS.map((u) => (
+            <option key={u.slug} value={u.slug}>
+              {u.name}
+            </option>
+          ))}
+        </select>
+      </div>
     </div>
   );
 }

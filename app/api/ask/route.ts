@@ -119,6 +119,15 @@ export async function POST(request: Request) {
     if (!res.ok) {
       const detail = await res.text();
       console.error("gemini call failed", res.status, detail.slice(0, 300));
+      // 429 is the free tier's quota, not a fault in the site. Saying so is
+      // the difference between "this is broken" and "this needs billing
+      // enabled" when someone reads the logs a month from now.
+      if (res.status === 429) {
+        return NextResponse.json(
+          { error: "The assistant has hit its daily question limit. Try again tomorrow, or call us." },
+          { status: 429 },
+        );
+      }
       return NextResponse.json({ error: "The assistant is unavailable right now." }, { status: 502 });
     }
 

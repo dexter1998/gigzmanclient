@@ -19,6 +19,7 @@ import {
   EligibilityDocsV2,
   RelatedAmountsV2,
 } from "./LoanSectionsV2";
+import { channelPartnerClaimAllowed } from "@/lib/home-loan/enabled";
 
 function Crumbs({ items }: { items: { name: string; href?: string }[] }) {
   return (
@@ -68,6 +69,7 @@ export async function AmountLoanPage({
   if (lenderSlug && !lender) notFound();
 
   const { p, settings, localities, properties } = await loadContext(tenant);
+  const channelPartner = channelPartnerClaimAllowed(tenant.slug);
   const { rate, isLenderPublished } = rateFor(lender);
   const snapshot = buildAffordability(amount.value, localities, properties);
   const verdict = affordabilityVerdict(snapshot);
@@ -117,7 +119,12 @@ export async function AmountLoanPage({
 
       <AmortisationV2 amount={amount} rate={rate} years={20} />
 
-      <LenderComparisonV2 amount={amount} p={p} activeLender={lender} />
+      <LenderComparisonV2
+        amount={amount}
+        p={p}
+        activeLender={lender}
+        channelPartner={channelPartner}
+      />
 
       <EligibilityDocsV2 amount={amount} lender={lender} />
 

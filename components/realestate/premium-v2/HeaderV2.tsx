@@ -83,6 +83,8 @@ interface HeaderV2Props {
   /** Per-tenant, from firm_settings.logo_url — this template now serves more
    *  than one real-estate client, so the mark can't be a module constant. */
   logoUrl: string;
+  /** The page is allowlisted per tenant; without it this link 404s. */
+  showPropertyManagement?: boolean;
   phone?: string | null;
   basePath: string;
   navItems: NavItem[];
@@ -154,6 +156,7 @@ function NavGroup({ item, isActive }: { item: NavItem; isActive: (href: string) 
 export default function HeaderV2({
   firmName,
   logoUrl,
+  showPropertyManagement = false,
   phone,
   basePath,
   navItems,
@@ -254,14 +257,18 @@ export default function HeaderV2({
           so the three links were invisible until you scrolled. */}
       <div className="hidden border-b border-white/10 bg-[color:var(--gp-forest-950)] lg:block">
         <div className="gp-container flex h-9 items-center justify-end gap-5">
-          <Link
-            href={joinPath(basePath, "/property-management")}
-            className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/75 transition-colors hover:text-[color:var(--gp-gold-300)]"
-          >
-            <Building2 className="h-3.5 w-3.5" aria-hidden="true" />
-            Property Management
-          </Link>
-          <span className="h-3.5 w-px bg-white/15" aria-hidden="true" />
+          {showPropertyManagement ? (
+            <>
+              <Link
+                href={joinPath(basePath, "/property-management")}
+                className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/75 transition-colors hover:text-[color:var(--gp-gold-300)]"
+              >
+                <Building2 className="h-3.5 w-3.5" aria-hidden="true" />
+                Property Management
+              </Link>
+              <span className="h-3.5 w-px bg-white/15" aria-hidden="true" />
+            </>
+          ) : null}
           <button
             type="button"
             onClick={() => openAskAi("summarize")}
@@ -491,13 +498,15 @@ export default function HeaderV2({
               <Sparkles className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />
               Summarise with AI
             </button>
-            <Link
-              href={joinPath(basePath, "/property-management")}
-              className="flex min-h-[48px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-3 text-[15px] text-white/85"
-            >
-              <Building2 className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />
-              Property Management
-            </Link>
+            {showPropertyManagement ? (
+              <Link
+                href={joinPath(basePath, "/property-management")}
+                className="flex min-h-[48px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-3 text-[15px] text-white/85"
+              >
+                <Building2 className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />
+                Property Management
+              </Link>
+            ) : null}
             <button
               type="button"
               onClick={() => {

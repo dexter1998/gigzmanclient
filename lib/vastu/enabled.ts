@@ -1,26 +1,19 @@
 /**
  * Which tenants publish the Gurugram sector vastu matrix.
  *
- * Two reasons this is an allowlist rather than something every premium-v2
- * tenant gets:
+ * This was an allowlist because the matrix is ~3,700 routes per tenant and
+ * prerendering them broke the deploy at four tenants: a 41-minute build that
+ * then exceeded the deployment output limit. That reason is gone — the sector
+ * and aspect routes now render on demand and cache, so a tenant costs nothing
+ * at build time.
  *
- * 1. Build output. The matrix is ~3,700 prerendered routes per tenant. At
- *    three tenants the production build took 32 minutes and shipped; adding a
- *    fourth pushed it past the deployment output limit and the deploy failed
- *    after a 41-minute build. Duplicating the same 137 sectors for every
- *    client buys nothing and costs the whole deploy.
- *
- * 2. Content quality. The pages differ only by sector name and the four
- *    corridor figures that sector's locality row supplies. That is thin
- *    enough to be worth opting into per client rather than switching on by
- *    default for anyone onboarded.
- *
- * The base vastu pages (facing, room, room x direction, plot size, property
- * type) stay available to every real-estate tenant — that set is small.
+ * What has not changed is that the pages differ only by sector name and the
+ * corridor figures that sector's locality row supplies. They are thin, and
+ * that is worth remembering before treating the count as a win.
  */
-const VASTU_SECTOR_TENANTS = new Set(["high-properties"]);
+import { getTemplateKeyForSlug } from "@/lib/templates";
 
 export function vastuSectorsEnabled(clientSlug: string | undefined | null): boolean {
   if (!clientSlug) return false;
-  return VASTU_SECTOR_TENANTS.has(clientSlug);
+  return getTemplateKeyForSlug(clientSlug) === "premium-v2";
 }

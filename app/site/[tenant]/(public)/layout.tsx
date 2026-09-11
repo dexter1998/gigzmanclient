@@ -13,6 +13,7 @@ import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import { iconsFor } from "@/lib/brand-icons";
 import { originFor } from "@/lib/og";
 import CallbackFloatV2 from "@/components/realestate/premium-v2/CallbackFloatV2";
+import { propertyManagementPageEnabled } from "@/lib/premium-v2/home-sections";
 import AskAiV2 from "@/components/realestate/premium-v2/AskAiV2";
 import AskAiFloatV2 from "@/components/realestate/premium-v2/AskAiFloatV2";
 import WhatsAppFloatV2 from "@/components/realestate/premium-v2/WhatsAppFloatV2";
@@ -138,6 +139,7 @@ export default async function SiteLayout({
           <HeaderV2
             firmName={settings.firmName}
             logoUrl={settings.logoUrl ?? ""}
+            showPropertyManagement={propertyManagementPageEnabled(tenant.slug)}
             phone={settings.phone}
             basePath={basePath || "/"}
             navItems={navItems}

@@ -276,10 +276,18 @@ export function LenderComparisonV2({
   amount,
   p,
   activeLender,
+  channelPartner = false,
 }: {
   amount: LoanAmount;
   p: (path: string) => string;
   activeLender?: Lender;
+  /**
+   * Whether this tenant actually holds a DSA relationship with these lenders.
+   * The calculators and the rate table are for everyone; claiming to be an
+   * authorised channel partner is a statement of fact about the firm, and
+   * printing it for a client who is not one is a misrepresentation.
+   */
+  channelPartner?: boolean;
 }) {
   const stem = amountSlugStem(amount);
 
@@ -291,9 +299,11 @@ export function LenderComparisonV2({
           {amount.label} home loan across lenders
         </h2>
         <p className="mt-4 max-w-2xl text-[14.5px] leading-relaxed text-[color:var(--gp-body)]">
-          We are an authorised channel partner for the lenders below and can run your file with more
-          than one in parallel. Published rates move frequently, so we quote the current figure at
-          the time of your application rather than printing a number that may already be stale.
+          {channelPartner
+            ? "We are an authorised channel partner for the lenders below and can run your file with more than one in parallel. "
+            : "We help you compare the lenders below and put your file in front of the ones that fit it. "}
+          Published rates move frequently, so we quote the current figure at the time of your
+          application rather than printing a number that may already be stale.
         </p>
 
         <div className="mt-9 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

@@ -1,23 +1,35 @@
+import { getTemplateKeyForSlug } from "@/lib/templates";
+
 /**
- * Which tenants publish the home-loan pages.
+ * The home-loan pages are two things at once, and they need separating.
  *
- * These pages display lender trademarks and describe the firm as an
- * authorised channel partner. That is only true for tenants who actually
- * hold a DSA relationship — publishing it for a tenant who does not would be
- * a misrepresentation, so this is an explicit allowlist rather than being
- * inferred from the template key. Add a slug here only once the DSA
- * relationship is confirmed for that client.
+ * The calculators, lender rate table and budget comparisons are just tools —
+ * every premium-v2 tenant should have them, and withholding them from a
+ * client because of the sentence below made no sense.
+ *
+ * That sentence is the part that is not universal: the page states the firm
+ * is an authorised channel partner for the listed lenders. That is only true
+ * of tenants who actually hold a DSA relationship, and publishing it for one
+ * who does not is a misrepresentation. So the claim keeps the allowlist the
+ * whole page used to have; the pages themselves no longer do.
  */
-const HOME_LOAN_TENANTS = new Set([
+const CHANNEL_PARTNER_TENANTS = new Set([
   "high-properties",
-  // Added on the client's confirmation. If either of these does not in fact
-  // hold a DSA relationship, remove the line — the pages state the firm is an
-  // authorised channel partner.
   "nayra-realtors",
   "urban-flat-real-estate",
 ]);
 
+/** Whether this tenant publishes the home-loan section at all. */
 export function homeLoanEnabled(clientSlug: string | undefined | null): boolean {
   if (!clientSlug) return false;
-  return HOME_LOAN_TENANTS.has(clientSlug);
+  return getTemplateKeyForSlug(clientSlug) === "premium-v2";
+}
+
+/**
+ * Whether this tenant may describe itself as an authorised channel partner.
+ * Add a slug only once that DSA relationship is confirmed for the client.
+ */
+export function channelPartnerClaimAllowed(clientSlug: string | undefined | null): boolean {
+  if (!clientSlug) return false;
+  return CHANNEL_PARTNER_TENANTS.has(clientSlug);
 }

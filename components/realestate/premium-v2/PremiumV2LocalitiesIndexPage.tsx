@@ -11,6 +11,7 @@ import LocalityCompareTableV2 from "./LocalityCompareTableV2";
 import LocalityGrowthCatalystsV2 from "./LocalityGrowthCatalystsV2";
 import PopularSectorsV2 from "./PopularSectorsV2";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, jsonLdProps } from "@/lib/schema-org";
+import { inventoryNoun } from "@/lib/premium-v2/imagery";
 
 type Locality = typeof localities.$inferSelect;
 
@@ -19,11 +20,17 @@ const HERO_IMAGE = "/verticals/realestate/templates/premium-v2/images/hero-local
 export default function PremiumV2LocalitiesIndexPage({
   localities,
   basePath,
+  clientSlug,
 }: {
   localities: Locality[];
   basePath: string;
+  clientSlug?: string;
 }) {
   const p = (path: string) => joinPath(basePath, path);
+  // A farm-belt tenant's corridors are villages and pockets of land, not
+  // addresses you pick an apartment in — the stock hero copy sells the wrong
+  // thing before the page has said anything.
+  const farmhouse = inventoryNoun(clientSlug) === "farmhouse";
 
   const itemListJsonLd = buildItemListJsonLd(
     localities.map((locality) => ({
@@ -62,7 +69,11 @@ export default function PremiumV2LocalitiesIndexPage({
       value: avgYoy != null ? `${avgYoy >= 0 ? "+" : ""}${avgYoy.toFixed(1)}%` : "—",
       label: "Avg. YoY Change",
     },
-    { icon: Building2, value: `${totalActiveProjects}`, label: "Active Projects" },
+    {
+      icon: Building2,
+      value: `${totalActiveProjects}`,
+      label: farmhouse ? "Live Listings" : "Active Projects",
+    },
   ];
 
   return (
@@ -98,13 +109,18 @@ export default function PremiumV2LocalitiesIndexPage({
             <span className="text-white/75">Localities</span>
           </nav>
 
-          <GpEyebrow className="text-[color:var(--gp-gold-300)]">Gurugram Locality Intelligence</GpEyebrow>
+          <GpEyebrow className="text-[color:var(--gp-gold-300)]">
+            {farmhouse ? "Sohna Farm Belt Intelligence" : "Gurugram Locality Intelligence"}
+          </GpEyebrow>
           <h1 className="gp-hero-title font-display mt-3 max-w-2xl text-white">
-            Discover the address before the apartment.
+            {farmhouse
+              ? "Know the pocket before you know the plot."
+              : "Discover the address before the apartment."}
           </h1>
           <p className="mt-5 max-w-xl text-[15px] leading-relaxed text-white/70 sm:text-base">
-            Five corridors, tracked on price movement, rental yield and active supply — the same
-            figures our advisors use when they shortlist a property for you.
+            {farmhouse
+              ? `${localities.length} pockets of the Sohna and south-Gurugram farm belt, with asking-price levels, typical plot size and live supply in each — the same figures we use before recommending one over another.`
+              : "Five corridors, tracked on price movement, rental yield and active supply — the same figures our advisors use when they shortlist a property for you."}
           </p>
 
           <div className="mt-8 max-w-xl">

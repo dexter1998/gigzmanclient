@@ -112,9 +112,11 @@ export const realestate: VerticalConfig = {
     { path: "/properties", priority: 0.9 },
     { path: "/localities", priority: 0.8 },
     { path: "/calculators", priority: 0.7 },
-    { path: "/calculators/emi", priority: 0.6 },
-    { path: "/calculators/stamp-duty", priority: 0.6 },
-    { path: "/calculators/rental-yield", priority: 0.6 },
+    // The three /calculators/{key} URLs are gone from here on purpose:
+    // stamp-duty 404s (it was retired — see lib/premium-v2/tools.ts), and
+    // emi and rental-yield 307 to /home-loan and /rental-yield. A sitemap
+    // should list the URL that answers, not one that redirects to it; the
+    // destinations are already listed by coreEntries.
     { path: "/updates", priority: 0.6 },
     { path: "/firm-profile", priority: 0.6 },
     { path: "/contact", priority: 0.8 },

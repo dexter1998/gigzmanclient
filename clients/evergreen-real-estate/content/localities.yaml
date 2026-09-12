@@ -6,10 +6,13 @@
 # asking prices from one portal on one day, not transacted market rates —
 # which is what the on-page wording says.
 
+# Corridor cards render this photograph; without it they fell back to a flat
+# green panel, which is what the home page's corridor rail was showing.
 _status: placeholder
 
 localities:
   - slug: sohna
+    hero_image: /verticals/realestate/templates/premium-v2/farmhouses/03-gurgaon-farmhouse.webp
     name: "Sohna"
     corridor: "Sohna"
     avg_price_per_sqft: 1574
@@ -18,6 +21,7 @@ localities:
     description: "Sohna carries 306 farm-house listings in this dataset, with a median asking price of ₹4.00 crore on a median plot of about 21,780 sq ft, working out to roughly ₹1,574 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
   - slug: sohna-road
+    hero_image: /verticals/realestate/templates/premium-v2/farmhouses/07-gurgaon-farmhouse.webp
     name: "Sohna Road"
     corridor: "Sohna Road"
     avg_price_per_sqft: 1377
@@ -26,6 +30,7 @@ localities:
     description: "Sohna Road carries 19 farm-house listings in this dataset, with a median asking price of ₹4.50 crore on a median plot of about 43,560 sq ft, working out to roughly ₹1,377 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
   - slug: manesar
+    hero_image: /verticals/realestate/templates/premium-v2/farmhouses/11-gurgaon-farmhouse.webp
     name: "Manesar"
     corridor: "Manesar"
     avg_price_per_sqft: 2315
@@ -34,6 +39,7 @@ localities:
     description: "Manesar carries 16 farm-house listings in this dataset, with a median asking price of ₹5.00 crore on a median plot of about 21,780 sq ft, working out to roughly ₹2,315 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
   - slug: bhondsi
+    hero_image: /verticals/realestate/templates/premium-v2/farmhouses/16-gurgaon-farmhouse.webp
     name: "Bhondsi"
     corridor: "Bhondsi"
     avg_price_per_sqft: 2066
@@ -42,6 +48,7 @@ localities:
     description: "Bhondsi carries 11 farm-house listings in this dataset, with a median asking price of ₹10.10 crore on a median plot of about 43,560 sq ft, working out to roughly ₹2,066 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
   - slug: raiseena
+    hero_image: /verticals/realestate/templates/premium-v2/farmhouses/19-gurgaon-farmhouse.webp
     name: "Raiseena"
     corridor: "Raiseena"
     avg_price_per_sqft: 803
@@ -50,6 +57,7 @@ localities:
     description: "Raiseena carries 9 farm-house listings in this dataset, with a median asking price of ₹5.25 crore on a median plot of about 43,560 sq ft, working out to roughly ₹803 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
   - slug: sector-63a-gurgaon
+    hero_image: /verticals/realestate/templates/premium-v2/farmhouses/22-gurgaon-farmhouse.webp
     name: "Sector 63A Gurgaon"
     corridor: "Sector 63A Gurgaon"
     avg_price_per_sqft: 11111
@@ -58,6 +66,7 @@ localities:
     description: "Sector 63A Gurgaon carries 9 farm-house listings in this dataset, with a median asking price of ₹9.60 crore on a median plot of about 10,800 sq ft, working out to roughly ₹11,111 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
   - slug: sultanpur
+    hero_image: /verticals/realestate/templates/premium-v2/farmhouses/25-gurgaon-farmhouse.webp
     name: "Sultanpur"
     corridor: "Sultanpur"
     avg_price_per_sqft: 1797
@@ -66,6 +75,7 @@ localities:
     description: "Sultanpur carries 5 farm-house listings in this dataset, with a median asking price of ₹2.72 crore on a median plot of about 16,080 sq ft, working out to roughly ₹1,797 per sq ft. Figures are asking prices from listing data, not transacted rates."
     is_published: true
   - slug: garhi-harsaru
+    hero_image: /verticals/realestate/templates/premium-v2/farmhouses/28-gurgaon-farmhouse.webp
     name: "Garhi Harsaru"
     corridor: "Garhi Harsaru"
     avg_price_per_sqft: 2066

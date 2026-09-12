@@ -1,8 +1,11 @@
-import { entriesForFamily, isSitemapFamily } from "@/lib/sitemap";
+import { entriesForFile } from "@/lib/sitemap";
 
 /**
- * One sitemap per content family, served at /sitemaps/{family}.xml and listed
- * in the index at /sitemap.xml.
+ * One sitemap per tenant and content family, served at /sitemaps/{id}.xml and
+ * listed in the index at /sitemap.xml. `{id}` is `{tenant}--{family}`, with a
+ * `--{n}` suffix where a family runs past the per-file cap. A bare family id
+ * still answers, so a sitemap already submitted to Search Console under the
+ * old scheme does not start 404ing.
  *
  * Hand-rolled rather than using Next's `sitemap.ts` metadata convention with
  * `generateSitemaps()`. That convention publishes the per-family files but
@@ -37,13 +40,12 @@ export async function GET(
   { params }: { params: Promise<{ file: string }> },
 ): Promise<Response> {
   const { file } = await params;
-  const family = file.endsWith(".xml") ? file.slice(0, -4) : file;
+  const id = file.endsWith(".xml") ? file.slice(0, -4) : file;
 
-  if (!isSitemapFamily(family)) {
+  const entries = await entriesForFile(id);
+  if (!entries) {
     return new Response("Not found", { status: 404 });
   }
-
-  const entries = await entriesForFamily(family);
 
   const body = [
     '<?xml version="1.0" encoding="UTF-8"?>',

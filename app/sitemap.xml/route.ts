@@ -1,17 +1,16 @@
-import { SITEMAP_FAMILIES, entriesForFamily, siteOrigin } from "@/lib/sitemap";
+import { sitemapFiles, siteOrigin } from "@/lib/sitemap";
 
 /**
  * The sitemap index.
  *
- * The per-family files live at /sitemaps/{id}.xml; nothing generates an
- * index for them, so without this route /sitemap.xml is a 404 and every
+ * The per-family files live at /sitemaps/{id}.xml; nothing generates an index
+ * for them, so without this route /sitemap.xml is a 404 and every
  * sub-sitemap is undiscoverable — robots.txt points here, and Search Console
  * is given this one URL.
  *
- * Families that resolve to nothing for this deployment are left out rather
- * than listed as empty files: `services` is a CA-vertical set, `home-loan`
- * and `vastu-sectors` are per-client allowlists, and an index full of empty
- * sitemaps reports as errors in Search Console.
+ * Files are sliced per tenant and then per family (see `sitemapFiles`), and
+ * a slice that resolves to nothing is left out rather than listed as an empty
+ * file — an index full of empty sitemaps reports as errors in Search Console.
  */
 export const revalidate = 3600;
 
@@ -23,20 +22,15 @@ function escapeXml(value: string): string {
 
 export async function GET(): Promise<Response> {
   const origin = siteOrigin();
-
-  const populated = await Promise.all(
-    SITEMAP_FAMILIES.map(async (family) => ({
-      id: family.id,
-      count: (await entriesForFamily(family.id)).length,
-    })),
-  );
+  const files = await sitemapFiles();
 
   const body = [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-    ...populated
-      .filter((family) => family.count > 0)
-      .map((family) => `  <sitemap><loc>${escapeXml(`${origin}/sitemaps/${family.id}.xml`)}</loc></sitemap>`),
+    ...files.map(
+      (file) =>
+        `  <sitemap><loc>${escapeXml(`${origin}/sitemaps/${file.id}.xml`)}</loc></sitemap>`,
+    ),
     "</sitemapindex>",
     "",
   ].join("\n");

@@ -25,6 +25,14 @@ import ShareButtonV2 from "./ShareButtonV2";
 import PropertyCardV2 from "./PropertyCardV2";
 import { GpContainer } from "./gp-primitives";
 import { amenityIcon, statIcon } from "./amenity-icons";
+import { farmRentalEnabled, indicativeDayRates } from "@/lib/premium-v2/farm-rental";
+
+/** Day rates read better in lakhs past a lakh — "₹125k" makes nobody reach for a calculator faster. */
+function rateBand(value: number): string {
+  return value >= 100000
+    ? `₹${(value / 100000).toFixed(2).replace(/\.?0+$/, "")}L`
+    : `₹${Math.round(value / 1000)}k`;
+}
 import { joinPath, type Tenant } from "@/lib/tenant";
 import type { properties, propertyImages, firmSettings } from "@/lib/db/schema";
 import {
@@ -196,6 +204,20 @@ export default function PremiumV2PropertyDetailPage({
   const priceDisplay =
     property.priceLabel || (property.price ? formatIndianPrice(property.price) : "Price on request");
   const hasPrice = Boolean(property.price);
+
+  /**
+   * In the farm belt a listing answers two questions, not one: what it costs
+   * to buy, and what it earns on a let. Buyers here ask the second before the
+   * first, so the day rates sit next to the asking price rather than being
+   * left to a separate page. Scaled off this plot's own area — see
+   * indicativeDayRates — and shown as ranges, because they are a starting
+   * point for a conversation, not a quote.
+   */
+  const dayRates = farmRentalEnabled(tenant.slug)
+    ? indicativeDayRates(
+        property.areaUnit === "acres" ? Number(property.area) * 43560 : Number(property.area),
+      )
+    : null;
   const locationLine = [property.locality, property.sector ? `Sector ${property.sector}` : null]
     .filter(Boolean)
     .join(", ");
@@ -469,6 +491,45 @@ export default function PremiumV2PropertyDetailPage({
                     ? "HRERA filings carry no unit pricing — we confirm the current band with the developer."
                     : "Share your requirement and we will confirm the current band."}
               </p>
+
+              {dayRates && dayRates.length > 0 ? (
+                <div className="mt-6 rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-[color:var(--gp-cream-100)] p-4">
+                  <div className="flex flex-wrap items-baseline justify-between gap-2">
+                    <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">
+                      Also available on rent
+                    </p>
+                    <Link
+                      href={p("/farmhouse-rental")}
+                      className="text-[12.5px] font-semibold text-[color:var(--gp-gold-600)] hover:text-[color:var(--gp-forest-900)]"
+                    >
+                      Rental guides →
+                    </Link>
+                  </div>
+                  <dl className="mt-3 grid grid-cols-2 gap-x-5 gap-y-3.5 sm:grid-cols-4">
+                    {dayRates.map((rate) => (
+                      <div key={rate.slug}>
+                        <dt className="text-[11.5px] uppercase tracking-[0.07em] text-[color:var(--gp-muted)]">
+                          {rate.label}
+                        </dt>
+                        <dd className="font-sans mt-1 text-[15px] font-semibold leading-tight text-[color:var(--gp-ink)]">
+                          {rateBand(rate.low)} – {rateBand(rate.high)}
+                          <span className="ml-1 text-[11px] font-normal text-[color:var(--gp-muted)]">
+                            / day
+                          </span>
+                        </dd>
+                        <dd className="mt-0.5 text-[11px] text-[color:var(--gp-muted)]">
+                          {rate.capacity}
+                        </dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p className="mt-3 border-t border-[color:var(--gp-border)] pt-2.5 text-[11.5px] leading-relaxed text-[color:var(--gp-muted)]">
+                    Indicative bands for a plot this size in the Sohna belt, not a quote for this
+                    property. Weekends and wedding season sit at the top of each range; whether the
+                    owner lets it at all is confirmed date by date.
+                  </p>
+                </div>
+              ) : null}
 
               <div className="mt-5 flex flex-wrap gap-2.5">
                 {telHref ? <PremiumV2CallLink telHref={telHref} phone={settings.phone!} /> : null}

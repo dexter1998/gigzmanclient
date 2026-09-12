@@ -44,7 +44,11 @@ export default async function LocalitiesPage(props: PageProps<"/site/[tenant]/lo
   ]);
 
   if (getTemplateKeyForSlug(tenant.slug) === "premium-v2") {
-    return <PremiumV2LocalitiesIndexPage localities={localities} basePath={basePath} />;
+    return <PremiumV2LocalitiesIndexPage
+        localities={localities}
+        basePath={basePath}
+        clientSlug={tenant.slug}
+      />;
   }
 
   const itemListJsonLd = buildItemListJsonLd(

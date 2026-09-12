@@ -9,20 +9,6 @@
  */
 
 /**
- * "Explore Properties on the Map" is a styled placeholder, not a working map:
- * decorative pins on a textured panel and map/satellite toggles that switch
- * nothing, pending the real Maps JS API. High Properties is a live client on
- * its own domain and asked for it off; the other tenants keep it until it is
- * either wired to a real map or dropped everywhere.
- */
-const MAP_SECTION_DISABLED = new Set(["high-properties"]);
-
-export function propertyMapSectionEnabled(clientSlug: string | undefined | null): boolean {
-  if (!clientSlug) return true;
-  return !MAP_SECTION_DISABLED.has(clientSlug);
-}
-
-/**
  * The property-management section's artwork is not tenant-neutral: the phone
  * mock, its screen and the logo on it are baked into the supplied background
  * images, so it reads as High Properties whoever renders it. Allowlisted

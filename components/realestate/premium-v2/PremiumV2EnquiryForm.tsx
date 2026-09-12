@@ -10,8 +10,13 @@ import { LeadIntent, PhoneField, LEAD_FIELD } from "./LeadFields";
 
 interface PremiumV2EnquiryFormProps {
   basePath: string;
-  propertySlug: string;
-  propertyId: string;
+  /**
+   * Optional: this form is also used on the farmhouse search pages, where the
+   * lead is enquiring about a size, a budget or a pocket rather than about one
+   * listing. `context` carries what they were looking at in that case.
+   */
+  propertySlug?: string;
+  propertyId?: string;
   /** What the lead was looking at, e.g. "ATS Marigold, Sector 89". */
   context?: string;
 }
@@ -46,7 +51,7 @@ export default function PremiumV2EnquiryForm({
   useEffect(() => {
     if (state.ok && state.reference) {
       analytics.generateLead("property_enquiry_form", "website");
-      analytics.siteVisitRequest(propertyId);
+      if (propertyId) analytics.siteVisitRequest(propertyId);
       router.push(`${p("/thank-you")}?ref=${encodeURIComponent(state.reference)}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -119,7 +124,7 @@ export default function PremiumV2EnquiryForm({
         </div>
       </div>
 
-      <LeadIntent idPrefix="gp-enquiry" context={context ?? propertySlug} defaultInterest="site_visit" />
+      <LeadIntent idPrefix="gp-enquiry" context={context ?? propertySlug ?? ""} defaultInterest="site_visit" />
 
       <div className="space-y-2.5 border-t border-[color:var(--gp-border)] pt-3.5">
         <label htmlFor="gp-enquiry-consent" className="flex gap-2.5">

@@ -14,11 +14,19 @@ export interface ServiceLine {
   tags: string[];
   /** Where the card leads; relative to the tenant base path. */
   href: string;
+  /**
+   * Lucide icon name for the header's Services menu, which is built from this
+   * same list — the menu and the landing page's service cards were drifting
+   * apart, and a menu that names services the client does not sell is worse
+   * than one item shorter. Must exist in HeaderV2's NAV_ICONS map.
+   */
+  icon: string;
 }
 
 const GENERAL_SERVICE_LINES: ServiceLine[] = [
   {
     key: "residential",
+    icon: "Home",
     title: "Residential Properties",
     blurb:
       "Flats, villas, builder floors and independent houses across all sectors of Gurugram and Delhi NCR. Find your perfect home.",
@@ -27,6 +35,7 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "commercial",
+    icon: "Store",
     title: "Commercial Spaces",
     blurb:
       "Office spaces, retail shops, showrooms and commercial complexes. Prime locations on Dwarka Expressway and Golf Course Road.",
@@ -35,6 +44,7 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "industrial",
+    icon: "Factory",
     title: "Industrial Properties",
     blurb:
       "Warehouses, factories, industrial plots and logistics parks. Strategically located across NCR industrial corridors.",
@@ -43,6 +53,7 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "construction",
+    icon: "HardHat",
     title: "Construction & Collaboration",
     blurb:
       "End-to-end construction services, land collaboration deals and joint development agreements with Vastu compliance.",
@@ -51,6 +62,7 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "agriculture",
+    icon: "Building2",
     title: "Agricultural Properties",
     blurb:
       "Farmland, orchards and agricultural plots across the Sohna and Manesar belts, with land-use status and mutation checked before you commit.",
@@ -63,6 +75,7 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
   // the EMI calculator.
   {
     key: "loans",
+    icon: "Landmark",
     title: "Home Loans",
     blurb:
       "EMI calculations and loan tie-ups with SBI, HDFC, ICICI, Axis and 10+ banks, including balance transfer and top-up.",
@@ -71,6 +84,7 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "documentation",
+    icon: "FileText",
     title: "Documentation",
     blurb:
       "Registry, mutation, NOC, khata transfer and every other paper a Gurugram sale turns on — handled end to end.",
@@ -81,6 +95,7 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
   // interior work, and interior clients do not all want Vastu.
   {
     key: "interiors",
+    icon: "Building2",
     title: "Interior Design",
     blurb:
       "Turnkey interiors for homes and offices — layouts, material selection, execution and handover.",
@@ -89,6 +104,7 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "vastu",
+    icon: "Compass",
     title: "Vastu Consultation",
     blurb:
       "Direction, room placement and plot-level Vastu guidance, read against the actual floor plan rather than a generic chart.",
@@ -110,6 +126,7 @@ const FARMHOUSE_SERVICE_LINES: ServiceLine[] = [
   // which this client does and had no card for, are named.
   {
     key: "buy",
+    icon: "Trees",
     title: "Buy a Farmhouse",
     blurb:
       "Built estates with lawns, orchards and guest blocks, and farm plots along the Sohna corridor and the Delhi–Mumbai Expressway. Land use, access and khasra checked before we list anything.",
@@ -118,6 +135,7 @@ const FARMHOUSE_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "sell",
+    icon: "TrendingUp",
     title: "Sell Your Farmhouse",
     blurb:
       "We price against what has actually transacted on your stretch this year, photograph the property properly, and bring buyers who have already seen the papers.",
@@ -126,6 +144,7 @@ const FARMHOUSE_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "lease",
+    icon: "KeyRound",
     title: "Lease & Events",
     blurb:
       "Monthly lets to families and companies, and day rentals for weddings, shoots and offsites — the two ways a Gurugram farmhouse earns when it is not lived in.",
@@ -134,6 +153,7 @@ const FARMHOUSE_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "manage",
+    icon: "ClipboardCheck",
     title: "Farm Management",
     blurb:
       "Caretakers, security, gardening, borewell and pump upkeep, and rent collection — for owners who visit on weekends and need the place run the rest of the week.",
@@ -142,6 +162,7 @@ const FARMHOUSE_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "land-papers",
+    icon: "FileText",
     title: "Land Documentation",
     blurb:
       "Mutation, jamabandi and fard, registry and change of land use — the paperwork farmland turns on, handled end to end.",
@@ -150,6 +171,7 @@ const FARMHOUSE_SERVICE_LINES: ServiceLine[] = [
   },
   {
     key: "farm-development",
+    icon: "HardHat",
     title: "Farm Development",
     blurb:
       "Boundary walls, borewells, landscaping and farmhouse construction, taken from an empty plot to a usable estate.",

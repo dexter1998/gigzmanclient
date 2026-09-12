@@ -4,6 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { LockKeyhole, Mail, MapPin, Phone } from "lucide-react";
 import { analytics } from "@/lib/analytics";
+import { vastuSectionEnabled } from "@/lib/premium-v2/home-sections";
+import { farmRentalEnabled } from "@/lib/premium-v2/farm-rental";
+import { farmSearchEnabled } from "@/lib/premium-v2/farm-search";
+import { blogEnabled } from "@/lib/premium-v2/blog";
 import { joinPath } from "@/lib/paths";
 import WhatsAppIconV2 from "./WhatsAppIconV2";
 import SocialIconV2 from "./SocialIconV2";
@@ -53,6 +57,16 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
   const discoverLinks: FooterLink[] = [
     { label: "Buy", href: p("/properties?purpose=buy") },
     { label: "Rent", href: p("/properties?purpose=rent") },
+    ...(farmSearchEnabled(clientSlug)
+      ? [
+          { label: "Browse the belt", href: p("/farmhouse") },
+          { label: "Farm estates", href: p("/estates") },
+          { label: "Land & circle rates", href: p("/land-rates") },
+        ]
+      : []),
+    ...(farmRentalEnabled(clientSlug)
+      ? [{ label: "Farmhouse on Rent", href: p("/farmhouse-rental") }]
+      : []),
     { label: "Commercial", href: p("/properties?type=commercial") },
     { label: "Projects by sector", href: p("/sectors") },
     { label: "Projects by builder", href: p("/builders") },
@@ -61,10 +75,13 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
 
   const resourceLinks: FooterLink[] = [
     { label: "Market Updates", href: p("/updates") },
+    ...(blogEnabled(clientSlug) ? [{ label: "Guides", href: p("/blog") }] : []),
     ...(homeLoanEnabled(clientSlug) ? [{ label: "Home Loans", href: p("/home-loan") }] : []),
     { label: "Rental Yield", href: p("/rental-yield") },
     { label: "Area Converter", href: p("/area-converter") },
-    { label: "Vastu", href: p("/vastu") },
+    // Hidden for tenants whose /vastu route 404s — a footer link to a
+    // 404 is worse than a missing link. Same switch the pages use.
+    ...(vastuSectionEnabled(clientSlug) ? [{ label: "Vastu", href: p("/vastu") }] : []),
     { label: "Maps", href: p("/maps/gurgaon") },
     { label: "Calculators", href: p("/calculators") },
     { label: "FAQ", href: p("/faq") },
@@ -102,8 +119,12 @@ export default function FooterV2({ settings, basePath, clientSlug }: FooterV2Pro
                   />
                 </Link>
               ) : null}
+              {/* The client's own tagline when it has one — the fallback
+                  describes a city brokerage, which is wrong on a farm-land
+                  tenant. */}
               <p className="mt-4 max-w-[260px] text-[17px] leading-relaxed text-white/65">
-                Premium Gurugram property discovery, market intelligence and local advisory.
+                {settings.tagline ||
+                  "Premium Gurugram property discovery, market intelligence and local advisory."}
               </p>
 
               {/* Real handles pending from the client — links fall back to

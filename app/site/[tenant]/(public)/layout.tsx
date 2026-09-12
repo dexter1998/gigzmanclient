@@ -13,9 +13,12 @@ import GoogleAnalytics from "@/components/analytics/GoogleAnalytics";
 import { iconsFor } from "@/lib/brand-icons";
 import { originFor } from "@/lib/og";
 import CallbackFloatV2 from "@/components/realestate/premium-v2/CallbackFloatV2";
-import { propertyManagementPageEnabled } from "@/lib/premium-v2/home-sections";
-import AskAiV2 from "@/components/realestate/premium-v2/AskAiV2";
 import AskAiFloatV2 from "@/components/realestate/premium-v2/AskAiFloatV2";
+import { propertyManagementPageEnabled, vastuSectionEnabled } from "@/lib/premium-v2/home-sections";
+import { farmRentalEnabled } from "@/lib/premium-v2/farm-rental";
+import { blogEnabled } from "@/lib/premium-v2/blog";
+import { farmSearchEnabled } from "@/lib/premium-v2/farm-search";
+import AskAiV2 from "@/components/realestate/premium-v2/AskAiV2";
 import WhatsAppFloatV2 from "@/components/realestate/premium-v2/WhatsAppFloatV2";
 import MobileActionBarV2 from "@/components/realestate/premium-v2/MobileActionBarV2";
 import AnnouncementBar from "@/components/site/AnnouncementBar";
@@ -24,6 +27,7 @@ import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { toolLinksFor } from "@/lib/premium-v2/tools";
+import { serviceLinesFor } from "@/lib/premium-v2/services";
 import { getFirmSettings, getNextDeadline, getServices } from "@/lib/content";
 import { buildOrganizationJsonLd, jsonLdProps } from "@/lib/schema-org";
 import { deadlineInstant, daysUntil, formatDate } from "@/lib/format";
@@ -83,20 +87,81 @@ export default async function SiteLayout({
 
   // Children are resolved here too: a grouping entry renders as a dropdown in
   // the header and as a labelled block in the mobile sheet.
-  const navItems = vertical.nav.map((item) => ({
-    label: item.label,
-    href: p(item.path),
-    ...(item.children
-      ? {
-          children: item.children.map((child) => ({
-            label: child.label,
-            href: p(child.path),
-            icon: child.icon,
-            badge: child.badge,
-          })),
-        }
-      : {}),
-  }));
+  /**
+   * A menu entry pointing at a route this tenant 404s is worse than a missing
+   * entry, and the vertical's nav is shared by every real-estate client. Two
+   * of its Services children are per-tenant routes, so they are filtered here
+   * against the same switches the pages use.
+   */
+  const routeAvailable = (path: string) => {
+    if (path.startsWith("/vastu")) return vastuSectionEnabled(tenant.slug);
+    if (path.startsWith("/property-management")) return propertyManagementPageEnabled(tenant.slug);
+    return true;
+  };
+
+  const navItems = vertical.nav
+    .filter((item) => routeAvailable(item.path))
+    .map((item) => ({
+      label: item.label,
+      href: p(item.path),
+      ...(item.children
+        ? {
+            children: item.children.filter((child) => routeAvailable(child.path)).map((child) => ({
+              label: child.label,
+              href: p(child.path),
+              icon: child.icon,
+              badge: child.badge,
+            })),
+          }
+        : {}),
+    }));
+
+  /**
+   * The Services menu is built from the same list the landing page's service
+   * cards render, not from the vertical's static nav. Those two had drifted:
+   * the menu still offered Residential / Commercial / Industrial / Vastu on a
+   * client whose landing page sells Buy / Sell / Lease & Events / Farm
+   * Management / Land Documentation / Farm Development. One list, one source.
+   */
+  const serviceLines =
+    getTemplateKeyForSlug(tenant.slug) === "premium-v2" ? serviceLinesFor(tenant.slug) : [];
+  if (serviceLines.length > 0) {
+    const services = navItems.find((item) => item.label === "Services");
+    if (services) {
+      services.children = serviceLines.map((line) => ({
+        label: line.title,
+        href: p(line.href),
+        icon: line.icon,
+        badge: undefined,
+      }));
+    }
+  }
+
+  // Page families a tenant publishes rather than the vertical — appended here
+  // rather than added to lib/verticals/realestate.ts, which every real-estate
+  // client shares.
+  const explore = navItems.find((item) => item.label === "Explore Properties");
+  if (farmSearchEnabled(tenant.slug)) {
+    explore?.children?.unshift(
+      { label: "Browse the belt", href: p("/farmhouse"), icon: "Trees", badge: undefined },
+      { label: "Farm estates", href: p("/estates"), icon: "Building2", badge: undefined },
+      { label: "Land & circle rates", href: p("/land-rates"), icon: "Ruler", badge: undefined },
+    );
+  }
+  if (farmRentalEnabled(tenant.slug)) {
+    explore?.children?.push({
+      label: "Farmhouse on Rent",
+      href: p("/farmhouse-rental"),
+      icon: "KeyRound",
+      badge: undefined,
+    });
+  }
+  if (blogEnabled(tenant.slug)) {
+    const aboutIndex = navItems.findIndex((item) => item.label === "About");
+    const guides = { label: "Guides", href: p("/blog") };
+    if (aboutIndex >= 0) navItems.splice(aboutIndex, 0, guides);
+    else navItems.push(guides);
+  }
 
   const categories = [...new Set(services.map((s) => s.category))];
   const effectiveDate = deadline ? (deadline.extendedDueDate ?? deadline.dueDate) : null;

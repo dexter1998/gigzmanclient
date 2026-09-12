@@ -16,6 +16,18 @@ import { DIRECTIONS, ROOMS, VASTU_CONTEXTS } from "@/lib/vastu";
 import { SECTORS, PLOT_SIZES, PROPERTY_CONTEXTS, sectorAspectSlugs } from "@/lib/vastu/sectors";
 import { vastuSectorsEnabled } from "@/lib/vastu/enabled";
 import { MAP_AREAS } from "@/lib/maps/areas";
+import { allRentalSlugs, farmRentalEnabled } from "@/lib/premium-v2/farm-rental";
+import { BLOG_POSTS, blogEnabled } from "@/lib/premium-v2/blog";
+import {
+  ESTATES,
+  PINCODES,
+  VILLAGES,
+  allFarmSlugs,
+  allGeos,
+  farmSearchEnabled,
+  indexable,
+  resolveFarmSlug,
+} from "@/lib/premium-v2/farm-search";
 
 type Client = typeof clients.$inferSelect;
 type Entries = MetadataRoute.Sitemap;
@@ -40,6 +52,13 @@ export const SITEMAP_FAMILIES = [
   { id: "register", label: "Sector and developer pages" },
   { id: "localities", label: "Corridors and rental-yield pages" },
   { id: "updates", label: "Market updates" },
+  { id: "blog", label: "Farmhouse guides" },
+  { id: "farm-rental", label: "Farmhouse rental by occasion, area and budget" },
+  { id: "farm-search", label: "Farmhouses by village, size, budget and feature" },
+  { id: "estates", label: "Named farm estates" },
+  { id: "land-rates", label: "Land and circle rates by village" },
+  { id: "property-dealer", label: "Property dealer by pocket and road" },
+  { id: "pin-code", label: "Pin codes on the belt" },
   { id: "services", label: "Service pages" },
   { id: "maps", label: "Gurugram plot maps" },
   { id: "home-loan", label: "Home-loan amounts and lenders" },
@@ -153,6 +172,88 @@ function coreEntries(client: Client, prefix: string): Entries {
   return entries;
 }
 
+function blogEntries(client: Client, prefix: string): Entries {
+  if (!blogEnabled(client.slug)) return [];
+  return [
+    { url: `${prefix}/blog`, priority: 0.7 },
+    ...BLOG_POSTS.map((post) => ({
+      url: `${prefix}/blog/${post.slug}`,
+      lastModified: post.published,
+      priority: 0.6,
+    })),
+  ];
+}
+
+function farmRentalEntries(client: Client, prefix: string): Entries {
+  // Gated on the same switch the pages use — the family 404s for every
+  // tenant that does not sell farmhouses.
+  if (!farmRentalEnabled(client.slug)) return [];
+  return [
+    { url: `${prefix}/farmhouse-rental`, priority: 0.8 },
+    ...allRentalSlugs().map((slug) => ({
+      url: `${prefix}/farmhouse-rental/${slug}`,
+      // Occasion and question pages are written; the area and budget
+      // permutations beneath them are a wider, thinner layer and sit lower.
+      priority: slug.includes("-in-") || slug.startsWith("under-") ? 0.4 : 0.6,
+    })),
+  ];
+}
+
+/**
+ * The buy-side matrix. Only the combinations that pass the quality gate are
+ * listed — a page with nothing to say still renders and is still linked, but
+ * offering ~700 near-empty URLs to a crawler is how a domain gets classified
+ * as thin. See `indexable()` in lib/premium-v2/farm-search.ts.
+ */
+function farmSearchEntries(client: Client, prefix: string): Entries {
+  if (!farmSearchEnabled(client.slug)) return [];
+  const entries: Entries = [{ url: `${prefix}/farmhouse`, priority: 0.9 }];
+  for (const slug of allFarmSlugs()) {
+    const page = resolveFarmSlug(slug);
+    if (!page || !indexable(page)) continue;
+    entries.push({
+      url: `${prefix}/farmhouse/${slug}`,
+      // Village overviews are the hubs of this family; the facets beneath
+      // them are wider and thinner, and are priced accordingly.
+      priority:
+        page.kind === "geo" ? 0.7 : page.kind === "compare" || page.kind === "landmark" ? 0.6 : 0.4,
+    });
+  }
+  return entries;
+}
+
+function estateEntries(client: Client, prefix: string): Entries {
+  if (!farmSearchEnabled(client.slug)) return [];
+  return [
+    { url: `${prefix}/estates`, priority: 0.7 },
+    ...ESTATES.filter((estate) => estate.listings >= 2).map((estate) => ({
+      url: `${prefix}/estates/${estate.slug}`,
+      priority: 0.6,
+    })),
+  ];
+}
+
+function landRateEntries(client: Client, prefix: string): Entries {
+  if (!farmSearchEnabled(client.slug)) return [];
+  return [
+    { url: `${prefix}/land-rates`, priority: 0.7 },
+    ...VILLAGES.map((village) => ({
+      url: `${prefix}/land-rates/${village.slug}`,
+      priority: 0.5,
+    })),
+  ];
+}
+
+function dealerEntries(client: Client, prefix: string): Entries {
+  if (!farmSearchEnabled(client.slug)) return [];
+  return allGeos().map((geo) => ({ url: `${prefix}/property-dealer/${geo.slug}`, priority: 0.5 }));
+}
+
+function pincodeEntries(client: Client, prefix: string): Entries {
+  if (!farmSearchEnabled(client.slug)) return [];
+  return PINCODES.map((pin) => ({ url: `${prefix}/pin-code/${pin.code}`, priority: 0.4 }));
+}
+
 function mapEntries(client: Client, prefix: string): Entries {
   if (client.vertical !== "realestate") return [];
   return MAP_AREAS.map((area) => ({
@@ -196,6 +297,12 @@ function areaConverterEntries(client: Client, prefix: string): Entries {
 
 function vastuEntries(client: Client, prefix: string): Entries {
   if (client.vertical !== "realestate") return [];
+  // Gated on the same switch the pages use. Without it a tenant with vastu
+  // turned off — Evergreen — advertised 244 URLs that all 404, which is worse
+  // than publishing none: the sitemap is the one place Search Console takes
+  // as a promise that a URL exists. Same reasoning as vastuSectorEntries and
+  // the /documentation entry in coreEntries.
+  if (!vastuSectionEnabled(client.slug)) return [];
   const entries: Entries = [];
 
   for (const direction of DIRECTIONS) {
@@ -359,49 +466,184 @@ async function serviceEntries(client: Client, prefix: string): Promise<Entries> 
   }));
 }
 
+/**
+ * One family's URLs for one client.
+ *
+ * Split out from `entriesForFamily` so the sitemap can be sliced per tenant
+ * as well as per family — see `sitemapFiles`.
+ */
+async function entriesForClientFamily(
+  client: Client,
+  family: SitemapFamilyId,
+): Promise<Entries> {
+  const prefix = prefixFor(client);
+  const out: Entries = [];
+  switch (family) {
+    case "core":
+      out.push(...coreEntries(client, prefix));
+      break;
+    case "maps":
+      out.push(...mapEntries(client, prefix));
+      break;
+    case "home-loan":
+      out.push(...homeLoanEntries(client, prefix));
+      break;
+    case "area-converter":
+      out.push(...areaConverterEntries(client, prefix));
+      break;
+    case "vastu":
+      out.push(...vastuEntries(client, prefix));
+      break;
+    case "vastu-sectors":
+      out.push(...vastuSectorEntries(client, prefix));
+      break;
+    case "properties":
+      out.push(...(await propertyEntries(client, prefix)));
+      break;
+    case "register":
+      out.push(...(await registerEntries(client, prefix)));
+      break;
+    case "localities":
+      out.push(...(await localityEntries(client, prefix)));
+      break;
+    case "updates":
+      out.push(...(await updateEntries(client, prefix)));
+      break;
+    case "blog":
+      out.push(...blogEntries(client, prefix));
+      break;
+    case "farm-rental":
+      out.push(...farmRentalEntries(client, prefix));
+      break;
+    case "farm-search":
+      out.push(...farmSearchEntries(client, prefix));
+      break;
+    case "estates":
+      out.push(...estateEntries(client, prefix));
+      break;
+    case "land-rates":
+      out.push(...landRateEntries(client, prefix));
+      break;
+    case "property-dealer":
+      out.push(...dealerEntries(client, prefix));
+      break;
+    case "pin-code":
+      out.push(...pincodeEntries(client, prefix));
+      break;
+    case "services":
+      out.push(...(await serviceEntries(client, prefix)));
+      break;
+  }
+
+  return out;
+}
+
 /** Every URL in one family, across every client this deployment serves. */
 export async function entriesForFamily(family: SitemapFamilyId): Promise<Entries> {
   const clientRows = await sitemapClients();
   const out: Entries = [];
+  for (const client of clientRows) {
+    out.push(...(await entriesForClientFamily(client, family)));
+  }
+  return out;
+}
+
+/**
+ * How many URLs one sitemap file may carry.
+ *
+ * The protocol allows 50,000, and nothing here is close to that — the point
+ * of a smaller cap is diagnosis. Search Console reports indexed/excluded per
+ * sitemap file, so a 25,000-URL blob tells you a family has a problem while a
+ * 5,000-URL slice tells you which part of it does.
+ */
+const MAX_URLS_PER_FILE = 5000;
+
+/** Neither a tenant slug nor a family id contains a double hyphen. */
+const ID_SEPARATOR = "--";
+
+export interface SitemapFile {
+  /** The `{file}` segment in /sitemaps/{file}.xml. */
+  id: string;
+  tenantSlug: string;
+  family: SitemapFamilyId;
+  /** 1-based. */
+  part: number;
+  parts: number;
+  count: number;
+}
+
+function fileId(tenantSlug: string, family: SitemapFamilyId, part: number): string {
+  return part <= 1
+    ? `${tenantSlug}${ID_SEPARATOR}${family}`
+    : `${tenantSlug}${ID_SEPARATOR}${family}${ID_SEPARATOR}${part}`;
+}
+
+/**
+ * The sitemap index, as a list of files.
+ *
+ * Sliced by tenant first and family second. Tenant first because that is the
+ * boundary that matters operationally: this deployment serves nine sites, a
+ * Search Console property covers one of them, and a file mixing tenants
+ * cannot be submitted to either. Family second because that is the boundary
+ * that matters diagnostically — a coverage problem in the 2,300-page
+ * farm-search matrix should not be a rounding error inside the same file as
+ * the twenty pages that actually earn business.
+ *
+ * A family that resolves to nothing for a tenant produces no file at all;
+ * an index full of empty sitemaps reports as errors in Search Console.
+ */
+export async function sitemapFiles(): Promise<SitemapFile[]> {
+  const clientRows = await sitemapClients();
+  const files: SitemapFile[] = [];
 
   for (const client of clientRows) {
-    const prefix = prefixFor(client);
-    switch (family) {
-      case "core":
-        out.push(...coreEntries(client, prefix));
-        break;
-      case "maps":
-        out.push(...mapEntries(client, prefix));
-        break;
-      case "home-loan":
-        out.push(...homeLoanEntries(client, prefix));
-        break;
-      case "area-converter":
-        out.push(...areaConverterEntries(client, prefix));
-        break;
-      case "vastu":
-        out.push(...vastuEntries(client, prefix));
-        break;
-      case "vastu-sectors":
-        out.push(...vastuSectorEntries(client, prefix));
-        break;
-      case "properties":
-        out.push(...(await propertyEntries(client, prefix)));
-        break;
-      case "register":
-        out.push(...(await registerEntries(client, prefix)));
-        break;
-      case "localities":
-        out.push(...(await localityEntries(client, prefix)));
-        break;
-      case "updates":
-        out.push(...(await updateEntries(client, prefix)));
-        break;
-      case "services":
-        out.push(...(await serviceEntries(client, prefix)));
-        break;
+    for (const family of SITEMAP_FAMILIES) {
+      const entries = await entriesForClientFamily(client, family.id);
+      if (entries.length === 0) continue;
+      const parts = Math.max(1, Math.ceil(entries.length / MAX_URLS_PER_FILE));
+      for (let part = 1; part <= parts; part++) {
+        const slice = entries.slice((part - 1) * MAX_URLS_PER_FILE, part * MAX_URLS_PER_FILE);
+        files.push({
+          id: fileId(client.slug, family.id, part),
+          tenantSlug: client.slug,
+          family: family.id,
+          part,
+          parts,
+          count: slice.length,
+        });
+      }
     }
   }
 
-  return out;
+  return files;
+}
+
+/**
+ * Resolves a `/sitemaps/{file}.xml` segment back to its URLs.
+ *
+ * Accepts both the sliced id (`evergreen-real-estate--farm-search`, optionally
+ * with a `--2` part suffix) and a bare family id (`farm-search`), which is
+ * what the index used to publish. The bare form still answers so that a
+ * sitemap already submitted to Search Console does not start 404ing the day
+ * this ships — Google treats a 404 sitemap as a removal signal for
+ * everything it listed.
+ */
+export async function entriesForFile(file: string): Promise<Entries | null> {
+  if (isSitemapFamily(file)) return entriesForFamily(file);
+
+  const parts = file.split(ID_SEPARATOR);
+  if (parts.length < 2 || parts.length > 3) return null;
+
+  const [tenantSlug, family, partRaw] = parts;
+  if (!isSitemapFamily(family)) return null;
+
+  const part = partRaw === undefined ? 1 : Number(partRaw);
+  if (!Number.isInteger(part) || part < 1) return null;
+
+  const client = (await sitemapClients()).find((row) => row.slug === tenantSlug);
+  if (!client) return null;
+
+  const entries = await entriesForClientFamily(client, family);
+  const slice = entries.slice((part - 1) * MAX_URLS_PER_FILE, part * MAX_URLS_PER_FILE);
+  return slice.length > 0 ? slice : null;
 }

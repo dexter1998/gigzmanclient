@@ -14,6 +14,7 @@ import type { Metadata } from "next";
  */
 const ICON_SETS: Record<string, string> = {
   "high-properties": "/brand/high-properties-icon",
+  "evergreen-real-estate": "/brand/evergreen-real-estate-icon",
 };
 
 export function iconsFor(clientSlug: string): Metadata["icons"] {

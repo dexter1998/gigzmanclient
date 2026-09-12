@@ -24,11 +24,9 @@ import RecentDealsV2 from "../premium-v2/RecentDealsV2";
 import VideoTestimonialsV2 from "../premium-v2/VideoTestimonialsV2";
 import FaqV2 from "../premium-v2/FaqV2";
 import MapEmbedV2 from "../premium-v2/MapEmbedV2";
-import MapSelectedPropertyV2 from "../premium-v2/MapSelectedPropertyV2";
 import MapsCarouselV2 from "../premium-v2/maps/MapsCarouselV2";
 import PropertyManagementV2 from "../premium-v2/PropertyManagementV2";
 import {
-  propertyMapSectionEnabled,
   propertyManagementSectionEnabled,
   vastuSectionEnabled,
 } from "@/lib/premium-v2/home-sections";
@@ -36,6 +34,7 @@ import { toolHrefsFor } from "@/lib/premium-v2/tools";
 import { heroCopyFor } from "@/lib/premium-v2/positioning";
 import { serviceLinesFor } from "@/lib/premium-v2/services";
 import { imageryFor } from "@/lib/premium-v2/imagery";
+import { advisorRosterFor } from "@/lib/premium-v2/advisors";
 
 // Hero photography is per tenant — see lib/premium-v2/imagery.ts.
 
@@ -152,7 +151,11 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
         stats={heroStats}
       />
       <ImageStripV2 basePath={basePath} localities={localities} images={imagery.strip} />
-      <ValuationCtaV2 p={p} localities={localities.map((l) => l.name)} />
+      <ValuationCtaV2
+        p={p}
+        localities={localities.map((l) => l.name)}
+        clientSlug={tenant.slug}
+      />
       <ServicesMosaicV2 p={p} services={serviceLinesFor(tenant.slug)} />
       <DocumentationV2 p={p} phone={settings.phone} />
       <NewLaunchesV2 properties={newlyLaunched} imageMap={imageMap} p={p} />
@@ -166,16 +169,12 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
       />
       <ShortlistCtaV2 whatsapp={settings.whatsapp} firmName={settings.firmName} />
       <DeveloperRibbonV2 p={p} />
-      <AdvisorsV2 phone={settings.phone} whatsapp={settings.whatsapp} />
+      <AdvisorsV2
+        roster={advisorRosterFor(tenant.slug)}
+        phone={settings.phone}
+        whatsapp={settings.whatsapp}
+      />
       <MarketIntelligenceV2 localities={localities} basePath={basePath} />
-      {propertyMapSectionEnabled(tenant.slug) ? (
-        <MapSelectedPropertyV2
-          properties={allProperties.slice(0, 8)}
-          imageMap={imageMap}
-          basePath={basePath}
-          googleMapsUrl={settings.googleMapsUrl}
-        />
-      ) : null}
       <MapsCarouselV2 basePath={basePath} />
       <CalculatorsV2
         contactHref={p("/contact")}

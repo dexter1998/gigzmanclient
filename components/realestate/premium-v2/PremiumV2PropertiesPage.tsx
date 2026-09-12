@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import InventoryHubV2, { type HubScope } from "./InventoryHubV2";
 import { basePathFor, joinPath, type Tenant } from "@/lib/tenant";
+import { inventoryNoun } from "@/lib/premium-v2/imagery";
 import { getFirmSettings, getProperties, getPropertyImagesFor, getPropertyLocalityFacets } from "@/lib/content";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, jsonLdProps } from "@/lib/schema-org";
 import {
@@ -78,7 +79,7 @@ export default async function PremiumV2PropertiesPage({
     }),
   );
 
-  const { eyebrow, heading, summary, crumbs, path } = copyFor(scope, rows, p);
+  const { eyebrow, heading, summary, crumbs, path } = copyFor(scope, rows, p, tenant.slug);
 
   const itemListJsonLd = buildItemListJsonLd(
     rows.map((property) => ({
@@ -132,6 +133,7 @@ export function copyFor(
   scope: HubScope,
   rows: ListingRow[],
   p: (path: string) => string,
+  clientSlug?: string,
 ): { eyebrow: string; heading: string; summary: string; crumbs: { name: string; href?: string }[]; path: string } {
   const f = facetsFor(rows);
   const n = (v: number) => formatNumber(v);
@@ -175,6 +177,22 @@ export function copyFor(
         { name: scope.developer },
       ],
       path: `/builders/${developerSlug(scope.developer)}`,
+    };
+  }
+
+  // A farm-land tenant's listings are not RERA projects and did not come
+  // from the HRERA register — they are individually owned plots and built
+  // farmhouses. Saying otherwise on the page is not a tone problem, it is a
+  // false statement about where the inventory came from.
+  if (inventoryNoun(clientSlug) === "farmhouse") {
+    return {
+      eyebrow: "Inventory",
+      heading: "Every farmhouse and plot we have on the belt.",
+      summary:
+        `${n(rows.length)} ${rows.length === 1 ? "listing" : "listings"} across the Sohna and south-Gurugram farm belt — built farmhouses, semi-developed plots and bare agricultural land. ` +
+        "Filter by locality, plot size and budget; plot area, ownership and asking price are shown plainly on every listing.",
+      crumbs: [{ name: "Home", href: p("/") }, { name: "Farmhouses" }],
+      path: "/properties",
     };
   }
 

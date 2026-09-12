@@ -20,10 +20,16 @@ export interface TenantImagery {
   hero: string;
   /** Tiles for the locality strip, in order. Falls back to corridor shots. */
   strip?: string[];
+  /** Picture beside the seller/valuation form. */
+  valuation: string;
 }
 
 const FARMHOUSE_IMAGERY: TenantImagery = {
   hero: `${IMG}/hero-farmhouse-evergreen.webp`,
+  // The stock valuation picture is a city apartment being appraised; on a
+  // client whose sellers own land it showed the wrong asset next to the form
+  // asking about their asset.
+  valuation: `${FARM}/12-gurgaon-farmhouse.webp`,
   strip: [
     `${FARM}/01-gurgaon-farmhouse.webp`,
     `${FARM}/05-gurgaon-farmhouse.webp`,
@@ -36,6 +42,7 @@ const FARMHOUSE_IMAGERY: TenantImagery = {
 
 const DEFAULT_IMAGERY: TenantImagery = {
   hero: `${IMG}/hero-curated-inventory-v2.png`,
+  valuation: `${IMG}/property-valuation.png`,
 };
 
 const BY_SLUG: Record<string, TenantImagery> = {

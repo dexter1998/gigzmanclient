@@ -13,6 +13,7 @@ import { GpContainer, GpEyebrow, GpSection } from "./gp-primitives";
 import { basePathFor, joinPath, type Tenant } from "@/lib/tenant";
 import { getFirmSettings, getServices } from "@/lib/content";
 import { buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
+import { advisorRosterFor } from "@/lib/premium-v2/advisors";
 
 /** A building shot rather than the earlier desk/blueprint close-up — this
  *  column now sits beside the form on the first screen, where a recognisable
@@ -232,6 +233,7 @@ export default async function PremiumV2ContactPage({
       />
 
       <ContactAdvisorsCompactV2
+        roster={advisorRosterFor(tenant.slug)}
         phone={settings.phone}
         whatsapp={settings.whatsapp}
         advisorsHref={`${p("/")}#advisors`}

@@ -20,11 +20,13 @@ is_demo: false
 
 firm:
   name: Evergreen Real Estate
-  tagline: ""
+  tagline: "Your trusted partners in dream property deals — farmhouses in the Sohna belt."
   overview: >-
-    Evergreen Real Estate is a Sohna-based farmhouse specialist, working with
-    buyers and investors on farm houses, weekend estates and agricultural land
-    along the Sohna–Gurugram corridor and the Delhi–Mumbai Expressway. Every
+    Evergreen Real Estate deals only in farmhouses, farm land and weekend
+    estates in the Sohna belt south of Gurugram — the closest real countryside
+    to Delhi NCR. The office is at The Westin Sohna Resort & Spa in Karnki, and
+    the family that runs it has lived in Karnki for three generations, so every
+    plot is checked against the village record as well as the paperwork. Every
     listing is reviewed before it goes live, and ownership and registration
     status are shown plainly on every property.
   established_year: ""
@@ -38,7 +40,7 @@ firm:
 contact:
   phone: "096711 95544"
   whatsapp: "096711 95544"
-  email: ""
+  email: "khanmunashif5544@gmail.com"
   address_line: "The Westin Sohna Resort & Spa, Karnki"
   locality: "Sohna, Gurugram"
   region: Haryana
@@ -59,14 +61,22 @@ opening_hours:
   - { day: Saturday, opens: "07:00", closes: "21:00", closed: false }
   - { day: Sunday, opens: "07:00", closes: "21:00", closed: false }
 
-social_links: {}
+# Verified live: the Instagram handle the client asked for, and the Facebook
+# page carrying the same address, phone and email as the Google listing.
+# No YouTube channel and no 99acres agent profile could be found for this
+# business — the footer hides nothing, it falls back to /contact for a
+# platform with no handle, so those two stay out until the client supplies
+# them rather than pointing at another dealer's channel.
+social_links:
+  instagram: "https://www.instagram.com/evergreenfarmhousesohna/"
+  facebook: "https://www.facebook.com/61581854773832/"
 
 seo:
-  title: Evergreen Real Estate — Farm Houses in Sohna & Gurugram
+  title: Farmhouses in Sohna & Gurugram — Evergreen Real Estate
   description: >-
-    Farm houses, weekend estates and agricultural land around Sohna and the
-    Gurugram corridor, with corridor-level asking-price data and buyer
-    calculators.
+    Farmhouses, farm land and weekend estates in the Sohna belt near Delhi NCR
+    — owner-direct plots around The Westin and Karnki, with asking-price data
+    by corridor, title checks and buyer calculators.
 
 analytics:
   ga4_measurement_id: ""
@@ -77,11 +87,35 @@ features:
   pricing: true
   awards: false
   client_logos: false
-  team: false
+  team: true
 
-team: []
+# The four owners, as the client listed them. Photographs are keyed out of
+# their green backdrop by scripts/cutout-portraits.mjs; the advisor cards
+# read the same four people from lib/premium-v2/advisors.ts, which also
+# carries each one's direct number (team_members has no phone column).
+team:
+  - name: Hasan Khan
+    designation: "Founder · Sarpanch, Karnki"
+    bio: >-
+      Sarpanch of Karnki, the village the Westin farm belt stands on. Handles
+      land titles, revenue records and the village-level history behind a plot.
+  - name: Aasif Khan
+    designation: "Acquisitions & Land"
+    bio: >-
+      Sources farm land and semi-developed plots around The Westin, Vatika
+      Farms and the Karnki belt, and negotiates before a plot reaches a portal.
+  - name: Aakil Khan
+    designation: "Sales & Site Visits"
+    bio: >-
+      Runs site visits across Sohna, Karnki, Damdama and the Aravali edge, and
+      matches a budget to the right pocket of the belt.
+  - name: Munasif Khan
+    designation: "Documentation & Registry"
+    bio: >-
+      Mutation, intkaal, registry and the Tehsil paperwork — the part of a
+      farmhouse purchase that decides whether the land is actually yours.
 
-notification_email: ""
+notification_email: "khanmunashif5544@gmail.com"
 
 _status:
   slug: verified
@@ -89,13 +123,13 @@ _status:
   firm.name: verified
   firm.business_category: verified
   firm.logo_url: verified
-  firm.tagline: pending
-  firm.overview: placeholder
+  firm.tagline: verified
+  firm.overview: verified
   firm.established_year: pending
   firm.firm_registration_number: pending
   contact.phone: verified
   contact.whatsapp: placeholder
-  contact.email: pending
+  contact.email: verified
   contact.address_line: verified
   contact.locality: verified
   contact.region: verified
@@ -105,10 +139,10 @@ _status:
   contact.latitude: verified
   contact.longitude: verified
   opening_hours: placeholder
-  social_links: pending
-  seo.title: placeholder
-  seo.description: placeholder
+  social_links: verified
+  seo.title: verified
+  seo.description: verified
   analytics.ga4_measurement_id: pending
   analytics.search_console_verification: pending
-  team: pending
-  notification_email: pending
+  team: verified
+  notification_email: verified

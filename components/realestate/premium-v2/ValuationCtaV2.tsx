@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { GpContainer, GpSection, GpEyebrow } from "./gp-primitives";
 import ValuationForm from "@/components/realestate/ValuationForm";
-
-const IMG = "/verticals/realestate/templates/premium-v2/images";
+import { imageryFor, inventoryNoun } from "@/lib/premium-v2/imagery";
 
 /**
  * Sits immediately before the services grid.
@@ -20,10 +19,14 @@ const IMG = "/verticals/realestate/templates/premium-v2/images";
 export default function ValuationCtaV2({
   p,
   localities,
+  clientSlug,
 }: {
   p: (path: string) => string;
   localities: string[];
+  clientSlug?: string;
 }) {
+  const farmhouse = inventoryNoun(clientSlug) === "farmhouse";
+  const imagery = imageryFor(clientSlug);
   return (
     <GpSection tone="cream">
       <GpContainer>
@@ -39,15 +42,19 @@ export default function ValuationCtaV2({
               report.
             </h2>
             <p className="mt-4 max-w-xl text-[14.5px] leading-relaxed text-[color:var(--gp-body)]">
-              What a portal shows you is the asking price of listings that have not sold. We price
-              against what has actually transacted in your sector this year, then tell you what a
-              buyer will question — floor, facing, age, pending dues — before they do.
+              {farmhouse
+                ? "What a portal shows you is the asking price of plots that have not sold. We price against what has actually changed hands in the belt this year, then tell you what a buyer will question — approach road, land classification, mutation, boundary — before they do."
+                : "What a portal shows you is the asking price of listings that have not sold. We price against what has actually transacted in your sector this year, then tell you what a buyer will question — floor, facing, age, pending dues — before they do."}
             </p>
 
             <div className="relative mt-8 aspect-[16/10] overflow-hidden rounded-[var(--gp-radius-lg)] lg:mt-9">
               <Image
-                src={`${IMG}/property-valuation.png`}
-                alt="A Gurugram property being valued against recent transactions"
+                src={imagery.valuation}
+                alt={
+                  farmhouse
+                    ? "A farmhouse in the Sohna belt being valued against recent sales"
+                    : "A Gurugram property being valued against recent transactions"
+                }
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"

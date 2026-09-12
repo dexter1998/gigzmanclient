@@ -15,6 +15,9 @@
 const PLACE_IDS: Record<string, string> = {
   // Shop on Main Road, Dwarka Expressway, near Assotech The Blinth, Sector 99.
   "high-properties": "ChIJD1UYJ20XDTkRPiGtfZOM4Y8",
+  // Office at The Westin Sohna Resort & Spa, Karnki — the same listing
+  // clients/evergreen-real-estate/profile.yaml's NAP was read from.
+  "evergreen-real-estate": "ChIJozjps20pDTkRbunfm45O_-k",
 };
 
 export function placeIdFor(slug: string): string | null {

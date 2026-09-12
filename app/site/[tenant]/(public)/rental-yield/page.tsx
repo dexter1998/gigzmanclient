@@ -7,6 +7,14 @@ import { getTemplateKeyForSlug } from "@/lib/templates";
 import { buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
 import { formatInr } from "@/lib/format";
 import RentalYieldCalculatorV2 from "@/components/realestate/premium-v2/tools/RentalYieldCalculatorV2";
+import { ArrowRight } from "lucide-react";
+import {
+  RENTAL_AREAS,
+  RENTAL_OCCASIONS,
+  RENTAL_QUESTIONS,
+  farmRentalEnabled,
+  formatBudget,
+} from "@/lib/premium-v2/farm-rental";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
 
 interface Props {
@@ -61,6 +69,98 @@ export default async function RentalYieldHubPage(props: Props) {
           </nav>
         }
       />
+
+      {/* Between the calculator and the page's closing CTA.
+
+          On a farm-land tenant the corridor table below never renders — the
+          locality rows carry no rental-yield figure — so the page went from
+          its calculator straight to the footer CTA with nothing in between.
+          It is also the wrong question for this audience: almost nobody in
+          this belt lets a farmhouse on an annual tenancy, they let it by the
+          day for an event, and that is what the search demand asks about. */}
+      {farmRentalEnabled(tenant.slug) ? (
+        <GpSection tone="cream">
+          <GpContainer>
+            <GpEyebrow>Letting by the day, not the year</GpEyebrow>
+            <h2 className="gp-section-title font-display mt-2 max-w-2xl text-[color:var(--gp-ink)]">
+              What a farmhouse in this belt actually earns
+            </h2>
+            <p className="mt-4 max-w-2xl text-[14.5px] leading-relaxed text-[color:var(--gp-body)]">
+              A farmhouse here does not let on an annual tenancy. It lets by the day — a party, a
+              wedding, a shoot, a weekend — and a well-run one-acre property in a good pocket does
+              roughly six to ten days a month across the year, heavily concentrated between October
+              and March. These pages set out what each occasion pays and what it costs to deliver.
+            </p>
+
+            <div className="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {RENTAL_OCCASIONS.slice(0, 6).map((occasion) => (
+                <Link
+                  key={occasion.slug}
+                  href={p(`/farmhouse-rental/${occasion.slug}`)}
+                  className="group flex flex-col rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)] bg-white p-5 transition-colors hover:border-[color:var(--gp-gold-600)]"
+                >
+                  <h3 className="font-display text-[16px] text-[color:var(--gp-ink)]">
+                    {occasion.label}
+                  </h3>
+                  <p className="mt-1.5 font-sans text-[18px] font-semibold text-[color:var(--gp-gold-600)]">
+                    {formatBudget(occasion.budget[0])} – {formatBudget(occasion.budget[1])}
+                    <span className="ml-1 text-[12px] font-medium text-[color:var(--gp-muted)]">
+                      a day
+                    </span>
+                  </p>
+                  <p className="mt-2 text-[13px] leading-relaxed text-[color:var(--gp-muted)]">
+                    {occasion.capacity} · {occasion.overnight ? "Usually overnight" : "Day booking"}
+                  </p>
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-9 grid grid-cols-1 gap-8 border-t border-[color:var(--gp-border)] pt-8 lg:grid-cols-2">
+              <div>
+                <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">By pocket</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {RENTAL_AREAS.map((area) => (
+                    <Link
+                      key={area.slug}
+                      href={p(`/farmhouse-rental/party-in-${area.slug}`)}
+                      className="inline-flex min-h-[38px] items-center rounded-full border border-[color:var(--gp-border)] bg-white px-3.5 text-[12.5px] font-medium text-[color:var(--gp-ink)] transition-colors hover:border-[color:var(--gp-gold-600)]"
+                    >
+                      {area.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="gp-eyebrow text-[color:var(--gp-gold-600)]">Before you let it out</p>
+                <ul className="mt-3 space-y-2">
+                  {RENTAL_QUESTIONS.slice(0, 4).map((question) => (
+                    <li key={question.slug}>
+                      <Link
+                        href={p(`/farmhouse-rental/${question.slug}`)}
+                        className="flex items-start gap-2 text-[13.5px] leading-relaxed text-[color:var(--gp-body)] hover:text-[color:var(--gp-gold-600)]"
+                      >
+                        <ArrowRight
+                          className="mt-1 h-3.5 w-3.5 shrink-0 text-[color:var(--gp-gold-600)]"
+                          aria-hidden="true"
+                        />
+                        {question.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <Link
+              href={p("/farmhouse-rental")}
+              className="mt-9 inline-flex min-h-[50px] items-center gap-2 rounded-[var(--gp-radius-sm)] bg-[color:var(--gp-forest-900)] px-6 text-[13.5px] font-semibold uppercase tracking-[0.04em] text-white transition-colors hover:bg-[color:var(--gp-forest-800)]"
+            >
+              All farmhouse rental guides
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </GpContainer>
+        </GpSection>
+      ) : null}
 
       {priced.length > 0 ? (
         <GpSection tone="cream">

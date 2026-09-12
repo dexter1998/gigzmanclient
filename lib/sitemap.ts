@@ -1,3 +1,4 @@
+import { vastuSectionEnabled } from "@/lib/premium-v2/home-sections";
 import type { MetadataRoute } from "next";
 import { eq, and, sql } from "drizzle-orm";
 import { db } from "@/lib/db";
@@ -133,7 +134,7 @@ function coreEntries(client: Client, prefix: string): Entries {
     entries.push(
       { url: `${prefix}/area-converter`, priority: 0.6 },
       { url: `${prefix}/rental-yield`, priority: 0.7 },
-      { url: `${prefix}/vastu`, priority: 0.7 },
+      ...(vastuSectionEnabled(client.slug) ? [{ url: `${prefix}/vastu`, priority: 0.7 }] : []),
       { url: `${prefix}/maps/gurgaon`, priority: 0.7 },
       // Only premium-v2 renders /documentation; the other templates 404 it,
       // and a sitemap that lists a 404 is worse than one that omits a page.

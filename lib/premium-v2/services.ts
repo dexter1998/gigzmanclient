@@ -104,53 +104,57 @@ const GENERAL_SERVICE_LINES: ServiceLine[] = [
  * than society NOCs.
  */
 const FARMHOUSE_SERVICE_LINES: ServiceLine[] = [
+  // Ordered by what an owner or buyer actually wants done — buy, sell, lease,
+  // manage — rather than by category of asset. Two cards that both said
+  // "farmland, different words" have become one, and letting and upkeep,
+  // which this client does and had no card for, are named.
   {
-    key: "farmhouses",
-    title: "Farm Houses",
+    key: "buy",
+    title: "Buy a Farmhouse",
     blurb:
-      "Built farm houses with lawns, orchards and guest blocks across Sohna, Bhondsi and the Aravalli fringe. Ready to move in or to let out.",
-    tags: ["Buy", "Sell", "Resale"],
+      "Built estates with lawns, orchards and guest blocks, and farm plots along the Sohna corridor and the Delhi–Mumbai Expressway. Land use, access and khasra checked before we list anything.",
+    tags: ["Farmhouses", "Farmland", "Plots"],
     href: "/properties?type=farmhouse",
   },
   {
-    key: "farmland",
-    title: "Agricultural Land",
+    key: "sell",
+    title: "Sell Your Farmhouse",
     blurb:
-      "Farm plots and khasra land along the Sohna–Gurugram corridor and the Delhi–Mumbai Expressway, with land use and access checked before we list it.",
-    tags: ["Plots", "Khasra", "Acreage"],
-    href: "/properties?type=farmhouse",
+      "We price against what has actually transacted on your stretch this year, photograph the property properly, and bring buyers who have already seen the papers.",
+    tags: ["Valuation", "Listing", "Buyers"],
+    href: "/contact?intent=valuation",
   },
   {
-    key: "weekend-homes",
-    title: "Weekend & Second Homes",
+    key: "lease",
+    title: "Lease & Events",
     blurb:
-      "Estates bought to be used, not just held — an hour from Gurugram, close enough for a Friday evening drive.",
-    tags: ["Lifestyle", "NCR", "Getaway"],
-    href: "/properties?type=farmhouse",
+      "Monthly lets to families and companies, and day rentals for weddings, shoots and offsites — the two ways a Gurugram farmhouse earns when it is not lived in.",
+    tags: ["Rent", "Weddings", "Shoots"],
+    href: "/properties?purpose=rent",
+  },
+  {
+    key: "manage",
+    title: "Farm Management",
+    blurb:
+      "Caretakers, security, gardening, borewell and pump upkeep, and rent collection — for owners who visit on weekends and need the place run the rest of the week.",
+    tags: ["Caretaker", "Upkeep", "Rent"],
+    href: "/contact",
   },
   {
     key: "land-papers",
     title: "Land Documentation",
     blurb:
       "Mutation, jamabandi and fard, registry and change of land use — the paperwork farmland turns on, handled end to end.",
-    tags: ["Mutation", "Fard", "Registry"],
-    href: "/#documentation",
+    tags: ["Mutation", "Fard", "CLU"],
+    href: "/documentation",
   },
   {
     key: "farm-development",
     title: "Farm Development",
     blurb:
-      "Boundary walls, borewells, landscaping and farmhouse construction, with vastu-compliant layouts where you want them.",
-    tags: ["Build", "Landscape", "Vastu"],
+      "Boundary walls, borewells, landscaping and farmhouse construction, taken from an empty plot to a usable estate.",
+    tags: ["Build", "Borewell", "Landscape"],
     href: "/#construction",
-  },
-  {
-    key: "investment",
-    title: "Investment Advisory",
-    blurb:
-      "What a corridor is asking today, what it was asking last year, and what the expressway alignment is likely to do to it.",
-    tags: ["Corridors", "Yield", "Exit"],
-    href: "/localities",
   },
 ];
 

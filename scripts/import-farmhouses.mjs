@@ -31,6 +31,9 @@ const PHOTO_SRC = "source-data/gurgaon-farmhouses-realistic-hd";
 const CLIENT = "clients/evergreen-real-estate/content";
 const PUBLIC_DIR = "public/verticals/realestate/templates/premium-v2/farmhouses";
 const WEB_BASE = "/verticals/realestate/templates/premium-v2/farmhouses";
+/** The listings' own photographs, kept apart from the stand-in pool. */
+const REAL_DIR = "public/verticals/realestate/templates/premium-v2/farmhouse-photos";
+const REAL_WEB = "/verticals/realestate/templates/premium-v2/farmhouse-photos";
 /**
  * The source images are small — half the feed is under 400px wide and the
  * largest is 890x400; the CDN publishes only the "M" size variant, so there
@@ -39,6 +42,22 @@ const WEB_BASE = "/verticals/realestate/templates/premium-v2/farmhouses";
  * quality high enough not to add compression damage on top.
  */
 const IMAGES_PER_LISTING = 3;
+
+/**
+ * How many of the listing's OWN photographs to publish after the stand-in
+ * pool shots.
+ *
+ * The feed's images are small — half are under 400px wide — which is why the
+ * pool exists and why the first, thumbnail-sized image stays a clean HD shot.
+ * But a gallery of nothing but stand-ins shows a farmhouse that is not the
+ * one for sale, so the real photographs follow it.
+ *
+ * Capped at four rather than all 4,309: the full set is 135MB, and this
+ * project's Vercel deployment storage is already over its 10GB limit. Four
+ * per listing lands around 57MB as webp.
+ */
+const REAL_PHOTOS_PER_LISTING = 4;
+const REAL_SRC = "/Users/dextermorgan/Desktop/99acres-farmhouse-gurgaon/images";
 
 const rows = JSON.parse(await readFile(`${SRC}/farmhouses-gurgaon.json`, "utf8"));
 
@@ -73,6 +92,8 @@ function areaSqft(r) {
 
 if (existsSync(PUBLIC_DIR)) await rm(PUBLIC_DIR, { recursive: true });
 await mkdir(PUBLIC_DIR, { recursive: true });
+if (existsSync(REAL_DIR)) await rm(REAL_DIR, { recursive: true });
+await mkdir(REAL_DIR, { recursive: true });
 
 /**
  * Builds the shared photo pool once, then hands each listing a stable slice
@@ -105,14 +126,45 @@ function hash(text) {
   return h;
 }
 
-function imagesFor(propId, heading) {
+async function realPhotosFor(propId, heading) {
+  const dir = `${REAL_SRC}/${propId}`;
+  if (!existsSync(dir)) return [];
+  const files = (await readdir(dir))
+    .filter((f) => /\.(jpe?g|png|webp)$/i.test(f))
+    .sort()
+    .slice(0, REAL_PHOTOS_PER_LISTING);
+
+  const out = [];
+  for (const [i, f] of files.entries()) {
+    const name = `${propId}-${i + 1}.webp`;
+    try {
+      await sharp(`${dir}/${f}`)
+        .resize({ width: 1280, withoutEnlargement: true })
+        .webp({ quality: 78 })
+        .toFile(`${REAL_DIR}/${name}`);
+      out.push({
+        path: `${REAL_WEB}/${name}`,
+        alt: `${heading} — photograph of this property`,
+        is_primary: false,
+      });
+    } catch {
+      // A truncated or unreadable file in the feed must not stop the import.
+    }
+  }
+  return out;
+}
+
+async function imagesFor(propId, heading) {
   if (POOL.length === 0) return [];
   const start = hash(propId) % POOL.length;
-  return Array.from({ length: Math.min(IMAGES_PER_LISTING, POOL.length) }, (_, i) => ({
+  const stand_ins = Array.from({ length: Math.min(IMAGES_PER_LISTING, POOL.length) }, (_, i) => ({
     path: POOL[(start + i * 7) % POOL.length],
     alt: `${heading} — illustrative photograph`,
     is_primary: i === 0,
   }));
+  // Primary stays a pool shot: it is the card thumbnail, and the feed's own
+  // first image is often a floor plan or a blurred street view.
+  return [...stand_ins, ...(await realPhotosFor(propId, heading))];
 }
 
 /* ── properties ──────────────────────────────────────────────────────── */
@@ -187,7 +239,7 @@ for (const r of rows) {
     specs,
     verified: r.verified === "Y",
     video_url: r.video_youtube || null,
-    images: imagesFor(r.prop_id, title),
+    images: await imagesFor(r.prop_id, title),
     _price: price,
     _sqft: Number(r.price_per_sqft) || null,
     _locality: locality,

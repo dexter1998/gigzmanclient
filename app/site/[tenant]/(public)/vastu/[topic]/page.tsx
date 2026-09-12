@@ -16,6 +16,7 @@ import LoanFaqV2 from "@/components/realestate/premium-v2/home-loan/LoanFaqV2";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
 import LineArtBackdropV2 from "@/components/realestate/premium-v2/LineArtBackdropV2";
 import RelatedCardsV2 from "@/components/realestate/premium-v2/RelatedCardsV2";
+import { vastuSectionEnabled } from "@/lib/premium-v2/home-sections";
 
 /**
  * The non-sector vastu matrix. Each family answers a genuinely different
@@ -236,6 +237,8 @@ export default async function VastuTopicPage({ params }: Props) {
   const { tenant: tenantSlug, topic } = await params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  // Not every tenant sells to someone who wants a vastu reading.
+  if (!vastuSectionEnabled(tenant.slug)) notFound();
   const settings = await getFirmSettings(tenant.id);
   const resolved = resolve(topic);
   if (!resolved) notFound();

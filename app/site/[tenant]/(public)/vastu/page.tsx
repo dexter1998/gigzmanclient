@@ -7,6 +7,7 @@ import { getFirmSettings } from "@/lib/content";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { DIRECTIONS, ROOMS, VASTU_CONTEXTS } from "@/lib/vastu";
 import { vastuSectorsEnabled } from "@/lib/vastu/enabled";
+import { vastuSectionEnabled } from "@/lib/premium-v2/home-sections";
 import { buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
 import VastuCalculatorV2 from "@/components/realestate/premium-v2/tools/VastuCalculatorV2";
 import { GpContainer, GpEyebrow, GpSection } from "@/components/realestate/premium-v2/gp-primitives";
@@ -33,6 +34,8 @@ export default async function VastuHubPage(props: Props) {
   const { tenant: tenantSlug } = await props.params;
   const tenant = await getTenantBySlug(tenantSlug);
   if (!tenant || getTemplateKeyForSlug(tenant.slug) !== "premium-v2") notFound();
+  // Not every tenant sells to someone who wants a vastu reading.
+  if (!vastuSectionEnabled(tenant.slug)) notFound();
   const settings = await getFirmSettings(tenant.id);
 
   const basePath = basePathFor(tenant);

@@ -48,3 +48,20 @@ export function propertyManagementPageEnabled(clientSlug: string | undefined | n
   if (!clientSlug) return false;
   return PROPERTY_MANAGEMENT_PAGE_TENANTS.has(clientSlug);
 }
+
+/**
+ * Whether the construction-and-vastu section and the vastu tools belong on
+ * this tenant's site.
+ *
+ * A farmland and weekend-home client does not sell construction management or
+ * room-orientation readings, and the section's whole framing — floor plans,
+ * JDA collaboration, a room wheel — is for someone buying a house to live in.
+ * Opt-out rather than allowlist: it fits most tenants, and the ones it does
+ * not are the exception.
+ */
+const VASTU_DISABLED = new Set(["evergreen-real-estate"]);
+
+export function vastuSectionEnabled(clientSlug: string | undefined | null): boolean {
+  if (!clientSlug) return true;
+  return !VASTU_DISABLED.has(clientSlug);
+}

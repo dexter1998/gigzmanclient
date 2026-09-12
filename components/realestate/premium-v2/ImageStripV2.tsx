@@ -11,6 +11,12 @@ interface ImageStripV2Props {
   basePath: string;
   /** The client's own corridors, in the order the landing page ranks them. */
   localities: { name: string; slug: string }[];
+  /**
+   * Photography to use instead of the corridor shots. A farmhouse client's
+   * corridors are the same places, but a picture of a Golf Course Road tower
+   * over the word "Sohna" says the wrong thing about what is for sale there.
+   */
+  images?: string[];
 }
 
 const BASE = "/verticals/realestate/templates/premium-v2/images";
@@ -32,7 +38,7 @@ const LOCALITY_IMAGE: Record<string, string> = {
   "southern-peripheral-road": "corridor-southern-peripheral-road.png",
 };
 
-export default function ImageStripV2({ basePath, localities }: ImageStripV2Props) {
+export default function ImageStripV2({ basePath, localities, images }: ImageStripV2Props) {
   const p = (path: string) => joinPath(basePath, path);
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -42,13 +48,13 @@ export default function ImageStripV2({ basePath, localities }: ImageStripV2Props
   // as a mixed bag. Every tile is now a real place with its own page.
   const tiles: StripTile[] = [
     {
-      src: `${BASE}/hero-locality-discovery.png`,
+      src: images?.[0] ?? `${BASE}/hero-locality-discovery.png`,
       alt: "Gurugram locality skyline",
       caption: "Explore Localities",
       href: p("/localities"),
     },
-    ...localities.slice(0, 5).map((locality) => ({
-      src: `${BASE}/${LOCALITY_IMAGE[locality.slug] ?? "corridor-new-gurugram.png"}`,
+    ...localities.slice(0, 5).map((locality, i) => ({
+      src: images?.[i + 1] ?? `${BASE}/${LOCALITY_IMAGE[locality.slug] ?? "corridor-new-gurugram.png"}`,
       alt: `${locality.name}, Gurugram`,
       caption: locality.name,
       href: p(`/localities/${locality.slug}`),

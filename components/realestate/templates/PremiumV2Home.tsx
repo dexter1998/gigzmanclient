@@ -30,12 +30,14 @@ import PropertyManagementV2 from "../premium-v2/PropertyManagementV2";
 import {
   propertyMapSectionEnabled,
   propertyManagementSectionEnabled,
+  vastuSectionEnabled,
 } from "@/lib/premium-v2/home-sections";
 import { toolHrefsFor } from "@/lib/premium-v2/tools";
 import { heroCopyFor } from "@/lib/premium-v2/positioning";
 import { serviceLinesFor } from "@/lib/premium-v2/services";
+import { imageryFor } from "@/lib/premium-v2/imagery";
 
-const HERO_IMAGE = "/verticals/realestate/templates/premium-v2/images/hero-curated-inventory-v2.png";
+// Hero photography is per tenant — see lib/premium-v2/imagery.ts.
 
 /**
  * Flagship/mid/tall picks for the HOT-properties asymmetric grid (section 6)
@@ -47,6 +49,7 @@ const HERO_IMAGE = "/verticals/realestate/templates/premium-v2/images/hero-curat
  */
 export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
   const basePath = basePathFor(tenant);
+  const imagery = imageryFor(tenant.slug);
   const p = (path: string) => joinPath(basePath, path);
 
   const [settings, team, allProperties, localities] = await Promise.all([
@@ -143,12 +146,12 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
     <>
       <HeroV2
         basePath={basePath}
-        heroImageSrc={HERO_IMAGE}
+        heroImageSrc={imagery.hero}
         firmName={settings.firmName}
         copy={heroCopy}
         stats={heroStats}
       />
-      <ImageStripV2 basePath={basePath} localities={localities} />
+      <ImageStripV2 basePath={basePath} localities={localities} images={imagery.strip} />
       <ValuationCtaV2 p={p} localities={localities.map((l) => l.name)} />
       <ServicesMosaicV2 p={p} services={serviceLinesFor(tenant.slug)} />
       <DocumentationV2 p={p} phone={settings.phone} />
@@ -179,7 +182,7 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
         advisorName={advisorName}
         tools={toolHrefsFor(tenant.slug, basePath)}
       />
-      <ConstructionVastuV2 p={p} />
+      {vastuSectionEnabled(tenant.slug) ? <ConstructionVastuV2 p={p} /> : null}
       <RecentDealsV2 p={p} />
       <VideoTestimonialsV2 />
       {/* Between the owner stories and the FAQ: it reads as the answer to what

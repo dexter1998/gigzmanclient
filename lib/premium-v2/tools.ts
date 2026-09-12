@@ -1,3 +1,5 @@
+import { inventoryNoun } from "@/lib/premium-v2/imagery";
+import { vastuSectionEnabled } from "@/lib/premium-v2/home-sections";
 import { homeLoanEnabled } from "@/lib/home-loan/enabled";
 import { joinPath } from "@/lib/paths";
 
@@ -25,12 +27,19 @@ export interface ToolLink {
 }
 
 export function toolLinksFor(clientSlug: string | undefined | null): ToolLink[] {
+  const farmhouse = inventoryNoun(clientSlug) === "farmhouse";
+
   return [
     {
       key: "emi",
       icon: "Landmark",
-      label: "Home Loan EMI",
-      blurb: "Monthly instalment, total interest and the full cost of the loan.",
+      // A farmland client's buyers are not taking a home loan on a flat, and
+      // "Home Loan EMI" told them this tool was not for them. The arithmetic
+      // is identical; the label is what changes.
+      label: farmhouse ? "Farmhouse Loan EMI" : "Home Loan EMI",
+      blurb: farmhouse
+        ? "Monthly instalment, total interest and the full cost of financing a farmhouse or plot."
+        : "Monthly instalment, total interest and the full cost of the loan.",
       // Tenants with a lender relationship get the fuller financing hub;
       // everyone else gets the same calculator on its own page.
       path: homeLoanEnabled(clientSlug) ? "/home-loan" : "/calculators/emi",
@@ -38,8 +47,10 @@ export function toolLinksFor(clientSlug: string | undefined | null): ToolLink[] 
     {
       key: "rental-yield",
       icon: "TrendingUp",
-      label: "Rental Yield & Payback",
-      blurb: "Gross and net yield on a let-out property, and years to payback.",
+      label: farmhouse ? "Farm Rental Yield" : "Rental Yield & Payback",
+      blurb: farmhouse
+        ? "What a let-out or event-rented farmhouse returns, and years to payback."
+        : "Gross and net yield on a let-out property, and years to payback.",
       path: "/rental-yield",
     },
     {
@@ -49,13 +60,19 @@ export function toolLinksFor(clientSlug: string | undefined | null): ToolLink[] 
       blurb: "Gaj, marla, kanal and bigha to square feet, at Haryana values.",
       path: "/area-converter",
     },
-    {
-      key: "vastu",
-      icon: "Compass",
-      label: "Vastu Calculator",
-      blurb: "Score a home room by room against traditional directional guidance.",
-      path: "/vastu",
-    },
+    // Skipped for tenants whose site has no vastu content at all — see
+    // vastuSectionEnabled in lib/premium-v2/home-sections.ts.
+    ...(vastuSectionEnabled(clientSlug)
+      ? [
+        {
+          key: "vastu",
+          icon: "Compass",
+          label: "Vastu Calculator",
+          blurb: "Score a home room by room against traditional directional guidance.",
+          path: "/vastu",
+        },
+        ]
+      : []),
   ];
 }
 

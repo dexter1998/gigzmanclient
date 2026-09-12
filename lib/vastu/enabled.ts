@@ -12,8 +12,10 @@
  * that is worth remembering before treating the count as a win.
  */
 import { getTemplateKeyForSlug } from "@/lib/templates";
+import { vastuSectionEnabled } from "@/lib/premium-v2/home-sections";
 
 export function vastuSectorsEnabled(clientSlug: string | undefined | null): boolean {
   if (!clientSlug) return false;
+  if (!vastuSectionEnabled(clientSlug)) return false;
   return getTemplateKeyForSlug(clientSlug) === "premium-v2";
 }

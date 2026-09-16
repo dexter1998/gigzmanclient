@@ -31,6 +31,7 @@ import {
 import { cn } from "./gp-primitives";
 import { openLeadPopup } from "./leadPopup";
 import { openAskAi } from "./AskAiV2";
+import SummariseWithAiV2 from "./SummariseWithAiV2";
 import { joinPath } from "@/lib/paths";
 
 const NAV_LINK =
@@ -269,14 +270,7 @@ export default function HeaderV2({
               <span className="h-3.5 w-px bg-white/15" aria-hidden="true" />
             </>
           ) : null}
-          <button
-            type="button"
-            onClick={() => openAskAi("summarize")}
-            className="inline-flex items-center gap-1.5 text-[12.5px] font-medium text-white/75 transition-colors hover:text-[color:var(--gp-gold-300)]"
-          >
-            <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-            Summarise with AI
-          </button>
+          <SummariseWithAiV2 />
           <span className="h-3.5 w-px bg-white/15" aria-hidden="true" />
           <button
             type="button"
@@ -487,17 +481,7 @@ export default function HeaderV2({
             )}
             {/* The desktop top strip is `hidden lg:block`, so its two actions
                 would be unreachable on a phone without repeating them here. */}
-            <button
-              type="button"
-              onClick={() => {
-                setMobileOpen(false);
-                openAskAi("summarize");
-              }}
-              className="flex min-h-[48px] items-center gap-3 rounded-[var(--gp-radius-sm)] px-2 py-3 text-left text-[15px] text-white/85"
-            >
-              <Sparkles className="h-4 w-4 shrink-0 text-[color:var(--gp-gold-300)]" aria-hidden="true" />
-              Summarise with AI
-            </button>
+            <SummariseWithAiV2 variant="sheet" onNavigate={() => setMobileOpen(false)} />
             {showPropertyManagement ? (
               <Link
                 href={joinPath(basePath, "/property-management")}

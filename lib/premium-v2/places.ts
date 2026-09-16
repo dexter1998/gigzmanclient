@@ -23,3 +23,25 @@ const PLACE_IDS: Record<string, string> = {
 export function placeIdFor(slug: string): string | null {
   return PLACE_IDS[slug] ?? null;
 }
+
+/**
+ * Which tenants render the full Locator Plus map rather than the place embed.
+ *
+ * Allowlisted rather than on by default: the widget pulls a few hundred
+ * kilobytes of web components from ajax.googleapis.com and needs a Maps
+ * JavaScript API key, where the iframe embed needs neither. A tenant that has
+ * not asked for it keeps the lighter map.
+ */
+const LOCATOR_TENANTS = new Set(["evergreen-real-estate"]);
+
+export function locatorEnabledFor(slug: string | undefined | null): boolean {
+  if (!slug) return false;
+  if (!LOCATOR_TENANTS.has(slug)) return false;
+  // Checked here rather than in the component: the component is a Client
+  // Component, and a function exported from one cannot be called on the
+  // server. `NEXT_PUBLIC_*` is readable on both sides, so the gate belongs in
+  // this module, which either side can import.
+  return Boolean(
+    process.env.NEXT_PUBLIC_GOOGLE_MAPS_JS_KEY || process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_KEY,
+  );
+}

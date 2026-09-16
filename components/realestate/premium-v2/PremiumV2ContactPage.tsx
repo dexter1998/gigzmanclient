@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import QueryFormV2 from "./QueryFormV2";
 import MapEmbedV2 from "./MapEmbedV2";
+import StoreLocatorV2 from "./StoreLocatorV2";
 import WhatsAppIconV2 from "./WhatsAppIconV2";
 import ContactChannelsV2 from "./ContactChannelsV2";
 import ContactAdvisorsCompactV2 from "./ContactAdvisorsCompactV2";
@@ -14,6 +15,7 @@ import { basePathFor, joinPath, type Tenant } from "@/lib/tenant";
 import { getFirmSettings, getServices } from "@/lib/content";
 import { buildBreadcrumbJsonLd, jsonLdProps } from "@/lib/schema-org";
 import { advisorRosterFor } from "@/lib/premium-v2/advisors";
+import { locatorEnabledFor, placeIdFor } from "@/lib/premium-v2/places";
 
 /** A building shot rather than the earlier desk/blueprint close-up — this
  *  column now sits beside the form on the first screen, where a recognisable
@@ -46,6 +48,21 @@ export default async function PremiumV2ContactPage({
   // string alone is not enough.
   const mapCoordinates =
     settings.latitude && settings.longitude ? `${settings.latitude},${settings.longitude}` : null;
+  // Locator Plus needs real coordinates, not just an address string.
+  const showLocator = locatorEnabledFor(tenant.slug);
+  const locatorLocation =
+    settings.latitude && settings.longitude
+      ? {
+          title: settings.firmName,
+          address1: settings.addressLine ?? "",
+          address2: [settings.locality, settings.region, settings.postalCode]
+            .filter(Boolean)
+            .join(", "),
+          coords: { lat: Number(settings.latitude), lng: Number(settings.longitude) },
+          placeId: placeIdFor(tenant.slug) ?? undefined,
+        }
+      : null;
+
   const telHref = settings.phone ? `tel:${settings.phone.replace(/\s/g, "")}` : null;
   const whatsappHref = settings.whatsapp
     ? `https://wa.me/${settings.whatsapp.replace(/\D/g, "")}`
@@ -201,12 +218,22 @@ export default async function PremiumV2ContactPage({
 
               {fullAddress ? (
                 <div>
-                  <MapEmbedV2
-                    address={fullAddress}
-                    businessName={settings.firmName}
-                    tenantSlug={tenant.slug}
-                    coordinates={mapCoordinates}
-                  />
+                  {/* Locator Plus where the tenant has opted in and a Maps JS
+                      key exists; the place embed otherwise, so a missing key
+                      degrades to the lighter map rather than to nothing. */}
+                  {showLocator && locatorLocation ? (
+                    <StoreLocatorV2
+                      location={locatorLocation}
+                      className="h-[460px] w-full overflow-hidden rounded-[var(--gp-radius-md)] border border-[color:var(--gp-border)]"
+                    />
+                  ) : (
+                    <MapEmbedV2
+                      address={fullAddress}
+                      businessName={settings.firmName}
+                      tenantSlug={tenant.slug}
+                      coordinates={mapCoordinates}
+                    />
+                  )}
                   {settings.googleMapsUrl ? (
                     <a
                       href={settings.googleMapsUrl}

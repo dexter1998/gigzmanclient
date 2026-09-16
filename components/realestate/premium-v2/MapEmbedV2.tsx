@@ -57,13 +57,26 @@ export default function MapEmbedV2({
 }) {
   const placeId = tenantSlug ? placeIdFor(tenantSlug) : null;
   const named = businessName ? `${businessName}, ${address}` : null;
-  const query = named ?? coordinates ?? address;
 
+  /**
+   * The two endpoints want different queries.
+   *
+   * Keyed, Google resolves the Place ID (or failing that the business name) to
+   * the listing itself and draws its own labelled card.
+   *
+   * Keyless, there is no Place ID to give it and the name is only a search
+   * string: Evergreen's "The Westin Sohna Resort & Spa, Karnki" put the pin on
+   * a neighbouring farm stay, because that is what the geocoder decided the
+   * string meant. Coordinates cannot be misread, so they come first here and
+   * the name is the fallback.
+   */
   const src = KEY
     ? `https://www.google.com/maps/embed/v1/place?key=${KEY}&q=${encodeURIComponent(
-        placeId ? `place_id:${placeId}` : query,
+        placeId ? `place_id:${placeId}` : (named ?? coordinates ?? address),
       )}&zoom=17`
-    : `https://www.google.com/maps?q=${encodeURIComponent(query)}&z=17&output=embed`;
+    : `https://www.google.com/maps?q=${encodeURIComponent(
+        coordinates ?? named ?? address,
+      )}&z=17&output=embed`;
 
   return (
     <div

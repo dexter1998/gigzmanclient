@@ -27,12 +27,20 @@ export function placeIdFor(slug: string): string | null {
 /**
  * Which tenants render the full Locator Plus map rather than the place embed.
  *
- * Allowlisted rather than on by default: the widget pulls a few hundred
- * kilobytes of web components from ajax.googleapis.com and needs a Maps
- * JavaScript API key, where the iframe embed needs neither. A tenant that has
- * not asked for it keeps the lighter map.
+ * Empty, and that is the current answer rather than an oversight.
+ *
+ * Locator Plus works — it is wired up in StoreLocatorV2 and renders the
+ * client's own listing — but it calls the Maps JavaScript and Places APIs,
+ * and those need billing enabled on the Cloud project. Without it Google
+ * paints "For development purposes only" across the tiles and an error card
+ * over them, which looks broken to a visitor.
+ *
+ * The keyless iframe embed needs no key and no billing, draws an exact pin
+ * from the listing's own coordinates, and is the whole of what a one-office
+ * client needs. So it stays until someone turns billing on; then add the slug
+ * here and the contact page switches over.
  */
-const LOCATOR_TENANTS = new Set(["evergreen-real-estate"]);
+const LOCATOR_TENANTS = new Set<string>([]);
 
 export function locatorEnabledFor(slug: string | undefined | null): boolean {
   if (!slug) return false;

@@ -1,12 +1,21 @@
+# Every pattern here is anchored with a leading slash, and that is load-bearing.
+#
+# `.vercelignore` matches like `.gitignore`: an unanchored `clients/` matches a
+# directory of that name at ANY depth. It was meant to drop the seed YAML at
+# the repo root, and it was also silently dropping
+# public/verticals/realestate/clients/ — 2,050 property photographs, 200 MB —
+# so every listing on the deployed site rendered an empty gallery while the
+# database happily served the correct image paths.
+
 # Inputs the import scripts read, not the app. Nothing under app/, lib/ or
 # components/ imports them, so they only inflate every upload.
-source-data/
+/source-data/
 
 # Seed content and one-off scripts. The database is what the site reads at
 # runtime; these are how rows get there.
-scripts/
-clients/
-drizzle/
+/scripts/
+/clients/
+/drizzle/
 
 # Repo docs
-SETUP-PROMPT.md
+/SETUP-PROMPT.md

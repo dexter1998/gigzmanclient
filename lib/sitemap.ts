@@ -36,35 +36,34 @@ type Entries = MetadataRoute.Sitemap;
  * The sitemap is split into one file per content family, indexed from
  * /sitemap.xml.
  *
- * A single file was valid — 4,770 URLs is well inside Google's 50,000 limit —
- * but it made the site unreadable in Search Console. The programmatic vastu
- * set alone is 83% of the URLs, so a coverage problem on the pages that
- * actually earn business (properties, localities, market updates) was a
- * rounding error inside one blob. Split by family, each one reports its own
- * indexed/excluded counts, and the pSEO families can be diagnosed — or
- * withdrawn — without touching the rest.
+ * A single file was valid — 5,030 URLs is well inside Google's 50,000 limit —
+ * but it made the site unreadable in Search Console. The programmatic sets
+ * dwarf the pages that actually earn business, so a coverage problem on the
+ * property listings was a rounding error inside one blob. Split by family,
+ * each one reports its own indexed/excluded counts, and a pSEO family can be
+ * diagnosed — or withdrawn — without touching the rest.
+ *
+ * The split is deliberately coarse. One file per *route* would be truer to the
+ * code, but it produced fifteen files for one tenant, which is the same
+ * unreadability in the other direction: nobody opens fifteen rows to find the
+ * one that dropped. A family here is a thing the client would recognise —
+ * "the listings", "the farmhouse pages", "the rental pages" — and each maps to
+ * one or more route builders below. Six files for Evergreen.
+ *
+ * Vastu stays on its own rather than joining `guides` because on the tenants
+ * that enable it it is 83% of all URLs; folded in, it would swamp whatever it
+ * sat with and hide exactly what the split exists to show.
  *
  * Ordered widest-value first; that is also the order the index lists them in.
  */
 export const SITEMAP_FAMILIES = [
-  { id: "core", label: "Static pages, hubs and legal" },
+  { id: "core", label: "Static pages, hubs, services and legal" },
   { id: "properties", label: "Property listings" },
-  { id: "register", label: "Sector and developer pages" },
-  { id: "localities", label: "Corridors and rental-yield pages" },
-  { id: "updates", label: "Market updates" },
-  { id: "blog", label: "Farmhouse guides" },
-  { id: "farm-rental", label: "Farmhouse rental by occasion, area and budget" },
-  { id: "farm-search", label: "Farmhouses by village, size, budget and feature" },
-  { id: "estates", label: "Named farm estates" },
-  { id: "land-rates", label: "Land and circle rates by village" },
-  { id: "property-dealer", label: "Property dealer by pocket and road" },
-  { id: "pin-code", label: "Pin codes on the belt" },
-  { id: "services", label: "Service pages" },
-  { id: "maps", label: "Gurugram plot maps" },
-  { id: "home-loan", label: "Home-loan amounts and lenders" },
-  { id: "area-converter", label: "Land-area conversions" },
-  { id: "vastu", label: "Vastu by direction, room and plot" },
-  { id: "vastu-sectors", label: "Vastu by Gurugram sector" },
+  { id: "farmhouse", label: "Farmhouses by village, size, budget, feature and estate" },
+  { id: "farmhouse-rental", label: "Farmhouse rental by occasion, area and budget" },
+  { id: "locations", label: "Villages, roads, land rates, dealers, pin codes and plot maps" },
+  { id: "guides", label: "Guides, market updates, home loans and conversions" },
+  { id: "vastu", label: "Vastu by direction, room, plot and sector" },
 ] as const;
 
 export type SitemapFamilyId = (typeof SITEMAP_FAMILIES)[number]["id"];
@@ -478,60 +477,42 @@ async function entriesForClientFamily(
 ): Promise<Entries> {
   const prefix = prefixFor(client);
   const out: Entries = [];
+
+  // Each family fans out to the route builders that belong to it. The builders
+  // stay one-per-route — that is where the quality gates live — while the
+  // grouping here is purely how the files are presented in Search Console.
   switch (family) {
     case "core":
       out.push(...coreEntries(client, prefix));
-      break;
-    case "maps":
-      out.push(...mapEntries(client, prefix));
-      break;
-    case "home-loan":
-      out.push(...homeLoanEntries(client, prefix));
-      break;
-    case "area-converter":
-      out.push(...areaConverterEntries(client, prefix));
-      break;
-    case "vastu":
-      out.push(...vastuEntries(client, prefix));
-      break;
-    case "vastu-sectors":
-      out.push(...vastuSectorEntries(client, prefix));
+      out.push(...(await serviceEntries(client, prefix)));
+      out.push(...(await registerEntries(client, prefix)));
       break;
     case "properties":
       out.push(...(await propertyEntries(client, prefix)));
       break;
-    case "register":
-      out.push(...(await registerEntries(client, prefix)));
-      break;
-    case "localities":
-      out.push(...(await localityEntries(client, prefix)));
-      break;
-    case "updates":
-      out.push(...(await updateEntries(client, prefix)));
-      break;
-    case "blog":
-      out.push(...blogEntries(client, prefix));
-      break;
-    case "farm-rental":
-      out.push(...farmRentalEntries(client, prefix));
-      break;
-    case "farm-search":
+    case "farmhouse":
       out.push(...farmSearchEntries(client, prefix));
-      break;
-    case "estates":
       out.push(...estateEntries(client, prefix));
       break;
-    case "land-rates":
+    case "farmhouse-rental":
+      out.push(...farmRentalEntries(client, prefix));
+      break;
+    case "locations":
+      out.push(...(await localityEntries(client, prefix)));
       out.push(...landRateEntries(client, prefix));
-      break;
-    case "property-dealer":
       out.push(...dealerEntries(client, prefix));
-      break;
-    case "pin-code":
       out.push(...pincodeEntries(client, prefix));
+      out.push(...mapEntries(client, prefix));
       break;
-    case "services":
-      out.push(...(await serviceEntries(client, prefix)));
+    case "guides":
+      out.push(...blogEntries(client, prefix));
+      out.push(...(await updateEntries(client, prefix)));
+      out.push(...homeLoanEntries(client, prefix));
+      out.push(...areaConverterEntries(client, prefix));
+      break;
+    case "vastu":
+      out.push(...vastuEntries(client, prefix));
+      out.push(...vastuSectorEntries(client, prefix));
       break;
   }
 

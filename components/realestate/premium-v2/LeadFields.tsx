@@ -3,34 +3,34 @@
 import { useState } from "react";
 import { ChevronDown, MessageCircle, Phone, Check } from "lucide-react";
 import { checkPhone } from "@/lib/phone";
-import { BUDGET_BANDS, BUDGET_LABELS } from "@/lib/format";
+import {
+  interestOptionsFor,
+  budgetOptionsFor,
+  ALL_INTEREST_LABELS,
+  ALL_BUDGET_LABELS,
+} from "@/lib/premium-v2/lead-intent";
 
 /**
  * The fields every lead form on this site carries, so a query arrives with the
  * same shape whether it came from the scroll popup, a property page or the
  * contact page.
  *
- * Two things are deliberately shared rather than re-declared per form: the
- * "what are you looking for" list, because the dashboard groups on it; and the
- * phone control, because the register's audience types numbers a dozen
- * different ways and only one of them is worth storing.
+ * The phone control is shared rather than re-declared per form because the
+ * register's audience types numbers a dozen different ways and only one of
+ * them is worth storing. The "what are you looking for" list is shared too,
+ * but resolved per client — see `lib/premium-v2/lead-intent.ts` — so every
+ * form on one site asks the same question in that site's own words.
  */
 
-/** Site-wide. Changing this changes every form at once. */
-export const INTEREST_OPTIONS = [
-  { value: "buy_home", label: "Buy a home" },
-  { value: "buy_plot", label: "Buy a plot" },
-  { value: "commercial", label: "Commercial or office space" },
-  { value: "investment", label: "Invest in property" },
-  { value: "rent", label: "Rent a property" },
-  { value: "sell", label: "Sell or lease out my property" },
-  { value: "site_visit", label: "Book a site visit" },
-  { value: "exploring", label: "Just exploring" },
-] as const;
-
-export const INTEREST_LABELS: Record<string, string> = Object.fromEntries(
-  INTEREST_OPTIONS.map((o) => [o.value, o.label]),
-);
+/**
+ * Kept as the names the rest of the template already imports, but the lists
+ * themselves now live in `lib/premium-v2/lead-intent.ts` and vary by client —
+ * a farmhouse firm should not be asking "Commercial or office space". The
+ * labels map covers every option any client has ever shown, so a lead captured
+ * under an older list still renders with its real wording.
+ */
+export const INTEREST_LABELS = ALL_INTEREST_LABELS;
+export const BUDGET_LABELS = ALL_BUDGET_LABELS;
 
 export const LEAD_FIELD =
   "w-full min-h-[46px] rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] bg-white px-3.5 " +
@@ -263,12 +263,17 @@ export function LeadIntent({
   context,
   defaultInterest = "",
   label = "What are you looking for?",
+  clientSlug,
 }: {
   idPrefix: string;
   context?: string;
   defaultInterest?: string;
   label?: string;
+  /** Picks this client's option lists; omitted falls back to the stock ones. */
+  clientSlug?: string;
 }) {
+  const interestOptions = interestOptionsFor(clientSlug);
+  const budgetOptions = budgetOptionsFor(clientSlug);
   const [interest, setInterest] = useState(defaultInterest);
   const [budget, setBudget] = useState("");
   const [channels, setChannels] = useState<string[]>(["whatsapp", "phone"]);
@@ -286,7 +291,7 @@ export function LeadIntent({
         <option value="" disabled>
           Select an option
         </option>
-        {INTEREST_OPTIONS.map((o) => (
+        {interestOptions.map((o) => (
           <option key={o.value} value={o.value}>
             {o.label}
           </option>
@@ -305,7 +310,7 @@ export function LeadIntent({
         onChange={setBudget}
       >
         <option value="">Not sure yet</option>
-        {BUDGET_BANDS.map((b) => (
+        {budgetOptions.map((b) => (
           <option key={b.value} value={b.value}>
             {b.label}
           </option>

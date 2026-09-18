@@ -19,6 +19,7 @@ interface PremiumV2EnquiryFormProps {
   propertyId?: string;
   /** What the lead was looking at, e.g. "ATS Marigold, Sector 89". */
   context?: string;
+  clientSlug?: string;
 }
 
 const INITIAL: QueryFormState = { ok: false };
@@ -36,6 +37,7 @@ export default function PremiumV2EnquiryForm({
   propertySlug,
   propertyId,
   context,
+  clientSlug,
 }: PremiumV2EnquiryFormProps) {
   const p = (path: string) => joinPath(basePath, path);
   const router = useRouter();
@@ -124,7 +126,12 @@ export default function PremiumV2EnquiryForm({
         </div>
       </div>
 
-      <LeadIntent idPrefix="gp-enquiry" context={context ?? propertySlug ?? ""} defaultInterest="site_visit" />
+      <LeadIntent
+        idPrefix="gp-enquiry"
+        context={context ?? propertySlug ?? ""}
+        defaultInterest="site_visit"
+        clientSlug={clientSlug}
+      />
 
       <div className="space-y-2.5 border-t border-[color:var(--gp-border)] pt-3.5">
         <label htmlFor="gp-enquiry-consent" className="flex gap-2.5">

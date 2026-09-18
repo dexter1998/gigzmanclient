@@ -97,6 +97,57 @@ export const LEAD_INTENTS = {
 
 export type LeadIntentKey = keyof typeof LEAD_INTENTS;
 
+/**
+ * Per-client wording, layered over the list above.
+ *
+ * Only the intents that actually read wrong are overridden — a farmhouse buyer
+ * told "a Gurugram property expert will call you back" has been handed the
+ * template's voice, not this firm's. The rest (loan, calculator, map) already
+ * say something true on either kind of site, and a fork of all nine would be
+ * nine places to keep in step for no gain.
+ */
+const INTENT_OVERRIDES: Record<string, Partial<Record<LeadIntentKey, LeadPopupIntent>>> = {
+  "evergreen-real-estate": {
+    default: {
+      eyebrow: "Still looking?",
+      heading: "Let\u2019s find the right farmhouse.",
+      blurb:
+        "Leave your details and someone from the Evergreen family will call you back about buying, renting or listing.",
+      context: "General farmhouse enquiry.",
+    },
+    callback: {
+      eyebrow: "Prefer to talk?",
+      heading: "We\u2019ll call you back.",
+      blurb:
+        "Leave a number and one of us will call from Sohna \u2014 no email thread, no obligation.",
+      context: "Callback request.",
+    },
+    property: {
+      eyebrow: "Interested in this farmhouse?",
+      heading: "Get the full details and a site visit.",
+      blurb:
+        "An advisor will confirm whether it is available, the current asking price or day rate, and arrange a visit.",
+      context: "Farmhouse enquiry.",
+    },
+    postProperty: {
+      eyebrow: "List with us",
+      heading: "List your farmhouse.",
+      blurb:
+        "Tell us what you are selling or letting out. We will confirm the details, agree a price or day rate with you and put it in front of matched buyers and event enquiries.",
+      context: "List farmhouse enquiry.",
+    },
+  },
+};
+
+/** The copy for one intent, in this client's voice where it has one. */
+export function leadIntentFor(
+  clientSlug: string | undefined | null,
+  intent: LeadIntentKey,
+): LeadPopupIntent {
+  const override = clientSlug ? INTENT_OVERRIDES[clientSlug]?.[intent] : undefined;
+  return override ?? LEAD_INTENTS[intent];
+}
+
 /** Opens ScrollLeadPopupV2 from anywhere in the tree without prop-drilling or
  * a Context provider — a plain DOM event keeps every "Book Consultation" CTA
  * (many of them in Server Components) a simple import, not a client wrapper

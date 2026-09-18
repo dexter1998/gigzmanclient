@@ -373,7 +373,10 @@ export default async function FarmSearchPage({ params }: Props) {
                   come back with what is live this week — including plots that never reach a portal.
                 </p>
                 <div className="mt-5">
-                  <PremiumV2EnquiryForm basePath={basePath} context={copy.h1} />
+                  <PremiumV2EnquiryForm
+                    basePath={basePath} context={copy.h1}
+                    clientSlug={tenant.slug}
+                  />
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ import { findLender, rateFor, LENDER_DISCLAIMER, type Lender } from "@/lib/home-
 import { findAmountBySlug, findAmountByStem, type LoanAmount } from "@/lib/home-loan/amounts";
 import { buildBreadcrumbJsonLd, buildFaqJsonLd, jsonLdProps } from "@/lib/schema-org";
 import { formatIndianPrice } from "@/lib/format";
+import { imageryFor } from "@/lib/premium-v2/imagery";
 import EmiCalculatorHeroV2 from "./EmiCalculatorHeroV2";
 import BankLoanHeroV2 from "./BankLoanHeroV2";
 import LoanFaqV2 from "./LoanFaqV2";
@@ -169,6 +170,7 @@ export async function LenderLoanPage({ tenant, lenderSlug }: { tenant: Tenant; l
       {buildFaqJsonLd(faqs) ? <script {...jsonLdProps(buildFaqJsonLd(faqs))} /> : null}
 
       <BankLoanHeroV2
+        image={imageryFor(tenant.slug).bankLoan}
         lender={lender}
         defaultAmount={DEFAULT_LOAN}
         headline={`${lender.name} Home Loan Approval in Gurugram`}

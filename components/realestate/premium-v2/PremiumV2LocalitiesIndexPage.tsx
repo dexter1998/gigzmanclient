@@ -11,11 +11,10 @@ import LocalityCompareTableV2 from "./LocalityCompareTableV2";
 import LocalityGrowthCatalystsV2 from "./LocalityGrowthCatalystsV2";
 import PopularSectorsV2 from "./PopularSectorsV2";
 import { buildBreadcrumbJsonLd, buildItemListJsonLd, jsonLdProps } from "@/lib/schema-org";
-import { inventoryNoun } from "@/lib/premium-v2/imagery";
+import { imageryFor, inventoryNoun } from "@/lib/premium-v2/imagery";
 
 type Locality = typeof localities.$inferSelect;
 
-const HERO_IMAGE = "/verticals/realestate/templates/premium-v2/images/hero-locality-discovery.png";
 
 export default function PremiumV2LocalitiesIndexPage({
   localities,
@@ -31,6 +30,7 @@ export default function PremiumV2LocalitiesIndexPage({
   // addresses you pick an apartment in — the stock hero copy sells the wrong
   // thing before the page has said anything.
   const farmhouse = inventoryNoun(clientSlug) === "farmhouse";
+  const HERO_IMAGE = imageryFor(clientSlug).localities;
 
   const itemListJsonLd = buildItemListJsonLd(
     localities.map((locality) => ({

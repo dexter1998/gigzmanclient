@@ -227,7 +227,10 @@ export default async function EstatePage({ params }: Props) {
                   live inside it this week — including plots that never reach a portal.
                 </p>
                 <div className="mt-5">
-                  <PremiumV2EnquiryForm basePath={basePath} context={estate.name} />
+                  <PremiumV2EnquiryForm
+                    basePath={basePath} context={estate.name}
+                    clientSlug={tenant.slug}
+                  />
                 </div>
               </div>
             </div>

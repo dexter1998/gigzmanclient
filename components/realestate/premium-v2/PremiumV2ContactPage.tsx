@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { imageryFor } from "@/lib/premium-v2/imagery";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
@@ -20,7 +21,6 @@ import { locatorEnabledFor, placeIdFor } from "@/lib/premium-v2/places";
 /** A building shot rather than the earlier desk/blueprint close-up — this
  *  column now sits beside the form on the first screen, where a recognisable
  *  property image reads better than a document detail. */
-const IMAGE = "/verticals/realestate/templates/premium-v2/images/hero-curated-inventory-v2.png";
 
 export default async function PremiumV2ContactPage({
   tenant,
@@ -50,6 +50,7 @@ export default async function PremiumV2ContactPage({
     settings.latitude && settings.longitude ? `${settings.latitude},${settings.longitude}` : null;
   // Locator Plus needs real coordinates, not just an address string.
   const showLocator = locatorEnabledFor(tenant.slug);
+  const IMAGE = imageryFor(tenant.slug).contact;
   const locatorLocation =
     settings.latitude && settings.longitude
       ? {
@@ -117,6 +118,7 @@ export default async function PremiumV2ContactPage({
                 <div className="mt-7">
                   <QueryFormV2
                     services={services.map((s) => ({ slug: s.slug, title: s.title }))}
+                    clientSlug={tenant.slug}
                     defaultService={preselected}
                     thankYouHref={p("/thank-you")}
                   />

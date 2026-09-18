@@ -167,14 +167,18 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
         imageMap={imageMap}
         p={p}
       />
-      <ShortlistCtaV2 whatsapp={settings.whatsapp} firmName={settings.firmName} />
+      <ShortlistCtaV2
+        whatsapp={settings.whatsapp}
+        firmName={settings.firmName}
+        image={imagery.shortlist}
+      />
       <DeveloperRibbonV2 p={p} />
       <AdvisorsV2
         roster={advisorRosterFor(tenant.slug)}
         phone={settings.phone}
         whatsapp={settings.whatsapp}
       />
-      <MarketIntelligenceV2 localities={localities} basePath={basePath} />
+      <MarketIntelligenceV2 localities={localities} basePath={basePath} image={imagery.marketReport} />
       <MapsCarouselV2 basePath={basePath} />
       <CalculatorsV2
         contactHref={p("/contact")}
@@ -182,7 +186,7 @@ export default async function PremiumV2Home({ tenant }: { tenant: Tenant }) {
         tools={toolHrefsFor(tenant.slug, basePath)}
       />
       {vastuSectionEnabled(tenant.slug) ? <ConstructionVastuV2 p={p} /> : null}
-      <RecentDealsV2 p={p} />
+      <RecentDealsV2 p={p} image={imagery.recentDeals} />
       <VideoTestimonialsV2 />
       {/* Between the owner stories and the FAQ: it reads as the answer to what
           the stories just showed, and it is a pitch rather than a reference

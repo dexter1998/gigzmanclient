@@ -8,7 +8,9 @@ import { formatInr } from "@/lib/format";
 import { lenderLogoSrc, type Lender } from "@/lib/home-loan/banks";
 import { GpContainer } from "../gp-primitives";
 
-const HERO_IMAGE = "/verticals/realestate/templates/premium-v2/images/hero-curated-inventory-v2.png";
+/** Fallback only; the tenant's own picture arrives as a prop. */
+const FALLBACK_IMAGE =
+  "/verticals/realestate/templates/premium-v2/images/hero-curated-inventory-v2.png";
 
 const FIELD =
   "min-h-[48px] w-full rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] bg-white px-3.5 text-[14px] text-[color:var(--gp-ink)] focus:border-[color:var(--gp-gold-600)] focus:outline-none";
@@ -24,18 +26,20 @@ export default function BankLoanHeroV2({
   headline,
   intro,
   breadcrumb,
+  image = FALLBACK_IMAGE,
 }: {
   lender: Lender;
   defaultAmount: number;
   headline: string;
   intro: string;
   breadcrumb?: React.ReactNode;
+  image?: string;
 }) {
   const [state, formAction, pending] = useActionState<QueryFormState, FormData>(submitQuery, INITIAL);
 
   return (
     <section className="relative overflow-hidden bg-[color:var(--gp-forest-950)]">
-      <Image src={HERO_IMAGE} alt="" fill sizes="100vw" priority className="object-cover object-[75%_center]" />
+      <Image src={image} alt="" fill sizes="100vw" priority className="object-cover object-[75%_center]" />
       <div className="absolute inset-0" style={{ background: "var(--gp-gradient-hero)" }} />
 
       <GpContainer className="relative py-12 sm:py-16">

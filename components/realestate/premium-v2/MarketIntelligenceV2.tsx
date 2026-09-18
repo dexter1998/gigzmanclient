@@ -21,12 +21,18 @@ const CHART_WIDTH = 640;
 const CHART_HEIGHT = 220;
 const CHART_PAD = 32;
 
+/** Fallback only; the tenant's own picture arrives as a prop. */
+const FALLBACK_IMAGE =
+  "/verticals/realestate/templates/premium-v2/images/market-report-cover.png";
+
 export default function MarketIntelligenceV2({
   localities,
   basePath,
+  image = FALLBACK_IMAGE,
 }: {
   localities: Locality[];
   basePath: string;
+  image?: string;
 }) {
   const p = (path: string) => joinPath(basePath, path);
   const [revealed, setRevealed] = useState(false);
@@ -108,7 +114,7 @@ export default function MarketIntelligenceV2({
       className="relative overflow-hidden"
       background={
         <Image
-          src="/verticals/realestate/templates/premium-v2/images/market-report-cover.png"
+          src={image}
           alt=""
           fill
           sizes="100vw"

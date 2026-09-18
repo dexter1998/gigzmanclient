@@ -183,7 +183,10 @@ export default async function PincodePage({ params }: Props) {
                   this pincode this week.
                 </p>
                 <div className="mt-5">
-                  <PremiumV2EnquiryForm basePath={basePath} context={`Pin code ${code} — ${pin.name}`} />
+                  <PremiumV2EnquiryForm
+                    basePath={basePath} context={`Pin code ${code} — ${pin.name}`}
+                    clientSlug={tenant.slug}
+                  />
                 </div>
               </div>
             </div>

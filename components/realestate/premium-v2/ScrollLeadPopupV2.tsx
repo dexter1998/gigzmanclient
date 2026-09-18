@@ -6,10 +6,20 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { CheckCircle2, PhoneCall, X } from "lucide-react";
 import { submitQuery, type QueryFormState } from "@/lib/actions/submit-query";
-import { OPEN_LEAD_POPUP_EVENT, LEAD_INTENTS, type LeadIntentKey } from "./leadPopup";
+import {
+  OPEN_LEAD_POPUP_EVENT,
+  LEAD_INTENTS,
+  leadIntentFor,
+  type LeadIntentKey,
+} from "./leadPopup";
 import { LeadIntent, PhoneField } from "./LeadFields";
 
-const BUILDING_IMAGE =
+/**
+ * Fallback only. The tenant's own picture arrives as a prop from the layout,
+ * which is the only place that knows the slug — this is a client component and
+ * the popup renders on every page, so it cannot look the tenant up itself.
+ */
+const FALLBACK_IMAGE =
   "/verticals/realestate/templates/premium-v2/images/hero-curated-inventory-v2.png";
 
 /** Whichever of these fires first opens the popup; only one fires per session. */
@@ -25,7 +35,15 @@ const INITIAL_STATE: QueryFormState = { ok: false };
 // this on top of /contact would just duplicate what's already right there.
 const EXCLUDED_PATH_SUFFIXES = ["/contact", "/thank-you"];
 
-export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
+export default function ScrollLeadPopupV2({
+  basePath,
+  image = FALLBACK_IMAGE,
+  clientSlug,
+}: {
+  basePath: string;
+  image?: string;
+  clientSlug?: string;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [dismissedForSession, setDismissedForSession] = useState(false);
@@ -150,7 +168,7 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
     }
   }, [open, intent]);
 
-  const copy = LEAD_INTENTS[intent];
+  const copy = leadIntentFor(clientSlug, intent);
 
   if (!open) return null;
 
@@ -173,7 +191,7 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
 
         <div className="relative hidden aspect-[4/5] sm:block">
           <Image
-            src={BUILDING_IMAGE}
+            src={image}
             alt=""
             fill
             sizes="(max-width: 640px) 0px, 320px"
@@ -241,7 +259,7 @@ export default function ScrollLeadPopupV2({ basePath }: { basePath: string }) {
                   serverError={state.errors?.phone}
                 />
 
-                <LeadIntent idPrefix="gp-popup" context={copy.context} />
+                <LeadIntent idPrefix="gp-popup" context={copy.context} clientSlug={clientSlug} />
 
                 <button
                   type="submit"

@@ -5,13 +5,14 @@ import { useRouter } from "next/navigation";
 import { AlertCircle, Loader2 } from "lucide-react";
 import { submitQuery, type QueryFormState } from "@/lib/actions/submit-query";
 import { analytics } from "@/lib/analytics";
-import { CLIENT_TYPE_LABELS } from "@/lib/format";
 import { LeadIntent, PhoneField, SelectField } from "./LeadFields";
+import { clientTypeOptionsFor } from "@/lib/premium-v2/lead-intent";
 
 interface QueryFormV2Props {
   services: { slug: string; title: string }[];
   defaultService?: string;
   thankYouHref: string;
+  clientSlug?: string;
 }
 
 const INITIAL: QueryFormState = { ok: false };
@@ -27,7 +28,12 @@ const FIELD =
 
 const LABEL = "mb-1.5 block text-[12.5px] font-medium text-[color:var(--gp-ink)]";
 
-export default function QueryFormV2({ services, defaultService, thankYouHref }: QueryFormV2Props) {
+export default function QueryFormV2({
+  services,
+  defaultService,
+  thankYouHref,
+  clientSlug,
+}: QueryFormV2Props) {
   const router = useRouter();
   const [state, formAction, pending] = useActionState(submitQuery, INITIAL);
   const [started, setStarted] = useState(false);
@@ -99,15 +105,15 @@ export default function QueryFormV2({ services, defaultService, thankYouHref }: 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <SelectField id="clientType-v2" name="clientType" label="You are" defaultValue="">
           <option value="">Select</option>
-          {Object.entries(CLIENT_TYPE_LABELS).map(([value, label]) => (
-            <option key={value} value={value}>
-              {label}
+          {clientTypeOptionsFor(clientSlug).map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
             </option>
           ))}
         </SelectField>
       </div>
 
-      <LeadIntent idPrefix="contact" />
+      <LeadIntent idPrefix="contact" clientSlug={clientSlug} />
 
       {services.length > 0 ? (
         <div>

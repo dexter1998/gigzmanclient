@@ -7,15 +7,23 @@ import { analytics } from "@/lib/analytics";
 import { GpEyebrow } from "./gp-primitives";
 import { openLeadPopup } from "./leadPopup";
 
-const IMAGE = "/verticals/realestate/templates/premium-v2/images/hero-luxury-advisory.png";
+/** Fallback only; the tenant's own picture arrives as a prop. */
+const FALLBACK_IMAGE =
+  "/verticals/realestate/templates/premium-v2/images/hero-luxury-advisory.png";
 
-export default function ConsultationCtaV2({ phone }: { phone?: string | null }): JSX.Element {
+export default function ConsultationCtaV2({
+  phone,
+  image = FALLBACK_IMAGE,
+}: {
+  phone?: string | null;
+  image?: string;
+}): JSX.Element {
   const telHref = phone ? `tel:${phone.replace(/\s/g, "")}` : null;
 
   return (
     <section className="relative flex min-h-[567px] items-center overflow-hidden sm:min-h-[648px]">
       <Image
-        src={IMAGE}
+        src={image}
         alt="Advisor consultation"
         fill
         sizes="100vw"

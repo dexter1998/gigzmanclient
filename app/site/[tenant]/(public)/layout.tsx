@@ -25,6 +25,7 @@ import AnnouncementBar from "@/components/site/AnnouncementBar";
 import CompliancePopup from "@/components/site/CompliancePopup";
 import WhatsAppFloat from "@/components/site/WhatsAppFloat";
 import { getTenantBySlug, basePathFor, joinPath } from "@/lib/tenant";
+import { imageryFor } from "@/lib/premium-v2/imagery";
 import { getTemplateKeyForSlug } from "@/lib/templates";
 import { toolLinksFor } from "@/lib/premium-v2/tools";
 import { serviceLinesFor } from "@/lib/premium-v2/services";
@@ -256,7 +257,7 @@ export default async function SiteLayout({
           above the footer — pages used to opt in individually, which left
           roughly half of them (properties, localities, calculators, updates,
           legal, careers) ending on a bare section edge. */}
-      {isPremiumV2 ? <ConsultationCtaV2 phone={settings.phone} /> : null}
+      {isPremiumV2 ? <ConsultationCtaV2 phone={settings.phone} image={imageryFor(tenant.slug).consultation} /> : null}
 
       {isPremiumV2 ? (
         <FooterV2 settings={settings} basePath={basePath || "/"} clientSlug={tenant.slug} />
@@ -294,7 +295,11 @@ export default async function SiteLayout({
               <AskAiV2 tenantSlug={tenant.slug} />
             </>
           ) : null}
-          <ScrollLeadPopupV2 basePath={basePath || "/"} />
+          <ScrollLeadPopupV2
+            basePath={basePath || "/"}
+            image={imageryFor(tenant.slug).popup}
+            clientSlug={tenant.slug}
+          />
           {/* Site-wide scroll milestones. Individual pages that want a more
               specific page_type (plot maps, the maps index) render their own
               tracker; the milestone set is deduped per path either way. */}

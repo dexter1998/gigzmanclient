@@ -267,6 +267,7 @@ export default async function LandRatePage({ params }: Props) {
                 <div className="mt-5">
                   <PremiumV2EnquiryForm
                     basePath={basePath}
+                    clientSlug={tenant.slug}
                     context={`Land rates — ${village.name}`}
                   />
                 </div>

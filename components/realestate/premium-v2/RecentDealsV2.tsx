@@ -7,7 +7,9 @@ interface RecentDealsV2Props {
   p: (path: string) => string;
 }
 
-const IMAGE = "/verticals/realestate/templates/premium-v2/images/property-valuation.png";
+/** Fallback only; the tenant's own picture arrives as a prop. */
+const FALLBACK_IMAGE =
+  "/verticals/realestate/templates/premium-v2/images/property-valuation.png";
 
 interface DealRow {
   corridor: string;
@@ -31,7 +33,13 @@ const DEALS: DealRow[] = [
   { corridor: "Golf Course Road", configuration: "Commercial Office", price: "₹4.2 – 4.8 Cr", month: "Jun 2026" },
 ];
 
-export default function RecentDealsV2({ p }: { p: (path: string) => string }): JSX.Element {
+export default function RecentDealsV2({
+  p,
+  image = FALLBACK_IMAGE,
+}: {
+  p: (path: string) => string;
+  image?: string;
+}): JSX.Element {
   return (
     <GpSection tone="cream">
       <GpContainer>
@@ -92,7 +100,7 @@ export default function RecentDealsV2({ p }: { p: (path: string) => string }): J
             className="group relative flex min-h-[360px] flex-col justify-end overflow-hidden rounded-[var(--gp-radius-lg)]"
           >
             <Image
-              src={IMAGE}
+              src={image}
               alt="Property valuation review"
               fill
               sizes="(max-width: 1024px) 100vw, 40vw"

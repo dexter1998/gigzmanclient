@@ -871,6 +871,7 @@ export default function PremiumV2PropertyDetailPage({
                 <div className="mt-6 border-t border-[color:var(--gp-border)] pt-6">
                   <PremiumV2EnquiryForm
                     basePath={basePath}
+                    clientSlug={tenant.slug}
                     propertySlug={property.slug}
                     propertyId={property.id}
                     context={[property.title, locationLine].filter(Boolean).join(", ")}

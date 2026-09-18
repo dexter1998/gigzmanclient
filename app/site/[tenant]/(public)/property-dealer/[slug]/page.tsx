@@ -222,7 +222,10 @@ export default async function PropertyDealerPage({ params }: Props) {
                   including plots that never reach a portal.
                 </p>
                 <div className="mt-5">
-                  <PremiumV2EnquiryForm basePath={basePath} context={`Property dealer — ${geo.name}`} />
+                  <PremiumV2EnquiryForm
+                    basePath={basePath} context={`Property dealer — ${geo.name}`}
+                    clientSlug={tenant.slug}
+                  />
                 </div>
               </div>
             </div>

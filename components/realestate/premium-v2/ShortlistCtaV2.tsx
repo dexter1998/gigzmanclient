@@ -18,12 +18,18 @@ const TRUST_METRICS = [
 const FIELD =
   "w-full min-h-[48px] rounded-[var(--gp-radius-sm)] border border-[color:var(--gp-border)] bg-white px-3.5 text-[13.5px] text-[color:var(--gp-ink)] focus:border-[color:var(--gp-forest-900)] focus:outline-none";
 
+/** Fallback only; the tenant's own picture arrives as a prop. */
+const FALLBACK_IMAGE =
+  "/verticals/realestate/templates/premium-v2/images/personalised-recommendation.png";
+
 export default function ShortlistCtaV2({
   whatsapp,
   firmName,
+  image = FALLBACK_IMAGE,
 }: {
   whatsapp?: string | null;
   firmName: string;
+  image?: string;
 }) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -44,7 +50,7 @@ export default function ShortlistCtaV2({
       background={
         <>
           <Image
-            src="/verticals/realestate/templates/premium-v2/images/personalised-recommendation.png"
+            src={image}
             alt=""
             fill
             sizes="100vw"

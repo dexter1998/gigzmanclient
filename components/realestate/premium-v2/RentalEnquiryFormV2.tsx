@@ -28,12 +28,14 @@ const LABEL = "mb-1.5 block text-[12.5px] font-medium text-[color:var(--gp-ink)]
 const INITIAL: QueryFormState = { ok: false };
 
 const GUEST_BANDS = ["Up to 25", "25–50", "50–100", "100–250", "250–500", "500+"];
+// The day rates Evergreen actually quotes, catering included. Kept in step with
+// the rent ladder in `lib/premium-v2/lead-intent.ts`, which the generic forms
+// use — a rental enquiry should offer the same bands wherever it is raised.
 const BUDGET_BANDS = [
-  "Under ₹15,000",
   "₹15,000 – ₹30,000",
-  "₹30,000 – ₹60,000",
-  "₹60,000 – ₹1.5 lakh",
-  "Above ₹1.5 lakh",
+  "₹30,000 – ₹50,000",
+  "₹50,000 – ₹75,000",
+  "₹75,000+",
   "Not sure yet",
 ];
 
@@ -182,7 +184,7 @@ export default function RentalEnquiryFormV2({
 
           <div>
             <label htmlFor="rental-budget" className={LABEL}>
-              Budget for the day
+              Budget per 24 hours, food included
             </label>
             <select
               id="rental-budget"

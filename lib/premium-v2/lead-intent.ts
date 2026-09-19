@@ -40,22 +40,26 @@ const DEFAULT_INTERESTS: LeadOption[] = [
 ];
 
 /**
- * Ordered by how often Evergreen is actually asked, not alphabetically. Buying
- * and renting sit at the top and are split apart — a man buying a ₹4 Cr weekend
- * house and a man booking a lawn for a sangeet are not the same lead and should
- * not land in the same bucket.
+ * Renting leads, and that is deliberate. High Properties puts buying and selling
+ * first because that is its business; Evergreen's is the weekend and the wedding,
+ * so the two rent rows sit at the top and one of them is what the form opens on.
+ *
+ * Renting and buying are also split apart rather than sharing a "rent" row: a man
+ * buying a ₹4 Cr weekend house and a man booking a lawn for a sangeet are not the
+ * same lead, and — see the budget ladders below — they cannot even be asked the
+ * same question about money.
  *
  * "List my farmhouse for events" exists because Evergreen both lets its own
  * farmhouses and brokers other owners' — that second group is supply, and it
  * used to arrive disguised as "Sell or lease out my property".
  */
 const FARMHOUSE_INTERESTS: LeadOption[] = [
-  { value: "buy_farmhouse", label: "Buy a farmhouse" },
-  { value: "buy_farmland", label: "Buy farm land or a plot" },
   { value: "rent_event", label: "Rent a farmhouse for an event" },
   { value: "rent_stay", label: "Rent a farmhouse for a stay" },
-  { value: "sell_farmhouse", label: "Sell my farmhouse or land" },
+  { value: "buy_farmhouse", label: "Buy a farmhouse" },
+  { value: "buy_farmland", label: "Buy farm land or a plot" },
   { value: "list_farmhouse", label: "List my farmhouse for events" },
+  { value: "sell_farmhouse", label: "Sell my farmhouse or land" },
   { value: "investment", label: "Invest in farm land" },
   { value: "site_visit", label: "Book a site visit" },
   { value: "exploring", label: "Just exploring" },
@@ -78,6 +82,43 @@ const FARMHOUSE_BUDGETS: LeadOption[] = [
   { label: "Above ₹10 Cr", value: "1000000000" },
 ];
 
+/**
+ * Renting is priced per 24 hours with catering in, not in crores, so a rent lead
+ * gets a different ladder entirely — asking a man booking a sangeet to choose
+ * between "₹2 Cr" and "₹4 Cr" is asking him the wrong question.
+ *
+ * Values are prefixed so they can never collide with the sale ladder's rupee
+ * ceilings, which matters because both end up in the same labels map.
+ */
+const FARMHOUSE_RENT_BUDGETS: LeadOption[] = [
+  { value: "rent_30k", label: "₹15,000 – ₹30,000" },
+  { value: "rent_50k", label: "₹30,000 – ₹50,000" },
+  { value: "rent_75k", label: "₹50,000 – ₹75,000" },
+  { value: "rent_75k_plus", label: "₹75,000+" },
+];
+
+/** The rent rows, so callers can tell which ladder and which label to show. */
+const RENT_INTERESTS = new Set(["rent_event", "rent_stay", "rent"]);
+
+export function isRentInterest(interest: string | undefined | null): boolean {
+  return !!interest && RENT_INTERESTS.has(interest);
+}
+
+/**
+ * What the form opens on. Evergreen opens on renting for an event — it is the
+ * single commonest enquiry the firm takes, and a pre-selected first row is worth
+ * more than the same row merely being listed first. Everywhere else the field
+ * starts empty, which is the template's own behaviour.
+ */
+const DEFAULT_INTEREST_BY_SLUG: Record<string, string> = {
+  "evergreen-real-estate": "rent_event",
+};
+
+export function defaultInterestFor(clientSlug: string | undefined | null): string {
+  if (!clientSlug) return "";
+  return DEFAULT_INTEREST_BY_SLUG[clientSlug] ?? "";
+}
+
 const INTERESTS_BY_SLUG: Record<string, LeadOption[]> = {
   "evergreen-real-estate": FARMHOUSE_INTERESTS,
 };
@@ -91,9 +132,24 @@ export function interestOptionsFor(clientSlug: string | undefined | null): LeadO
   return INTERESTS_BY_SLUG[clientSlug] ?? DEFAULT_INTERESTS;
 }
 
-export function budgetOptionsFor(clientSlug: string | undefined | null): LeadOption[] {
+export function budgetOptionsFor(
+  clientSlug: string | undefined | null,
+  interest?: string | null,
+): LeadOption[] {
   if (!clientSlug) return DEFAULT_BUDGETS;
-  return BUDGETS_BY_SLUG[clientSlug] ?? DEFAULT_BUDGETS;
+  const sale = BUDGETS_BY_SLUG[clientSlug] ?? DEFAULT_BUDGETS;
+  if (clientSlug !== "evergreen-real-estate") return sale;
+  return isRentInterest(interest) ? FARMHOUSE_RENT_BUDGETS : sale;
+}
+
+/** The wording above the budget field, which differs by what is being priced. */
+export function budgetLabelFor(
+  clientSlug: string | undefined | null,
+  interest?: string | null,
+): string {
+  return clientSlug === "evergreen-real-estate" && isRentInterest(interest)
+    ? "Budget per 24 hours, food included (optional)"
+    : "Budget (optional)";
 }
 
 /**
@@ -151,5 +207,8 @@ export const ALL_INTEREST_LABELS: Record<string, string> = Object.fromEntries(
 );
 
 export const ALL_BUDGET_LABELS: Record<string, string> = Object.fromEntries(
-  [...DEFAULT_BUDGETS, ...FARMHOUSE_BUDGETS].map((o) => [o.value, o.label]),
+  [...DEFAULT_BUDGETS, ...FARMHOUSE_BUDGETS, ...FARMHOUSE_RENT_BUDGETS].map((o) => [
+    o.value,
+    o.label,
+  ]),
 );

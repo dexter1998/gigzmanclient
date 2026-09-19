@@ -6,6 +6,8 @@ import { checkPhone } from "@/lib/phone";
 import {
   interestOptionsFor,
   budgetOptionsFor,
+  budgetLabelFor,
+  defaultInterestFor,
   ALL_INTEREST_LABELS,
   ALL_BUDGET_LABELS,
 } from "@/lib/premium-v2/lead-intent";
@@ -273,9 +275,19 @@ export function LeadIntent({
   clientSlug?: string;
 }) {
   const interestOptions = interestOptionsFor(clientSlug);
-  const budgetOptions = budgetOptionsFor(clientSlug);
-  const [interest, setInterest] = useState(defaultInterest);
+  const [interest, setInterest] = useState(defaultInterest || defaultInterestFor(clientSlug));
   const [budget, setBudget] = useState("");
+
+  // Renting is priced per 24 hours and buying in crores, so the budget field
+  // follows whatever was just chosen above it. Clearing the answer on a switch
+  // is the point: a band from the other ladder would otherwise ride along and
+  // reach the advisor as a number from the wrong currency of the deal.
+  const budgetOptions = budgetOptionsFor(clientSlug, interest);
+  const budgetLabel = budgetLabelFor(clientSlug, interest);
+  const chooseInterest = (value: string) => {
+    setInterest(value);
+    setBudget("");
+  };
   const [channels, setChannels] = useState<string[]>(["whatsapp", "phone"]);
 
   return (
@@ -286,7 +298,7 @@ export function LeadIntent({
         label={label}
         required
         value={interest}
-        onChange={setInterest}
+        onChange={chooseInterest}
       >
         <option value="" disabled>
           Select an option
@@ -305,7 +317,7 @@ export function LeadIntent({
       <SelectField
         id={`${idPrefix}-budget`}
         name="budget"
-        label="Budget (optional)"
+        label={budgetLabel}
         value={budget}
         onChange={setBudget}
       >
